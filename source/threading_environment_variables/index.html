@@ -9872,13 +9872,24 @@
 
 
 <h1 id="_1">线程环境变量<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<div class="highlight"><pre><span></span><code>* - 变量
-  - 描述
-* - ``OMP_NUM_THREADS``
-  - 设置用于 OpenMP 并行区域的最大线程数。
-* - ``MKL_NUM_THREADS``
-  - 设置用于 Intel MKL 库的最大线程数。注意，``MKL_NUM_THREADS`` 的优先级高于 ``OMP_NUM_THREADS``。
-</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OMP_NUM_THREADS</code></td>
+<td>设置用于 OpenMP 并行区域的最大线程数。</td>
+</tr>
+<tr>
+<td><code>MKL_NUM_THREADS</code></td>
+<td>设置用于 Intel MKL 库的最大线程数。注意，<code>MKL_NUM_THREADS</code> 的优先级高于 <code>OMP_NUM_THREADS</code>。</td>
+</tr>
+</tbody>
+</table>
 
 
 

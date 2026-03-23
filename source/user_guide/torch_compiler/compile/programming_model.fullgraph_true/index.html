@@ -10158,7 +10158,7 @@
 <span class="s2">def square(x: torch.Tensor) -&gt; torch.Tensor:</span>
 <span class="s2">    return square_module.square_cpu(x)</span>
 
-<span class="s2"># 使用 register_fake 为运算符添加一个 ``FakeTensor`` 内核</span>
+<span class="s2"># 使用 register_fake 为运算符添加一个 `FakeTensor` 内核</span>
 <span class="s2">@square.register_fake</span>
 <span class="s2">def _(x):</span>
 <span class="s2">    return x.new_empty(x.size())</span>
