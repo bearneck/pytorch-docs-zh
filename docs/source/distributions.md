@@ -1,144 +1,405 @@
 # 概率分布 - torch.distributions
 
+> 模块：`torch.distributions`
 
-## `Distribution`
+% 此模块需要编写文档。暂时添加在此处以供追踪
 
 
-## `ExponentialFamily`
+## {hidden}`Distribution`
 
 
-## `Bernoulli`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Distribution` | — |
 
-## `Beta`
+## {hidden}`ExponentialFamily`
 
 
-## `Binomial`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.ExponentialFamily` | — |
 
-## `Categorical`
+## {hidden}`Bernoulli`
 
 
-## `Cauchy`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Bernoulli` | — |
 
-## `Chi2`
+## {hidden}`Beta`
 
 
-## `ContinuousBernoulli`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Beta` | — |
 
-## `Dirichlet`
+## {hidden}`Binomial`
 
 
-## `Exponential`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Binomial` | — |
 
-## `FisherSnedecor`
+## {hidden}`Categorical`
 
 
-## `Gamma`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Categorical` | — |
 
-## `GeneralizedPareto`
+## {hidden}`Cauchy`
 
 
-## `Geometric`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Cauchy` | — |
 
-## `Gumbel`
+## {hidden}`Chi2`
 
 
-## `HalfCauchy`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Chi2` | — |
 
-## `HalfNormal`
+## {hidden}`ContinuousBernoulli`
 
 
-## `Independent`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.ContinuousBernoulli` | — |
 
-## `InverseGamma`
+## {hidden}`Dirichlet`
 
 
-## `Kumaraswamy`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Dirichlet` | — |
 
-## `LKJCholesky`
+## {hidden}`Exponential`
 
 
-## `Laplace`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Exponential` | — |
 
-## `LogNormal`
+## {hidden}`FisherSnedecor`
 
 
-## `LowRankMultivariateNormal`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.FisherSnedecor` | — |
 
-## `MixtureSameFamily`
+## {hidden}`Gamma`
 
 
-## `Multinomial`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Gamma` | — |
 
-## `MultivariateNormal`
+## {hidden}`GeneralizedPareto`
 
 
-## `NegativeBinomial`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.GeneralizedPareto` | — |
 
-## `Normal`
+## {hidden}`Geometric`
 
 
-## `OneHotCategorical`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Geometric` | — |
 
-## `Pareto`
+## {hidden}`Gumbel`
 
 
-## `Poisson`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Gumbel` | — |
 
-## `RelaxedBernoulli`
+## {hidden}`HalfCauchy`
 
 
-## `LogitRelaxedBernoulli`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.HalfCauchy` | — |
 
-## `RelaxedOneHotCategorical`
+## {hidden}`HalfNormal`
 
 
-## `StudentT`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.HalfNormal` | — |
 
-## `TransformedDistribution`
+## {hidden}`Independent`
 
 
-## `Uniform`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Independent` | — |
 
-## `VonMises`
+## {hidden}`InverseGamma`
 
 
-## `Weibull`
+## 类
 
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.InverseGamma` | — |
 
-## `Wishart`
+## {hidden}`Kumaraswamy`
 
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Kumaraswamy` | — |
+
+## {hidden}`LKJCholesky`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.LKJCholesky` | — |
+
+## {hidden}`Laplace`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Laplace` | — |
+
+## {hidden}`LogNormal`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.LogNormal` | — |
+
+## {hidden}`LowRankMultivariateNormal`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.LowRankMultivariateNormal` | — |
+
+## {hidden}`MixtureSameFamily`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.MixtureSameFamily` | — |
+
+## {hidden}`Multinomial`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Multinomial` | — |
+
+## {hidden}`MultivariateNormal`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.MultivariateNormal` | — |
+
+## {hidden}`NegativeBinomial`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.NegativeBinomial` | — |
+
+## {hidden}`Normal`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Normal` | — |
+
+## {hidden}`OneHotCategorical`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.OneHotCategorical` | — |
+
+## {hidden}`Pareto`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Pareto` | — |
+
+## {hidden}`Poisson`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Poisson` | — |
+
+## {hidden}`RelaxedBernoulli`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.RelaxedBernoulli` | — |
+
+## {hidden}`LogitRelaxedBernoulli`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.LogitRelaxedBernoulli` | — |
+
+## {hidden}`RelaxedOneHotCategorical`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.RelaxedOneHotCategorical` | — |
+
+## {hidden}`StudentT`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.StudentT` | — |
+
+## {hidden}`TransformedDistribution`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.TransformedDistribution` | — |
+
+## {hidden}`Uniform`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Uniform` | — |
+
+## {hidden}`VonMises`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.VonMises` | — |
+
+## {hidden}`Weibull`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Weibull` | — |
+
+## {hidden}`Wishart`
+
+
+## 类
+
+| 类 | 说明 |
+|------|------|
+| `torch.distributions.Wishart` | — |
 
 ## `KL 散度`
 
 
-## `变换`
+## 函数
 
-
-## `约束`
-
+| 函数 | 说明 |
+|------|------|
+| `torch.distributions.kl_divergence` | — |
+| `torch.distributions.register_kl` | — |
 
 ## `约束注册表`
 
 
-% 此模块需要编写文档。暂时添加在此处以供追踪
+## 函数
 
-% 用于追踪目的
+| 函数 | 说明 |
+|------|------|
+| `torch.distributions.logits_to_probs` | — |
+| `torch.distributions.probs_to_logits` | — |
+| `torch.distributions.vec_to_tril_matrix` | — |
