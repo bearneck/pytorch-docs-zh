@@ -19,7 +19,7 @@ TORCHINDUCTOR_NAN_ASSERTS=1
 
 这些标志在编译时（更准确地说，是在代码生成时）生效：
 
-- `AOTI_RUNTIME_CHECK_INPUTS=1` 检查输入是否满足编译期间使用的同一组守卫条件。更多详情请参阅 `torch.compiler_troubleshooting`。
+- `AOTI_RUNTIME_CHECK_INPUTS=1` 检查输入是否满足编译期间使用的同一组守卫条件。更多详情请参阅 *torch.compiler_troubleshooting*。
 - `TORCHINDUCTOR_NAN_ASSERTS=1` 在每个 Inductor 内核的前后添加代码生成，以检查 NaN 值。
 
 ## 步骤 2：定位 CUDA IMA
@@ -63,8 +63,8 @@ AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT="triton_poi_fused_add_ge_logical_and_logi
 
 ### 日志记录与追踪
 
-- **tlparse / TORCH_TRACE**：提供完整的输出代码以供检查，并记录所使用的守卫条件集。更多详情请参阅 `tlparse / TORCH_TRACE <tlparse-torch-trace>`。
-- **TORCH_LOGS**：使用 `TORCH_LOGS="+inductor,output_code"` 查看更多的 PT2 内部日志。更多详情请参阅 `TORCH_LOGS <torch-logs>`。
+- **tlparse / TORCH_TRACE**：提供完整的输出代码以供检查，并记录所使用的守卫条件集。更多详情请参阅 tlparse / TORCH_TRACE 。
+- **TORCH_LOGS**：使用 `TORCH_LOGS="+inductor,output_code"` 查看更多的 PT2 内部日志。更多详情请参阅 TORCH_LOGS 。
 - **TORCH_SHOW_CPP_STACKTRACES**：设置 `TORCH_SHOW_CPP_STACKTRACES=1` 以潜在地查看更多堆栈跟踪。
 
 ### 常见问题来源

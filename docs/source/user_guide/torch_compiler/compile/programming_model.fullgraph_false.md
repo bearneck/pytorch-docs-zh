@@ -12,10 +12,8 @@
    使用与在 `fullgraph=True` 编程模型下处理图中断相同的方法来解决这些图中断。并非所有图中断都需要移除——有些可能比其他图中断对性能的影响更大。一般规则是关注发生在模型计算期间的图中断。
    a. 我们建议在调试图中断时使用 `torch.compile(backend='eager')`，以获得更快的调试迭代周期。
 
-```{toctree}
-programming_model.where_to_apply_compile
-programming_model.compiler_disable
-programming_model.error_on_graph_break
-programming_model.nested_graph_breaks
-programming_model.skipped_functions
-```
+- [Programming Model Where To Apply Compile](programming_model.where_to_apply_compile.md)
+- [Programming Model Compiler Disable](programming_model.compiler_disable.md)
+- [Programming Model Error On Graph Break](programming_model.error_on_graph_break.md)
+- [Programming Model Nested Graph Breaks](programming_model.nested_graph_breaks.md)
+- [Programming Model Skipped Functions](programming_model.skipped_functions.md)

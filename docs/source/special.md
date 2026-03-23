@@ -1,5 +1,5 @@
 ```{role} hidden
-:class: hidden-section
+
 ```
 
 # torch.special
@@ -8,4 +8,3 @@ torch.special 模块，仿照 SciPy 的 [special](https://docs.scipy.org/doc/sci
 
 
 ## 函数
-

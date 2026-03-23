@@ -2,13 +2,13 @@ orphan
 
 :   
 
-# 分布式自动求导设计 {#distributed-autograd-design}
+# 分布式自动求导设计
 
-本文档将详细介绍分布式自动求导的设计，并深入探讨其内部实现。在继续阅读之前，请确保您已熟悉 `autograd-mechanics`{.interpreted-text role="ref"} 和 `distributed-rpc-framework`{.interpreted-text role="ref"}。
+本文档将详细介绍分布式自动求导的设计，并深入探讨其内部实现。在继续阅读之前，请确保您已熟悉 `autograd-mechanics` 和 `distributed-rpc-framework`。
 
 ## 背景
 
-假设您有两个节点，并且一个非常简单的模型被划分在这两个节点上。这可以使用 `torch.distributed.rpc`{.interpreted-text role="mod"} 实现如下：
+假设您有两个节点，并且一个非常简单的模型被划分在这两个节点上。这可以使用 `torch.distributed.rpc` 实现如下：
 
 ``` 
 import torch
@@ -36,14 +36,14 @@ loss = t5.sum()
 
 ## 前向传播期间的自动求导记录
 
-PyTorch 在前向传播期间构建自动求导图，该图用于执行反向传播。更多细节请参见 `how-autograd-encodes-history`{.interpreted-text role="ref"}。
+PyTorch 在前向传播期间构建自动求导图，该图用于执行反向传播。更多细节请参见 `how-autograd-encodes-history`。
 
 对于分布式自动求导，我们需要在前向传播期间跟踪所有 RPC 调用，以确保反向传播正确执行。为此，我们在执行 RPC 时，将 `send` 和 `recv` 函数附加到自动求导图中。
 
 - `send` 函数附加在 RPC 的源节点上，其输出边指向 RPC 输入张量的自动求导函数。该函数在反向传播期间的输入是从目标节点接收到的，作为相应 `recv` 函数的输出。
 - `recv` 函数附加在 RPC 的目标节点上，其输入是从使用输入张量在目标节点上执行的算子中获取的。该函数的输出梯度在反向传播期间被发送到源节点的相应 `send` 函数。
 - 每个 `send-recv` 对被分配一个全局唯一的 `autograd_message_id`，以唯一标识该对。这在反向传播期间查找远程节点上的对应函数时非常有用。
-- 对于 `rref`{.interpreted-text role="ref"}，每当我们调用 `torch.distributed.rpc.RRef.to_here`{.interpreted-text role="meth"} 时，我们都会为涉及的张量附加一个适当的 `send-recv` 对。
+- 对于 `rref`，每当我们调用 `torch.distributed.rpc.RRef.to_here` 时，我们都会为涉及的张量附加一个适当的 `send-recv` 对。
 
 例如，我们上面示例的自动求导图将如下所示（为简化起见，省略了 t5.sum()）：
 
@@ -51,11 +51,11 @@ PyTorch 在前向传播期间构建自动求导图，该图用于执行反向传
 
 ## 分布式自动求导上下文
 
-每个使用分布式自动求导的前向和反向传播都被分配一个唯一的 `torch.distributed.autograd.context`{.interpreted-text role="class"}，并且这个上下文有一个全局唯一的 `autograd_context_id`。此上下文会根据需要在每个节点上创建。
+每个使用分布式自动求导的前向和反向传播都被分配一个唯一的 `torch.distributed.autograd.context`，并且这个上下文有一个全局唯一的 `autograd_context_id`。此上下文会根据需要在每个节点上创建。
 
 此上下文服务于以下目的：
 
-1.  运行分布式反向传播的多个节点可能会在同一张量上累积梯度，因此在我们有机会运行优化器之前，张量的 `.grad` 字段将包含来自各种分布式反向传播的梯度。这类似于在本地多次调用 `torch.autograd.backward`{.interpreted-text role="meth"}。为了提供一种分离每次反向传播梯度的方法，梯度被累积在每次反向传播的 `torch.distributed.autograd.context`{.interpreted-text role="class"} 中。
+1.  运行分布式反向传播的多个节点可能会在同一张量上累积梯度，因此在我们有机会运行优化器之前，张量的 `.grad` 字段将包含来自各种分布式反向传播的梯度。这类似于在本地多次调用 `torch.autograd.backward`。为了提供一种分离每次反向传播梯度的方法，梯度被累积在每次反向传播的 `torch.distributed.autograd.context` 中。
 2.  在前向传播期间，我们将每次自动求导传播的 `send` 和 `recv` 函数存储在此上下文中。这确保我们持有自动求导图中适当节点的引用以保持其存活。除此之外，在反向传播期间更容易查找适当的 `send` 和 `recv` 函数。
 3.  通常，我们还使用此上下文为每次分布式自动求导传播存储一些元数据。
 
@@ -119,9 +119,9 @@ loss = d.sum()
 
 对于性能敏感的应用，我们可以通过假设每个 `send` 和 `recv` 函数在反向传播过程中都是有效的（大多数应用不会执行未使用的 RPC）来避免大量开销。这简化了分布式 autograd 算法，并且效率更高，但代价是应用需要了解其局限性。该算法被称为 [FAST mode algorithm]()，将在下文详细描述。
 
-在一般情况下，可能并非每个 `send` 和 `recv` 函数在反向传播过程中都是必需的。为了解决这个问题，我们提出了 [SMART mode algorithm]()，将在后续章节中描述。请注意，目前仅实现了 [FAST]{.title-ref} 模式算法。
+在一般情况下，可能并非每个 `send` 和 `recv` 函数在反向传播过程中都是必需的。为了解决这个问题，我们提出了 [SMART mode algorithm]()，将在后续章节中描述。请注意，目前仅实现了 [FAST] 模式算法。
 
-### FAST 模式算法 {#fast-mode-algorithm}
+### FAST 模式算法
 
 该算法的关键假设是，当我们运行反向传播时，每个 `send` 函数都具有 1 个依赖。换句话说，我们假设会通过 RPC 从另一个节点接收到梯度。
 
@@ -135,7 +135,7 @@ loss = d.sum()
 6.  当远程主机收到此请求时，我们使用 `autograd_context_id` 和 `autograd_message_id` 来查找相应的 `send` 函数。
 7.  如果这是工作节点首次收到给定 `autograd_context_id` 的请求，它将按照上述第 1-3 点所述在本地计算依赖关系。
 8.  在第 6 步中检索到的 `send` 函数随后会被放入该工作节点的本地 autograd 引擎的执行队列中。
-9.  最后，我们不会将梯度累积在张量的 `.grad` 字段上，而是为每个 [Distributed Autograd Context]() 单独累积梯度。梯度存储在 `Dict[Tensor, Tensor]` 中，这基本上是一个从张量到其关联梯度的映射，可以使用 `~torch.distributed.autograd.get_gradients`{.interpreted-text role="meth"} API 检索此映射。
+9.  最后，我们不会将梯度累积在张量的 `.grad` 字段上，而是为每个 [Distributed Autograd Context]() 单独累积梯度。梯度存储在 `Dict[Tensor, Tensor]` 中，这基本上是一个从张量到其关联梯度的映射，可以使用 `torch.distributed.autograd.get_gradients` API 检索此映射。
 
 | 
 
@@ -193,12 +193,12 @@ with dist_autograd.context() as context_id:
 
 ## 分布式优化器
 
-`~torch.distributed.optim.DistributedOptimizer`{.interpreted-text role="class"} 的操作如下：
+`torch.distributed.optim.DistributedOptimizer` 的操作如下：
 
-1.  接收一个待优化的远程参数列表 (`~torch.distributed.rpc.RRef`{.interpreted-text role="class"})。这些参数也可以是包装在本地 `RRef` 中的本地参数。
-2.  接收一个 `~torch.optim.Optimizer`{.interpreted-text role="class"} 类作为本地优化器，在所有不同的 `RRef` 所有者上运行。
+1.  接收一个待优化的远程参数列表 (`torch.distributed.rpc.RRef`)。这些参数也可以是包装在本地 `RRef` 中的本地参数。
+2.  接收一个 `torch.optim.Optimizer` 类作为本地优化器，在所有不同的 `RRef` 所有者上运行。
 3.  分布式优化器在每个工作节点上创建本地 `Optimizer` 的实例，并持有指向它们的 `RRef`。
-4.  当调用 `torch.distributed.optim.DistributedOptimizer.step`{.interpreted-text role="meth"} 时，分布式优化器使用 RPC 在相应的远程工作者上远程执行所有本地优化器。必须提供一个分布式 autograd 的 `context_id` 作为 `torch.distributed.optim.DistributedOptimizer.step`{.interpreted-text role="meth"} 的输入。本地优化器使用此 ID 来应用存储在对应上下文中的梯度。
+4.  当调用 `torch.distributed.optim.DistributedOptimizer.step` 时，分布式优化器使用 RPC 在相应的远程工作者上远程执行所有本地优化器。必须提供一个分布式 autograd 的 `context_id` 作为 `torch.distributed.optim.DistributedOptimizer.step` 的输入。本地优化器使用此 ID 来应用存储在对应上下文中的梯度。
 5.  如果多个并发的分布式优化器在同一个工作者上更新相同的参数，这些更新会通过锁进行序列化。
 
 ## 简单的端到端示例

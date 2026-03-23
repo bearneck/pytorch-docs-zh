@@ -50,7 +50,7 @@ Soumith 关于 [发展 PyTorch 社区](https://soumith.ch/posts/2021/02/growing-
 
 PyTorch 并非一个将单一 C++ 框架封装为 Python 绑定的库。 它的构建目标是深度集成到 Python 生态中。你可以像使用 [NumPy](https://www.numpy.org/)、 [SciPy](https://www.scipy.org/)、\`scikit-learn \<https://scikit-learn.org/\>\`\_\_ 或其他 Python 库一样自然地使用它。你可以直接用 Python 编写新的神经网络层， 利用你喜爱的库以及诸如 [Cython](https://cython.org/) 和 [Numba](http://numba.pydata.org/) 这样的工具包。我们的目标是在适当之处避免重复造轮子。
 
-多年来 PyTorch 需要应对的一个问题是 Python 开销：我们首先用 C++ 重写了 [autograd]{.title-ref} 引擎， 然后是大部分算子定义，接着开发了 TorchScript 和 C++ 前端。
+多年来 PyTorch 需要应对的一个问题是 Python 开销：我们首先用 C++ 重写了 [autograd] 引擎， 然后是大部分算子定义，接着开发了 TorchScript 和 C++ 前端。
 
 尽管如此，在 Python 环境中工作依然能为用户提供最佳体验：它灵活、熟悉，并且或许最重要的是， 拥有庞大的科学计算库和扩展生态系统可供使用。这一事实推动了我们最近的一些贡献， 旨在达到接近 Python 可用性曲线末端的帕累托最优点：
 

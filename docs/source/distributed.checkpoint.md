@@ -1,5 +1,3 @@
-
-
 # 分布式检查点 - torch.distributed.checkpoint
 
 分布式检查点（DCP）支持从多个 rank 并行加载和保存模型。它处理加载时的重分片，使得可以在一种集群拓扑中保存，并在另一种拓扑中加载。
@@ -38,14 +36,6 @@ DCP 在几个重要方面与 `torch.save` 和 `torch.load` 不同：
 
 我们还提供了其他存储层，包括与 HuggingFace safetensors 交互的存储层：
 
-.. autoclass:: torch.distributed.checkpoint.HuggingFaceStorageReader
-  :members:
-
-.. autoclass:: torch.distributed.checkpoint.HuggingFaceStorageWriter
-  :members:
-
-.. autoclass:: torch.distributed.checkpoint.QuantizedHuggingFaceStorageReader
-  :members:
 
 我们提供了 `LoadPlanner` 和 `SavePlanner` 的默认实现，可以处理所有 torch.distributed 结构，如 FSDP、DDP、ShardedTensor 和 DistributedTensor。
 
@@ -70,5 +60,3 @@ DCP 在几个重要方面与 `torch.save` 和 `torch.load` 不同：
 
 
 以下实验性接口旨在提高生产环境中的可观测性：
-
-

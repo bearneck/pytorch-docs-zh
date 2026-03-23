@@ -1,7 +1,5 @@
-
-> **ROLE**
-> hidden
->     :class: hidden-section
+> **ROLE**：hidden
+> :class: hidden-section
 
 
 # Tensor Parallelism - torch.distributed.tensor.parallel

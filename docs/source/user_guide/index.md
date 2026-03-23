@@ -6,46 +6,19 @@ PyTorch 提供了一个灵活高效的深度学习模型构建平台，提供动
 本指南正在持续完善中。
 ```
 
-```{toctree}
-:maxdepth: 1
-:caption: 简介
+- [Pytorch 概述 <https://docs Pytorch Org/tutorials/beginner/deep Learning 60min Blitz Html>](PyTorch 概述 <https://docs.pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html>.md)
+- [快速开始 <https://pytorch Org/get Started/locally/>](快速开始 <https://pytorch.org/get-started/locally/>.md)
+- [基础知识学习 <https://docs Pytorch Org/tutorials/beginner/basics/intro Html>](基础知识学习 <https://docs.pytorch.org/tutorials/beginner/basics/intro.html>.md)
 
-PyTorch 概述 <https://docs.pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html>
-快速开始 <https://pytorch.org/get-started/locally/>
-基础知识学习 <https://docs.pytorch.org/tutorials/beginner/basics/intro.html>
-```
 
-```{toctree}
-:maxdepth: 1
-:caption: 核心概念
+- [Pytorch Main Components](pytorch_main_components.md)
 
-pytorch_main_components
-```
 
-```{toctree}
-:maxdepth: 1
-:caption: Torch 编译
+- [Torch Compile <torch Compiler/torch Compiler>](Torch.compile <torch_compiler/torch.compiler.md>.md)
+- [Torch Export <torch Compiler/export>](Torch.export <torch_compiler/export.md>.md)
 
-Torch.compile <torch_compiler/torch.compiler.md>
-Torch.export <torch_compiler/export.md>
-```
 
-```{toctree}
-:maxdepth: 1
-:caption: 进阶内容
+- [/notes](../notes.md)
 
-```
 
-```{toctree}
-:maxdepth: 1
-:caption: 开发者说明
-
-../notes
-```
-
-```{toctree}
-:maxdepth: 1
-:caption: 加速器集成
-
-../accelerator/index
-```
+- [/accelerator/index](../accelerator/index.md)

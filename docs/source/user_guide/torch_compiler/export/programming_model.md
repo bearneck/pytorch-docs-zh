@@ -1,4 +1,3 @@
-
 # torch.export 编程模型
 
 本文档旨在解释 `torch.export.export` 的行为和功能。它旨在帮助您建立对 `torch.export.export` 如何处理代码的直观理解。
@@ -7,7 +6,7 @@
 
 `torch.export.export` 通过在"示例"输入上追踪模型的执行，并记录沿追踪路径观察到的 PyTorch 操作和条件，来捕获表示模型的图。只要满足相同的条件，该图就可以在不同的输入上运行。
 
-`torch.export.export` 的基本输出是一个包含关联元数据的 PyTorch 操作单图。此输出的确切格式在 `导出 IR 规范 <export.ir_spec>` 中介绍。
+`torch.export.export` 的基本输出是一个包含关联元数据的 PyTorch 操作单图。此输出的确切格式在 导出 IR 规范  中介绍。
 
 
 ### 严格追踪与非严格追踪
@@ -16,7 +15,7 @@
 
 在*非严格模式*下，我们使用普通的 Python 解释器追踪程序。您的代码完全按照在即时执行模式下的方式执行；唯一的区别是所有张量都被替换为[伪张量](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_fake_tensor.html)（**这些张量具有形状和其他形式的元数据，但没有实际数据**），并包装在记录所有操作的[代理对象](https://pytorch.org/docs/main/fx.html)中，这些操作被记录到图中。我们还会捕获[张量形状上的条件](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_dynamic_shapes.html#the-guard-model)，**这些条件保护生成代码的正确性**。
 
-在*严格模式*下，我们首先使用 `TorchDynamo <torch.compiler_dynamo_deepdive>`（一个 Python 字节码分析引擎）追踪程序。TorchDynamo 实际上并不执行您的 Python 代码。相反，它进行符号分析并根据结果构建图。一方面，这种分析允许 `torch.export.export` 在 Python 级别安全性上提供额外的保证（除了捕获张量形状上的条件，如非严格模式）。另一方面，并非所有 Python 功能都受此分析支持。
+在*严格模式*下，我们首先使用 TorchDynamo （一个 Python 字节码分析引擎）追踪程序。TorchDynamo 实际上并不执行您的 Python 代码。相反，它进行符号分析并根据结果构建图。一方面，这种分析允许 `torch.export.export` 在 Python 级别安全性上提供额外的保证（除了捕获张量形状上的条件，如非严格模式）。另一方面，并非所有 Python 功能都受此分析支持。
 
 尽管目前默认的追踪模式是严格模式，但**我们强烈建议使用非严格模式**，该模式很快将成为默认模式。对于大多数模型，张量形状上的条件足以保证正确性，而 Python 级别安全性的额外保证没有影响；同时，在 TorchDynamo 中遇到不受支持的 Python 功能会带来不必要的风险。
 

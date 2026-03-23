@@ -8566,8 +8566,8 @@ at::Tensor::item() const
 <h3 id="_15">使用长度而非偏移量<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
 <p>在处理可变序列长度时，通常会有表示序列长度或偏移量的张量。例如，给定 <code>values = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]</code>，您可能有 <code>lengths = [3, 2, 4]</code> 和 <code>offsets = [0, 3, 5, 9]</code>。虽然这些表示形式可以相互转换，但在将它们作为整数处理时（通过调用 <code>lengths.tolist()</code>），最好使用长度而不是偏移量。</p>
 <p>原因是当您在 <code>values</code> 张量上执行 <code>torch.split()</code> 时，您需要为每个子序列创建张量，例如大小为 3、2 和 4 的张量。如果您有用于大小的未绑定 <code>SymInts</code>，它们会变成 <code>u0</code>、<code>u1</code> 和 <code>u2</code>。您可以轻松地指示它们是大小类型的，然后就完成了。但是，如果您有用于偏移量的未绑定 <code>SymInts</code>，它们会变成 <code>u1 - u0</code>、<code>u2 - u1</code>、<code>u3 - u2</code>，这会使事情复杂化。这些量不能方便地标记为大小类型，从而导致潜在问题。由于使用长度或偏移量编写代码相对简单，您应该优先使用长度。</p>
-<div class="highlight"><pre><span></span><code>* `dynamic_shapes`
-* `debugging-tlparse-torch-logs`
+<div class="highlight"><pre><span></span><code>* *dynamic_shapes*
+* *debugging-tlparse-torch-logs*
 </code></pre></div>
 
 

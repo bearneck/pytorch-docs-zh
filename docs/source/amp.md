@@ -1,5 +1,3 @@
-
-
 # 自动混合精度包 - torch.amp
 
 % 以下两个模块目前缺少文档条目。暂时在此处添加它们。
@@ -9,7 +7,7 @@
 
 `torch.amp` 为混合精度提供了便捷方法，其中一些操作使用 `torch.float32` (`float`) 数据类型，而其他操作使用较低精度的浮点数据类型 (`lower_precision_fp`)：`torch.float16` (`half`) 或 `torch.bfloat16`。某些操作，如线性层和卷积，在 `lower_precision_fp` 中要快得多。其他操作，如归约，通常需要 `float32` 的动态范围。混合精度尝试将每个操作与其适当的数据类型匹配。
 
-通常，使用 `torch.float16` 数据类型的"自动混合精度训练"会同时使用 `torch.autocast` 和 `torch.amp.GradScaler`，如 `自动混合精度示例<amp-examples>` 和 [自动混合精度教程](https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html) 所示。然而，`torch.autocast` 和 `torch.GradScaler` 是模块化的，如果需要可以单独使用。如 `torch.autocast` 的 CPU 示例部分所示，在 CPU 上使用 `torch.bfloat16` 数据类型的"自动混合精度训练/推理"仅使用 `torch.autocast`。
+通常，使用 `torch.float16` 数据类型的"自动混合精度训练"会同时使用 `torch.autocast` 和 `torch.amp.GradScaler`，如 自动混合精度示例 和 [自动混合精度教程](https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html) 所示。然而，`torch.autocast` 和 `torch.GradScaler` 是模块化的，如果需要可以单独使用。如 `torch.autocast` 的 CPU 示例部分所示，在 CPU 上使用 `torch.bfloat16` 数据类型的"自动混合精度训练/推理"仅使用 `torch.autocast`。
 
 
 > ⚠️ **警告**
@@ -20,7 +18,7 @@
 `torch.autocast` 和 `torch.cpu.amp.autocast` 是 `1.10` 版本中的新功能。
 
 ```{contents}
-:local: true
+
 ```
 
 
@@ -379,5 +377,3 @@
 
 % 此模块需要文档记录。暂时添加于此
 % 用于跟踪目的
-
-

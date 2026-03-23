@@ -31,9 +31,7 @@ orphan: true
 x = queue.get()
 # 用 x 做一些事情
 del x
-```
 
-```
 ## 错误做法
 x = queue.get()
 # 用 x 做一些事情
@@ -46,9 +44,7 @@ x = queue.get()
 ## 生产者
 # 发送张量，做一些事情
 event.wait()
-```
 
-```
 ## 消费者
 # 接收张量并使用它们
 event.set()
@@ -60,16 +56,12 @@ event.set()
 # 这不会工作
 x = queue.get()
 queue_2.put(x)
-```
 
-```
 # 您需要创建一个进程本地的副本
 x = queue.get()
 x_clone = x.clone()
 queue_2.put(x_clone)
-```
 
-```
 # 在同一进程中对同一队列进行放入和获取操作很可能导致段错误
 queue.put(tensor)
 x = queue.get()
@@ -113,5 +105,3 @@ x = queue.get()
 
 
 % 此模块需要记录。暂时添加在此处以供跟踪
-
-

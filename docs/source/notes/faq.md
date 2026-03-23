@@ -19,11 +19,11 @@ for i in range(10000):
     total_loss += loss
 ```
 
-这里，\`total_loss\` 在训练循环中累积历史记录，因为 [loss]{.title-ref} 是一个具有 autograd 历史记录的可微分变量。您可以通过改为写入 [total_loss += float(loss)]{.title-ref} 来修复此问题。
+这里，\`total_loss\` 在训练循环中累积历史记录，因为 [loss] 是一个具有 autograd 历史记录的可微分变量。您可以通过改为写入 [total_loss += float(loss)] 来修复此问题。
 
 此问题的其他实例： [1](https://discuss.pytorch.org/t/resolved-gpu-out-of-memory-error-with-batch-size-1/3719)。
 
-**不要保留不需要的张量和变量。** 如果您将 Tensor 或 Variable 分配给局部变量，Python 将不会释放它，直到该局部变量超出作用域。您可以通过使用 [del x]{.title-ref} 来释放此引用。类似地，如果您将 Tensor 或 Variable 分配给对象的成员变量，它将不会释放，直到该对象超出作用域。如果您不保留不需要的临时变量，您将获得最佳的内存使用情况。
+**不要保留不需要的张量和变量。** 如果您将 Tensor 或 Variable 分配给局部变量，Python 将不会释放它，直到该局部变量超出作用域。您可以通过使用 [del x] 来释放此引用。类似地，如果您将 Tensor 或 Variable 分配给对象的成员变量，它将不会释放，直到该对象超出作用域。如果您不保留不需要的临时变量，您将获得最佳的内存使用情况。
 
 局部变量的作用域可能比您预期的要大。例如：
 
@@ -35,21 +35,21 @@ output = h(result)
 return output
 ```
 
-这里，\`intermediate\` 即使在 [h]{.title-ref} 执行时仍然存活，因为它的作用域延伸到了循环结束之后。要更早地释放它，您应该在完成后使用 [del intermediate]{.title-ref}。
+这里，\`intermediate\` 即使在 [h] 执行时仍然存活，因为它的作用域延伸到了循环结束之后。要更早地释放它，您应该在完成后使用 [del intermediate]。
 
 **避免在过长的序列上运行 RNN。** 通过 RNN 进行反向传播所需的内存量与 RNN 输入的长度成线性比例；因此，如果您尝试向 RNN 输入过长的序列，您将耗尽内存。
 
-这种现象的技术术语是 [随时间反向传播](https://en.wikipedia.org/wiki/Backpropagation_through_time)，并且有许多关于如何实现截断 BPTT 的参考资料，包括在 [word language model](https://github.com/pytorch/examples/tree/master/word_language_model) 示例中；截断由 [repackage]{.title-ref} 函数处理，如 [此论坛帖子](https://discuss.pytorch.org/t/help-clarifying-repackage-hidden-in-word-language-model/226) 中所述。
+这种现象的技术术语是 [随时间反向传播](https://en.wikipedia.org/wiki/Backpropagation_through_time)，并且有许多关于如何实现截断 BPTT 的参考资料，包括在 [word language model](https://github.com/pytorch/examples/tree/master/word_language_model) 示例中；截断由 [repackage] 函数处理，如 [此论坛帖子](https://discuss.pytorch.org/t/help-clarifying-repackage-hidden-in-word-language-model/226) 中所述。
 
-**不要使用过大的线性层。** 线性层 [nn.Linear(m, n)]{.title-ref} 使用 $O(nm)$ 内存：也就是说，权重的内存需求与特征数量成二次方比例。这种方式很容易 [耗尽内存](https://github.com/pytorch/pytorch/issues/958)（并且记住您至少需要两倍于权重大小的内存，因为您还需要存储梯度。）
+**不要使用过大的线性层。** 线性层 [nn.Linear(m, n)] 使用 $O(nm)$ 内存：也就是说，权重的内存需求与特征数量成二次方比例。这种方式很容易 [耗尽内存](https://github.com/pytorch/pytorch/issues/958)（并且记住您至少需要两倍于权重大小的内存，因为您还需要存储梯度。）
 
 **考虑使用检查点。** 您可以通过使用 [checkpoint](https://pytorch.org/docs/stable/checkpoint.html) 来以计算换取内存。
 
 ## 我的 GPU 内存未正确释放
 
-PyTorch 使用缓存内存分配器来加速内存分配。因此，\`nvidia-smi\` 中显示的值通常不反映真实的内存使用情况。有关 GPU 内存管理的更多详细信息，请参阅 `cuda-memory-management`{.interpreted-text role="ref"}。
+PyTorch 使用缓存内存分配器来加速内存分配。因此，\`nvidia-smi\` 中显示的值通常不反映真实的内存使用情况。有关 GPU 内存管理的更多详细信息，请参阅 `cuda-memory-management`。
 
-如果即使在 Python 退出后您的 GPU 内存仍未释放，很可能是一些 Python 子进程仍然存活。您可以通过 [ps -elf \| grep python]{.title-ref} 找到它们，并使用 [kill -9 \[pid\]]{.title-ref} 手动终止它们。
+如果即使在 Python 退出后您的 GPU 内存仍未释放，很可能是一些 Python 子进程仍然存活。您可以通过 [ps -elf \| grep python] 找到它们，并使用 [kill -9 \[pid\]] 手动终止它们。
 
 ## 我的内存不足异常处理程序无法分配内存
 
@@ -63,7 +63,7 @@ except RuntimeError: # Out of memory
         run_model(1)
 ```
 
-但发现当您确实耗尽内存时，您的恢复代码也无法分配内存。这是因为 python 异常对象持有对引发错误的堆栈帧的引用。这阻止了原始张量对象的释放。解决方案是将您的 OOM 恢复代码移到 [except]{.title-ref} 子句之外。
+但发现当您确实耗尽内存时，您的恢复代码也无法分配内存。这是因为 python 异常对象持有对引发错误的堆栈帧的引用。这阻止了原始张量对象的释放。解决方案是将您的 OOM 恢复代码移到 [except] 子句之外。
 
 ``` python
 oom = False
@@ -77,13 +77,13 @@ if oom:
         run_model(1)
 ```
 
-## 我的数据加载器工作进程返回相同的随机数 {#dataloader-workers-random-seed}
+## 我的数据加载器工作进程返回相同的随机数
 
-您可能正在使用其他库在数据集中生成随机数，并且工作子进程是通过 [fork]{.title-ref} 启动的。有关如何使用其 `worker_init_fn`{.interpreted-text role="attr"} 选项在工作进程中正确设置随机种子，请参阅 `torch.utils.data.DataLoader`{.interpreted-text role="class"} 的文档。
+您可能正在使用其他库在数据集中生成随机数，并且工作子进程是通过 [fork] 启动的。有关如何使用其 `worker_init_fn` 选项在工作进程中正确设置随机种子，请参阅 `torch.utils.data.DataLoader` 的文档。
 
-## 我的循环网络在使用数据并行时无法工作 {#pack-rnn-unpack-with-data-parallelism}
+## 我的循环网络在使用数据并行时无法工作
 
-在使用 `~torch.nn.DataParallel`{.interpreted-text role="class"} 或 `~torch.nn.parallel.data_parallel`{.interpreted-text role="func"} 时，在 `~torch.nn.Module`{.interpreted-text role="class"} 中采用 `打包序列 -> 循环网络 -> 解包序列` 模式存在一个细微之处。每个设备上 `forward`{.interpreted-text role="meth"} 方法的输入将只是整个输入的一部分。由于解包操作 `torch.nn.utils.rnn.pad_packed_sequence`{.interpreted-text role="func"} 默认只填充到它看到的最长输入，即该特定设备上的最长序列，因此在结果被收集到一起时会发生尺寸不匹配。因此，你可以转而利用 `~torch.nn.utils.rnn.pad_packed_sequence`{.interpreted-text role="func"} 的 `total_length`{.interpreted-text role="attr"} 参数来确保 `forward`{.interpreted-text role="meth"} 调用返回相同长度的序列。例如，你可以这样写:
+在使用 `torch.nn.DataParallel` 或 `torch.nn.parallel.data_parallel` 时，在 `torch.nn.Module` 中采用 `打包序列 -> 循环网络 -> 解包序列` 模式存在一个细微之处。每个设备上 `forward` 方法的输入将只是整个输入的一部分。由于解包操作 `torch.nn.utils.rnn.pad_packed_sequence` 默认只填充到它看到的最长输入，即该特定设备上的最长序列，因此在结果被收集到一起时会发生尺寸不匹配。因此，你可以转而利用 `torch.nn.utils.rnn.pad_packed_sequence` 的 `total_length` 参数来确保 `forward` 调用返回相同长度的序列。例如，你可以这样写:
 
     from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 

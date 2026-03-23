@@ -1,7 +1,6 @@
-
 # Dynamo 概述
 
-在阅读本节之前，请先阅读 `torch.compiler_overview`。
+在阅读本节之前，请先阅读 *torch.compiler_overview*。
 
 TorchDynamo（简称 Dynamo）是一个 Python 级别的即时（JIT）编译器，旨在加速未经修改的 PyTorch 程序。Dynamo 通过挂钩 CPython 中的帧评估 API（[PEP 523](https://peps.python.org/pep-0523/)），在 Python 字节码即将执行前动态修改它。它将 Python 字节码重写，以提取 PyTorch 操作序列到一个 [FX Graph](https://pytorch.org/docs/stable/fx.html) 中，然后使用可定制的后端进行编译。它通过字节码分析创建这个 FX Graph，并设计为将 Python 执行与编译后端混合，以兼顾两者的优势——可用性和性能。
 
@@ -243,9 +242,7 @@ print(decompile(__resume_at_30_1))
 print("=" * 60)
 print("source code of __resume_at_38_2:")
 print(decompile(__resume_at_38_2))
-```
 
-```
 source code of __compiled_fn_0:
 def forward(self, L_a_ : torch.Tensor, L_b_ : torch.Tensor):
     l_a_ = L_a_
@@ -286,4 +283,4 @@ def compiled_example(a, b):
 ```{image} ../../_static/img/dynamo/flowchart.jpg
 ```
 
-要了解更多关于所有这些如何在内部实现的信息，请参阅 `torch.compiler_dynamo_deepdive`。
+要了解更多关于所有这些如何在内部实现的信息，请参阅 *torch.compiler_dynamo_deepdive*。

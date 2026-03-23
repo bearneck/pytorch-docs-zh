@@ -1,4 +1,3 @@
-
 # AOTInductor: Torch.Export 模型的提前编译
 
 AOTInductor 是 [TorchInductor](https://dev-discuss.pytorch.org/t/torchinductor-a-pytorch-native-compiler-with-define-by-run-ir-and-symbolic-shapes/747) 的一个专门版本，旨在处理导出的 PyTorch 模型，对其进行优化，并生成共享库以及其他相关产物。这些编译后的产物专门设计用于在非 Python 环境中部署，通常用于服务器端的推理部署。
@@ -7,15 +6,13 @@ AOTInductor 是 [TorchInductor](https://dev-discuss.pytorch.org/t/torchinductor-
 
 ## 模型编译
 
-要使用 AOTInductor 编译模型，我们首先需要使用 `torch.export.export` 将给定的 PyTorch 模型捕获为计算图。`torch.export <torch.export>` 提供了正确性保证以及对捕获的 IR 的严格规范，AOTInductor 依赖于此。
+要使用 AOTInductor 编译模型，我们首先需要使用 `torch.export.export` 将给定的 PyTorch 模型捕获为计算图。torch.export  提供了正确性保证以及对捕获的 IR 的严格规范，AOTInductor 依赖于此。
 
-然后，我们将使用 `torch._inductor.aoti_compile_and_package` 通过 TorchInductor 编译导出的程序，并将编译后的产物保存到一个包中。该包采用 `PT2 归档规范 <export.pt2_archive>` 的格式。
+然后，我们将使用 `torch._inductor.aoti_compile_and_package` 通过 TorchInductor 编译导出的程序，并将编译后的产物保存到一个包中。该包采用 PT2 归档规范  的格式。
 
 ```{note}
 如果您的机器上启用了 CUDA 设备，并且您安装了支持 CUDA 的 PyTorch，以下代码会将模型编译为用于 CUDA 执行的共享库。否则，编译后的产物将在 CPU 上运行。为了在 CPU 推理期间获得更好的性能，建议在运行下面的 Python 脚本之前，通过设置 `export TORCHINDUCTOR_FREEZING=1` 来启用冻结。在配备 Intel® GPU 的环境中，此行为同样适用。
-```
-
-```python
+python
 import os
 import torch
 
@@ -130,9 +127,7 @@ aoti_example/
     CMakeLists.txt
     inference.cpp
     model.py
-```
-
-```bash
+bash
 $ mkdir build
 $ cd build
 $ CMAKE_PREFIX_PATH=/path/to/python/install/site-packages/torch/share/cmake cmake ..
@@ -163,16 +158,11 @@ $ ./aoti_example
 
 以下是一些用于调试 AOT Inductor 的有用工具。
 
-```{toctree}
-:caption: 调试工具
-:maxdepth: 1
+- [/ /logging](../../logging.md)
+- [Torch Compiler Aot Inductor Minifier](torch.compiler_aot_inductor_minifier.md)
+- [Torch Compiler Aot Inductor Debugging Guide](torch.compiler_aot_inductor_debugging_guide.md)
 
-../../logging
-torch.compiler_aot_inductor_minifier
-torch.compiler_aot_inductor_debugging_guide
-```
 
 要启用对输入的运行时检查，请将环境变量 `AOTI_RUNTIME_CHECK_INPUTS` 设置为 1。如果编译模型的输入在大小、数据类型或步幅方面与导出期间使用的输入不同，这将引发 `RuntimeError`。
 
 ## API 参考
-

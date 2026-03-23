@@ -1,4 +1,3 @@
-
 # 控制动态行为的高级选项
 
 PyTorch 提供了几个高级选项来控制动态行为。
@@ -37,9 +36,7 @@ PyTorch 提供了几个高级选项来控制动态行为。
    L['x']: tensor size=[?] stride=[1]
    L['y']: tensor size=[?] stride=[1]
    L['z']: tensor size=[?] stride=[1]
-   ```
-
-```{note}
+   {note}
 如果一个元素被 PGO 标记为动态，这并不能保证它在计算图中将保持动态。特化操作可以将其恢复为静态状态。
 ```
 
@@ -50,9 +47,7 @@ PyTorch 提供了几个高级选项来控制动态行为。
 
 ```python
 @config.patch(enable_compiler_collectives=True)
-```
-
-```{note}
+{note}
 此功能允许在编译期间使用集合操作来同步不同 rank 间的行为。目前，它用于修改自动动态形状行为，通过推断输入的大小是否在不同 rank 间变化来判断该输入是否为动态。由于此同步使用集合操作，所有 rank 必须同时运行编译；rank 之间不能因图中断而出现分歧。最可靠的方法是确保 torch 仅在 SPMD 程序上运行。违反此不变量可能导致 NCCL 死锁并遇到 NCCL 超时。
 ```
 
@@ -67,13 +62,13 @@ PyTorch 提供了几个高级选项来控制动态行为。
 这是一个两步过程：
 
 1. 找到被 PGO 或自动动态标记为动态的元素。
-2. 使用 `user_annotations` 之一将它们标记为动态。
+2. 使用 *user_annotations* 之一将它们标记为动态。
 
 #### 如何识别要标记为动态的元素
 
 遵循以下指南：
 
-1. **PGO 产物：** 按照 `identifying-dynamic-elements-marked-by-pgo` 中的步骤操作。
+1. **PGO 产物：** 按照 *identifying-dynamic-elements-marked-by-pgo* 中的步骤操作。
 2. **动态日志：** 如果你有一个启用了 `TORCH_LOGS="+dynamic"` 的运行，每次分配新的动态维度时，都会有一条调试行指定它以及输入名称。
 3. **比较计算图：** 对于在不同运行间编译次数减少的帧，检查第二次运行或冷运行中最新运行的 Dynamo 图。查找那些图中标记为动态的元素。具体来说，找到相似的计算图（一个是特化版本，一个是动态版本）。
 
@@ -82,9 +77,7 @@ PyTorch 提供了几个高级选项来控制动态行为。
 例如，在下面的 `tlparse` 快照中，Dynamo 图 20/0、20/1 和 20/2 除了大小不同（例如，图 20/0 与图 20/2）外是相似的。在 20/2 的 Dynamo 图中，大小 `s0`、`s1` 和 `s5` 用于 `rotary_pos_emb_` 和 `x`。
 
 ```{image} ../../../_static/img/dynamic_shapes/tlparse5_dynamic_shapes.png
-```
-
-```{tip}
+{tip}
 如果两个计算图具有相同的 torch 操作调用序列和相同的张量输入，则认为它们是相似的。差异可能存在于整数输入中（这些整数输入可能在特化版本中被内联），或者存在于算术计算中（这些计算可能由于静态版本中的内联而仅存在于动态版本中）。
 ```
 
@@ -108,8 +101,8 @@ PyTorch 提供了几个高级选项来控制动态行为。
 而在下图中则不是，这表明动态形状无法解决此问题：
 
 ```{image} ../../../_static/img/dynamic_shapes/tlparse7_not_size_related_recompilations.png
-:width: 500px
-:align: center
+
+
 ```
 
 2. **比较 Guards 文件：** 确保不存在非尺寸相关元素上的守卫，这些守卫存在于一个图中但不存在于其他图中。

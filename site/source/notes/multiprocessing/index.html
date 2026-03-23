@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#multiprocessing-best-practices" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -6960,7 +6960,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#multiprocessing-poison-fork-note" class="md-nav__link">
+  <a href="#fork" class="md-nav__link">
     <span class="md-ellipsis">
       
         多进程中的毒化 fork
@@ -6971,7 +6971,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#multiprocessing-cuda-note" class="md-nav__link">
+  <a href="#cuda" class="md-nav__link">
     <span class="md-ellipsis">
       
         多进程中的 CUDA
@@ -6982,7 +6982,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         最佳实践和技巧
@@ -6994,7 +6994,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         避免和应对死锁
@@ -7005,7 +7005,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         重用通过队列传递的缓冲区
@@ -8106,7 +8106,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#multiprocessing-poison-fork-note" class="md-nav__link">
+  <a href="#fork" class="md-nav__link">
     <span class="md-ellipsis">
       
         多进程中的毒化 fork
@@ -8117,7 +8117,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#multiprocessing-cuda-note" class="md-nav__link">
+  <a href="#cuda" class="md-nav__link">
     <span class="md-ellipsis">
       
         多进程中的 CUDA
@@ -8128,7 +8128,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         最佳实践和技巧
@@ -8140,7 +8140,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         避免和应对死锁
@@ -8151,7 +8151,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         重用通过队列传递的缓冲区
@@ -8253,39 +8253,34 @@
   
 
 
-<h1 id="multiprocessing-best-practices">多进程最佳实践<a class="headerlink" href="#multiprocessing-best-practices" title="Permanent link">&para;</a></h1>
-<p><code class="interpreted-text" role="mod">torch.multiprocessing</code> 是 Python <code class="interpreted-text" role="mod">python:multiprocessing</code> 模块的直接替代品。它支持完全相同的操作，但进行了扩展，使得所有通过 <code class="interpreted-text" role="class">python:multiprocessing.Queue</code> 发送的张量，都会将其数据移动到共享内存中，并且只发送一个句柄给另一个进程。</p>
-<p>note
- title
-Note</p>
-<p>当一个 <code class="interpreted-text" role="class">~torch.Tensor</code> 被发送到另一个进程时，该 <code class="interpreted-text" role="class">~torch.Tensor</code> 的数据是共享的。如果 <code class="interpreted-text" role="attr">torch.Tensor.grad</code> 不是 <code>None</code>，它也会被共享。当一个没有 <code class="interpreted-text" role="attr">torch.Tensor.grad</code> 字段的 <code class="interpreted-text" role="class">~torch.Tensor</code> 被发送到另一个进程后，它会创建一个进程特定的标准 <code>.grad</code> <code class="interpreted-text" role="class">~torch.Tensor</code>，该张量不会像 <code class="interpreted-text" role="class">~torch.Tensor</code> 的数据那样在所有进程间自动共享。</p>
+<h1 id="_1">多进程最佳实践<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p><code>torch.multiprocessing</code> 是 Python <code>python:multiprocessing</code> 模块的直接替代品。它支持完全相同的操作，但进行了扩展，使得所有通过 <code>python:multiprocessing.Queue</code> 发送的张量，都会将其数据移动到共享内存中，并且只发送一个句柄给另一个进程。</p>
+<blockquote>
+<p>📝 <strong>注意</strong>
+当一个 <code>torch.Tensor</code> 被发送到另一个进程时，该 <code>torch.Tensor</code> 的数据是共享的。如果 <code>torch.Tensor.grad</code> 不是 <code>None</code>，它也会被共享。当一个没有 <code>torch.Tensor.grad</code> 字段的 <code>torch.Tensor</code> 被发送到另一个进程后，它会创建一个进程特定的标准 <code>.grad</code> <code>torch.Tensor</code>，该张量不会像 <code>torch.Tensor</code> 的数据那样在所有进程间自动共享。</p>
 <p>这使得可以实现各种训练方法，如 Hogwild、A3C 或任何其他需要异步操作的方法。</p>
-<h2 id="multiprocessing-poison-fork-note">多进程中的毒化 fork<a class="headerlink" href="#multiprocessing-poison-fork-note" title="Permanent link">&para;</a></h2>
-<p>当将多进程与 <code class="interpreted-text" role="ref">加速器&lt;accelerators&gt;</code> 一起使用时，可能会出现一个称为"毒化 fork"的已知问题。当加速器的运行时不是 fork 安全的，并且在进程 fork 之前被初始化时，就会发生这种情况，导致子进程中出现运行时错误。</p>
+<h2 id="fork">多进程中的毒化 fork<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h2>
+<p>当将多进程与 <code>加速器&lt;accelerators&gt;</code> 一起使用时，可能会出现一个称为"毒化 fork"的已知问题。当加速器的运行时不是 fork 安全的，并且在进程 fork 之前被初始化时，就会发生这种情况，导致子进程中出现运行时错误。</p>
 <p>为防止此类错误：</p>
 <p>:   - 避免在 fork 子进程之前在主进程中初始化加速器。
     - 使用替代的进程启动方法，例如 <code>spawn</code> 或 <code>forkserver</code>，这可以确保每个进程的干净初始化。</p>
-<h2 id="multiprocessing-cuda-note">多进程中的 CUDA<a class="headerlink" href="#multiprocessing-cuda-note" title="Permanent link">&para;</a></h2>
-<p>当使用 <code>fork</code> 启动方法时，CUDA 运行时存在 <code class="interpreted-text" role="ref">multiprocessing-poison-fork-note</code> 中描述的限制；要在子进程中使用 CUDA，需要使用 <code>spawn</code> 或 <code>forkserver</code> 启动方法。</p>
-<p>note
- title
-Note</p>
-<p>启动方法可以通过使用 <code>multiprocessing.get_context(...)</code> 创建上下文来设置，或者直接使用 <code>multiprocessing.set_start_method(...)</code>。</p>
-<p>与 CPU 张量不同，只要接收进程保留张量的副本，发送进程就需要保留原始张量。这是在底层实现的，但要求用户遵循最佳实践以确保程序正确运行。例如，只要消费者进程持有对张量的引用，发送进程就必须保持存活，并且如果消费者进程通过致命信号异常退出，引用计数也无法挽救。请参阅 <code class="interpreted-text" role="ref">此部分 &lt;multiprocessing-cuda-sharing-details&gt;</code>。</p>
-<p>另请参阅：<code class="interpreted-text" role="ref">cuda-nn-ddp-instead</code></p>
-<h2 id="_1">最佳实践和技巧<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="_2">避免和应对死锁<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>当生成新进程时，很多事情都可能出错，最常见的死锁原因是后台线程。如果有任何线程持有锁或导入模块，并且调用了 <code>fork</code>，那么子进程很可能处于损坏状态，并会以不同的方式死锁或失败。请注意，即使你没有这样做，Python 内置库也会这样做------无需看 <code class="interpreted-text" role="mod">python:multiprocessing</code> 之外的东西。<code class="interpreted-text" role="class">python:multiprocessing.Queue</code> 实际上是一个非常复杂的类，它会生成多个用于序列化、发送和接收对象的线程，这些线程也可能导致上述问题。如果你发现自己处于这种情况，请尝试使用 <code class="interpreted-text" role="class">~python:multiprocessing.queues.SimpleQueue</code>，它不使用任何额外的线程。</p>
+<h2 id="cuda">多进程中的 CUDA<a class="headerlink" href="#cuda" title="Permanent link">&para;</a></h2>
+<p>当使用 <code>fork</code> 启动方法时，CUDA 运行时存在 <code>multiprocessing-poison-fork-note</code> 中描述的限制；要在子进程中使用 CUDA，需要使用 <code>spawn</code> 或 <code>forkserver</code> 启动方法。</p>
+<p>📝 <strong>注意</strong>
+启动方法可以通过使用 <code>multiprocessing.get_context(...)</code> 创建上下文来设置，或者直接使用 <code>multiprocessing.set_start_method(...)</code>。</p>
+<p>与 CPU 张量不同，只要接收进程保留张量的副本，发送进程就需要保留原始张量。这是在底层实现的，但要求用户遵循最佳实践以确保程序正确运行。例如，只要消费者进程持有对张量的引用，发送进程就必须保持存活，并且如果消费者进程通过致命信号异常退出，引用计数也无法挽救。请参阅 <code>此部分 &lt;multiprocessing-cuda-sharing-details&gt;</code>。</p>
+<p>另请参阅：<code>cuda-nn-ddp-instead</code></p>
+<h2 id="_2">最佳实践和技巧<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">避免和应对死锁<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>当生成新进程时，很多事情都可能出错，最常见的死锁原因是后台线程。如果有任何线程持有锁或导入模块，并且调用了 <code>fork</code>，那么子进程很可能处于损坏状态，并会以不同的方式死锁或失败。请注意，即使你没有这样做，Python 内置库也会这样做------无需看 <code>python:multiprocessing</code> 之外的东西。<code>python:multiprocessing.Queue</code> 实际上是一个非常复杂的类，它会生成多个用于序列化、发送和接收对象的线程，这些线程也可能导致上述问题。如果你发现自己处于这种情况，请尝试使用 <code>python:multiprocessing.queues.SimpleQueue</code>，它不使用任何额外的线程。</p>
 <p>我们正在尽最大努力使其变得简单，并确保这些死锁不会发生，但有些事情是我们无法控制的。如果你有任何暂时无法解决的问题，请尝试在论坛上寻求帮助，我们会看看这是否是我们能够修复的问题。</p>
-<h3 id="_3">重用通过队列传递的缓冲区<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>请记住，每次你将一个 <code class="interpreted-text" role="class">~torch.Tensor</code> 放入 <code class="interpreted-text" role="class">python:multiprocessing.Queue</code> 时，它都必须被移动到共享内存中。如果它已经共享，则无需操作，否则将产生额外的内存拷贝，从而减慢整个进程。即使你有一个进程池向单个进程发送数据，也要让它将缓冲区发送回来------这几乎是免费的，并且可以让你在发送下一批数据时避免拷贝。</p>
+<h3 id="_4">重用通过队列传递的缓冲区<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>请记住，每次你将一个 <code>torch.Tensor</code> 放入 <code>python:multiprocessing.Queue</code> 时，它都必须被移动到共享内存中。如果它已经共享，则无需操作，否则将产生额外的内存拷贝，从而减慢整个进程。即使你有一个进程池向单个进程发送数据，也要让它将缓冲区发送回来------这几乎是免费的，并且可以让你在发送下一批数据时避免拷贝。</p>
 <h3 id="hogwild">异步多进程训练（例如 Hogwild）<a class="headerlink" href="#hogwild" title="Permanent link">&para;</a></h3>
-<p>使用 <code class="interpreted-text" role="mod">torch.multiprocessing</code>，可以异步训练模型，参数可以始终共享，也可以定期同步。在前一种情况下，我们建议发送整个模型对象，而在后一种情况下，我们建议仅发送 <code class="interpreted-text" role="meth">~torch.nn.Module.state_dict</code>。</p>
-<p>我们建议使用 <code class="interpreted-text" role="class">python:multiprocessing.Queue</code> 在进程之间传递各种 PyTorch 对象。例如，当使用 <code>fork</code> 启动方法时，可以继承已经在共享内存中的张量和存储，但这非常容易出错，应谨慎使用，并且仅由高级用户使用。队列，尽管有时是一种不太优雅的解决方案，但在所有情况下都能正常工作。</p>
-<p>warning
- title
-Warning</p>
-<p>你应该注意那些没有用 <code>if __name__ == '__main__'</code> 保护的全局语句。如果使用了 <code>fork</code> 以外的启动方法，它们将在所有子进程中执行。</p>
+<p>使用 <code>torch.multiprocessing</code>，可以异步训练模型，参数可以始终共享，也可以定期同步。在前一种情况下，我们建议发送整个模型对象，而在后一种情况下，我们建议仅发送 <code>torch.nn.Module.state_dict</code>。</p>
+<p>我们建议使用 <code>python:multiprocessing.Queue</code> 在进程之间传递各种 PyTorch 对象。例如，当使用 <code>fork</code> 启动方法时，可以继承已经在共享内存中的张量和存储，但这非常容易出错，应谨慎使用，并且仅由高级用户使用。队列，尽管有时是一种不太优雅的解决方案，但在所有情况下都能正常工作。</p>
+<p>⚠️ <strong>警告</strong>
+你应该注意那些没有用 <code>if __name__ == '__main__'</code> 保护的全局语句。如果使用了 <code>fork</code> 以外的启动方法，它们将在所有子进程中执行。</p>
 <h4 id="hogwild_1">Hogwild<a class="headerlink" href="#hogwild_1" title="Permanent link">&para;</a></h4>
 <p>可以在 <a href="https://github.com/pytorch/examples/tree/master/mnist_hogwild">examples repository</a> 中找到具体的 Hogwild 实现，但为了展示代码的整体结构，下面也有一个最小示例：:</p>
 <blockquote>
@@ -8328,6 +8323,7 @@ Warning</p>
         <span class="n">train_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
 </code></pre></div>
 <p>使用 <code>torch.set_num_threads(floor(N/M))</code> 为每个进程设置 <code>num_thread</code>。其中，你需要将 N 替换为可用的虚拟 CPU 数量，将 M 替换为选择的进程数。合适的 <code>num_thread</code> 值会根据具体任务而变化。然而，作为一般准则，为了避免 CPU 过载，<code>num_thread</code> 的最大值应为 <code>floor(N/M)</code>。在 <a href="https://github.com/pytorch/examples/tree/main/mnist_hogwild">mnist_hogwild</a> 训练示例中，避免 CPU 过载后，你可以获得高达 30 倍的性能提升。</p>
+</blockquote>
 
 
 

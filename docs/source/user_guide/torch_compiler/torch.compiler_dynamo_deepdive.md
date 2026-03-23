@@ -1,4 +1,3 @@
-
 # Dynamo 深度解析
 
 TorchDynamo（或简称 Dynamo）是 `torch.compile` 内部的追踪器，那些令人抓狂的回溯错误往往要归咎于它。然而，我们不能盲目地将这些错误归咎于 Dynamo。为了提供它所具备的灵活性，Dynamo 被赋予了理解任何 Python 程序的艰巨任务。具体来说，Dynamo 必须在内部实现 Python 编程语言的大部分功能！
@@ -114,9 +113,7 @@ def forward(self, l_x_: torch.Tensor, l_n_: torch.SymInt):
     add = l_n_ + 1
     mul = add * y
     return (mul,)
-```
-
-```python
+python
 def forward(self, l_x_: torch.Tensor, l_n_: torch.SymInt):
     # File: a.py:5, code: y = x ** 2
     y = l_x_ ** 2

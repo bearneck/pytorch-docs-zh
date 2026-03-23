@@ -1,5 +1,3 @@
-
-
 # 自动微分包 - torch.autograd
 
 
@@ -30,8 +28,8 @@
 
 ## 局部禁用梯度计算
 
-有关无梯度模式与推理模式之间差异以及其他可能与这两者混淆的相关机制的更多信息，请参阅 `locally-disable-grad-doc`。
-另请参阅 `torch-rst-local-disable-grad` 以获取可用于局部禁用梯度的函数列表。
+有关无梯度模式与推理模式之间差异以及其他可能与这两者混淆的相关机制的更多信息，请参阅 *locally-disable-grad-doc*。
+另请参阅 *torch-rst-local-disable-grad* 以获取可用于局部禁用梯度的函数列表。
 
 
 ## 默认梯度布局
@@ -96,7 +94,7 @@ for iterations...
 ## 张量自动微分函数
 
 
-## {hidden}`Function`
+## `Function`
 
 
 ## 上下文方法混入类
@@ -120,7 +118,7 @@ for iterations...
 
 ## 性能分析器
 
-Autograd 包含一个性能分析器，允许你检查模型中不同操作符的成本——无论是在 CPU 还是 GPU 上。目前实现了三种模式——仅使用 CPU 的 `~torch.autograd.profiler.profile`、基于 nvprof（同时记录 CPU 和 GPU 活动）的 `~torch.autograd.profiler.emit_nvtx`，以及基于 vtune 性能分析器的 `~torch.autograd.profiler.emit_itt`。
+Autograd 包含一个性能分析器，允许你检查模型中不同操作符的成本——无论是在 CPU 还是 GPU 上。目前实现了三种模式——仅使用 CPU 的 `torch.autograd.profiler.profile`、基于 nvprof（同时记录 CPU 和 GPU 活动）的 `torch.autograd.profiler.emit_nvtx`，以及基于 vtune 性能分析器的 `torch.autograd.profiler.emit_itt`。
 
 
 ## 调试与异常检测
@@ -150,9 +148,7 @@ True
 
 你也可以使用钩子定义这些保存的张量应该如何打包/解包。
 一个常见的应用是通过将这些中间结果保存到磁盘或 CPU 而不是留在 GPU 上，来用计算换取内存。如果你注意到你的模型在评估时适合 GPU，但在训练时不适合，这尤其有用。
-另请参阅 `saved-tensors-hooks-doc`。
+另请参阅 *saved-tensors-hooks-doc*。
 
 
 % 此模块需要文档记录。暂时添加在此处以供追踪
-
-

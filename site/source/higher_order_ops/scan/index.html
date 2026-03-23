@@ -8085,10 +8085,10 @@
         <span class="n">carry</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">combine_fn</span><span class="p">(</span><span class="n">carry</span><span class="p">,</span> <span class="n">x_slice</span><span class="p">)</span>
         <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">carry</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>`torch.scan` 是 PyTorch 中的一个原型功能。您可能会遇到编译错误。
-更多关于功能分类的信息，请阅读：
-https://pytorch.org/blog/pytorch-feature-classification-changes/#prototype
+<span class="p">{</span><span class="n">warning</span><span class="p">}</span>
+<span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">scan</span><span class="err">`</span> <span class="n">是</span> <span class="n">PyTorch</span> <span class="n">中的一个原型功能</span><span class="err">。</span><span class="n">您可能会遇到编译错误</span><span class="err">。</span>
+<span class="n">更多关于功能分类的信息</span><span class="err">，</span><span class="n">请阅读</span><span class="err">：</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pytorch</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">pytorch</span><span class="o">-</span><span class="n">feature</span><span class="o">-</span><span class="n">classification</span><span class="o">-</span><span class="n">changes</span><span class="o">/</span><span class="c1">#prototype</span>
 </code></pre></div>
 <h2 id="_1">示例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>下面是一个使用 scan 计算累积和的示例：</p>

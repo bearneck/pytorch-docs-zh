@@ -31,9 +31,7 @@ def scan(
         carry, y = combine_fn(carry, x_slice)
         ys.append(y)
     return carry, torch.stack(ys)
-```
-
-```{warning}
+{warning}
 `torch.scan` 是 PyTorch 中的一个原型功能。您可能会遇到编译错误。
 更多关于功能分类的信息，请阅读：
 https://pytorch.org/blog/pytorch-feature-classification-changes/#prototype
@@ -92,4 +90,3 @@ print(ep)
 - `combine_fn` 的输出不能与任何输入产生别名。需要进行克隆。
 
 ## API 参考
-

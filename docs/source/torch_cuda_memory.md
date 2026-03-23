@@ -1,4 +1,3 @@
-
 # 理解 CUDA 内存使用
 
 为了调试 CUDA 内存使用，PyTorch 提供了一种生成内存快照的方法，该快照可以记录在任意时间点已分配的 CUDA 内存状态，并可选择记录导致该快照的分配事件历史。
@@ -8,7 +7,7 @@
 ```{note}
 本文档描述的内存分析器和可视化工具仅能查看通过 PyTorch 分配器分配和管理的 CUDA 内存。任何直接从 CUDA API 分配的内存将不会在 PyTorch 内存分析器中可见。
 
-NCCL（用于 CUDA 设备上的分布式通信）是一个常见示例，它分配了一些对 PyTorch 内存分析器不可见的 GPU 内存。更多信息请参阅 `non_pytorch_alloc`。
+NCCL（用于 CUDA 设备上的分布式通信）是一个常见示例，它分配了一些对 PyTorch 内存分析器不可见的 GPU 内存。更多信息请参阅 *non_pytorch_alloc*。
 ```
 
 ## 生成快照
@@ -62,5 +61,3 @@ print(torch.cuda.device_memory_used(device_idx))
 ```
 
 ## 快照 API 参考
-
-

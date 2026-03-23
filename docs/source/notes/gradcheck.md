@@ -1,15 +1,13 @@
-# 梯度检查机制 {#gradcheck-mechanics}
+# 梯度检查机制
 
-本文档概述了 `~torch.autograd.gradcheck`{.interpreted-text role="meth"} 和 `~torch.autograd.gradgradcheck`{.interpreted-text role="meth"} 函数的工作原理。
+本文档概述了 `torch.autograd.gradcheck` 和 `torch.autograd.gradgradcheck` 函数的工作原理。
 
 内容将涵盖实值函数和复值函数的前向模式与反向模式自动微分，以及高阶导数。本文档同时介绍了梯度检查的默认行为以及传递 `fast_mode=True` 参数时的情况（下文称为快速梯度检查）。
 
- {.contents depth="2"}
 
 local
 
 :   
-
 
 ## 符号与背景信息
 
@@ -22,7 +20,7 @@ local
 
 对于简单的实到实情况，我们将与 $f$ 关联的雅可比矩阵记为 $J_f$，其大小为 $M \times N$。该矩阵包含所有偏导数，使得位置 $(i, j)$ 处的元素为 $\frac{\partial y_i}{\partial x_j}$。反向模式自动微分则针对给定的尺寸为 $M$ 的向量 $v$ 计算量 $v^T J_f$。另一方面，前向模式自动微分针对给定的尺寸为 $N$ 的向量 $u$ 计算量 $J_f u$。
 
-对于包含复数值的函数，情况要复杂得多。我们在此仅提供概要，完整描述可参阅 `complex_autograd-doc`{.interpreted-text role="ref"}。
+对于包含复数值的函数，情况要复杂得多。我们在此仅提供概要，完整描述可参阅 `complex_autograd-doc`。
 
 满足复可微性（柯西-黎曼方程）的约束条件对所有实值损失函数来说过于严格，因此我们选择使用 Wirtinger 微积分。在 Wirtinger 微积分的基本设定中，链式法则需要同时访问 Wirtinger 导数（下文称为 $W$）和共轭 Wirtinger 导数（下文称为 $CW$）。尽管名称如此，但通常两者并非彼此的复共轭，因此 $W$ 和 $CW$ 都需要传播。
 

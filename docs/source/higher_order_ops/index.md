@@ -48,15 +48,12 @@ return g(x)
 
 ## 可用运算符
 
-```{toctree}
-:maxdepth: 1
+- [Cond](cond.md)
+- [While Loop](while_loop.md)
+- [Scan](scan.md)
+- [Associative Scan](associative_scan.md)
+- [Map](map.md)
 
-cond
-while_loop
-scan
-associative_scan
-map
-```
 
 ### 快速比较
 

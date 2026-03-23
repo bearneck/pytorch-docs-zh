@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tensor-view-doc" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -7950,9 +7950,7 @@
   
 
 
-<p>currentmodule
-torch</p>
-<h1 id="tensor-view-doc">张量视图<a class="headerlink" href="#tensor-view-doc" title="Permanent link">&para;</a></h1>
+<h1 id="_1">张量视图<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>PyTorch 允许一个张量成为现有张量的一个 <code>View</code>（视图）。视图张量与其基础张量共享相同的基础数据。支持 <code>View</code> 可以避免显式的数据复制，从而使我们能够进行快速且内存高效的形状重塑、切片和逐元素操作。</p>
 <p>例如，要获取现有张量 <code>t</code> 的一个视图，可以调用 <code>t.view(...)</code>。</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; t = torch.rand(4, 4)
@@ -7965,7 +7963,7 @@ True
 tensor(3.14)
 </code></pre></div>
 <p>由于视图与其基础张量共享基础数据，如果你在视图中编辑数据，它也会反映在基础张量中。</p>
-<p>通常，PyTorch 操作会返回一个新的张量作为输出，例如 <code class="interpreted-text" role="meth">~torch.Tensor.add</code>。但对于视图操作，输出是输入张量的视图，以避免不必要的数据复制。创建视图时不会发生数据移动，视图张量只是改变了其解释相同数据的方式。对连续张量取视图可能会产生一个非连续张量。用户应额外注意，因为连续性可能对性能有隐含影响。<code class="interpreted-text" role="meth">~torch.Tensor.transpose</code> 就是一个常见的例子。</p>
+<p>通常，PyTorch 操作会返回一个新的张量作为输出，例如 <code>torch.Tensor.add</code>。但对于视图操作，输出是输入张量的视图，以避免不必要的数据复制。创建视图时不会发生数据移动，视图张量只是改变了其解释相同数据的方式。对连续张量取视图可能会产生一个非连续张量。用户应额外注意，因为连续性可能对性能有隐含影响。<code>torch.Tensor.transpose</code> 就是一个常见的例子。</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; base = torch.tensor([[0, 1],[2, 3]])
 &gt;&gt;&gt; base.is_contiguous()
 True
@@ -7979,53 +7977,53 @@ False
 <p>作为参考，以下是 PyTorch 中视图操作的完整列表：</p>
 <ul>
 <li>基本切片和索引操作，例如 <code>tensor[0, 2:, 1:7:2]</code> 返回基础 <code>tensor</code> 的视图，参见下面的注释。</li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.adjoint</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.as_strided</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.detach</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.diagonal</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.expand</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.expand_as</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.movedim</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.narrow</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.permute</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.select</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.squeeze</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.transpose</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.t</code></li>
-<li><code class="interpreted-text" role="attr">~torch.Tensor.T</code></li>
-<li><code class="interpreted-text" role="attr">~torch.Tensor.H</code></li>
-<li><code class="interpreted-text" role="attr">~torch.Tensor.mT</code></li>
-<li><code class="interpreted-text" role="attr">~torch.Tensor.mH</code></li>
-<li><code class="interpreted-text" role="attr">~torch.Tensor.real</code></li>
-<li><code class="interpreted-text" role="attr">~torch.Tensor.imag</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.view_as_real</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.unflatten</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.unfold</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.unsqueeze</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.view</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.view_as</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.unbind</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.split</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.hsplit</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.vsplit</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.tensor_split</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.split_with_sizes</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.swapaxes</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.swapdims</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.chunk</code></li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.indices</code> (仅稀疏张量)</li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.values</code> (仅稀疏张量)</li>
+<li><code>torch.Tensor.adjoint</code></li>
+<li><code>torch.Tensor.as_strided</code></li>
+<li><code>torch.Tensor.detach</code></li>
+<li><code>torch.Tensor.diagonal</code></li>
+<li><code>torch.Tensor.expand</code></li>
+<li><code>torch.Tensor.expand_as</code></li>
+<li><code>torch.Tensor.movedim</code></li>
+<li><code>torch.Tensor.narrow</code></li>
+<li><code>torch.Tensor.permute</code></li>
+<li><code>torch.Tensor.select</code></li>
+<li><code>torch.Tensor.squeeze</code></li>
+<li><code>torch.Tensor.transpose</code></li>
+<li><code>torch.Tensor.t</code></li>
+<li><code>torch.Tensor.T</code></li>
+<li><code>torch.Tensor.H</code></li>
+<li><code>torch.Tensor.mT</code></li>
+<li><code>torch.Tensor.mH</code></li>
+<li><code>torch.Tensor.real</code></li>
+<li><code>torch.Tensor.imag</code></li>
+<li><code>torch.Tensor.view_as_real</code></li>
+<li><code>torch.Tensor.unflatten</code></li>
+<li><code>torch.Tensor.unfold</code></li>
+<li><code>torch.Tensor.unsqueeze</code></li>
+<li><code>torch.Tensor.view</code></li>
+<li><code>torch.Tensor.view_as</code></li>
+<li><code>torch.Tensor.unbind</code></li>
+<li><code>torch.Tensor.split</code></li>
+<li><code>torch.Tensor.hsplit</code></li>
+<li><code>torch.Tensor.vsplit</code></li>
+<li><code>torch.Tensor.tensor_split</code></li>
+<li><code>torch.Tensor.split_with_sizes</code></li>
+<li><code>torch.Tensor.swapaxes</code></li>
+<li><code>torch.Tensor.swapdims</code></li>
+<li><code>torch.Tensor.chunk</code></li>
+<li><code>torch.Tensor.indices</code> (仅稀疏张量)</li>
+<li><code>torch.Tensor.values</code> (仅稀疏张量)</li>
 </ul>
-<p>note
- title
-Note</p>
-<p>通过索引访问张量内容时，PyTorch 遵循 Numpy 的行为：基本索引返回视图，而高级索引返回一个副本。无论是通过基本索引还是高级索引进行的赋值都是原地操作。更多示例请参阅 <a href="https://numpy.org/doc/stable/user/basics.indexing.html">Numpy 索引文档</a>。</p>
+<blockquote>
+<p>📝 <strong>注意</strong>
+通过索引访问张量内容时，PyTorch 遵循 Numpy 的行为：基本索引返回视图，而高级索引返回一个副本。无论是通过基本索引还是高级索引进行的赋值都是原地操作。更多示例请参阅 <a href="https://numpy.org/doc/stable/user/basics.indexing.html">Numpy 索引文档</a>。</p>
 <p>还有一些具有特殊行为的操作值得一提：</p>
 <ul>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.reshape</code>、<code class="interpreted-text" role="meth">~torch.Tensor.reshape_as</code> 和 <code class="interpreted-text" role="meth">~torch.Tensor.flatten</code> 可能返回视图或新张量，用户代码不应依赖它是否是视图。</li>
-<li><code class="interpreted-text" role="meth">~torch.Tensor.contiguous</code> 如果输入张量已经是连续的，则返回**自身**，否则通过复制数据返回一个新的连续张量。</li>
+<li><code>torch.Tensor.reshape</code>、<code>torch.Tensor.reshape_as</code> 和 <code>torch.Tensor.flatten</code> 可能返回视图或新张量，用户代码不应依赖它是否是视图。</li>
+<li><code>torch.Tensor.contiguous</code> 如果输入张量已经是连续的，则返回**自身**，否则通过复制数据返回一个新的连续张量。</li>
 </ul>
 <p>关于 PyTorch 内部实现的更详细说明，请参考 <a href="http://blog.ezyang.com/2019/05/pytorch-internals/">ezyang 关于 PyTorch 内部机制的博客文章</a>。</p>
+</blockquote>
 
 
 

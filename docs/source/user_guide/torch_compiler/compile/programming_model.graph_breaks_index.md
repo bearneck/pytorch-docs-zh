@@ -8,10 +8,8 @@
 
 以下部分概述了处理图中断的策略。
 
-```{toctree}
-programming_model.fullgraph_true
-programming_model.common_graph_breaks
-programming_model.dynamo_nonstrict_trace
-programming_model.custom_ops
-programming_model.fullgraph_false
-```
+- [Programming Model Fullgraph True](programming_model.fullgraph_true.md)
+- [Programming Model Common Graph Breaks](programming_model.common_graph_breaks.md)
+- [Programming Model Dynamo Nonstrict Trace](programming_model.dynamo_nonstrict_trace.md)
+- [Programming Model Custom Ops](programming_model.custom_ops.md)
+- [Programming Model Fullgraph False](programming_model.fullgraph_false.md)

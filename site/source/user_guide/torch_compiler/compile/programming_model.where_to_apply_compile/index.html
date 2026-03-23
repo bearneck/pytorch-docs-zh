@@ -8040,8 +8040,8 @@
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_ITERS</span><span class="p">):</span>
     <span class="n">inp</span> <span class="o">=</span> <span class="o">...</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1"># 训练</span>
+<span class="n">python</span>
+<span class="c1"># 训练</span>
 <span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
 <span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
 
@@ -8056,8 +8056,8 @@
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_ITERS</span><span class="p">):</span>
     <span class="n">inp</span> <span class="o">=</span> <span class="o">...</span>
     <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1"># DistributedDataParallel</span>
+<span class="n">python</span>
+<span class="c1"># DistributedDataParallel</span>
 <span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
 <span class="n">model_ddp</span> <span class="o">=</span> <span class="n">DistributedDataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>

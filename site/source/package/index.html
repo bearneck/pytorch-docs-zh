@@ -8284,9 +8284,7 @@
 切勿解包可能来自不可信来源或可能被篡改的数据。
 
 更多信息，请查阅 `pickle` 模块的[文档](https://docs.python.org/3/library/pickle.html)。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>:local:
-:depth: 2
+{contents}
 </code></pre></div>
 <h2 id="_1">教程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h3 id="_2">打包您的第一个模型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
@@ -8442,8 +8440,9 @@ my_package
     <span class="n">foo</span><span class="o">.</span><span class="n">time_imported</span> <span class="o">=</span> <span class="n">time_imported</span>
     <span class="n">foo</span><span class="o">.</span><span class="n">time_exported</span> <span class="o">=</span> <span class="n">time_exported</span>
     <span class="k">return</span> <span class="n">foo</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1"># 保存类 Foo 实例的示例</span>
+
+<span class="n">python</span>
+<span class="c1"># 保存类 Foo 实例的示例</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.package</span><span class="w"> </span><span class="kn">import</span> <span class="n">PackageImporter</span><span class="p">,</span> <span class="n">PackageExporter</span>
@@ -8462,22 +8461,22 @@ my_package
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;foo_1 string: &#39;</span><span class="si">{</span><span class="n">imported_foo</span><span class="o">.</span><span class="n">my_string</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;foo_1 export time: </span><span class="si">{</span><span class="n">imported_foo</span><span class="o">.</span><span class="n">time_exported</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;foo_1 import time: </span><span class="si">{</span><span class="n">imported_foo</span><span class="o">.</span><span class="n">time_imported</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># 运行上述脚本的输出
-─── foo_package
-    ├── foo-generated
-    │   ├── _0
-    │   │   └── foo.txt
-    │   └── _1
-    │       └── foo.txt
-    ├── foo_collection
-    │   ├── foo1.pkl
-    │   └── foo2.pkl
-    └── foo.py
 
-foo_1 string: &#39;foo_1 initial string, with reduction modification!&#39;
-foo_1 export time: 9857706.650140837
-foo_1 import time: 9857706.652698385
+<span class="c1"># 运行上述脚本的输出</span>
+<span class="err">───</span> <span class="n">foo_package</span>
+    <span class="err">├──</span> <span class="n">foo</span><span class="o">-</span><span class="n">generated</span>
+    <span class="err">│</span>   <span class="err">├──</span> <span class="n">_0</span>
+    <span class="err">│</span>   <span class="err">│</span>   <span class="err">└──</span> <span class="n">foo</span><span class="o">.</span><span class="n">txt</span>
+    <span class="err">│</span>   <span class="err">└──</span> <span class="n">_1</span>
+    <span class="err">│</span>       <span class="err">└──</span> <span class="n">foo</span><span class="o">.</span><span class="n">txt</span>
+    <span class="err">├──</span> <span class="n">foo_collection</span>
+    <span class="err">│</span>   <span class="err">├──</span> <span class="n">foo1</span><span class="o">.</span><span class="n">pkl</span>
+    <span class="err">│</span>   <span class="err">└──</span> <span class="n">foo2</span><span class="o">.</span><span class="n">pkl</span>
+    <span class="err">└──</span> <span class="n">foo</span><span class="o">.</span><span class="n">py</span>
+
+<span class="n">foo_1</span> <span class="n">string</span><span class="p">:</span> <span class="s1">&#39;foo_1 initial string, with reduction modification!&#39;</span>
+<span class="n">foo_1</span> <span class="n">export</span> <span class="n">time</span><span class="p">:</span> <span class="mf">9857706.650140837</span>
+<span class="n">foo_1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">time</span><span class="p">:</span> <span class="mf">9857706.652698385</span>
 </code></pre></div>
 <h3 id="_8">如何在源代码中测试是否在包内执行？<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p><code>PackageImporter</code> 会为其初始化的每个模块添加属性 <code>__torch_package__</code>。您的代码可以检查此属性是否存在，以确定是否在打包的上下文中执行。</p>

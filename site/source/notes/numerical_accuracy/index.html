@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#numerical_accuracy" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -6988,7 +6988,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         批处理计算或切片计算
@@ -6999,7 +6999,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         极值
@@ -7010,7 +7010,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#Linear" class="md-nav__link">
+  <a href="#torchlinalg" class="md-nav__link">
     <span class="md-ellipsis">
       
         线性代数 (torch.linalg)
@@ -7022,7 +7022,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         非有限值
@@ -7033,7 +7033,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         线性代数中的极值
@@ -7082,7 +7082,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fp16_on_mi200" class="md-nav__link">
+  <a href="#amd-instinct-mi200-fp16-bf16-gemm" class="md-nav__link">
     <span class="md-ellipsis">
       
         AMD Instinct MI200 设备上降低精度的 FP16 和 BF16 GEMM 与卷积运算
@@ -8083,7 +8083,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         批处理计算或切片计算
@@ -8094,7 +8094,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         极值
@@ -8105,7 +8105,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#Linear" class="md-nav__link">
+  <a href="#torchlinalg" class="md-nav__link">
     <span class="md-ellipsis">
       
         线性代数 (torch.linalg)
@@ -8117,7 +8117,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         非有限值
@@ -8128,7 +8128,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         线性代数中的极值
@@ -8177,7 +8177,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fp16_on_mi200" class="md-nav__link">
+  <a href="#amd-instinct-mi200-fp16-bf16-gemm" class="md-nav__link">
     <span class="md-ellipsis">
       
         AMD Instinct MI200 设备上降低精度的 FP16 和 BF16 GEMM 与卷积运算
@@ -8207,38 +8207,38 @@
   
 
 
-<h1 id="numerical_accuracy">数值精度<a class="headerlink" href="#numerical_accuracy" title="Permanent link">&para;</a></h1>
+<h1 id="_1">数值精度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>在现代计算机中，浮点数使用 IEEE 754 标准表示。 有关浮点运算和 IEEE 754 标准的更多详细信息，请参阅 <a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic">浮点运算</a>。 特别需要注意的是，浮点数提供的精度有限（单精度浮点数约为 7 位十进制数字， 双精度浮点数约为 16 位十进制数字），并且浮点加法和乘法不满足结合律， 因此运算顺序会影响结果。 正因为如此，PyTorch 不能保证对于数学上相同的浮点计算产生逐位相同的结果。 同样，也不能保证跨 PyTorch 版本、单个提交或不同平台产生逐位相同的结果。 特别是，即使对于逐位相同的输入，并且在控制了随机性来源之后，CPU 和 GPU 的结果也可能不同。</p>
-<h2 id="_1">批处理计算或切片计算<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>PyTorch 中的许多操作支持批处理计算，即对输入批次中的元素执行相同的操作。 例如 <code class="interpreted-text" role="meth">torch.mm</code> 和 <code class="interpreted-text" role="meth">torch.bmm</code>。 可以将批处理计算实现为对批次元素的循环，并将必要的数学运算应用于各个批次元素， 但出于效率原因，我们通常不这样做，而是对整个批次执行计算。 在这种情况下，我们调用的数学库以及 PyTorch 操作的内部实现可能会产生与非批处理计算略有不同的结果。 具体来说，假设 <code>A</code> 和 <code>B</code> 是维度适合批处理矩阵乘法的 3D 张量。 那么 <code>(A@B)[0]</code>（批处理结果的第一个元素）不能保证与 <code>A[0]@B[0]</code>（输入批次第一个元素的矩阵乘积）逐位相同， 尽管在数学上它们是相同的计算。</p>
+<h2 id="_2">批处理计算或切片计算<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>PyTorch 中的许多操作支持批处理计算，即对输入批次中的元素执行相同的操作。 例如 <code>torch.mm</code> 和 <code>torch.bmm</code>。 可以将批处理计算实现为对批次元素的循环，并将必要的数学运算应用于各个批次元素， 但出于效率原因，我们通常不这样做，而是对整个批次执行计算。 在这种情况下，我们调用的数学库以及 PyTorch 操作的内部实现可能会产生与非批处理计算略有不同的结果。 具体来说，假设 <code>A</code> 和 <code>B</code> 是维度适合批处理矩阵乘法的 3D 张量。 那么 <code>(A@B)[0]</code>（批处理结果的第一个元素）不能保证与 <code>A[0]@B[0]</code>（输入批次第一个元素的矩阵乘积）逐位相同， 尽管在数学上它们是相同的计算。</p>
 <p>类似地，应用于张量切片的操作不能保证产生与应用于完整张量的相同操作结果的切片相同的结果。 例如，假设 <code>A</code> 是一个二维张量。<code>A.sum(-1)[0]</code> 不能保证与 <code>A[:,0].sum()</code> 逐位相等。</p>
-<h2 id="_2">极值<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">极值<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>当输入包含极大值，使得中间结果可能超出所用数据类型的范围时，最终结果也可能溢出， 即使它在原始数据类型中是可表示的。例如：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="n">a</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1e20</span><span class="p">,</span> <span class="mf">1e20</span><span class="p">])</span> <span class="c1"># 默认 fp32 类型</span>
 <span class="n">a</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="c1"># 产生 tensor(inf)</span>
 <span class="n">a</span><span class="o">.</span><span class="n">double</span><span class="p">()</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="c1"># 产生 tensor(1.4142e+20, dtype=torch.float64)，在 fp32 中可表示</span>
 </code></pre></div>
-<h2 Algebra="Algebra" Stability="Stability" id="Linear">线性代数 (<code>torch.linalg</code>)<a class="headerlink" href="#Linear" title="Permanent link">&para;</a></h2>
-<h3 id="_3">非有限值<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h2 id="torchlinalg">线性代数 (<code>torch.linalg</code>)<a class="headerlink" href="#torchlinalg" title="Permanent link">&para;</a></h2>
+<h3 id="_4">非有限值<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p><code>torch.linalg</code> 使用的外部库（后端）不保证在输入包含非有限值（如 <code>inf</code> 或 <code>NaN</code>）时的行为。 因此，PyTorch 也不保证。这些操作可能返回包含非有限值的张量，或引发异常，甚至导致段错误。</p>
-<p>建议在调用这些函数之前使用 <code class="interpreted-text" role="func">torch.isfinite</code> 来检测这种情况。</p>
-<h3 id="_4">线性代数中的极值<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>建议在调用这些函数之前使用 <code>torch.isfinite</code> 来检测这种情况。</p>
+<h3 id="_5">线性代数中的极值<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p><code>torch.linalg</code> 中的函数比其他 PyTorch 函数有更多的 <a href="#极值">极值</a> 问题。</p>
-<p><code class="interpreted-text" role="ref">linalg solvers</code> 和 <code class="interpreted-text" role="ref">linalg inverses</code> 假设输入矩阵 <code>A</code> 是可逆的。如果它接近不可逆（例如，如果它有非常小的奇异值）， 那么这些算法可能会静默地返回不正确的结果。这些矩阵被称为 <a href="https://nhigham.com/2020/03/19/what-is-a-condition-number/">病态矩阵</a>。 如果提供病态输入，这些函数的结果在使用相同输入但在不同设备上时，或通过关键字 <code>driver</code> 使用不同后端时，可能会有所不同。</p>
+<p><code>linalg solvers</code> 和 <code>linalg inverses</code> 假设输入矩阵 <code>A</code> 是可逆的。如果它接近不可逆（例如，如果它有非常小的奇异值）， 那么这些算法可能会静默地返回不正确的结果。这些矩阵被称为 <a href="https://nhigham.com/2020/03/19/what-is-a-condition-number/">病态矩阵</a>。 如果提供病态输入，这些函数的结果在使用相同输入但在不同设备上时，或通过关键字 <code>driver</code> 使用不同后端时，可能会有所不同。</p>
 <p>谱运算如 <code>svd</code>、<code>eig</code> 和 <code>eigh</code> 在其输入的奇异值彼此接近时，也可能返回不正确的结果（并且它们的梯度可能是无限的）。 这是因为用于计算这些分解的算法对于这些输入难以收敛。</p>
-<p>在 <code>float64</code> 中运行计算（如 NumPy 默认所做的那样）通常有帮助，但并不能在所有情况下解决这些问题。 通过 <code class="interpreted-text" role="func">torch.linalg.svdvals</code> 分析输入的谱，或通过 <code class="interpreted-text" role="func">torch.linalg.cond</code> 分析其条件数，可能有助于检测这些问题。</p>
+<p>在 <code>float64</code> 中运行计算（如 NumPy 默认所做的那样）通常有帮助，但并不能在所有情况下解决这些问题。 通过 <code>torch.linalg.svdvals</code> 分析输入的谱，或通过 <code>torch.linalg.cond</code> 分析其条件数，可能有助于检测这些问题。</p>
 <h2 id="nvidia-ampere-tensorfloat-32tf32">Nvidia Ampere（及更高版本）设备上的 TensorFloat-32(TF32)<a class="headerlink" href="#nvidia-ampere-tensorfloat-32tf32" title="Permanent link">&para;</a></h2>
 <p>在 Ampere（及后续）Nvidia GPU 上，PyTorch 可以使用 TensorFloat32 (TF32) 来加速数学密集型运算，特别是矩阵乘法和卷积运算。 当使用 TF32 张量核心执行运算时，仅读取输入尾数的前 10 位。 这可能会降低精度并产生意外结果（例如，将矩阵与单位矩阵相乘可能产生与输入不同的结果）。 默认情况下，TF32 张量核心在矩阵乘法中禁用，在卷积中启用，尽管大多数神经网络工作负载在使用 TF32 时与使用 fp32 时具有相同的收敛行为。 如果您的网络不需要完整的 float32 精度，我们建议通过 <code>torch.backends.cuda.matmul.fp32_precision = "tf32"</code>（<code>`torch.backends.cuda.matmul.allow_tf32 = True</code> 将被弃用）为矩阵乘法启用 TF32 张量核心。 如果您的网络在矩阵乘法和卷积运算中都需要完整的 float32 精度，则也可以通过 <code>torch.backends.cudnn.conv.fp32_precision = "ieee"</code>（<code>torch.backends.cudnn.allow_tf32 = False</code> 将被弃用）为卷积运算禁用 TF32 张量核心。</p>
-<p>更多信息请参阅 <code class="interpreted-text" role="ref">TensorFloat32&lt;tf32_on_ampere&gt;</code>。</p>
+<p>更多信息请参阅 <code>TensorFloat32&lt;tf32_on_ampere&gt;</code>。</p>
 <h2 id="fp16-bf16-gemm">FP16 和 BF16 GEMM 的降低精度归约<a class="headerlink" href="#fp16-bf16-gemm" title="Permanent link">&para;</a></h2>
 <p>半精度 GEMM 运算通常以单精度进行中间累加（归约），以提高数值精度和增强对溢出的鲁棒性。出于性能考虑，某些 GPU 架构（尤其是较新的架构）允许将中间累加结果截断为较低的精度（例如半精度）。从模型收敛的角度来看，这种变化通常是良性的，但可能导致意外结果（例如，当最终结果本应可用半精度表示时出现 <code>inf</code> 值）。 如果降低精度归约存在问题，可以通过以下方式关闭： <code>torch.backends.cuda.matmul.allow_fp16_reduced_precision_reduction = False</code></p>
 <p>对于 BF16 GEMM 运算也存在类似的标志，且默认开启。如果 BF16 降低精度归约存在问题，可以通过以下方式关闭： <code>torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = False</code></p>
-<p>更多信息请参阅 <code class="interpreted-text" role="ref">allow_fp16_reduced_precision_reduction&lt;fp16reducedprecision&gt;</code> 和 <code class="interpreted-text" role="ref">allow_bf16_reduced_precision_reduction&lt;bf16reducedprecision&gt;</code></p>
+<p>更多信息请参阅 <code>allow_fp16_reduced_precision_reduction&lt;fp16reducedprecision&gt;</code> 和 <code>allow_bf16_reduced_precision_reduction&lt;bf16reducedprecision&gt;</code></p>
 <h2 id="sdpa-fp16-bf16">缩放点积注意力 (SDPA) 中 FP16 和 BF16 的降低精度归约<a class="headerlink" href="#sdpa-fp16-bf16" title="Permanent link">&para;</a></h2>
 <p>当使用 FP16/BF16 输入时，简单的 SDPA 数学后端可能会因使用低精度中间缓冲区而累积显著的数值误差。为了缓解此问题，默认行为现在涉及将 FP16/BF16 输入上转为 FP32。计算在 FP32/TF32 中执行，然后将最终的 FP32 结果下转回 FP16/BF16。这将提高使用 FP16/BF16 输入的数学后端最终输出的数值精度，但会增加内存使用量，并可能因计算从 FP16/BF16 BMM 转移到 FP32/TF32 BMM/矩阵乘法而导致数学后端性能下降。</p>
 <p>对于更倾向于使用降低精度归约以提升速度的场景，可以通过以下设置启用： <code>torch.backends.cuda.allow_fp16_bf16_reduction_math_sdp(True)</code></p>
-<h2 id="fp16_on_mi200">AMD Instinct MI200 设备上降低精度的 FP16 和 BF16 GEMM 与卷积运算<a class="headerlink" href="#fp16_on_mi200" title="Permanent link">&para;</a></h2>
+<h2 id="amd-instinct-mi200-fp16-bf16-gemm">AMD Instinct MI200 设备上降低精度的 FP16 和 BF16 GEMM 与卷积运算<a class="headerlink" href="#amd-instinct-mi200-fp16-bf16-gemm" title="Permanent link">&para;</a></h2>
 <p>在 AMD Instinct MI200 GPU 上，FP16 和 BF16 的 V_DOT2 和 MFMA 矩阵指令会将输入和输出的非规格化值刷新为零。FP32 和 FP64 的 MFMA 矩阵指令不会将输入和输出的非规格化值刷新为零。受影响的指令仅由 rocBLAS (GEMM) 和 MIOpen (卷积) 内核使用；所有其他 PyTorch 操作不会遇到此行为。所有其他受支持的 AMD GPU 也不会遇到此行为。</p>
 <p>rocBLAS 和 MIOpen 为受影响的 FP16 运算提供了替代实现。未提供 BF16 运算的替代实现；BF16 数字比 FP16 数字具有更大的动态范围，因此不太可能遇到非规格化值。对于 FP16 替代实现，FP16 输入值被转换为中间 BF16 值，然后在累加 FP32 运算后转换回 FP16 输出。这样，输入和输出类型保持不变。</p>
 <p>当使用 FP16 精度进行训练时，一些模型可能因 FP16 非规格化值被刷新为零而无法收敛。非规格化值更频繁地出现在训练的反向传播过程中进行梯度计算时。PyTorch 默认会在反向传播过程中使用 rocBLAS 和 MIOpen 的替代实现。可以使用环境变量 ROCBLAS_INTERNAL_FP16_ALT_IMPL 和 MIOPEN_DEBUG_CONVOLUTION_ATTRIB_FP16_ALT_IMPL 覆盖默认行为。这些环境变量的行为如下：</p>

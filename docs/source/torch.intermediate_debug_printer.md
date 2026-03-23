@@ -1,5 +1,3 @@
-
-
 # AOTInductor 中间值调试打印器
 
 本文档是关于如何使用 AOT Inductor 中间值调试打印器工具的用户手册。该工具是一个实用程序，可在使用 AOT Inductor 编译 PyTorch 模型时，帮助定位 CUDA IMA 内核或数值差异问题。

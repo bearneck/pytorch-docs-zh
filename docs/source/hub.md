@@ -82,12 +82,12 @@ PyTorch Hub 提供了便捷的 API，可以通过 `torch.hub.list()` 探索 hub 
 - 调用 `hub.set_dir(<PATH_TO_HUB_DIR>)`
 - `$TORCH_HOME/hub`，如果设置了环境变量 `TORCH_HOME`。
 - `$XDG_CACHE_HOME/torch/hub`，如果设置了环境变量 `XDG_CACHE_HOME`。
-- `~/.cache/torch/hub`
+- `/.cache/torch/hub`
 
 
 ### 缓存逻辑
 
-默认情况下，我们加载文件后不会清理它们。如果文件已存在于 `~torch.hub.get_dir()` 返回的目录中，Hub 默认会使用缓存。
+默认情况下，我们加载文件后不会清理它们。如果文件已存在于 `torch.hub.get_dir()` 返回的目录中，Hub 默认会使用缓存。
 
 用户可以通过调用 `hub.load(..., force_reload=True)` 强制重新加载。这将删除现有的 GitHub 文件夹和下载的权重，并重新初始化一次新的下载。当更新发布到同一分支时，这很有用，用户可以跟上最新的发布。
 

@@ -24,9 +24,7 @@ def while_loop(
     while cond_fn(*val):
         val = body_fn(*val)
     return val
-```
-
-```{warning}
+{warning}
 `torch.while_loop` 是 PyTorch 中的一个原型功能。它对输入和输出类型的支持有限。
 请期待未来 PyTorch 版本中更稳定的实现。
 更多关于功能分类的信息，请参阅：https://pytorch.org/blog/pytorch-feature-classification-changes/#prototype
@@ -85,4 +83,3 @@ print(ep)
 - `body_fn` 和 `cond_fn` 的输出不能与任何输入产生别名。需要进行克隆。
 
 ## API 参考
-

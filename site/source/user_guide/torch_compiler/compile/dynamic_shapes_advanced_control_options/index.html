@@ -3866,17 +3866,6 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        编译器集合
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
         逐步减少编译次数
       
     </span>
@@ -3898,49 +3887,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         如何识别要标记为动态的元素
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        步骤 2：调试：识别错过的优化机会
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="步骤 2：调试：识别错过的优化机会">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        查找相似的计算图
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        快速检查：快速失败
       
     </span>
   </a>
@@ -3958,7 +3908,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         识别并修复重新编译原因
@@ -8149,17 +8099,6 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        编译器集合
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
         逐步减少编译次数
       
     </span>
@@ -8181,49 +8120,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         如何识别要标记为动态的元素
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        步骤 2：调试：识别错过的优化机会
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="步骤 2：调试：识别错过的优化机会">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        查找相似的计算图
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        快速检查：快速失败
       
     </span>
   </a>
@@ -8241,7 +8141,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         识别并修复重新编译原因
@@ -8293,59 +8193,64 @@
 </ol>
 <p>每个 <code>?</code> 表示已观察到该输入有多个值。</p>
 <p>例如，以下输出显示输入 <code>L['m']</code> 在 <code>size[0]</code> 处观察到多个大小，但其步幅始终为 1：</p>
-<div class="highlight"><pre><span></span><code>/data/users/bobren/a/pytorch/r2.py:2:func:
-L[&#39;m&#39;]: fully dynamic scalar or tensor
-L[&#39;x&#39;]: tensor size=[?] stride=[1]
-L[&#39;y&#39;]: tensor size=[?] stride=[1]
-L[&#39;z&#39;]: tensor size=[?] stride=[1]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>如果一个元素被 PGO 标记为动态，这并不能保证它在计算图中将保持动态。特化操作可以将其恢复为静态状态。
-</code></pre></div>
-<h2 id="_2">编译器集合<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>不同的 rank 可以相互通信以共享观察到的大小。在第二次迭代中，自动动态使用此信息，根据所有 rank 上观察到的输入来决定将哪些元素标记为动态。查看此 <a href="https://github.com/pytorch/pytorch/pull/130935">PR</a> 了解更多细节。
-要启用此功能，请将 <code>enable_compiler_collectives=True</code> 与 <code>@config.patch</code> 装饰器一起使用。</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@config</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="n">enable_compiler_collectives</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>此功能允许在编译期间使用集合操作来同步不同 rank 间的行为。目前，它用于修改自动动态形状行为，通过推断输入的大小是否在不同 rank 间变化来判断该输入是否为动态。由于此同步使用集合操作，所有 rank 必须同时运行编译；rank 之间不能因图中断而出现分歧。最可靠的方法是确保 torch 仅在 SPMD 程序上运行。违反此不变量可能导致 NCCL 死锁并遇到 NCCL 超时。
-</code></pre></div>
-<h2 id="_3">逐步减少编译次数<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>```
+   /data/users/bobren/a/pytorch/r2.py:2:func:
+   L['m']: fully dynamic scalar or tensor
+   L['x']: tensor size=[?] stride=[1]
+   L['y']: tensor size=[?] stride=[1]
+   L['z']: tensor size=[?] stride=[1]
+   {note}
+如果一个元素被 PGO 标记为动态，这并不能保证它在计算图中将保持动态。特化操作可以将其恢复为静态状态。
+<div class="highlight"><pre><span></span><code>## 编译器集合
+
+不同的 rank 可以相互通信以共享观察到的大小。在第二次迭代中，自动动态使用此信息，根据所有 rank 上观察到的输入来决定将哪些元素标记为动态。查看此 [PR](https://github.com/pytorch/pytorch/pull/130935) 了解更多细节。
+要启用此功能，请将 `enable_compiler_collectives=True` 与 `@config.patch` 装饰器一起使用。
+
+```python
+@config.patch(enable_compiler_collectives=True)
+{note}
+此功能允许在编译期间使用集合操作来同步不同 rank 间的行为。目前，它用于修改自动动态形状行为，通过推断输入的大小是否在不同 rank 间变化来判断该输入是否为动态。由于此同步使用集合操作，所有 rank 必须同时运行编译；rank 之间不能因图中断而出现分歧。最可靠的方法是确保 torch 仅在 SPMD 程序上运行。违反此不变量可能导致 NCCL 死锁并遇到 NCCL 超时。
+</code></pre></div></p>
+<h2 id="_2">逐步减少编译次数<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>如果你有一个可以在主作业上运行的模型并且拥有 <code>tlparse</code>，以下是接下来应该做的步骤：</p>
 <h3 id="1">步骤 1：标记动态元素<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p>第一步是减少那些最终会被自动动态或 PGO 优化掉的初始编译。这很简单，因为我们事先知道它会起作用。如果在一次运行中，一个帧从静态图开始并收敛到动态图，并且如果你注意到在第二次（热）启用 PGO 的运行中编译的帧数减少了，那么这很可能是由于此优化。</p>
 <p>这是一个两步过程：</p>
 <ol>
 <li>找到被 PGO 或自动动态标记为动态的元素。</li>
-<li>使用 <code>user_annotations</code> 之一将它们标记为动态。</li>
+<li>使用 <em>user_annotations</em> 之一将它们标记为动态。</li>
 </ol>
-<h4 id="_4">如何识别要标记为动态的元素<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<h4 id="_3">如何识别要标记为动态的元素<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <p>遵循以下指南：</p>
 <ol>
-<li><strong>PGO 产物：</strong> 按照 <code>identifying-dynamic-elements-marked-by-pgo</code> 中的步骤操作。</li>
+<li><strong>PGO 产物：</strong> 按照 <em>identifying-dynamic-elements-marked-by-pgo</em> 中的步骤操作。</li>
 <li><strong>动态日志：</strong> 如果你有一个启用了 <code>TORCH_LOGS="+dynamic"</code> 的运行，每次分配新的动态维度时，都会有一条调试行指定它以及输入名称。</li>
 <li><strong>比较计算图：</strong> 对于在不同运行间编译次数减少的帧，检查第二次运行或冷运行中最新运行的 Dynamo 图。查找那些图中标记为动态的元素。具体来说，找到相似的计算图（一个是特化版本，一个是动态版本）。</li>
 </ol>
 <p>即使没有热运行，你也可以检查特定帧的所有计算图，看看是否有相似的计算图并收敛到一个动态版本。</p>
 <p>例如，在下面的 <code>tlparse</code> 快照中，Dynamo 图 20/0、20/1 和 20/2 除了大小不同（例如，图 20/0 与图 20/2）外是相似的。在 20/2 的 Dynamo 图中，大小 <code>s0</code>、<code>s1</code> 和 <code>s5</code> 用于 <code>rotary_pos_emb_</code> 和 <code>x</code>。</p>
 <p>```{image} ../../../_static/img/dynamic_shapes/tlparse5_dynamic_shapes.png
-<div class="highlight"><pre><span></span><code>```{tip}
+{tip}
 如果两个计算图具有相同的 torch 操作调用序列和相同的张量输入，则认为它们是相似的。差异可能存在于整数输入中（这些整数输入可能在特化版本中被内联），或者存在于算术计算中（这些计算可能由于静态版本中的内联而仅存在于动态版本中）。
-</code></pre></div></p>
-<h3 id="2">步骤 2：调试：识别错过的优化机会<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
-<p>调试的复杂性可能因你遇到的问题而有很大差异。最终结果通常是找到一个 bug、启用一个标志或修改用户/框架代码。</p>
-<h4 id="_5">查找相似的计算图<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
-<p>首先识别一组可能希望合并到单个动态图中的相似图，如上一节关于比较图的讨论所述。如果找不到任何相似图，则此步骤无需进一步操作。</p>
-<h4 id="_6">快速检查：快速失败<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
-<p>找到相似图后，需要理解它们为何重新编译。请检查以下内容：</p>
-<ol>
-<li><strong>检查重新编译原因：</strong> 对于你认为相似的图，在 <code>tlparse</code> 输出中点击较晚图的 <code>recompile_reason</code>。确保原因是尺寸相关的，而非其他因素。例如，在下述截图中重新编译原因是尺寸相关的：</li>
-</ol>
-<p>```{image} ../../../_static/img/dynamic_shapes/tlparse6_size_related_recompilations.png
-<div class="highlight"><pre><span></span><code>而在下图中则不是，这表明动态形状无法解决此问题：
+<div class="highlight"><pre><span></span><code>### 步骤 2：调试：识别错过的优化机会
 
-```{image} ../../../_static/img/dynamic_shapes/tlparse7_not_size_related_recompilations.png
-:width: 500px
-:align: center
+调试的复杂性可能因你遇到的问题而有很大差异。最终结果通常是找到一个 bug、启用一个标志或修改用户/框架代码。
+
+#### 查找相似的计算图
+
+首先识别一组可能希望合并到单个动态图中的相似图，如上一节关于比较图的讨论所述。如果找不到任何相似图，则此步骤无需进一步操作。
+
+#### 快速检查：快速失败
+
+找到相似图后，需要理解它们为何重新编译。请检查以下内容：
+
+1. **检查重新编译原因：** 对于你认为相似的图，在 `tlparse` 输出中点击较晚图的 `recompile_reason`。确保原因是尺寸相关的，而非其他因素。例如，在下述截图中重新编译原因是尺寸相关的：
+
+```{image} ../../../_static/img/dynamic_shapes/tlparse6_size_related_recompilations.png
 </code></pre></div></p>
+<p>而在下图中则不是，这表明动态形状无法解决此问题：</p>
+<p>```{image} ../../../_static/img/dynamic_shapes/tlparse7_not_size_related_recompilations.png</p>
+<p>```</p>
 <ol>
 <li>
 <p><strong>比较 Guards 文件：</strong> 确保不存在非尺寸相关元素上的守卫，这些守卫存在于一个图中但不存在于其他图中。</p>
@@ -8354,26 +8259,23 @@ L[&#39;z&#39;]: tensor size=[?] stride=[1]
 <p><strong>早期检查自定义 Triton 内核：</strong> 检查你的模型是否调用了带有 <code>tl.constexpr</code> 参数的自定义 Triton 内核，因为这些参数总是被特化的。如果你的模型接收这些参数的不同值，这可能是重新编译的一个来源。</p>
 </li>
 </ol>
-<h2 id="_7"><strong>识别并修复重新编译原因</strong><a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_4"><strong>识别并修复重新编译原因</strong><a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
 <p><strong>是否有应标记为动态但未标记的元素？</strong> 确定一个输入是否被标记为动态但被特化了，或者根本没有被标记为动态。你可以通过以下方式识别：</p>
 <ul>
 <li>检查 Dynamo 图 - 查找 <code>Sym(number)</code>。例如：</li>
 </ul>
-<div class="highlight"><pre><span></span><code>Sym(256) vs Sym(s0)
-</code></pre></div>
+<p><code>Sym(256) vs Sym(s0)</code></p>
 <ul>
 <li>使用动态日志：</li>
 </ul>
-<div class="highlight"><pre><span></span><code>[&quot;TORCH_LOGS=+dynamic&quot;]
-create_symbol s2 = 2 for L[&#39;self&#39;]._modules[&#39;cle ...
-</code></pre></div>
+<p><code>["TORCH_LOGS=+dynamic"]
+  create_symbol s2 = 2 for L['self']._modules['cle ...</code></p>
 <ul>
 <li>审查 guards 文件。如果张量尺寸是动态的，它将显示为 <code>None</code>：</li>
 </ul>
-<div class="highlight"><pre><span></span><code>TENSOR_MATCH:check_tensor(L[&#39;self&#39;].x._parameters[&#39;weight&#39;]], Parameter, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU), torch.float32, device=None, requires_grad=True, size=[None, None], stride=[None, 1])
-</code></pre></div>
+<p><code>TENSOR_MATCH:check_tensor(L['self'].x._parameters['weight']], Parameter, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU), torch.float32, device=None, requires_grad=True, size=[None, None], stride=[None, 1])</code></p>
 </li>
 <li>
 <p><strong>为何未标记为动态？</strong> 如果你确定某个元素未标记为动态，请考虑：</p>
@@ -8384,8 +8286,8 @@ create_symbol s2 = 2 for L[&#39;self&#39;]._modules[&#39;cle ...
 <li><code>allow_unspec_int_on_nn_module = False</code></li>
 <li>或者使用动态允许列表将其标记为动态，这应具有最高优先级。</li>
 </ul>
-<div class="highlight"><pre><span></span><code>逐个标记元素可能很耗时。最初，可以翻转这些标志以识别任何阻碍性的特化，然后在过程结束时决定如何将它们标记为动态。
-</code></pre></div>
+<p><code>{tip}
+逐个标记元素可能很耗时。最初，可以翻转这些标志以识别任何阻碍性的特化，然后在过程结束时决定如何将它们标记为动态。</code></p>
 <ul>
 <li>如果你认为这可能是错误，请提交错误报告并标记为 <code>module: dynamic shapes</code> 标签。请在<a href="https://github.com/pytorch/pytorch/issues?q=sort%3Aupdated-desc+state%3Aopen+label%3A%22module%3A+dynamic+shapes%22">此列表</a>中查看已知问题列表。</li>
 </ul>
@@ -8395,19 +8297,17 @@ create_symbol s2 = 2 for L[&#39;self&#39;]._modules[&#39;cle ...
 <ul>
 <li><strong>使用 tlparse：</strong> 检查 <code>compilation_metrics</code> 中的特化部分，该部分将指示发生了什么特化以及发生时的用户和框架堆栈。示例：</li>
 </ul>
-<p><code>{image} ../../../_static/img/dynamic_shapes/tlparse8_compilation_metrics.png
-<div class="highlight"><pre><span></span><code>上面的日志表明 `s0` 被特化为 `33`，原因如下代码：
-</code></pre></div>
-`if self.x ==33` at example4.py line 16.
-<div class="highlight"><pre><span></span><code>* **+Dynamic 日志：** 传递 `[&quot;TORCH_LOGS=+dynamic&quot;]`。查找第一个特化，因为一旦变量被特化，所有依赖变量也会被特化。
-
-示例日志：
-</code></pre></div>
-torch/fx/experimental/symbolic_shapes.py:6557] [0/2] eval Eq(s0, 33) [guard added] if self.x ==33:  # example4.py:16 in forward (_dynamo/variables/tensor.py:1242 in evaluate_expr), for more info run with TORCHDYNAMO_EXTENDED_DEBUG_GUARD_ADDED="Eq(s0, 33)"
-V0228 12:04:24.190000 2990033 torch/fx/experimental/symbolic_shapes.py:6000] [0/2] _update_var_to_range s0 = VR[33, 33] (update)
-<div class="highlight"><pre><span></span><code>上面的日志表明 `s0` 被特化为 `33`，原因如下代码：
-</code></pre></div>
-if self.x ==33. At example4.py like 16.</code></p>
+<p><code>{image} ../../../_static/img/dynamic_shapes/tlparse8_compilation_metrics.png</code></p>
+<p>上面的日志表明 <code>s0</code> 被特化为 <code>33</code>，原因如下代码：</p>
+<p><code>`if self.x ==33` at example4.py line 16.</code></p>
+<ul>
+<li><strong>+Dynamic 日志：</strong> 传递 <code>["TORCH_LOGS=+dynamic"]</code>。查找第一个特化，因为一旦变量被特化，所有依赖变量也会被特化。</li>
+</ul>
+<p>示例日志：</p>
+<p><code>torch/fx/experimental/symbolic_shapes.py:6557] [0/2] eval Eq(s0, 33) [guard added] if self.x ==33:  # example4.py:16 in forward (_dynamo/variables/tensor.py:1242 in evaluate_expr), for more info run with TORCHDYNAMO_EXTENDED_DEBUG_GUARD_ADDED="Eq(s0, 33)"
+V0228 12:04:24.190000 2990033 torch/fx/experimental/symbolic_shapes.py:6000] [0/2] _update_var_to_range s0 = VR[33, 33] (update)</code></p>
+<p>上面的日志表明 <code>s0</code> 被特化为 <code>33</code>，原因如下代码：
+<code>if self.x ==33. At example4.py like 16.</code></p>
 </li>
 </ol>
 

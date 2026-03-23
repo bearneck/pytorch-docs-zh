@@ -152,7 +152,7 @@ ForkingPickler(file, protocol).dump(obj)
 BrokenPipeError: [Errno 32] Broken pipe
 ```
 
-当子进程在父进程完成发送数据之前结束时，会发生此问题。 你的代码可能有问题。你可以 通过将 `~torch.utils.data.DataLoader`{.interpreted-text role="class"} 的 `num_worker` 减少到零来调试你的代码，看看问题是否仍然存在。
+当子进程在父进程完成发送数据之前结束时，会发生此问题。 你的代码可能有问题。你可以 通过将 `torch.utils.data.DataLoader` 的 `num_worker` 减少到零来调试你的代码，看看问题是否仍然存在。
 
 ### 多进程错误 \"driver shut down\"
 
@@ -170,5 +170,5 @@ THCudaCheck FAIL file=torch\csrc\generic\StorageSharing.cpp line=252 error=63 : 
 
 Windows 系统不支持这些操作。例如，在 CUDA 张量上进行多进程处理是无法成功的，对此有两种替代方案。
 
-1.  不要使用 `multiprocessing`。将 `~torch.utils.data.DataLoader`{.interpreted-text role="class"} 的 `num_worker` 设置为零。
-2.  改为共享 CPU 张量。确保您的自定义 `~torch.utils.data.DataSet`{.interpreted-text role="class"} 返回 CPU 张量。
+1.  不要使用 `multiprocessing`。将 `torch.utils.data.DataLoader` 的 `num_worker` 设置为零。
+2.  改为共享 CPU 张量。确保您的自定义 `torch.utils.data.DataSet` 返回 CPU 张量。

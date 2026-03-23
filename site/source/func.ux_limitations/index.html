@@ -8128,7 +8128,7 @@
 <span class="n">vmap</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">in_dims</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </code></pre></div>
 <p><code>x</code> 是一个有一个元素的张量，<code>y</code> 是一个有三个元素的张量。<code>x + y</code> 有三个元素（由于广播），但尝试将三个元素写回 <code>x</code>（它只有一个元素）会引发错误，因为尝试将三个元素写入只有一个元素的张量。</p>
-<p>如果被写入的张量在 <code>~torch.vmap</code> 下被批处理（即它正在被 vmap 处理），则没有问题。</p>
+<p>如果被写入的张量在 <code>torch.vmap</code> 下被批处理（即它正在被 vmap 处理），则没有问题。</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
   <span class="n">x</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
   <span class="k">return</span> <span class="n">x</span>
@@ -8158,7 +8158,7 @@
 <span class="c1"># RuntimeError: vmap: inplace arithmetic(self, *extra_args) is not possible ...</span>
 <span class="n">vmap</span><span class="p">(</span><span class="n">diag_embed</span><span class="p">)(</span><span class="n">vecs</span><span class="p">)</span>
 </code></pre></div>
-<p>在 <code>~torch.vmap</code> 内部，<code>result</code> 是一个形状为 [3, 3] 的张量。
+<p>在 <code>torch.vmap</code> 内部，<code>result</code> 是一个形状为 [3, 3] 的张量。
 然而，尽管 <code>vec</code> 看起来形状是 [3]，但实际上 <code>vec</code> 的底层形状是 [2, 3]。
 无法将 <code>vec</code> 复制到形状为 [3] 的 <code>result.diagonal()</code> 中，因为它的元素数量过多。</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">diag_embed</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>

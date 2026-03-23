@@ -8191,8 +8191,7 @@
   
 
 
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
-import torch
+<div class="highlight"><pre><span></span><code>import torch
 from compile import header_code
 
 torch._logging.set_logs(graph_breaks=True, graph_code=True)
@@ -8210,9 +8209,9 @@ torch._logging.set_logs(graph_breaks=True, graph_code=True)
 <h2 id="_2">尺寸/整数为动态意味着什么？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>动态形状通过使某些维度或整数变为动态来避免重新编译。例如，如果一个函数 <code>f(x)</code> 使用静态尺寸编译，它将需要为不同尺寸重新编译：</p>
 <div class="highlight"><pre><span></span><code>为简单起见，此示例使用了 `@torch.compile(dynamic=True)`。请注意，由于此选项容易出错，不推荐使用。
-关于启用动态形状的推荐方法，请参见 `enable-dynamic-behavior`。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>import torch
+关于启用动态形状的推荐方法，请参见 *enable-dynamic-behavior*。
+{code-cell}
+import torch
 @torch.compile(dynamic=False)
 def f(x):
      return x* x.size()[0]
@@ -8266,10 +8265,10 @@ f(torch.rand(50))
 
 有以下几种方法可以使事物变为动态：
 
-* `automatic_dynamic`
-* `user_annotations` (推荐)
-* `torch_compile_dynamic_true` (仅用于测试)
-* `dynamic_shapes_advanced_control_options` (用于高级用例)
+* *automatic_dynamic*
+* *user_annotations* (推荐)
+* *torch_compile_dynamic_true* (仅用于测试)
+* *dynamic_shapes_advanced_control_options* (用于高级用例)
 
 请阅读下面关于每个选项的说明。
 
@@ -8348,15 +8347,15 @@ f(torch.rand(40))
 <p>有时，确定哪些输入应标记为动态可能具有挑战性。如果您愿意为第一批数据接受性能成本，另一个便捷的选择是使用 <code>eager_then_compile</code> 姿态，它会自动为您确定动态输入。更多信息，请参阅 <code>torch.compiler.set_stance</code> 和 <a href="https://docs.pytorch.org/tutorials/recipes/torch_compiler_set_stance_tutorial.html">使用 torch.compiler.set_stance 进行动态编译控制</a>。</p>
 <h3 id="torchcompile-dynamictrue"><code>torch.compile (dynamic=true)</code>（不推荐）<a class="headerlink" href="#torchcompile-dynamictrue" title="Permanent link">&para;</a></h3>
 <p>此设置强制所有尺寸和整数为动态，增加了遇到动态形状错误的可能性。由于容易出错，不建议设置此选项。它会使每个输入尺寸都变为动态，这可能导致性能下降并最终增加编译时间。</p>
-<p>PyTorch 还为动态形状提供了高级控制选项，请参阅：<code>dynamic_shapes_advanced_control_options</code>。</p>
+<p>PyTorch 还为动态形状提供了高级控制选项，请参阅：<em>dynamic_shapes_advanced_control_options</em>。</p>
 <h2 id="_4">接下来该做什么？<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>如果您遇到框架代码错误或特化问题，请提交问题以便审查和改进。如果问题出现在您的用户代码中，请考虑是否愿意重写代码以避免该问题。确定它是否影响正确性，或者是否是冗余检查。如果问题涉及带有 <code>constexpr</code> 参数的 Triton 自定义内核，请评估是否可以重写它以解决问题。</p>
-<div class="highlight"><pre><span></span><code>:maxdepth: 1
-compile/dynamic_shapes_core_concepts
-compile/dynamic_shapes_troubleshooting
-compile/dynamic_shapes_advanced_control_options
-compile/dynamic_shapes_beyond_the_basics
-</code></pre></div>
+<ul>
+<li><a href="../compile/dynamic_shapes_core_concepts/">Compile/dynamic Shapes Core Concepts</a></li>
+<li><a href="../compile/dynamic_shapes_troubleshooting/">Compile/dynamic Shapes Troubleshooting</a></li>
+<li><a href="../compile/dynamic_shapes_advanced_control_options/">Compile/dynamic Shapes Advanced Control Options</a></li>
+<li><a href="../compile/dynamic_shapes_beyond_the_basics/">Compile/dynamic Shapes Beyond The Basics</a></li>
+</ul>
 <div class="highlight"><pre><span></span><code>* [tlparse 文档](https://github.com/pytorch/tlparse)
 * [动态形状手册](https://docs.google.com/document/d/1GgvOe7C8_NVOMLOCwDaYV1mXXyHMXY7ExoewHqooxrs/edit?tab=t.0#heading=h.fh8zzonyw8ng)
 </code></pre></div>

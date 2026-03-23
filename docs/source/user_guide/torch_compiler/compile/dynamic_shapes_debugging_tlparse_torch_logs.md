@@ -1,4 +1,3 @@
-
 # 使用 `tlparse` 和 `TORCH_LOGS=dynamic` 进行调试
 
 `tlparse` 是一个用于分析和理解 PyTorch 编译过程的工具，特别是在处理动态形状时。它有助于识别代码中发生守卫（guards）和特化（specializations）的位置。
@@ -86,9 +85,7 @@ fn(x, y)
 现在，这个编译后的区域可以用于大小为 0 和 1 的输入：
 
 ```{image} ../../../_static/img/dynamic_shapes/tlparse10_debugging_guards_unbacked.png
-```
-
-```{seealso}
-* `dynamic_shapes`
-* `troubleshooting_guardondatadependentsymnode_errors`
+{seealso}
+* *dynamic_shapes*
+* *troubleshooting_guardondatadependentsymnode_errors*
 ```

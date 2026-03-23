@@ -1,5 +1,3 @@
-
-
 # 流水线并行
 
 
@@ -38,9 +36,9 @@
 
 `PipelineStage` 需要知道阶段模型的输入和输出形状，以便正确分配通信缓冲区。形状必须是静态的，例如，在运行时，形状不能每一步都发生变化。如果运行时形状与预期形状不匹配，将引发 `PipeliningShapeError` 异常。当与其他并行技术组合或应用混合精度时，必须考虑这些技术，以便 `PipelineStage` 知道运行时阶段模块输出的正确形状（和数据类型）。
 
-用户可以通过传入一个代表应在该阶段运行的模型部分的 `nn.Module` 来直接构造 `PipelineStage` 实例。这可能需要对原始模型代码进行修改。请参阅 `option_1_manual` 中的示例。
+用户可以通过传入一个代表应在该阶段运行的模型部分的 `nn.Module` 来直接构造 `PipelineStage` 实例。这可能需要对原始模型代码进行修改。请参阅 *option_1_manual* 中的示例。
 
-或者，划分前端可以使用图划分技术自动将你的模型拆分为一系列 `nn.Module`。此技术要求模型可以通过 `torch.Export` 进行追踪。生成的 `nn.Module` 与其他并行技术的可组合性尚处于实验阶段，可能需要一些变通方法。如果用户无法轻松更改模型代码，使用此前端可能更具吸引力。更多信息请参阅 `option_2_tracer`。
+或者，划分前端可以使用图划分技术自动将你的模型拆分为一系列 `nn.Module`。此技术要求模型可以通过 `torch.Export` 进行追踪。生成的 `nn.Module` 与其他并行技术的可组合性尚处于实验阶段，可能需要一些变通方法。如果用户无法轻松更改模型代码，使用此前端可能更具吸引力。更多信息请参阅 *option_2_tracer*。
 
 ## 步骤 2：使用 `PipelineSchedule` 执行
 
@@ -90,9 +88,7 @@ class Transformer(nn.Module):
             self.layers[str(layer_id)] = TransformerBlock(...)
 
         self.output = nn.Linear(...)
-```
-
-```python
+python
 def forward(self, tokens: torch.Tensor):
     # 在运行时处理层为 'None' 的情况，便于流水线切分
     h = self.tok_embeddings(tokens) if self.tok_embeddings else tokens
@@ -322,5 +318,3 @@ stage = build_stage(dp_mod, stage_idx, info, device, group)
 
 
 ### 流水线调度
-
-

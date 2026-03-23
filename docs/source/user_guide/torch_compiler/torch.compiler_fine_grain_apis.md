@@ -1,4 +1,3 @@
-
 # 用于细粒度追踪的 TorchDynamo API
 
 
@@ -18,8 +17,7 @@
 TorchDynamo 拦截每个 Python 函数帧的执行。因此，假设您有一个代码结构（下图），其中函数 `fn` 调用函数 `a_fn` 和 `b_fn`。并且 `a_fn` 调用 `aa_fn` 和 `ab_fn`。当您使用 PyTorch eager 模式而非 `torch.compile` 时，这些函数帧会按原样运行。使用 `torch.compile` 时，TorchDynamo 会拦截这些函数帧中的每一个（用绿色表示）：
 
 
-> **FIGURE**
-> ../../_static/img/fine_grained_apis/api_diagram.png
+> **FIGURE**：../../_static/img/fine_grained_apis/api_diagram.png
 > :alt: 不同 API 的调用栈图。
 
 

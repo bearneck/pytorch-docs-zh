@@ -7,7 +7,7 @@
 
 ### 构造优化器
 
-要构造一个 `Optimizer`，你需要给它一个包含待优化参数（所有参数都应为 `~torch.nn.Parameter` 类型）的可迭代对象，或者包含命名参数（(str, `~torch.nn.Parameter`) 元组）的可迭代对象。然后，你可以指定优化器特定的选项，例如学习率、权重衰减等。
+要构造一个 `Optimizer`，你需要给它一个包含待优化参数（所有参数都应为 `torch.nn.Parameter` 类型）的可迭代对象，或者包含命名参数（(str, `torch.nn.Parameter`) 元组）的可迭代对象。然后，你可以指定优化器特定的选项，例如学习率、权重衰减等。
 
 示例：
 ```python
@@ -24,7 +24,7 @@ optimizer = optim.Adam([('layer0', var1), ('layer1', var2)], lr=0.0001)
 
 ### 每个参数组的选项
 
-`Optimizer` 也支持指定每个参数组的选项。为此，不要传递 `~torch.autograd.Variable` 的可迭代对象，而是传递 `dict` 的可迭代对象。每个字典将定义一个独立的参数组，并且应包含一个 `params` 键，其中包含属于该组的参数列表。其他键应与优化器接受的关键字参数匹配，并将用作该组的优化选项。
+`Optimizer` 也支持指定每个参数组的选项。为此，不要传递 `torch.autograd.Variable` 的可迭代对象，而是传递 `dict` 的可迭代对象。每个字典将定义一个独立的参数组，并且应包含一个 `params` 键，其中包含属于该组的参数列表。其他键应与优化器接受的关键字参数匹配，并将用作该组的优化选项。
 
 例如，当想要指定每层的学习率时，这非常有用：
 
@@ -46,7 +46,7 @@ optim.SGD([
 你仍然可以将选项作为关键字参数传递。它们将用作默认值，适用于那些没有覆盖这些选项的组。当你只想改变一个选项，同时保持所有参数组之间的其他选项一致时，这很有用。
 ```
 
-还要考虑以下与参数不同惩罚相关的示例。请记住，`~torch.nn.Module.parameters` 返回一个包含所有可学习参数的可迭代对象，包括偏置项和其他可能偏好不同惩罚的参数。为了解决这个问题，可以为每个参数组指定单独的惩罚权重：
+还要考虑以下与参数不同惩罚相关的示例。请记住，`torch.nn.Module.parameters` 返回一个包含所有可学习参数的可迭代对象，包括偏置项和其他可能偏好不同惩罚的参数。为了解决这个问题，可以为每个参数组指定单独的惩罚权重：
 
 ```python
 bias_params = [p for name, p in self.named_parameters() if 'bias' in name]
@@ -62,11 +62,11 @@ optim.SGD([
 
 ### 执行优化步骤
 
-所有优化器都实现了一个 `~Optimizer.step` 方法，用于更新参数。它可以通过两种方式使用：
+所有优化器都实现了一个 `Optimizer.step` 方法，用于更新参数。它可以通过两种方式使用：
 
 #### `optimizer.step()`
 
-这是大多数优化器支持的简化版本。在使用例如 `~torch.autograd.Variable.backward` 计算出梯度后，可以调用此函数。
+这是大多数优化器支持的简化版本。在使用例如 `torch.autograd.Variable.backward` 计算出梯度后，可以调用此函数。
 
 示例：
 
@@ -163,16 +163,14 @@ for epoch in range(20):
 >>>     train(...)
 >>>     validate(...)
 >>>     scheduler.step()
-```
-
-```{warning}
+{warning}
 在 PyTorch 1.1.0 之前，学习率调度器预期在优化器更新之前调用；1.1.0 版本以破坏向后兼容的方式改变了这一行为。如果您在优化器更新（调用 `optimizer.step()`）之前使用学习率调度器（调用 `scheduler.step()`），将会跳过学习率调度计划的第一个值。如果在升级到 PyTorch 1.1.0 后无法复现结果，请检查是否在错误的时间调用了 `scheduler.step()`。
 ```
 
 
 ## 如何利用命名参数加载优化器状态字典
 
-函数 `~Optimizer.load_state_dict` 会在加载的状态字典包含可选的 `param_names` 内容时将其存储。然而，加载优化器状态的过程不受影响，因为参数的顺序对于保持兼容性很重要（以防顺序不同）。要利用从加载的状态字典中获取的参数名称，需要根据所需行为实现自定义的 `register_load_state_dict_pre_hook`。
+函数 `Optimizer.load_state_dict` 会在加载的状态字典包含可选的 `param_names` 内容时将其存储。然而，加载优化器状态的过程不受影响，因为参数的顺序对于保持兼容性很重要（以防顺序不同）。要利用从加载的状态字典中获取的参数名称，需要根据所需行为实现自定义的 `register_load_state_dict_pre_hook`。
 
 例如，当模型架构发生变化但权重和优化器状态需要保持不变时，这非常有用。以下示例演示了如何实现此自定义功能。
 
@@ -372,9 +370,7 @@ EMA 模型通过指定 `multi_avg_fn` 参数来构建，如下所示：
 
 ```{math}
 W_0^{\text{EMA}} = W_0^{\text{model}}
-```
-
-```{math}
+{math}
 W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay}) \times W_{t+1}^{\text{model}}
 ```
 其中 `W_t^{\text{EMA}}` 是步骤 `t` 的 EMA 参数，`W_t^{\text{model}}` 是步骤 `t` 的模型参数，decay 是 EMA 衰减率（默认：0.999）。
@@ -490,5 +486,3 @@ W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay})
 
 
 <!-- 此模块需要文档记录。暂时添加在此处以供跟踪 -->
-
-

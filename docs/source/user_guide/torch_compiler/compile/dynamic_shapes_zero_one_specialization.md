@@ -1,19 +1,18 @@
-
 # 零一特化问题
 
 在阅读本节之前，您应理解动态形状的基础知识。请确保已阅读以下章节：
 
-* `dynamic_shapes`
-* `torch.export`
-* `what_is_a_specialization`
+* *dynamic_shapes*
+* *torch.export*
+* *what_is_a_specialization*
 
 在 `torch.compile` 中，我们会自动对大小为 0 或 1 的输入进行特化，并假设其余输入不可能为 0 或 1。这简化了连续性检查和广播检查等任务，因为它避免了添加额外的守卫。然而，对于具有许多符号整数且实际张量大小为 0、1 或 2 的稀疏模型，这可能会引发问题。例如，考虑类似收集页面点赞数的任务。
 
 虽然可以预先停止对 0/1 进行特化，但执行常规 PyTorch 代码通常会重新引入 0/1 守卫，因为 PyTorch 中的许多条件会检查值是否为 0 或 1。尽管适用于 `N > 2` 的模型通常能推广到 `N = 1`，但这并不能保证，尤其是在使用符号变量时。例如，在手部跟踪中，维度大小 `N = 0`、`1` 或 `2` 可能导致不同的图行为。仅仅期望 `N > 2` 的模型能够泛化可能会暴露正确性问题。
 
 ```{seealso}
-* `dynamic_shapes`
-* `torch.export`
-* `what_is_a_specialization`
-* `backed-vs-unbacked-symints`
+* *dynamic_shapes*
+* *torch.export*
+* *what_is_a_specialization*
+* *backed-vs-unbacked-symints*
 ```

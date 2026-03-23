@@ -9,7 +9,7 @@ mystnb:
 ---
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import torch
 
 import header_code
@@ -86,9 +86,7 @@ def fn(y):
         return y - x
 
 print(fn(torch.ones(3, 3)))
-```
-
-```{code-cell}
+{code-cell}
 # 新代码
 x = torch.randn(3, 3)
 cond = (x.sum() > 0).item()
@@ -102,7 +100,7 @@ def fn(y):
 print(fn(torch.ones(3, 3)))
 ```
 
-- 使用 `cond` 等高级操作符替代数据依赖的控制流。
+- 使用 *cond* 等高级操作符替代数据依赖的控制流。
 
 ```{code-cell}
 # 旧代码
@@ -113,9 +111,7 @@ def fn(x):
     return x - 1
 
 print(fn(torch.ones(3, 3)))
-```
-
-```{code-cell}
+{code-cell}
 # 新代码
 @torch.compile
 def fn(x):

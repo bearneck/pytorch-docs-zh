@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mkldnn_backend" class="md-skip">
+        <a href="#mkldnn" class="md-skip">
           跳转至
         </a>
       
@@ -7950,8 +7950,7 @@
   
 
 
-<p>{.meta description="torch.backends.mkldnn 使用指南，这是一个运行 MKLDNN 操作的 PyTorch 后端" keywords="优化 PyTorch, MKLDNN"}</p>
-<h1 id="mkldnn_backend">MKLDNN 后端<a class="headerlink" href="#mkldnn_backend" title="Permanent link">&para;</a></h1>
+<h1 id="mkldnn">MKLDNN 后端<a class="headerlink" href="#mkldnn" title="Permanent link">&para;</a></h1>
 <p>MKLDNN 是一个开源的跨平台性能库，为深度学习应用提供基础构建模块。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># 下面的标志控制是否在 PyTorch 中启用 MKLDNN 后端。</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mkldnn</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
@@ -7959,8 +7958,8 @@
 <p>用户可以通过以下方式禁用 MKLDNN 后端：</p>
 <div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mkldnn</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
 </code></pre></div>
-<h1 id="bf16_on_mkldnn">MKLDNN 后端上的 Bfloat16 (BF16)<a class="headerlink" href="#bf16_on_mkldnn" title="Permanent link">&para;</a></h1>
-<p>从 PyTorch 2.9 开始，提供了一组 API 来控制 [float32]{.title-ref} 运算符的内部计算精度。</p>
+<h1 id="mkldnn-bfloat16-bf16">MKLDNN 后端上的 Bfloat16 (BF16)<a class="headerlink" href="#mkldnn-bfloat16-bf16" title="Permanent link">&para;</a></h1>
+<p>从 PyTorch 2.9 开始，提供了一组 API 来控制 [float32] 运算符的内部计算精度。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># 下面的标志控制 mkldnn 矩阵乘法的内部计算精度。默认 ieee 是 float32。</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mkldnn</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 
@@ -7970,7 +7969,7 @@
 <span class="c1"># 下面的标志控制 mkldnn rnn 的内部计算精度。默认 ieee 是 float32。</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mkldnn</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 </code></pre></div>
-<p>请注意，除了矩阵乘法和卷积本身，内部使用矩阵乘法或卷积的函数和 nn 模块也会受到影响。这些包括 <code class="interpreted-text" role="class">torch.nn.Linear</code>、<code class="interpreted-text" role="class">torch.nn._ConvNd</code>、<code class="interpreted-text" role="func">torch.cdist</code>、<code class="interpreted-text" role="func">torch.tensordot</code>、<code class="interpreted-text" role="func">torch.nn.functional.affine_grid</code> 和 <code class="interpreted-text" role="func">torch.nn.functional.grid_sample</code>、<code class="interpreted-text" role="class">torch.nn.AdaptiveLogSoftmaxWithLoss</code>、<code class="interpreted-text" role="class">torch.nn.GRU</code> 以及 <code class="interpreted-text" role="class">torch.nn.LSTM</code>。</p>
+<p>请注意，除了矩阵乘法和卷积本身，内部使用矩阵乘法或卷积的函数和 nn 模块也会受到影响。这些包括 <code>torch.nn.Linear</code>、<code>torch.nn._ConvNd</code>、<code>torch.cdist</code>、<code>torch.tensordot</code>、<code>torch.nn.functional.affine_grid</code> 和 <code>torch.nn.functional.grid_sample</code>、<code>torch.nn.AdaptiveLogSoftmaxWithLoss</code>、<code>torch.nn.GRU</code> 以及 <code>torch.nn.LSTM</code>。</p>
 <p>要了解精度和速度的情况，请查看下面的示例代码和基准测试数据（在 SPR 上）：</p>
 <div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">a_full</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10240</span><span class="p">,</span> <span class="mi">10240</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
@@ -8012,12 +8011,12 @@
 <span class="n">at</span><span class="o">::</span><span class="n">globalContext</span><span class="p">().</span><span class="n">setFloat32Precision</span><span class="p">(</span><span class="s">&quot;ieee&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mkldnn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;conv&quot;</span><span class="p">);</span>
 <span class="n">at</span><span class="o">::</span><span class="n">globalContext</span><span class="p">().</span><span class="n">setFloat32Precision</span><span class="p">(</span><span class="s">&quot;ieee&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mkldnn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rnn&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>如果 fp32_precision 设置为 [ieee]{.title-ref}，我们可以为特定的运算符或后端覆盖通用设置。</p>
+<p>如果 fp32_precision 设置为 [ieee]，我们可以为特定的运算符或后端覆盖通用设置。</p>
 <div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;bf16&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mkldnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mkldnn</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 </code></pre></div>
-<p>对于这种情况，`torch.backends.mkldnn.fp32_precision` 和 [torch.backends.mkldnn.matmul.fp32_precision]{.title-ref} 都被覆盖为 bf16。</p>
+<p>对于这种情况，`torch.backends.mkldnn.fp32_precision` 和 [torch.backends.mkldnn.matmul.fp32_precision] 都被覆盖为 bf16。</p>
 
 
 

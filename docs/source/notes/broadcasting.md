@@ -1,4 +1,4 @@
-# 广播语义 {#broadcasting-semantics}
+# 广播语义
 
 许多 PyTorch 操作支持 NumPy 的广播语义。 详情请参阅 <https://numpy.org/doc/stable/user/basics.broadcasting.html>。
 
@@ -20,10 +20,10 @@
 >
 > \# 但是： \>\>\> x=torch.empty(5,2,4,1) \>\>\> y=torch.empty( 3,1,1) \# x 和 y 不可广播，因为在第 3 个尾部维度中 2 != 3
 
-如果两个张量 `x`{.interpreted-text role="attr"}、`y`{.interpreted-text role="attr"} 是"可广播的"，则结果张量大小按如下方式计算：
+如果两个张量 `x`、`y` 是"可广播的"，则结果张量大小按如下方式计算：
 
-- 如果 `x`{.interpreted-text role="attr"} 和 `y`{.interpreted-text role="attr"} 的维度数量不相等，则在维度较少的张量的维度前添加 1，使其长度相等。
-- 然后，对于每个维度大小，结果维度大小是 `x`{.interpreted-text role="attr"} 和 `y`{.interpreted-text role="attr"} 在该维度上大小的最大值。
+- 如果 `x` 和 `y` 的维度数量不相等，则在维度较少的张量的维度前添加 1，使其长度相等。
+- 然后，对于每个维度大小，结果维度大小是 `x` 和 `y` 在该维度上大小的最大值。
 
 例如：:
 
@@ -51,7 +51,7 @@ PyTorch 的早期版本允许某些逐点函数在不同形状的张量上执行
 
 > \>\>\> torch.add(torch.ones(4,1), torch.randn(4))
 
-以前会产生大小为 torch.Size(\[4,1\]) 的张量，但现在会产生大小为 torch.Size(\[4,4\]) 的张量。 为了帮助识别代码中可能存在的由广播引起的向后不兼容情况，您可以将 [torch.utils.backcompat.broadcast_warning.enabled]{.title-ref} 设置为 [True]{.title-ref}，这将在这种情况下生成 Python 警告。
+以前会产生大小为 torch.Size(\[4,1\]) 的张量，但现在会产生大小为 torch.Size(\[4,4\]) 的张量。 为了帮助识别代码中可能存在的由广播引起的向后不兼容情况，您可以将 [torch.utils.backcompat.broadcast_warning.enabled] 设置为 [True]，这将在这种情况下生成 Python 警告。
 
 例如：:
 

@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quantization-doc" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -8019,30 +8019,22 @@
   
 
 
-<h1 id="quantization-doc">量化<a class="headerlink" href="#quantization-doc" title="Permanent link">&para;</a></h1>
-<p>automodule
-torch.ao.quantization</p>
-<p>automodule
-torch.ao.quantization.fx</p>
+<h1 id="_1">量化<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>torch.ao.quantization</p>
+<p>torch.ao.quantization.fx</p>
 <p>我们正在将所有与量化相关的开发集中到 <a href="https://github.com/pytorch/ao">torchao</a>，请查看我们的新文档页面：https://docs.pytorch.org/ao/stable/index.html</p>
 <p>现有量化流程的计划： 1. Eager 模式量化 (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic)，请迁移到使用 torchao eager 模式 <a href="https://docs.pytorch.org/ao/main/generated/torchao.quantization.quantize_.html#torchao.quantization.quantize_">quantize_</a> API。</p>
 <ol>
-<li>FX 图模式量化 (torch.ao.quantization.quantize_fx.prepare_fx, torch.ao.quantization.quantize_fx.convert_fx)，请迁移到使用 torchao pt2e 量化 API ([torchao.quantization.pt2e.quantize_pt2e.prepare_pt2e]{.title-ref}, [torchao.quantization.pt2e.quantize_pt2e.convert_pt2e]{.title-ref})。</li>
+<li>FX 图模式量化 (torch.ao.quantization.quantize_fx.prepare_fx, torch.ao.quantization.quantize_fx.convert_fx)，请迁移到使用 torchao pt2e 量化 API ([torchao.quantization.pt2e.quantize_pt2e.prepare_pt2e], [torchao.quantization.pt2e.quantize_pt2e.convert_pt2e])。</li>
 <li>pt2e 量化已迁移到 torchao (<a href="https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e">https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e</a>)，更多详情请参阅 <a href="https://github.com/pytorch/ao/issues/2259">https://github.com/pytorch/ao/issues/2259</a>。</li>
 </ol>
-<p>如果没有阻碍，我们计划在 2.10 版本中删除 [torch.ao.quantization]{.title-ref}，或者在所有阻碍清除后的最早 PyTorch 版本中删除。</p>
+<p>如果没有阻碍，我们计划在 2.10 版本中删除 [torch.ao.quantization]，或者在所有阻碍清除后的最早 PyTorch 版本中删除。</p>
 <h2 id="api-api">量化 API 参考（由于 API 仍为公开，故保留）<a class="headerlink" href="#api-api" title="Permanent link">&para;</a></h2>
-<p><code class="interpreted-text" role="doc">量化 API 参考 &lt;quantization-support&gt;</code> 包含量化 API 的文档，例如量化过程、量化张量操作以及支持的量化模块和函数。</p>
-<p>{.toctree hidden=""}
-quantization-support</p>
-<p>currentmodule
-torch.ao.ns.fx.utils</p>
-<p>autofunction
-torch.ao.ns.fx.utils.compute_sqnr(x, y)</p>
-<p>autofunction
-torch.ao.ns.fx.utils.compute_normalized_l2_error(x, y)</p>
-<p>autofunction
-torch.ao.ns.fx.utils.compute_cosine_similarity(x, y)</p>
+<p><code>量化 API 参考 &lt;quantization-support&gt;</code> 包含量化 API 的文档，例如量化过程、量化张量操作以及支持的量化模块和函数。</p>
+<p>quantization-support</p>
+<p>torch.ao.ns.fx.utils.compute_sqnr(x, y)</p>
+<p>torch.ao.ns.fx.utils.compute_normalized_l2_error(x, y)</p>
+<p>torch.ao.ns.fx.utils.compute_cosine_similarity(x, y)</p>
 
 
 

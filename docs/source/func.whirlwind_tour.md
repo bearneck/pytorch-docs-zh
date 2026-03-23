@@ -41,7 +41,7 @@ assert torch.allclose(neg_sin_x, -x.sin())
 
 ### `vmap`（自动向量化）
 
-注意：`vmap` 对其可使用的代码施加了限制。更多详情，请参阅 `ux-limitations`。
+注意：`vmap` 对其可使用的代码施加了限制。更多详情，请参阅 *ux-limitations*。
 
 `vmap(func)(*inputs)` 是一个变换，它为 `func` 中的所有张量操作添加一个维度。`vmap(func)` 返回一个新函数，该函数将 `func` 映射到输入中每个张量的某个维度（默认为第 0 维）。
 

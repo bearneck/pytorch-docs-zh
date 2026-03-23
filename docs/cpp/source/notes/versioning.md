@@ -22,10 +22,7 @@ PyTorch version from parts: 1.8.0
 PyTorch version: 1.8.0
 ```
 
- note
- title
-Note
 
-
-这些宏仅在 PyTorch \>= 1.8.0 版本中可用。
+> 📝 **注意**
+> 这些宏仅在 PyTorch \>= 1.8.0 版本中可用。
 

@@ -38,17 +38,13 @@
 
 接下来，我们将深入探讨本指南的每一章。每章聚焦于集成的某个关键方面，提供详细的解释和示例说明。由于某些章节建立在之前章节的基础上，建议读者按顺序阅读以获得更连贯的理解。
 
-```{toctree}
-:glob:
-:maxdepth: 1
+- [Device](device.md)
+- [Hooks](hooks.md)
+- [Guard](guard.md)
+- [Autoload](autoload.md)
+- [Operators](operators.md)
+- [Amp](amp.md)
+- [Profiler](profiler.md)
 
-device
-hooks
-guard
-autoload
-operators
-amp
-profiler
-```
 
 [OpenReg URL]: https://github.com/pytorch/pytorch/tree/main/test/cpp_extensions/open_registration_extension/torch_openreg "OpenReg URL"

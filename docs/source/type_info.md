@@ -1,6 +1,3 @@
-
-
-
 # 类型信息
 
 一个 `torch.dtype` 的数值属性可以通过 `torch.finfo` 或 `torch.iinfo` 来访问。
@@ -25,9 +22,7 @@
 
 ```{note}
   `torch.finfo` 的构造函数可以在不提供参数的情况下调用，此时会为 PyTorch 的默认 dtype（由 `torch.get_default_dtype` 返回）创建该类。
-```
-
-```{note}
+{note}
   `smallest_normal` 返回最小的*规格化*数，但存在更小的次规格化数。更多信息请参见 https://en.wikipedia.org/wiki/Denormal_number。
 ```
 

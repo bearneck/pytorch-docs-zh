@@ -7955,10 +7955,9 @@
 
 <h1 id="maybeownedtensor">MaybeOwned\&lt;Tensor&gt;<a class="headerlink" href="#maybeownedtensor" title="Permanent link">&para;</a></h1>
 <p><code>MaybeOwned&lt;Tensor&gt;</code> 是一个 C++ 智能指针类，它动态地编码一个 Tensor 是*被拥有*还是*被借用*。它被用于某些对性能敏感的场景中，以避免不必要地增加 Tensor 的引用计数（代价是额外的间接寻址带来少量开销）。</p>
-<p>warning
- title
-Warning</p>
-<p>必须**极其**小心地使用 MaybeOwned。关于（非）所有权的声明没有静态检查，错误可能导致引用计数不足和释放后使用（use-after-free）的崩溃。</p>
+<blockquote>
+<p>⚠️ <strong>警告</strong>
+必须**极其**小心地使用 MaybeOwned。关于（非）所有权的声明没有静态检查，错误可能导致引用计数不足和释放后使用（use-after-free）的崩溃。</p>
 <p>由于缺乏这种安全网，我们不鼓励在已知对性能高度敏感之外的代码路径中使用 MaybeOwned。但是，如果您在想要修改的代码中遇到已有的 MaybeOwned 用法，理解如何正确使用它是至关重要的。</p>
 <p><code>MaybeOwned&lt;Tensor&gt;</code> 的主要使用场景是这样一个函数或方法：它动态地选择是返回其参数之一（通常来自直通或"无操作"代码路径）还是返回一个新构造的 Tensor。这样的函数在两种情况下都会返回一个 <code>MaybeOwned&lt;Tensor&gt;</code>，前者通过调用 <code>MaybeOwned&lt;Tensor&gt;::borrowed()</code> 处于"借用"状态，后者通过调用 <code>MaybeOwned&lt;Tensor&gt;::owned()</code> 处于"拥有"状态。</p>
 <p>典型的例子是 <code>Tensor</code> 的 <code>expect_contiguous</code> 方法，当已经连续时，它会短路并返回一个借用的自引用：</p>
@@ -7977,6 +7976,7 @@ Warning</p>
 <li>当修改或调用已经使用 <code>MaybeOwned&lt;Tensor&gt;</code> 的代码时，请记住，通过调用 <code>MaybeOwned&lt;Tensor&gt;::owned()</code> 从手头的 Tensor 生成一个 <code>MaybeOwned&lt;Tensor&gt;</code> 总是安全的。这可能会导致不必要的引用计数，但绝不会导致错误行为 ------ 因此这总是更安全的选择，除非你想要包装的 Tensor 的生命周期非常清晰。</li>
 </ul>
 <p>更多细节和实现代码可以在 \&lt;https://github.com/pytorch/pytorch/blob/main/c10/util/MaybeOwned.h&gt; 和 \&lt;https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/templates/TensorBody.h&gt; 找到。</p>
+</blockquote>
 
 
 

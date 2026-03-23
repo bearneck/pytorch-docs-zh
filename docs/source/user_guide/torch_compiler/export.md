@@ -31,7 +31,7 @@ exported_program: ExportedProgram = export(Mod(), args=example_args)
 print(exported_program)
 ```
 
-`torch.export` 生成一个简洁的中间表示（IR），并遵循以下不变性。关于 IR 的更多规范可以在 `此处 <export.ir_spec>` 找到。
+`torch.export` 生成一个简洁的中间表示（IR），并遵循以下不变性。关于 IR 的更多规范可以在 此处  找到。
 
 - **正确性**：它保证是原始程序的一个正确表示，并保持原始程序相同的调用约定。
 - **规范化**：图中不包含 Python 语义。原始程序中的子模块被内联，形成一个完全扁平化的计算图。
@@ -54,7 +54,7 @@ print(exported_program)
 
 与 `torch.fx.symbolic_trace` 相比，`torch.export` 使用 TorchDynamo 进行追踪，后者在 Python 字节码级别操作，使其能够追踪任意 Python 结构，不受 Python 操作符重载支持的限制。此外，`torch.export` 对张量元数据进行细粒度跟踪，因此对张量形状等条件的判断不会导致追踪失败。总的来说，`torch.export` 预期能在更多用户程序上工作，并生成更低级别的图（在 `torch.ops.aten` 操作符级别）。请注意，用户仍然可以在 `torch.export` 之前使用 `torch.fx.symbolic_trace` 作为预处理步骤。
 
-与 `torch.jit.script` 相比，`torch.export` 不捕获 Python 控制流或数据结构，除非使用显式的 `控制流操作符 <higher_order_ops>`，但由于其对 Python 字节码的全面覆盖，它支持更多的 Python 语言特性。生成的图更简单，除了显式的控制流操作符外，只有直线控制流。
+与 `torch.jit.script` 相比，`torch.export` 不捕获 Python 控制流或数据结构，除非使用显式的 控制流操作符 ，但由于其对 Python 字节码的全面覆盖，它支持更多的 Python 语言特性。生成的图更简单，除了显式的控制流操作符外，只有直线控制流。
 
 与 `torch.jit.trace` 相比，`torch.export` 是正确的：它可以追踪对尺寸进行整数计算的代码，并记录所有必要的边界条件，以确保特定追踪对于其他输入是有效的。
 
@@ -310,7 +310,7 @@ print(ep)
 
 ## 序列化
 
-要保存 `ExportedProgram`，用户可以使用 `torch.export.save` 和 `torch.export.load` API。生成的文件是一个具有特定结构的 zip 文件。该结构的详细信息在 `PT2 归档规范 <export.pt2_archive>` 中定义。
+要保存 `ExportedProgram`，用户可以使用 `torch.export.save` 和 `torch.export.load` API。生成的文件是一个具有特定结构的 zip 文件。该结构的详细信息在 PT2 归档规范  中定义。
 
 示例：
 
@@ -455,18 +455,18 @@ print(my_ep.graph_module.print_readable(print_output=False))
 
 由于 `torch.export` 是从 PyTorch 程序捕获计算图的一次性过程，它最终可能会遇到程序中无法追踪的部分，因为几乎不可能支持追踪所有 PyTorch 和 Python 特性。在 `torch.compile` 的情况下，不支持的操作会导致"图中断"，不支持的操作将通过默认的 Python 求值运行。相比之下，`torch.export` 将要求用户提供额外信息或重写部分代码以使其可追踪。
 
-`Draft-export <export.draft_export>` 是一个很好的资源，列出了追踪程序时会遇到的图中断，以及解决这些错误的额外调试信息。
+Draft-export  是一个很好的资源，列出了追踪程序时会遇到的图中断，以及解决这些错误的额外调试信息。
 
-`ExportDB <torch.export_db>` 也是一个很好的资源，用于了解支持和不受支持的程序类型，以及重写程序使其可追踪的方法。
+ExportDB  也是一个很好的资源，用于了解支持和不受支持的程序类型，以及重写程序使其可追踪的方法。
 
 ### TorchDynamo 不支持
 
-当使用 `torch.export` 并设置 `strict=True` 时，这将使用 TorchDynamo 在 Python 字节码级别评估程序以追踪成图。与之前的追踪框架相比，使程序可追踪所需的改写会显著减少，但仍会有一些 Python 特性不受支持。解决这些图中断的一个选项是通过将 `strict` 标志更改为 `strict=False` 来使用 `非严格导出 <non-strict-export>`。
+当使用 `torch.export` 并设置 `strict=True` 时，这将使用 TorchDynamo 在 Python 字节码级别评估程序以追踪成图。与之前的追踪框架相比，使程序可追踪所需的改写会显著减少，但仍会有一些 Python 特性不受支持。解决这些图中断的一个选项是通过将 `strict` 标志更改为 `strict=False` 来使用 非严格导出 。
 
 
 ### 数据/形状依赖的控制流
 
-当未对形状进行特化时，数据依赖的控制流（例如 `if x.shape[0] > 2`）也可能遇到图中断，因为追踪编译器无法在不生成组合爆炸路径数量的代码的情况下处理此类情况。在这种情况下，用户需要使用特殊的控制流运算符重写代码。目前，我们支持 `高阶运算符 <higher_order_ops>` 来表达条件、映射、扫描和循环等控制流模式。
+当未对形状进行特化时，数据依赖的控制流（例如 `if x.shape[0] > 2`）也可能遇到图中断，因为追踪编译器无法在不生成组合爆炸路径数量的代码的情况下处理此类情况。在这种情况下，用户需要使用特殊的控制流运算符重写代码。目前，我们支持 高阶运算符  来表达条件、映射、扫描和循环等控制流模式。
 
 你也可以参考这个
 [教程](https://docs.pytorch.org/tutorials/intermediate/torch_export_tutorial.html#data-dependent-errors)
@@ -483,27 +483,18 @@ print(my_ep.graph_module.print_readable(print_output=False))
 
 ## 延伸阅读
 
-```{toctree}
-:caption: 面向导出用户的附加链接
-:maxdepth: 1
+- [Export/api Reference](export/api_reference.md)
+- [Export/programming Model](export/programming_model.md)
+- [Export/ir Spec](export/ir_spec.md)
+- [Export/pt2 Archive](export/pt2_archive.md)
+- [Export/draft Export](export/draft_export.md)
+- [Export/joint With Descriptors](export/joint_with_descriptors.md)
+- [/ /higher Order Ops/index](../../higher_order_ops/index.md)
+- [/ /generated/exportdb/index](../../generated/exportdb/index.md)
+- [Torch Compiler Aot Inductor](torch.compiler_aot_inductor.md)
+- [Torch Compiler Ir](torch.compiler_ir.md)
 
-export/api_reference
-export/programming_model
-export/ir_spec
-export/pt2_archive
-export/draft_export
-export/joint_with_descriptors
-../../higher_order_ops/index
-../../generated/exportdb/index
-torch.compiler_aot_inductor
-torch.compiler_ir
-```
 
-```{toctree}
-:caption: 面向 PyTorch 开发者的深入探讨
-:maxdepth: 1
-
-torch.compiler_dynamic_shapes
-torch.compiler_fake_tensor
-torch.compiler_transformations
-```
+- [Torch Compiler Dynamic Shapes](torch.compiler_dynamic_shapes.md)
+- [Torch Compiler Fake Tensor](torch.compiler_fake_tensor.md)
+- [Torch Compiler Transformations](torch.compiler_transformations.md)

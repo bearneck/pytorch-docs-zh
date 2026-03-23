@@ -1,4 +1,3 @@
-
 # torch.compile 编程模型
 
 `torch.compile` 编程模型：
@@ -7,11 +6,9 @@
 
 通过理解 `torch.compile` 编程模型，用户可以在遇到 `torch.compile` 相关问题时，系统性地找到解决方案。
 
-```{toctree}
-programming_model.dynamo_core_concepts
-programming_model.graph_breaks_index
-programming_model.non_strict_tracing_model
-programming_model.recompilation
-programming_model.observability
-programming_model.reporting_issues
-```
+- [Programming Model Dynamo Core Concepts](programming_model.dynamo_core_concepts.md)
+- [Programming Model Graph Breaks Index](programming_model.graph_breaks_index.md)
+- [Programming Model Non Strict Tracing Model](programming_model.non_strict_tracing_model.md)
+- [Programming Model Recompilation](programming_model.recompilation.md)
+- [Programming Model Observability](programming_model.observability.md)
+- [Programming Model Reporting Issues](programming_model.reporting_issues.md)

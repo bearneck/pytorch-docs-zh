@@ -7961,12 +7961,13 @@
 <p>图中断使 Dynamo 能够追踪任意 Python 代码，并提取出可以单独优化的功能子图。</p>
 <p>然而，图中断可能导致 <code>torch.compile</code> 出现意外的性能下降。如果您没有看到预期的加速效果，我们建议检查并移除图中断。</p>
 <p>以下部分概述了处理图中断的策略。</p>
-<div class="highlight"><pre><span></span><code>programming_model.fullgraph_true
-programming_model.common_graph_breaks
-programming_model.dynamo_nonstrict_trace
-programming_model.custom_ops
-programming_model.fullgraph_false
-</code></pre></div>
+<ul>
+<li><a href="../programming_model.fullgraph_true/">Programming Model Fullgraph True</a></li>
+<li><a href="../programming_model.common_graph_breaks/">Programming Model Common Graph Breaks</a></li>
+<li><a href="../programming_model.dynamo_nonstrict_trace/">Programming Model Dynamo Nonstrict Trace</a></li>
+<li><a href="../programming_model.custom_ops/">Programming Model Custom Ops</a></li>
+<li><a href="../programming_model.fullgraph_false/">Programming Model Fullgraph False</a></li>
+</ul>
 
 
 

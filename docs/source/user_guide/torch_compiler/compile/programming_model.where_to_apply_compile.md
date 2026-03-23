@@ -17,9 +17,7 @@ model.compile()
 for _ in range(N_ITERS):
     inp = ...
     out = model(inp)
-```
-
-```python
+python
 # 训练
 model = ...
 opt = torch.optim.Adam(model.parameters())
@@ -35,9 +33,7 @@ def train(mod, data):
 for _ in range(N_ITERS):
     inp = ...
     train(model, inp)
-```
-
-```python
+python
 # DistributedDataParallel
 model = ...
 model.compile()

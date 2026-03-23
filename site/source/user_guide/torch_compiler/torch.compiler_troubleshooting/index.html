@@ -3771,6 +3771,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#torch_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TORCH_LOGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#tlparse-torch_logs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4071,7 +4082,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#torch_logs" class="md-nav__link">
+  <a href="#torch_logs_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         TORCH_LOGS 选项摘要
@@ -8513,6 +8524,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#torch_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TORCH_LOGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#tlparse-torch_logs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8813,7 +8835,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#torch_logs" class="md-nav__link">
+  <a href="#torch_logs_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         TORCH_LOGS 选项摘要
@@ -8862,7 +8884,7 @@
 <h1 id="torchcompile">torch.compile 故障排除<a class="headerlink" href="#torchcompile" title="Permanent link">&para;</a></h1>
 <p>您正尝试在 PyTorch 模型上使用 <code>torch.compile</code> 来提升性能，但效果不如预期。可能是性能没有改善、出现崩溃，或者编译时间过长。本文提供了一些技巧、变通方法和调试工具，帮助您应对这些挑战。</p>
 <p><strong>目录</strong></p>
-<div class="highlight"><pre><span></span><code>:local: true
+<div class="highlight"><pre><span></span><code>
 </code></pre></div>
 <h2 id="_1">设定预期<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p><code>torch.compile</code> 被设计为一个通用的 PyTorch 编译器。与之前的编译器解决方案 TorchScript 不同，<code>torch.compile</code> 需要更少的代码改动，这意味着通常不需要从头重写模型。它也能更优雅地处理不支持的代码——不支持的代码只会导致优化机会的丢失，而不会引发崩溃。</p>
@@ -8894,33 +8916,33 @@
         <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 
 <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
-Graph break in user code at /data/users/williamwen/pytorch/playground.py:7
-Reason: Unsupported: builtin: open [&lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;, &lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;] False
-User code traceback:
-File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 7, in fn
-    with open(&quot;test.txt&quot;, &quot;r&quot;) as f:
-Traceback (most recent call last):
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 635, in wrapper
-    return inner_fn(self, inst)
-        ^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2414, in CALL
-    self._call(inst)
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2408, in _call
-    self.call_function(fn, args, kwargs)
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 962, in call_function
-    self.push(fn.call_function(self, args, kwargs))  # type: ignore[arg-type]
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/builtin.py&quot;, line 997, in call_function
-    return handler(tx, args, kwargs)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/builtin.py&quot;, line 831, in &lt;lambda&gt;
-    return lambda *args: unimplemented(error_msg)
-                        ^^^^^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/exc.py&quot;, line 313, in unimplemented
-    raise Unsupported(msg, case_name=case_name)
-torch._dynamo.exc.Unsupported: builtin: open [&lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;, &lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;] False
+
+<span class="err">$</span><span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;graph_breaks&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Graph</span> <span class="k">break</span> <span class="ow">in</span> <span class="n">user</span> <span class="n">code</span> <span class="n">at</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">7</span>
+<span class="n">Reason</span><span class="p">:</span> <span class="n">Unsupported</span><span class="p">:</span> <span class="n">builtin</span><span class="p">:</span> <span class="nb">open</span> <span class="p">[</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">constant</span><span class="o">.</span><span class="n">ConstantVariable</span><span class="s1">&#39;&gt;, &lt;class &#39;</span><span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">constant</span><span class="o">.</span><span class="n">ConstantVariable</span><span class="s1">&#39;&gt;] False</span>
+<span class="n">User</span> <span class="n">code</span> <span class="n">traceback</span><span class="p">:</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/playground.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="n">fn</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">635</span><span class="p">,</span> <span class="ow">in</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">inner_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span>
+        <span class="o">^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2414</span><span class="p">,</span> <span class="ow">in</span> <span class="n">CALL</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2408</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_call</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">962</span><span class="p">,</span> <span class="ow">in</span> <span class="n">call_function</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]</span>
+            <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/builtin.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">997</span><span class="p">,</span> <span class="ow">in</span> <span class="n">call_function</span>
+    <span class="k">return</span> <span class="n">handler</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/builtin.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">831</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="k">lambda</span><span class="o">&gt;</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">unimplemented</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+                        <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/exc.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">313</span><span class="p">,</span> <span class="ow">in</span> <span class="n">unimplemented</span>
+    <span class="k">raise</span> <span class="n">Unsupported</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">case_name</span><span class="o">=</span><span class="n">case_name</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">exc</span><span class="o">.</span><span class="n">Unsupported</span><span class="p">:</span> <span class="n">builtin</span><span class="p">:</span> <span class="nb">open</span> <span class="p">[</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">constant</span><span class="o">.</span><span class="n">ConstantVariable</span><span class="s1">&#39;&gt;, &lt;class &#39;</span><span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">constant</span><span class="o">.</span><span class="n">ConstantVariable</span><span class="s1">&#39;&gt;] False</span>
 </code></pre></div>
 <h3 id="_5">守卫<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p><code>torch.compile</code> 在追踪代码时会对运行时值做出一些假设。在追踪过程中，我们会生成“守卫”，这些是对这些假设的运行时检查。在后续调用编译函数时，会运行守卫以确定是否可以重用先前编译的代码。运行时检查的示例包括常量值、类型和对象 ID。</p>
@@ -8932,9 +8954,9 @@ torch._dynamo.exc.Unsupported: builtin: open [&lt;class &#39;torch._dynamo.varia
     <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
 
 <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;guards&quot; python playground.py
-GUARDS:
+
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;guards&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">GUARDS</span><span class="p">:</span>
 </code></pre></div>
 <p>TREE_GUARD_MANAGER:
 +- RootGuardManager
@@ -8959,12 +8981,12 @@ def fn(x):
 
 fn(torch.ones(3, 3))
 fn(torch.ones(4, 4))
-</code></pre></div></p>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;recompiles&quot; python playground.py
+
+$ TORCH_LOGS=&quot;recompiles&quot; python playground.py
 Recompiling function fn in /data/users/williamwen/pytorch/playground.py:3
     triggered by the following guard failure(s):
     - 0/0: tensor &#39;L[&#39;x&#39;]&#39; size mismatch at index 0. expected 3, actual 4
-</code></pre></div>
+</code></pre></div></p>
 <h3 id="_6">动态形状<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p><code>torch.compile</code> 最初假设张量形状是静态/常量，并基于这些假设设置守卫。
 通过使用"动态形状"，我们可以让 <code>torch.compile</code> 生成能够接受不同形状张量输入的编译代码——我们避免了每次形状不同时都重新编译。
@@ -8979,11 +9001,11 @@ Recompiling function fn in /data/users/williamwen/pytorch/playground.py:3
 
 <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;dynamic,recompiles&quot; python playground.py
-create_symbol s0 = 3 for L[&#39;x&#39;].size()[0] [2, int_oo] at playground.py:5 in fn (_dynamo/variables/builder.py:2718 in &lt;lambda&gt;), for more info run with TORCHDYNAMO_EXTENDED_DEBUG_CREATE_SYMBOL=&quot;s0&quot;
-produce_guards
-produce_guards
+
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;dynamic,recompiles&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">create_symbol</span> <span class="n">s0</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">int_oo</span><span class="p">]</span> <span class="n">at</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">5</span> <span class="ow">in</span> <span class="n">fn</span> <span class="p">(</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">builder</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2718</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="k">lambda</span><span class="o">&gt;</span><span class="p">),</span> <span class="k">for</span> <span class="n">more</span> <span class="n">info</span> <span class="n">run</span> <span class="k">with</span> <span class="n">TORCHDYNAMO_EXTENDED_DEBUG_CREATE_SYMBOL</span><span class="o">=</span><span class="s2">&quot;s0&quot;</span>
+<span class="n">produce_guards</span>
+<span class="n">produce_guards</span>
 </code></pre></div>
 <p>有关动态形状的更多信息，请参阅 <a href="https://docs.google.com/document/d/1GgvOe7C8_NVOMLOCwDaYV1mXXyHMXY7ExoewHqooxrs/edit#heading=h.fh8zzonyw8ng">动态形状手册</a>。</p>
 <h2 id="_7">日志记录工具<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
@@ -9000,54 +9022,50 @@ tlparse /tmp/tracedir
 如果你正在为一个你没有独立复现的复杂问题提交错误报告，你仍然可以通过附上在 <code>/tmp/tracedir</code> 中生成的追踪日志来极大地帮助 PyTorch 开发人员。</p>
 <div class="highlight"><pre><span></span><code>追踪日志包含你所有的模型代码。
 如果你正在处理的模型是敏感的，请不要共享追踪日志。追踪日志**不包含**权重。
-</code></pre></div>
-<p>```{raw} html
-    <style>
+{raw} html
+    &lt;style&gt;
         .red {background-color:#ff0000;}
         .green {background-color:#00ff00;}
         .dark-green {background-color:#027f02;}
-    </style>
-<div class="highlight"><pre><span></span><code>`tlparse` 的输出主要面向 PyTorch 开发人员，其日志格式易于在 GitHub 上上传和共享。
+    &lt;/style&gt;
+</code></pre></div>
+<p><code>tlparse</code> 的输出主要面向 PyTorch 开发人员，其日志格式易于在 GitHub 上上传和共享。
 然而，作为非 PyTorch 开发人员，你仍然可以从中提取有用的信息。
 我们建议从报告中的内联帮助文本开始，它解释了其内容。
-以下是一些你可以从 `tlparse` 中获得的信息：
-
--   通过查看堆栈树，可以了解编译了哪些模型代码？
-    如果你不熟悉正在编译的代码库，这尤其有用！
--   存在多少个图中断 / 不同的编译区域？
-    （每个不同的编译都是其自己颜色编码的块，如 {dark-green}`[0/0]`）。
-    可能发生图中断的帧显示为浅绿色 {green}`[2/4]`。
-    如果有很多帧，那是可疑的，表明你可能有一些灾难性的图中断，或者你的代码可能不太适合 `torch.compile`。
--   我重新编译特定帧多少次了？重新编译很多次的帧看起来像：
-    {dark-green}`[10/0]` {dark-green}`[10/1]` {dark-green}`[10/2]`
-    \- 如果某个东西被重新编译了很多次，那是非常可疑的，值得调查，即使它不是问题的根本原因。
--   是否存在编译错误？出错的帧看起来像 {red}`[0/1]`。
--   我为给定帧生成了哪些中间编译器产物？
-    例如，你可以查看生成的高级 FX 图或生成的 Triton 代码。
--   特定帧是否有相关信息？你可以在 `compilation_metrics` 中找到这些信息。
-
-
-### TORCH_LOGS
-
-你可以使用 `TORCH_LOGS` 环境变量来有选择地启用 `torch.compile` 堆栈的某些部分进行日志记录。
-`TORCH_LOGS` 实际上是 `tlparse` 的日志来源。`TORCH_LOGS` 环境变量的格式如下：
+以下是一些你可以从 <code>tlparse</code> 中获得的信息：</p>
+<ul>
+<li>通过查看堆栈树，可以了解编译了哪些模型代码？
+    如果你不熟悉正在编译的代码库，这尤其有用！</li>
+<li>存在多少个图中断 / 不同的编译区域？
+    （每个不同的编译都是其自己颜色编码的块，如 {dark-green}<code>[0/0]</code>）。
+    可能发生图中断的帧显示为浅绿色 <code>[2/4]</code>。
+    如果有很多帧，那是可疑的，表明你可能有一些灾难性的图中断，或者你的代码可能不太适合 <code>torch.compile</code>。</li>
+<li>我重新编译特定帧多少次了？重新编译很多次的帧看起来像：
+    {dark-green}<code>[10/0]</code> {dark-green}<code>[10/1]</code> {dark-green}<code>[10/2]</code>
+    - 如果某个东西被重新编译了很多次，那是非常可疑的，值得调查，即使它不是问题的根本原因。</li>
+<li>是否存在编译错误？出错的帧看起来像 <code>[0/1]</code>。</li>
+<li>我为给定帧生成了哪些中间编译器产物？
+    例如，你可以查看生成的高级 FX 图或生成的 Triton 代码。</li>
+<li>特定帧是否有相关信息？你可以在 <code>compilation_metrics</code> 中找到这些信息。</li>
+</ul>
+<h3 id="torch_logs">TORCH_LOGS<a class="headerlink" href="#torch_logs" title="Permanent link">&para;</a></h3>
+<p>你可以使用 <code>TORCH_LOGS</code> 环境变量来有选择地启用 <code>torch.compile</code> 堆栈的某些部分进行日志记录。
+<code>TORCH_LOGS</code> 实际上是 <code>tlparse</code> 的日志来源。<code>TORCH_LOGS</code> 环境变量的格式如下：</p>
+<div class="highlight"><pre><span></span><code>TORCH_LOGS=&quot;&lt;option1&gt;,&lt;option2&gt;,...&quot; python foo.py
 </code></pre></div>
-TORCH_LOGS="<option1>,<option2>,..." python foo.py
-<div class="highlight"><pre><span></span><code>有用的高级选项包括：
-
-- `graph_breaks`：记录用户代码中发生图中断的位置及中断原因
-- `guards`：记录生成的守卫条件
-- `recompiles`：记录重新编译的函数以及导致重新编译的失败守卫条件
-- `dynamic`：记录与动态形状相关的信息
-
-此外，您也可以通过编程方式使用 `torch._logging.set_logs` 设置日志选项：
-
-```py
-import logging
-torch._logging.set_logs(graph_breaks=True)
-...
-</code></pre></div></p>
-<p>更多 <code>TORCH_LOGS</code> 选项请参阅 <code>troubleshooting-torch-logs-options</code>。
+<p>有用的高级选项包括：</p>
+<ul>
+<li><code>graph_breaks</code>：记录用户代码中发生图中断的位置及中断原因</li>
+<li><code>guards</code>：记录生成的守卫条件</li>
+<li><code>recompiles</code>：记录重新编译的函数以及导致重新编译的失败守卫条件</li>
+<li><code>dynamic</code>：记录与动态形状相关的信息</li>
+</ul>
+<p>此外，您也可以通过编程方式使用 <code>torch._logging.set_logs</code> 设置日志选项：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">...</span>
+</code></pre></div>
+<p>更多 <code>TORCH_LOGS</code> 选项请参阅 <em>troubleshooting-torch-logs-options</em>。
 完整选项列表请查看 <a href="https://pytorch.org/docs/stable/logging.html">torch._logging</a>
 和 <a href="https://pytorch.org/docs/stable/generated/torch._logging.set_logs.html#torch._logging.set_logs">torch._logging.set_logs</a>。</p>
 <h3 id="tlparse-torch_logs">tlparse 与 TORCH_LOGS 对比<a class="headerlink" href="#tlparse-torch_logs" title="Permanent link">&para;</a></h3>
@@ -9069,8 +9087,8 @@ torch._logging.set_logs(graph_breaks=True)
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_ITERS</span><span class="p">):</span>
     <span class="n">inp</span> <span class="o">=</span> <span class="o">...</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">opt_model</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1"># 训练</span>
+<span class="n">py</span>
+<span class="c1"># 训练</span>
 <span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
 <span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
 
@@ -9085,8 +9103,8 @@ torch._logging.set_logs(graph_breaks=True)
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_ITERS</span><span class="p">):</span>
     <span class="n">inp</span> <span class="o">=</span> <span class="o">...</span>
     <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1"># DistributedDataParallel</span>
+<span class="n">py</span>
+<span class="c1"># DistributedDataParallel</span>
 <span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
 <span class="n">opt_model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="n">model_ddp</span> <span class="o">=</span> <span class="n">DistributedDataParallel</span><span class="p">(</span><span class="n">opt_model</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
@@ -9162,41 +9180,41 @@ torch._logging.set_logs(graph_breaks=True)
     <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
 <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
-Graph break in user code at /data/users/williamwen/pytorch/playground.py:6
-Reason: Data-dependent jump
-User code traceback:
-File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 6, in fn
-    if y &gt; 0:
 
-Graph break in user code at /data/users/williamwen/pytorch/playground.py:7
-Reason: Unsupported: Tensor.item
-User code traceback:
-File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 7, in torch_dynamo_resume_in_fn_at_6
-    return x + y.item()
-Traceback (most recent call last):
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 616, in wrapper
-    return inner_fn(self, inst)
-        ^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2288, in CALL
-    self._call(inst)
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2282, in _call
-    self.call_function(fn, args, kwargs)
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 838, in call_function
-    self.push(fn.call_function(self, args, kwargs))  # type: ignore[arg-type]
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/misc.py&quot;, line 1038, in call_function
-    return self.obj.call_method(tx, self.name, args, kwargs)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/tensor.py&quot;, line 527, in call_method
-    result = handler_method(*args, **kwargs)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/tensor.py&quot;, line 773, in method_item
-    unimplemented(&quot;Tensor.item&quot;)
-File &quot;/data/users/williamwen/pytorch/torch/_dynamo/exc.py&quot;, line 304, in unimplemented
-    raise Unsupported(msg, case_name=case_name)
-torch._dynamo.exc.Unsupported: Tensor.item
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;graph_breaks&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Graph</span> <span class="k">break</span> <span class="ow">in</span> <span class="n">user</span> <span class="n">code</span> <span class="n">at</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">6</span>
+<span class="n">Reason</span><span class="p">:</span> <span class="n">Data</span><span class="o">-</span><span class="n">dependent</span> <span class="n">jump</span>
+<span class="n">User</span> <span class="n">code</span> <span class="n">traceback</span><span class="p">:</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/playground.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">6</span><span class="p">,</span> <span class="ow">in</span> <span class="n">fn</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="n">Graph</span> <span class="k">break</span> <span class="ow">in</span> <span class="n">user</span> <span class="n">code</span> <span class="n">at</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">7</span>
+<span class="n">Reason</span><span class="p">:</span> <span class="n">Unsupported</span><span class="p">:</span> <span class="n">Tensor</span><span class="o">.</span><span class="n">item</span>
+<span class="n">User</span> <span class="n">code</span> <span class="n">traceback</span><span class="p">:</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/playground.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="n">torch_dynamo_resume_in_fn_at_6</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">616</span><span class="p">,</span> <span class="ow">in</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">inner_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span>
+        <span class="o">^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2288</span><span class="p">,</span> <span class="ow">in</span> <span class="n">CALL</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2282</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_call</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">838</span><span class="p">,</span> <span class="ow">in</span> <span class="n">call_function</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]</span>
+            <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/misc.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1038</span><span class="p">,</span> <span class="ow">in</span> <span class="n">call_function</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">call_method</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/tensor.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">527</span><span class="p">,</span> <span class="ow">in</span> <span class="n">call_method</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">handler_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="o">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/tensor.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">773</span><span class="p">,</span> <span class="ow">in</span> <span class="n">method_item</span>
+    <span class="n">unimplemented</span><span class="p">(</span><span class="s2">&quot;Tensor.item&quot;</span><span class="p">)</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/torch/_dynamo/exc.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">304</span><span class="p">,</span> <span class="ow">in</span> <span class="n">unimplemented</span>
+    <span class="k">raise</span> <span class="n">Unsupported</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">case_name</span><span class="o">=</span><span class="n">case_name</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">exc</span><span class="o">.</span><span class="n">Unsupported</span><span class="p">:</span> <span class="n">Tensor</span><span class="o">.</span><span class="n">item</span>
 </code></pre></div>
 <p>解决这些图中断的通用方法是避免执行数据依赖操作。一些具体的解决方法包括：</p>
 <ul>
@@ -9264,9 +9282,9 @@ torch._dynamo.exc.Unsupported: Tensor.item
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
-log!
+
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;graph_breaks&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">log</span><span class="err">!</span>
 </code></pre></div>
 <h4 id="_14">错误的代码<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
 <p>你的代码可能是错误的，或者正遇到来自 <code>torch.compile</code> 外部的错误。
@@ -9279,14 +9297,14 @@ log!
     <span class="k">return</span> <span class="n">y</span>
 
 <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
-Graph break in user code at /data/users/williamwen/pytorch/playground.py:5
-Reason: Unsupported: TypeError &lt;built-in method sin of type object at 0x7fd6fd764600&gt;: sin() takes 1 positional argument but 2 were given
-User code traceback:
-File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 5, in fn
-    y = torch.sin(x, x)
-...
+
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;graph_breaks&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Graph</span> <span class="k">break</span> <span class="ow">in</span> <span class="n">user</span> <span class="n">code</span> <span class="n">at</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">Reason</span><span class="p">:</span> <span class="n">Unsupported</span><span class="p">:</span> <span class="ne">TypeError</span> <span class="o">&lt;</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">method</span> <span class="n">sin</span> <span class="n">of</span> <span class="nb">type</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fd6fd764600</span><span class="o">&gt;</span><span class="p">:</span> <span class="n">sin</span><span class="p">()</span> <span class="n">takes</span> <span class="mi">1</span> <span class="n">positional</span> <span class="n">argument</span> <span class="n">but</span> <span class="mi">2</span> <span class="n">were</span> <span class="n">given</span>
+<span class="n">User</span> <span class="n">code</span> <span class="n">traceback</span><span class="p">:</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/playground.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">5</span><span class="p">,</span> <span class="ow">in</span> <span class="n">fn</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="o">...</span>
 </code></pre></div>
 <p>从日志中很难判断错误是由你的代码引起的还是由 <code>torch.compile</code> 的 bug 引起的。
 为了区分，我们建议尝试在不使用 <code>torch.compile</code> 的情况下运行你的代码，看看是否仍然出现错误。</p>
@@ -9314,11 +9332,11 @@ File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 5, in fn
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
     <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ python playground.py
-torch._dynamo hit config.recompile_limit (8)
-    function: &#39;fn&#39; (/data/users/williamwen/pytorch/playground.py:5)
-    last reason: 0/0: tensor &#39;L[&#39;x&#39;]&#39; size mismatch at index 0. expected 1, actual 9
+
+<span class="err">$</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span> <span class="n">hit</span> <span class="n">config</span><span class="o">.</span><span class="n">recompile_limit</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">function</span><span class="p">:</span> <span class="s1">&#39;fn&#39;</span> <span class="p">(</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">last</span> <span class="n">reason</span><span class="p">:</span> <span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="p">:</span> <span class="n">tensor</span> <span class="s1">&#39;L[&#39;</span><span class="n">x</span><span class="s1">&#39;]&#39;</span> <span class="n">size</span> <span class="n">mismatch</span> <span class="n">at</span> <span class="n">index</span> <span class="mf">0.</span> <span class="n">expected</span> <span class="mi">1</span><span class="p">,</span> <span class="n">actual</span> <span class="mi">9</span>
 </code></pre></div>
 <p>如果您知道重新编译的次数有一个合理的恒定上限，您可以提高缓存大小限制。
 如果重新编译的成本超过了编译带来的好处，那么您可以考虑降低缓存大小限制。</p>
@@ -9333,21 +9351,21 @@ torch._dynamo hit config.recompile_limit (8)
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
     <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;recompiles&quot; python playground.py
-Recompiling function fn in /data/users/williamwen/pytorch/playground.py:3
-    triggered by the following guard failure(s):
-    - 0/7: L[&#39;c&#39;] == 8.5
-    - 0/6: L[&#39;c&#39;] == 7.5
-    - 0/5: L[&#39;c&#39;] == 6.5
-    - 0/4: L[&#39;c&#39;] == 5.5
-    - 0/3: L[&#39;c&#39;] == 4.5
-    - 0/2: L[&#39;c&#39;] == 3.5
-    - 0/1: L[&#39;c&#39;] == 2.5
-    - 0/0: L[&#39;c&#39;] == 1.5
-torch._dynamo hit config.recompile_limit (8)
-    function: &#39;fn&#39; (/data/users/williamwen/pytorch/playground.py:3)
-    last reason: 0/0: L[&#39;c&#39;] == 1.5
+
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;recompiles&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Recompiling</span> <span class="n">function</span> <span class="n">fn</span> <span class="ow">in</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">3</span>
+    <span class="n">triggered</span> <span class="n">by</span> <span class="n">the</span> <span class="n">following</span> <span class="n">guard</span> <span class="n">failure</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">7</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">8.5</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">6</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">7.5</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">5</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">6.5</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">4</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">5.5</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">3</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">4.5</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">3.5</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">1</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">2.5</span>
+    <span class="o">-</span> <span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1.5</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span> <span class="n">hit</span> <span class="n">config</span><span class="o">.</span><span class="n">recompile_limit</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">function</span><span class="p">:</span> <span class="s1">&#39;fn&#39;</span> <span class="p">(</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">last</span> <span class="n">reason</span><span class="p">:</span> <span class="mi">0</span><span class="o">/</span><span class="mi">0</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1.5</span>
 </code></pre></div>
 <p>特别是对于学习率调度器，使用常量初始化可能导致重新编译：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
@@ -9366,21 +9384,21 @@ torch._dynamo hit config.recompile_limit (8)
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
     <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;recompiles&quot; python playground.py
-Recompiling function step in /data/users/williamwen/pytorch/torch/optim/adam.py:189
-    triggered by the following guard failure(s):
-    - 3/7: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.004782969000000002
-    - 3/6: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.005314410000000002
-    - 3/5: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.005904900000000002
-    - 3/4: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.006561000000000002
-    - 3/3: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.007290000000000001
-    - 3/2: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.008100000000000001
-    - 3/1: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.009000000000000001
-    - 3/0: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.01
-torch._dynamo hit config.recompile_limit (8)
-    function: &#39;step&#39; (/data/users/williamwen/pytorch/torch/optim/adam.py:189)
-    last reason: 3/0: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.01
+
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;recompiles&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Recompiling</span> <span class="n">function</span> <span class="n">step</span> <span class="ow">in</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">optim</span><span class="o">/</span><span class="n">adam</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">189</span>
+    <span class="n">triggered</span> <span class="n">by</span> <span class="n">the</span> <span class="n">following</span> <span class="n">guard</span> <span class="n">failure</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">7</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.004782969000000002</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">6</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.005314410000000002</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.005904900000000002</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.006561000000000002</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">3</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.007290000000000001</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.008100000000000001</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">1</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.009000000000000001</span>
+    <span class="o">-</span> <span class="mi">3</span><span class="o">/</span><span class="mi">0</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.01</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span> <span class="n">hit</span> <span class="n">config</span><span class="o">.</span><span class="n">recompile_limit</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">function</span><span class="p">:</span> <span class="s1">&#39;step&#39;</span> <span class="p">(</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">optim</span><span class="o">/</span><span class="n">adam</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">189</span><span class="p">)</span>
+    <span class="n">last</span> <span class="n">reason</span><span class="p">:</span> <span class="mi">3</span><span class="o">/</span><span class="mi">0</span><span class="p">:</span> <span class="n">L</span><span class="p">[</span><span class="s1">&#39;self&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.01</span>
 </code></pre></div>
 <p>在这两个示例中，我们可以将浮点变量包装在张量中，以防止重新编译。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># 第一个示例</span>
@@ -9500,50 +9518,50 @@ Docker 简化了设置，但使环境变更复杂化，因此它并非完美解�
     <span class="k">return</span> <span class="n">x</span>
 
 <span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;trace_bytecode,trace_source,graph_code&quot; python playground.py
-TRACE starts_line /data/users/williamwen/pytorch/playground.py:6 in f ()
-    @torch.compile(backend=&quot;eager&quot;)
-TRACE RESUME 0 []
-TRACE starts_line /data/users/williamwen/pytorch/playground.py:8 in f (f)
-        x = torch.sin(x)
-TRACE LOAD_GLOBAL torch []
-TRACE LOAD_ATTR sin [NullVariable(), PythonModuleVariable(&lt;module &#39;torch&#39; from &#39;/data/users/williamwen/pytorch/torch/__init__.py&#39;&gt;)]
-TRACE LOAD_FAST x [NullVariable(), TorchInGraphFunctionVariable(&lt;built-in method sin of type object at 0x7f00f6964600&gt;)]
-TRACE CALL 1 [NullVariable(), TorchInGraphFunctionVariable(&lt;built-in method sin of type object at 0x7f00f6964600&gt;), LazyVariableTracker()]
-TRACE STORE_FAST x [TensorVariable()]
-TRACE starts_line /data/users/williamwen/pytorch/playground.py:9 in f (f)
-        x = g(x, x)
-TRACE LOAD_GLOBAL g []
-TRACE LOAD_FAST x [NullVariable(), UserFunctionVariable()]
-TRACE LOAD_FAST x [NullVariable(), UserFunctionVariable(), TensorVariable()]
-TRACE CALL 2 [NullVariable(), UserFunctionVariable(), TensorVariable(), TensorVariable()]
-TRACE starts_line /data/users/williamwen/pytorch/playground.py:3 in g (g) (inline depth: 1)
-    def g(x, y):
-TRACE RESUME 0 []
-TRACE starts_line /data/users/williamwen/pytorch/playground.py:4 in g (g) (inline depth: 1)
-        return x + y
-TRACE LOAD_FAST x []
-TRACE LOAD_FAST y [TensorVariable()]
-TRACE BINARY_OP 0 [TensorVariable(), TensorVariable()]
-TRACE RETURN_VALUE None [TensorVariable()]
-TRACE STORE_FAST x [TensorVariable()]
-TRACE starts_line /data/users/williamwen/pytorch/playground.py:10 in f (f)
-        return x
-TRACE LOAD_FAST x []
-TRACE RETURN_VALUE None [TensorVariable()]
-TRACED GRAPH
-===== __compiled_fn_1 =====
-/data/users/williamwen/pytorch/torch/fx/_lazy_graph_module.py class GraphModule(torch.nn.Module):
-    def forward(self, L_x_: &quot;f32[3, 3][3, 1]cpu&quot;):
-        l_x_ = L_x_
 
-        # File: /data/users/williamwen/pytorch/playground.py:8 in f, code: x = torch.sin(x)
-        x: &quot;f32[3, 3][3, 1]cpu&quot; = torch.sin(l_x_);  l_x_ = None
+<span class="err">$</span> <span class="n">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;trace_bytecode,trace_source,graph_code&quot;</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="n">TRACE</span> <span class="n">starts_line</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">6</span> <span class="ow">in</span> <span class="n">f</span> <span class="p">()</span>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;eager&quot;</span><span class="p">)</span>
+<span class="n">TRACE</span> <span class="n">RESUME</span> <span class="mi">0</span> <span class="p">[]</span>
+<span class="n">TRACE</span> <span class="n">starts_line</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">8</span> <span class="ow">in</span> <span class="n">f</span> <span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">TRACE</span> <span class="n">LOAD_GLOBAL</span> <span class="n">torch</span> <span class="p">[]</span>
+<span class="n">TRACE</span> <span class="n">LOAD_ATTR</span> <span class="n">sin</span> <span class="p">[</span><span class="n">NullVariable</span><span class="p">(),</span> <span class="n">PythonModuleVariable</span><span class="p">(</span><span class="o">&lt;</span><span class="n">module</span> <span class="s1">&#39;torch&#39;</span> <span class="kn">from</span><span class="w"> </span><span class="s1">&#39;/data/users/williamwen/pytorch/torch/__init__.py&#39;</span><span class="o">&gt;</span><span class="p">)]</span>
+<span class="n">TRACE</span> <span class="n">LOAD_FAST</span> <span class="n">x</span> <span class="p">[</span><span class="n">NullVariable</span><span class="p">(),</span> <span class="n">TorchInGraphFunctionVariable</span><span class="p">(</span><span class="o">&lt;</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">method</span> <span class="n">sin</span> <span class="n">of</span> <span class="nb">type</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f00f6964600</span><span class="o">&gt;</span><span class="p">)]</span>
+<span class="n">TRACE</span> <span class="n">CALL</span> <span class="mi">1</span> <span class="p">[</span><span class="n">NullVariable</span><span class="p">(),</span> <span class="n">TorchInGraphFunctionVariable</span><span class="p">(</span><span class="o">&lt;</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">method</span> <span class="n">sin</span> <span class="n">of</span> <span class="nb">type</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f00f6964600</span><span class="o">&gt;</span><span class="p">),</span> <span class="n">LazyVariableTracker</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">STORE_FAST</span> <span class="n">x</span> <span class="p">[</span><span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">starts_line</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">9</span> <span class="ow">in</span> <span class="n">f</span> <span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">TRACE</span> <span class="n">LOAD_GLOBAL</span> <span class="n">g</span> <span class="p">[]</span>
+<span class="n">TRACE</span> <span class="n">LOAD_FAST</span> <span class="n">x</span> <span class="p">[</span><span class="n">NullVariable</span><span class="p">(),</span> <span class="n">UserFunctionVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">LOAD_FAST</span> <span class="n">x</span> <span class="p">[</span><span class="n">NullVariable</span><span class="p">(),</span> <span class="n">UserFunctionVariable</span><span class="p">(),</span> <span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">CALL</span> <span class="mi">2</span> <span class="p">[</span><span class="n">NullVariable</span><span class="p">(),</span> <span class="n">UserFunctionVariable</span><span class="p">(),</span> <span class="n">TensorVariable</span><span class="p">(),</span> <span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">starts_line</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">3</span> <span class="ow">in</span> <span class="n">g</span> <span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="p">(</span><span class="n">inline</span> <span class="n">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="n">TRACE</span> <span class="n">RESUME</span> <span class="mi">0</span> <span class="p">[]</span>
+<span class="n">TRACE</span> <span class="n">starts_line</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">4</span> <span class="ow">in</span> <span class="n">g</span> <span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="p">(</span><span class="n">inline</span> <span class="n">depth</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="n">TRACE</span> <span class="n">LOAD_FAST</span> <span class="n">x</span> <span class="p">[]</span>
+<span class="n">TRACE</span> <span class="n">LOAD_FAST</span> <span class="n">y</span> <span class="p">[</span><span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">BINARY_OP</span> <span class="mi">0</span> <span class="p">[</span><span class="n">TensorVariable</span><span class="p">(),</span> <span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">RETURN_VALUE</span> <span class="kc">None</span> <span class="p">[</span><span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">STORE_FAST</span> <span class="n">x</span> <span class="p">[</span><span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACE</span> <span class="n">starts_line</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">playground</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">10</span> <span class="ow">in</span> <span class="n">f</span> <span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+<span class="n">TRACE</span> <span class="n">LOAD_FAST</span> <span class="n">x</span> <span class="p">[]</span>
+<span class="n">TRACE</span> <span class="n">RETURN_VALUE</span> <span class="kc">None</span> <span class="p">[</span><span class="n">TensorVariable</span><span class="p">()]</span>
+<span class="n">TRACED</span> <span class="n">GRAPH</span>
+<span class="o">=====</span> <span class="n">__compiled_fn_1</span> <span class="o">=====</span>
+<span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">fx</span><span class="o">/</span><span class="n">_lazy_graph_module</span><span class="o">.</span><span class="n">py</span> <span class="k">class</span><span class="w"> </span><span class="nc">GraphModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L_x_</span><span class="p">:</span> <span class="s2">&quot;f32[3, 3][3, 1]cpu&quot;</span><span class="p">):</span>
+        <span class="n">l_x_</span> <span class="o">=</span> <span class="n">L_x_</span>
 
-        # File: /data/users/williamwen/pytorch/playground.py:4 in g, code: return x + y
-        x_1: &quot;f32[3, 3][3, 1]cpu&quot; = x + x;  x = None
-        return (x_1,)
+        <span class="c1"># File: /data/users/williamwen/pytorch/playground.py:8 in f, code: x = torch.sin(x)</span>
+        <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;f32[3, 3][3, 1]cpu&quot;</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">l_x_</span><span class="p">);</span>  <span class="n">l_x_</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># File: /data/users/williamwen/pytorch/playground.py:4 in g, code: return x + y</span>
+        <span class="n">x_1</span><span class="p">:</span> <span class="s2">&quot;f32[3, 3][3, 1]cpu&quot;</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="p">;</span>  <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x_1</span><span class="p">,)</span>
 </code></pre></div>
 <h4 id="dynamo_1">在 Dynamo 追踪过程中设置断点<a class="headerlink" href="#dynamo_1" title="Permanent link">&para;</a></h4>
 <p>有时，在 Dynamo/用户代码中插入断点有助于查看在追踪用户代码时 Dynamo 的状态。
@@ -9587,34 +9605,34 @@ TRACED GRAPH
     <span class="k">return</span> <span class="n">y</span>
 
 <span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>$ python playground.py
---Return--
-&gt; /data/users/williamwen/pytorch/torch/_dynamo/comptime.py(392)inner()-&gt;None
--&gt; builtins.breakpoint()
-(Pdb) ctx.print_bt()
-File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 7, in f
-    comptime.breakpoint()
 
-(Pdb) ctx.print_locals()
-x = FakeTensor(..., size=(3, 3))
-y = FakeTensor(..., size=(3, 3))
-(Pdb) bt
-...
-/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py(826)call_function()
--&gt; self.push(fn.call_function(self, args, kwargs))  # type: ignore[arg-type]
-/data/users/williamwen/pytorch/torch/_dynamo/variables/misc.py(331)call_function()
--&gt; func(ComptimeContext(tx))
-&gt; /data/users/williamwen/pytorch/torch/_dynamo/comptime.py(392)inner()-&gt;None
--&gt; builtins.breakpoint()
-(Pdb) ctx.print_graph()
+<span class="err">$</span> <span class="n">python</span> <span class="n">playground</span><span class="o">.</span><span class="n">py</span>
+<span class="o">--</span><span class="n">Return</span><span class="o">--</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">comptime</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">392</span><span class="p">)</span><span class="n">inner</span><span class="p">()</span><span class="o">-&gt;</span><span class="kc">None</span>
+<span class="o">-&gt;</span> <span class="n">builtins</span><span class="o">.</span><span class="n">breakpoint</span><span class="p">()</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">ctx</span><span class="o">.</span><span class="n">print_bt</span><span class="p">()</span>
+<span class="n">File</span> <span class="s2">&quot;/data/users/williamwen/pytorch/playground.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="n">f</span>
+    <span class="n">comptime</span><span class="o">.</span><span class="n">breakpoint</span><span class="p">()</span>
+
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">ctx</span><span class="o">.</span><span class="n">print_locals</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">FakeTensor</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">FakeTensor</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">bt</span>
+<span class="o">...</span>
+<span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">symbolic_convert</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">826</span><span class="p">)</span><span class="n">call_function</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">fn</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]</span>
+<span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">misc</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">331</span><span class="p">)</span><span class="n">call_function</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="n">func</span><span class="p">(</span><span class="n">ComptimeContext</span><span class="p">(</span><span class="n">tx</span><span class="p">))</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">williamwen</span><span class="o">/</span><span class="n">pytorch</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">comptime</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">392</span><span class="p">)</span><span class="n">inner</span><span class="p">()</span><span class="o">-&gt;</span><span class="kc">None</span>
+<span class="o">-&gt;</span> <span class="n">builtins</span><span class="o">.</span><span class="n">breakpoint</span><span class="p">()</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">ctx</span><span class="o">.</span><span class="n">print_graph</span><span class="p">()</span>
 
 
-def forward(self, L_x_: &quot;f32[3, 3]&quot;):
-    l_x_ = L_x_
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L_x_</span><span class="p">:</span> <span class="s2">&quot;f32[3, 3]&quot;</span><span class="p">):</span>
+    <span class="n">l_x_</span> <span class="o">=</span> <span class="n">L_x_</span>
 
-    # File: /data/users/williamwen/pytorch/playground.py:6 in f, code: y = x + 1
-    y: &quot;f32[3, 3]&quot; = l_x_ + 1;  l_x_ = y = None
+    <span class="c1"># File: /data/users/williamwen/pytorch/playground.py:6 in f, code: y = x + 1</span>
+    <span class="n">y</span><span class="p">:</span> <span class="s2">&quot;f32[3, 3]&quot;</span> <span class="o">=</span> <span class="n">l_x_</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>  <span class="n">l_x_</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>
 </code></pre></div>
 <p>% TODO(uncomment/update once we improve this API)
 % 调试大型模型
@@ -9644,7 +9662,7 @@ AOTAutograd 日志输出主要用于查看 Inductor 的输入是什么。</p>
 % TorchInductor
 % -------------</p>
 <p>% TODO</p>
-<h3 id="torch_logs">TORCH_LOGS 选项摘要<a class="headerlink" href="#torch_logs" title="Permanent link">&para;</a></h3>
+<h3 id="torch_logs_1">TORCH_LOGS 选项摘要<a class="headerlink" href="#torch_logs_1" title="Permanent link">&para;</a></h3>
 <p>以下是有用的 <code>TORCH_LOGS</code> 选项摘要：</p>
 <p>有关完整选项列表，请参阅 <a href="https://pytorch.org/docs/stable/logging.html">torch._logging</a>
 和 <a href="https://pytorch.org/docs/stable/generated/torch._logging.set_logs.html#torch._logging.set_logs">torch._logging.set_logs</a>。</p>

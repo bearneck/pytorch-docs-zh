@@ -1,4 +1,3 @@
-
 # torch.compiler
 
 `torch.compiler` 是一个命名空间，通过它向用户公开了一些内部编译器方法。该命名空间中的主要功能和特性是 `torch.compile`。
@@ -43,45 +42,19 @@
 **仅推理后端**
 
 
-```{toctree}
-:maxdepth: 1
-:hidden:
-
-torch.compiler_get_started.md
-```
-
-```{toctree}
-:maxdepth: 1
-:hidden:
-
-core_concepts
-```
-
-```{toctree}
-:maxdepth: 1
-:hidden:
-
-performance
-```
-
-```{toctree}
-:maxdepth: 1
-:hidden:
-
-advanced
-```
-
-```{toctree}
-:maxdepth: 1
-:hidden:
+- [Torch Compiler Get Started](torch.compiler_get_started.md)
 
 
-troubleshooting_faqs
-```
+- [Core Concepts](core_concepts.md)
 
-```{toctree}
-:maxdepth: 1
-:hidden:
 
-api_reference
-```
+- [Performance](performance.md)
+
+
+- [Advanced](advanced.md)
+
+
+- [Troubleshooting Faqs](troubleshooting_faqs.md)
+
+
+- [Api Reference](api_reference.md)

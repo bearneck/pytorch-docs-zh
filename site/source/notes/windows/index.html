@@ -8489,7 +8489,7 @@ Current channels:
 
 <span class="ne">BrokenPipeError</span><span class="p">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">32</span><span class="p">]</span> <span class="n">Broken</span> <span class="n">pipe</span>
 </code></pre></div>
-<p>当子进程在父进程完成发送数据之前结束时，会发生此问题。 你的代码可能有问题。你可以 通过将 <code class="interpreted-text" role="class">~torch.utils.data.DataLoader</code> 的 <code>num_worker</code> 减少到零来调试你的代码，看看问题是否仍然存在。</p>
+<p>当子进程在父进程完成发送数据之前结束时，会发生此问题。 你的代码可能有问题。你可以 通过将 <code>torch.utils.data.DataLoader</code> 的 <code>num_worker</code> 减少到零来调试你的代码，看看问题是否仍然存在。</p>
 <h3 id="driver-shut-down">多进程错误 \"driver shut down\"<a class="headerlink" href="#driver-shut-down" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>Couldn’t open shared file mapping: &lt;torch_14808_1591070686&gt;, error code: &lt;1455&gt; at torch\lib\TH\THAllocator.c:154
 
@@ -8501,8 +8501,8 @@ Current channels:
 </code></pre></div>
 <p>Windows 系统不支持这些操作。例如，在 CUDA 张量上进行多进程处理是无法成功的，对此有两种替代方案。</p>
 <ol>
-<li>不要使用 <code>multiprocessing</code>。将 <code class="interpreted-text" role="class">~torch.utils.data.DataLoader</code> 的 <code>num_worker</code> 设置为零。</li>
-<li>改为共享 CPU 张量。确保您的自定义 <code class="interpreted-text" role="class">~torch.utils.data.DataSet</code> 返回 CPU 张量。</li>
+<li>不要使用 <code>multiprocessing</code>。将 <code>torch.utils.data.DataLoader</code> 的 <code>num_worker</code> 设置为零。</li>
+<li>改为共享 CPU 张量。确保您的自定义 <code>torch.utils.data.DataSet</code> 返回 CPU 张量。</li>
 </ol>
 
 

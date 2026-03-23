@@ -22,9 +22,9 @@ PyTorch 的核心不依赖于 Python。一个基于 CMake 的构建系统将 C++
 
 > ls torch/lib/tmp_install \# 输出文件在此处生成 ls torch/lib/tmp_install/lib/libtorch.so \# 特别关注此文件
 
-要生成 libtorch.a 而不是 libtorch.so，请设置环境变量 [BUILD_SHARED_LIBS=OFF]{.title-ref}。
+要生成 libtorch.a 而不是 libtorch.so，请设置环境变量 [BUILD_SHARED_LIBS=OFF]。
 
-要使用 ninja 而不是 make，请设置 [CMAKE_GENERATOR=\"-GNinja\" CMAKE_INSTALL=\"ninja install\"]{.title-ref}。
+要使用 ninja 而不是 make，请设置 [CMAKE_GENERATOR=\"-GNinja\" CMAKE_INSTALL=\"ninja install\"]。
 
 请注意，我们正在努力淘汰 tools/build_pytorch_libs.sh，转而采用统一的 cmake 构建。
 

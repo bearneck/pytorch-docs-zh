@@ -2,13 +2,13 @@
 
 
 ```{contents}
-:local:
-:depth: 1
+
+
 ```
 
 ## 概述
 
-`torch.export <torch.export>` 引擎被用来以提前编译（AOT）的方式生成一个仅表示函数中张量计算过程的追踪图。生成的追踪图（1）在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，（2）消除了所有 Python 控制流和数据结构（某些例外情况除外），并且（3）在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的所有形状约束。
+torch.export  引擎被用来以提前编译（AOT）的方式生成一个仅表示函数中张量计算过程的追踪图。生成的追踪图（1）在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，（2）消除了所有 Python 控制流和数据结构（某些例外情况除外），并且（3）在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的所有形状约束。
 
 此外，在导出过程中，内存使用量显著减少。
 
@@ -104,9 +104,8 @@ assert onnx_program.model.graph.inputs[2].shape == ("batch_size", 8)
 您可以使用 [Netron](https://netron.app/) 查看导出的模型。
 
 ```{image} _static/img/onnx/onnx_dynamo_mlp_model.png
-:alt: 使用 Netron 查看的 MLP 模型
-:width: 30%
-:align: center
+
+
 ```
 
 ## 当转换失败时
@@ -165,7 +164,7 @@ assert onnx_program.model.graph.inputs[2].shape == ("batch_size", 8)
 
   此属性包含原始 PyTorch ExportedProgram 中 `graph_signature` 的字符串表示形式。图签名描述了模型输入和输出的结构以及它们如何映射到 ONNX 图。输入被定义为 `InputSpec` 对象，其中包括输入的种类（例如，参数为 `InputKind.PARAMETER`，用户定义的输入为 `InputKind.USER_INPUT`）、参数名称、目标（可以是模型中的特定节点）以及输入是否是持久性的。输出被定义为 `OutputSpec` 对象，指定输出的种类（例如，`OutputKind.USER_OUTPUT`）和参数名称。
 
-  要了解更多关于图签名的信息，请参阅 `torch.export <user_guide/torch_compiler/export>` 获取更多信息。
+  要了解更多关于图签名的信息，请参阅 [torch.export <user_guide/torch_compiler/export>](torch.export <user_guide/torch_compiler/export>.md) 获取更多信息。
 
 - **pkg.torch.export.ExportedProgram.range_constraints**
 
@@ -174,7 +173,7 @@ assert onnx_program.model.graph.inputs[2].shape == ("batch_size", 8)
   *示例：*
   `s0: VR[2, int_oo]`，表示输入张量的大小必须至少为 2。
 
-  要了解更多关于范围约束的信息，请参阅 `torch.export <user_guide/torch_compiler/export>` 获取更多信息。
+  要了解更多关于范围约束的信息，请参阅 [torch.export <user_guide/torch_compiler/export>](torch.export <user_guide/torch_compiler/export>.md) 获取更多信息。
 
 ONNX 图中的每个输入值可能具有以下元数据属性：
 
@@ -223,4 +222,3 @@ ONNX 图中的每个输出值可能具有以下元数据属性：
   `fc1.weight`
 
 ## API 参考
-

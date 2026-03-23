@@ -9,7 +9,7 @@ mystnb:
 ---
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import torch
 
 import header_code
@@ -40,9 +40,7 @@ def f(x):
     return x + 4  # 被跟踪
 
 print(f(torch.ones(3)))
-```
-
-```{code-cell}
+{code-cell}
 def inner2(x):
     torch._dynamo.graph_break()  # 被跟踪
     return x + 1  # 被跟踪

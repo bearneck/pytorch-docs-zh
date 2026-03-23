@@ -1,7 +1,4 @@
- {.meta description="torch.backends.mkldnn 使用指南，这是一个运行 MKLDNN 操作的 PyTorch 后端" keywords="优化 PyTorch, MKLDNN"}
-
-
-# MKLDNN 后端 {#mkldnn_backend}
+# MKLDNN 后端
 
 MKLDNN 是一个开源的跨平台性能库，为深度学习应用提供基础构建模块。
 
@@ -16,9 +13,9 @@ torch.backends.mkldnn.enabled = True
 torch.backends.mkldnn.enabled = False
 ```
 
-# MKLDNN 后端上的 Bfloat16 (BF16) {#bf16_on_mkldnn}
+# MKLDNN 后端上的 Bfloat16 (BF16)
 
-从 PyTorch 2.9 开始，提供了一组 API 来控制 [float32]{.title-ref} 运算符的内部计算精度。
+从 PyTorch 2.9 开始，提供了一组 API 来控制 [float32] 运算符的内部计算精度。
 
 ``` python
 # 下面的标志控制 mkldnn 矩阵乘法的内部计算精度。默认 ieee 是 float32。
@@ -31,7 +28,7 @@ torch.backends.mkldnn.conv.fp32_precision = "ieee"
 torch.backends.mkldnn.rnn.fp32_precision = "ieee"
 ```
 
-请注意，除了矩阵乘法和卷积本身，内部使用矩阵乘法或卷积的函数和 nn 模块也会受到影响。这些包括 `torch.nn.Linear`{.interpreted-text role="class"}、`torch.nn._ConvNd`{.interpreted-text role="class"}、`torch.cdist`{.interpreted-text role="func"}、`torch.tensordot`{.interpreted-text role="func"}、`torch.nn.functional.affine_grid`{.interpreted-text role="func"} 和 `torch.nn.functional.grid_sample`{.interpreted-text role="func"}、`torch.nn.AdaptiveLogSoftmaxWithLoss`{.interpreted-text role="class"}、`torch.nn.GRU`{.interpreted-text role="class"} 以及 `torch.nn.LSTM`{.interpreted-text role="class"}。
+请注意，除了矩阵乘法和卷积本身，内部使用矩阵乘法或卷积的函数和 nn 模块也会受到影响。这些包括 `torch.nn.Linear`、`torch.nn._ConvNd`、`torch.cdist`、`torch.tensordot`、`torch.nn.functional.affine_grid` 和 `torch.nn.functional.grid_sample`、`torch.nn.AdaptiveLogSoftmaxWithLoss`、`torch.nn.GRU` 以及 `torch.nn.LSTM`。
 
 要了解精度和速度的情况，请查看下面的示例代码和基准测试数据（在 SPR 上）：
 
@@ -83,7 +80,7 @@ at::globalContext().setFloat32Precision("ieee", "mkldnn", "conv");
 at::globalContext().setFloat32Precision("ieee", "mkldnn", "rnn");
 ```
 
-如果 fp32_precision 设置为 [ieee]{.title-ref}，我们可以为特定的运算符或后端覆盖通用设置。
+如果 fp32_precision 设置为 [ieee]，我们可以为特定的运算符或后端覆盖通用设置。
 
 ``` python
 torch.backends.fp32_precision = "bf16"
@@ -91,4 +88,4 @@ torch.backends.mkldnn.fp32_precision = "ieee"
 torch.backends.mkldnn.matmul.fp32_precision = "ieee"
 ```
 
-对于这种情况，\`torch.backends.mkldnn.fp32_precision\` 和 [torch.backends.mkldnn.matmul.fp32_precision]{.title-ref} 都被覆盖为 bf16。
+对于这种情况，\`torch.backends.mkldnn.fp32_precision\` 和 [torch.backends.mkldnn.matmul.fp32_precision] 都被覆盖为 bf16。

@@ -9,7 +9,7 @@ mystnb:
 ---
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import torch
 
 import header_code
@@ -82,11 +82,9 @@ for i in range(5):
 在这两个示例中，我们可以将 `float` 变量包装在张量中以防止重新编译。
 
 ```{code-cell}
-:tags: [remove-cell]
-torch._dynamo.reset()
-```
 
-```{code-cell}
+torch._dynamo.reset()
+{code-cell}
 # 第一个示例
 for i in range(5):
     fn(torch.ones(i), torch.tensor(0.5 + i))

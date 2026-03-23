@@ -8162,7 +8162,7 @@
 </code></pre></div>
 <p>这些标志在编译时（更准确地说，是在代码生成时）生效：</p>
 <ul>
-<li><code>AOTI_RUNTIME_CHECK_INPUTS=1</code> 检查输入是否满足编译期间使用的同一组守卫条件。更多详情请参阅 <code>torch.compiler_troubleshooting</code>。</li>
+<li><code>AOTI_RUNTIME_CHECK_INPUTS=1</code> 检查输入是否满足编译期间使用的同一组守卫条件。更多详情请参阅 <em>torch.compiler_troubleshooting</em>。</li>
 <li><code>TORCHINDUCTOR_NAN_ASSERTS=1</code> 在每个 Inductor 内核的前后添加代码生成，以检查 NaN 值。</li>
 </ul>
 <h2 id="2-cuda-ima">步骤 2：定位 CUDA IMA<a class="headerlink" href="#2-cuda-ima" title="Permanent link">&para;</a></h2>
@@ -8194,8 +8194,8 @@
 <h2 id="_1">其他调试工具<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h3 id="_2">日志记录与追踪<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>tlparse / TORCH_TRACE</strong>：提供完整的输出代码以供检查，并记录所使用的守卫条件集。更多详情请参阅 <code>tlparse / TORCH_TRACE &lt;tlparse-torch-trace&gt;</code>。</li>
-<li><strong>TORCH_LOGS</strong>：使用 <code>TORCH_LOGS="+inductor,output_code"</code> 查看更多的 PT2 内部日志。更多详情请参阅 <code>TORCH_LOGS &lt;torch-logs&gt;</code>。</li>
+<li><strong>tlparse / TORCH_TRACE</strong>：提供完整的输出代码以供检查，并记录所使用的守卫条件集。更多详情请参阅 tlparse / TORCH_TRACE 。</li>
+<li><strong>TORCH_LOGS</strong>：使用 <code>TORCH_LOGS="+inductor,output_code"</code> 查看更多的 PT2 内部日志。更多详情请参阅 TORCH_LOGS 。</li>
 <li><strong>TORCH_SHOW_CPP_STACKTRACES</strong>：设置 <code>TORCH_SHOW_CPP_STACKTRACES=1</code> 以潜在地查看更多堆栈跟踪。</li>
 </ul>
 <h3 id="_3">常见问题来源<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>

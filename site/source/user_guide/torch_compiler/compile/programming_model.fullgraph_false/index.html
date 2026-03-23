@@ -7965,16 +7965,19 @@
    执行大量预处理或 I/O 操作的函数就是会导致许多图中断且无法从 <code>torch.compile</code> 中显著受益的示例。
    a. 您可以通过先编译单个函数/模块，再编译整个模型来隔离问题。</li>
 <li><a href="programming_model.compiler_disable">对编译区域内会导致大量图中断且无法从编译中受益的函数应用 <code>torch.compiler.disable</code></a>。在这种情况下，一个图中断比可能数十或数百个更好。</li>
-<li><a href="programming_model.observability">使用 <code>TORCH_LOGS="graph_breaks"</code> 或 tlparse 来调查剩余的图中断。</a>
+<li>
+<p><a href="programming_model.observability">使用 <code>TORCH_LOGS="graph_breaks"</code> 或 tlparse 来调查剩余的图中断。</a>
    使用与在 <code>fullgraph=True</code> 编程模型下处理图中断相同的方法来解决这些图中断。并非所有图中断都需要移除——有些可能比其他图中断对性能的影响更大。一般规则是关注发生在模型计算期间的图中断。
-   a. 我们建议在调试图中断时使用 <code>torch.compile(backend='eager')</code>，以获得更快的调试迭代周期。</li>
+   a. 我们建议在调试图中断时使用 <code>torch.compile(backend='eager')</code>，以获得更快的调试迭代周期。</p>
+</li>
+<li>
+<p><a href="../programming_model.where_to_apply_compile/">Programming Model Where To Apply Compile</a></p>
+</li>
+<li><a href="../programming_model.compiler_disable/">Programming Model Compiler Disable</a></li>
+<li><a href="../programming_model.error_on_graph_break/">Programming Model Error On Graph Break</a></li>
+<li><a href="../programming_model.nested_graph_breaks/">Programming Model Nested Graph Breaks</a></li>
+<li><a href="../programming_model.skipped_functions/">Programming Model Skipped Functions</a></li>
 </ol>
-<div class="highlight"><pre><span></span><code>programming_model.where_to_apply_compile
-programming_model.compiler_disable
-programming_model.error_on_graph_break
-programming_model.nested_graph_breaks
-programming_model.skipped_functions
-</code></pre></div>
 
 
 

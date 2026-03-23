@@ -8056,10 +8056,7 @@ Core aten IR 是完全函数式的，此操作集中没有 <code>inplace</code> 
 并且它不会将操作进一步分解为显式的类型提升和广播操作。
 此操作集旨在作为与后端交互的函数式 IR。</p>
 <div class="highlight"><pre><span></span><code>  此操作集仍在积极开发中，未来将添加更多操作。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>   :file: ../../../build/ir/aten_ops.csv
-   :widths: auto
-   :header-rows: 1
+{csv-table}
 </code></pre></div>
 <h2 id="prims-ir">Prims IR<a class="headerlink" href="#prims-ir" title="Permanent link">&para;</a></h2>
 <p>Prims IR 是一组可用于组合其他操作符的原始操作符。
@@ -8067,10 +8064,7 @@ Prims IR 是比 core aten IR 更低级的操作集，它将操作进一步分解
 类型提升和广播操作：prims.convert_element_type 和 prims.broadcast_in_dim。
 此操作集旨在与编译器后端交互。</p>
 <div class="highlight"><pre><span></span><code>  此操作集仍在积极开发中，未来将添加更多操作。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>   :file: ../../../build/ir/prims_ops.csv
-   :widths: auto
-   :header-rows: 1
+{csv-table}
 </code></pre></div>
 
 

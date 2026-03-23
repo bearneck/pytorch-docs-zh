@@ -21,7 +21,7 @@ Tensor histc(int64_t bins, Scalar min) const;
 Tensor histc(int64_t bins, Scalar min, Scalar max) const;
 ```
 
-还提供了原地操作，并且总是以 [\_]{.title-ref} 作为后缀，表示它们将修改张量。
+还提供了原地操作，并且总是以 [\_] 作为后缀，表示它们将修改张量。
 
 ## 高效访问张量元素
 
@@ -102,7 +102,7 @@ torch::Tensor c = ...
 torch::Tensor r = torch::addmm(1.0, a, .5, b, c);
 ```
 
-除了 `Scalar`，ATen 还允许 `Tensor` 对象是零维的。这些张量包含单个值，并且它们可以是对更大 `Tensor` 中单个元素的引用。它们可以在任何需要 `Tensor` 的地方使用。它们通常由像 [select]{.title-ref} 这样的操作符创建，这些操作符减少了 `Tensor` 的维度。
+除了 `Scalar`，ATen 还允许 `Tensor` 对象是零维的。这些张量包含单个值，并且它们可以是对更大 `Tensor` 中单个元素的引用。它们可以在任何需要 `Tensor` 的地方使用。它们通常由像 [select] 这样的操作符创建，这些操作符减少了 `Tensor` 的维度。
 
 ``` cpp
 torch::Tensor two = torch::rand({10, 20});

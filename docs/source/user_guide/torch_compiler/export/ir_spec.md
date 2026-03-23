@@ -1,4 +1,3 @@
-
 # torch.export IR 规范
 
 Export IR 是一种面向编译器的中间表示（IR），它与 [MLIR](https://mlir.llvm.org/) 和 TorchScript 有相似之处。它专门设计用于表达 PyTorch 程序的语义。Export IR 主要以精简的操作列表来表示计算，对动态性（如控制流）的支持有限。
@@ -73,9 +72,7 @@ class MyModule(nn.Module):
 example_args = (torch.randn(1), torch.randn(1))
 mod = torch.export.export(MyModule(), example_args)
 print(mod.graph)
-```
-
-```python
+python
 graph():
   %x : [num_users=1] = placeholder[target=x]
   %y : [num_users=1] = placeholder[target=y]
@@ -327,4 +324,3 @@ FakeTensor(dtype=torch.int, size=[2,], device=CPU)
 
 
 以下类型被定义为**容器类型**：
-

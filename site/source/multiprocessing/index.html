@@ -8164,8 +8164,8 @@
 x = queue.get()
 # 用 x 做一些事情
 del x
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>## 错误做法
+
+## 错误做法
 x = queue.get()
 # 用 x 做一些事情
 # 做其他所有事情（生产者必须将 x 保留在内存中）
@@ -8176,8 +8176,8 @@ x = queue.get()
 <div class="highlight"><pre><span></span><code>## 生产者
 # 发送张量，做一些事情
 event.wait()
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>## 消费者
+
+## 消费者
 # 接收张量并使用它们
 event.set()
 </code></pre></div>
@@ -8187,13 +8187,13 @@ event.set()
 <div class="highlight"><pre><span></span><code># 这不会工作
 x = queue.get()
 queue_2.put(x)
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># 您需要创建一个进程本地的副本
+
+# 您需要创建一个进程本地的副本
 x = queue.get()
 x_clone = x.clone()
 queue_2.put(x_clone)
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># 在同一进程中对同一队列进行放入和获取操作很可能导致段错误
+
+# 在同一进程中对同一队列进行放入和获取操作很可能导致段错误
 queue.put(tensor)
 x = queue.get()
 </code></pre></div>

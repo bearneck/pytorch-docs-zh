@@ -7986,7 +7986,7 @@
 <h1 id="_1">自定义<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>本节介绍如何自定义 TorchElastic 以满足您的需求。</p>
 <h2 id="_2">启动器<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>TorchElastic 自带的启动器程序应能满足大多数用例（参见 <code class="interpreted-text" role="ref">launcher-api</code>）。 您可以通过编程方式创建代理并为其传递工作进程的规格说明来实现自定义启动器，如下所示。</p>
+<p>TorchElastic 自带的启动器程序应能满足大多数用例（参见 <code>launcher-api</code>）。 您可以通过编程方式创建代理并为其传递工作进程的规格说明来实现自定义启动器，如下所示。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># my_launcher.py</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -8013,10 +8013,9 @@
 </code></pre></div>
 <h2 id="_3">集合处理器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>要实现您自己的集合机制，请扩展 <code>torch.distributed.elastic.rendezvous.RendezvousHandler</code> 并实现其方法。</p>
-<p>warning
- title
-Warning</p>
-<p>集合处理器的实现较为复杂。在开始之前，请确保您完全理解集合的属性。更多信息请参考 <code class="interpreted-text" role="ref">rendezvous-api</code>。</p>
+<blockquote>
+<p>⚠️ <strong>警告</strong>
+集合处理器的实现较为复杂。在开始之前，请确保您完全理解集合的属性。更多信息请参考 <code>rendezvous-api</code>。</p>
 <p>实现后，您可以在创建代理时将自定义的集合处理器传递给工作进程规格说明。</p>
 <div class="highlight"><pre><span></span><code><span class="n">spec</span> <span class="o">=</span> <span class="n">WorkerSpec</span><span class="p">(</span>
     <span class="n">rdzv_handler</span><span class="o">=</span><span class="n">MyRendezvousHandler</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
@@ -8026,7 +8025,7 @@ Warning</p>
 <span class="n">elastic_agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">role</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="_4">指标处理器<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>TorchElastic 会发出平台级别的指标（参见 <code class="interpreted-text" role="ref">metrics-api</code> 它。}）。 默认情况下，指标会输出到 [/dev/null]{.title-ref}，因此您将看不到它们。 若要将指标推送到您基础设施中的指标处理服务，请实现一个 [torch.distributed.elastic.metrics.MetricHandler]{.title-ref} 并在您的自定义启动器中 [configure]{.title-ref</p>
+<p>TorchElastic 会发出平台级别的指标（参见 <code>metrics-api</code>）。 默认情况下，指标会输出到 [/dev/null]，因此您将看不到它们。 若要将指标推送到您基础设施中的指标处理服务，请实现一个 [torch.distributed.elastic.metrics.MetricHandler] 并在您的自定义启动器中 [configure] 它。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># my_launcher.py</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed.elastic.metrics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">metrics</span>
@@ -8043,7 +8042,7 @@ Warning</p>
   <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
 <h2 id="_5">事件处理器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>TorchElastic 支持事件记录（参见 <code class="interpreted-text" role="ref">events-api</code> 它。}）。 事件模块定义了允许您记录事件并实现自定义 EventHandler 的 API。EventHandler 用于将 torchelastic 执行期间产生的事件发布到不同的源，例如 AWS CloudWatch。 默认情况下，它使用 [torch.distributed.elastic.events.NullEventHandler]{.title-ref}，该处理器会忽略事件。要配置自定义事件处理器，您需要实现 [torch.distributed.elastic.events.EventHandler]{.title-ref} 接口，并在您的自定义启动器中 [configure]{.title-ref</p>
+<p>TorchElastic 支持事件记录（参见 <code>events-api</code>）。 事件模块定义了允许您记录事件并实现自定义 EventHandler 的 API。EventHandler 用于将 torchelastic 执行期间产生的事件发布到不同的源，例如 AWS CloudWatch。 默认情况下，它使用 [torch.distributed.elastic.events.NullEventHandler]，该处理器会忽略事件。要配置自定义事件处理器，您需要实现 [torch.distributed.elastic.events.EventHandler] 接口，并在您的自定义启动器中 [configure] 它。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># my_launcher.py</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed.elastic.events</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">events</span>
@@ -8059,6 +8058,7 @@ Warning</p>
   <span class="n">agent</span> <span class="o">=</span> <span class="n">LocalElasticAgent</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
   <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
+</blockquote>
 
 
 

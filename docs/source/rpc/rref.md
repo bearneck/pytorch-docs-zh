@@ -2,22 +2,22 @@ orphan
 
 :   
 
-# 远程引用协议 {#remote-reference-protocol}
+# 远程引用协议
 
-本文档描述了远程引用协议的设计细节，并逐步介绍了不同场景下的消息流。在继续之前，请确保您熟悉 `distributed-rpc-framework`{.interpreted-text role="ref"}。
+本文档描述了远程引用协议的设计细节，并逐步介绍了不同场景下的消息流。在继续之前，请确保您熟悉 `distributed-rpc-framework`。
 
 ## 背景
 
-RRef 代表远程引用。它是对位于本地或远程工作进程上的对象的引用，并在底层透明地处理引用计数。从概念上讲，它可以被视为一个分布式共享指针。应用程序可以通过调用 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 来创建 RRef。每个 RRef 由 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 调用的被调用方工作进程（即所有者）拥有，并可以被多个用户使用。所有者存储真实数据并跟踪全局引用计数。每个 RRef 可以通过一个全局唯一的 `RRefId` 来标识，该 ID 在 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 调用的调用方创建时分配。
+RRef 代表远程引用。它是对位于本地或远程工作进程上的对象的引用，并在底层透明地处理引用计数。从概念上讲，它可以被视为一个分布式共享指针。应用程序可以通过调用 `torch.distributed.rpc.remote` 来创建 RRef。每个 RRef 由 `torch.distributed.rpc.remote` 调用的被调用方工作进程（即所有者）拥有，并可以被多个用户使用。所有者存储真实数据并跟踪全局引用计数。每个 RRef 可以通过一个全局唯一的 `RRefId` 来标识，该 ID 在 `torch.distributed.rpc.remote` 调用的调用方创建时分配。
 
-在所有者工作进程上，只有一个 `OwnerRRef` 实例，它包含真实数据；而在用户工作进程上，可以根据需要创建任意多个 `UserRRef`，且 `UserRRef` 不持有数据。所有者上的所有使用都将通过全局唯一的 `RRefId` 来检索唯一的 `OwnerRRef` 实例。当在 `~torch.distributed.rpc.rpc_sync`{.interpreted-text role="meth"}、`~torch.distributed.rpc.rpc_async`{.interpreted-text role="meth"} 或 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 调用中作为参数或返回值使用时，会创建一个 `UserRRef`，并且会通知所有者以更新引用计数。当全局范围内没有 `UserRRef` 实例，并且所有者上也没有对 `OwnerRRef` 的引用时，`OwnerRRef` 及其数据将被删除。
+在所有者工作进程上，只有一个 `OwnerRRef` 实例，它包含真实数据；而在用户工作进程上，可以根据需要创建任意多个 `UserRRef`，且 `UserRRef` 不持有数据。所有者上的所有使用都将通过全局唯一的 `RRefId` 来检索唯一的 `OwnerRRef` 实例。当在 `torch.distributed.rpc.rpc_sync`、`torch.distributed.rpc.rpc_async` 或 `torch.distributed.rpc.remote` 调用中作为参数或返回值使用时，会创建一个 `UserRRef`，并且会通知所有者以更新引用计数。当全局范围内没有 `UserRRef` 实例，并且所有者上也没有对 `OwnerRRef` 的引用时，`OwnerRRef` 及其数据将被删除。
 
 ## 假设
 
 RRef 协议的设计基于以下假设。
 
 - **瞬时网络故障**：RRef 设计通过重试消息来处理瞬时网络故障。它无法处理节点崩溃或永久性网络分区。当这些事件发生时，应用程序应停止所有工作进程，恢复到上一个检查点，并恢复训练。
-- **非幂等用户定义函数**：我们假设提供给 `~torch.distributed.rpc.rpc_sync`{.interpreted-text role="meth"}、`~torch.distributed.rpc.rpc_async`{.interpreted-text role="meth"} 或 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 的用户函数不是幂等的，因此不能重试。然而，内部的 RRef 控制消息是幂等的，并在消息失败时重试。
+- **非幂等用户定义函数**：我们假设提供给 `torch.distributed.rpc.rpc_sync`、`torch.distributed.rpc.rpc_async` 或 `torch.distributed.rpc.remote` 的用户函数不是幂等的，因此不能重试。然而，内部的 RRef 控制消息是幂等的，并在消息失败时重试。
 - **乱序消息传递**：我们不假设任意一对节点之间的消息传递顺序，因为发送方和接收方都使用多个线程。无法保证哪条消息会先被处理。
 
 ## RRef 生命周期
@@ -32,7 +32,7 @@ RRef 协议的设计基于以下假设。
 2)  从另一个用户接收一个 `UserRRef`。
 3)  创建一个由另一个工作进程拥有的新 `UserRRef`。
 
-情况 1 是最简单的，所有者将其 RRef 传递给用户，其中所有者调用 `~torch.distributed.rpc.rpc_sync`{.interpreted-text role="meth"}、`~torch.distributed.rpc.rpc_async`{.interpreted-text role="meth"} 或 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 并使用其 RRef 作为参数。在这种情况下，将在用户上创建一个新的 `UserRRef`。由于所有者是调用方，它可以轻松更新其本地 `OwnerRRef` 的引用计数。
+情况 1 是最简单的，所有者将其 RRef 传递给用户，其中所有者调用 `torch.distributed.rpc.rpc_sync`、`torch.distributed.rpc.rpc_async` 或 `torch.distributed.rpc.remote` 并使用其 RRef 作为参数。在这种情况下，将在用户上创建一个新的 `UserRRef`。由于所有者是调用方，它可以轻松更新其本地 `OwnerRRef` 的引用计数。
 
 唯一的要求是任何 `UserRRef` 在销毁时必须通知所有者。因此，我们需要第一个保证：
 
@@ -71,7 +71,7 @@ OwnerRRef
     A -> Y -> Z
 ```
 
-如果 Z 在 `UserRRef` 上调用 `~torch.distributed.rpc.RRef.to_here`{.interpreted-text role="meth"}，那么当 Z 被删除时，所有者至少知道 A，因为否则 `~torch.distributed.rpc.RRef.to_here`{.interpreted-text role="meth"} 不会完成。如果 Z 没有调用 `~torch.distributed.rpc.RRef.to_here`{.interpreted-text role="meth"}，那么所有者有可能在收到来自 A 和 Y 的任何消息之前，先收到来自 Z 的所有消息。在这种情况下，由于 `OwnerRRef` 的实际数据尚未创建，也就没有什么可删除的。这等同于 Z 根本不存在。因此，这仍然是可行的。
+如果 Z 在 `UserRRef` 上调用 `torch.distributed.rpc.RRef.to_here`，那么当 Z 被删除时，所有者至少知道 A，因为否则 `torch.distributed.rpc.RRef.to_here` 不会完成。如果 Z 没有调用 `torch.distributed.rpc.RRef.to_here`，那么所有者有可能在收到来自 A 和 Y 的任何消息之前，先收到来自 Z 的所有消息。在这种情况下，由于 `OwnerRRef` 的实际数据尚未创建，也就没有什么可删除的。这等同于 Z 根本不存在。因此，这仍然是可行的。
 
 ### 实现
 
@@ -93,13 +93,13 @@ rref = rpc.remote('B', torch.add, args=(torch.ones(2), 1))
 rref.to_here()
 ```
 
-在这种情况下，`UserRRef` 在用户 worker A 上创建，然后它随远程消息一起传递给所有者 worker B，随后 B 创建 `OwnerRRef`。方法 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 立即返回，这意味着 `UserRRef` 可以在所有者知道它之前被分叉/使用。
+在这种情况下，`UserRRef` 在用户 worker A 上创建，然后它随远程消息一起传递给所有者 worker B，随后 B 创建 `OwnerRRef`。方法 `torch.distributed.rpc.remote` 立即返回，这意味着 `UserRRef` 可以在所有者知道它之前被分叉/使用。
 
-在所有者端，当收到 `~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 调用时，它会创建 `OwnerRRef`，并返回一个 ACK 来确认 `{100, 1}`（`RRefId`, `ForkId`）。只有在收到此 ACK 后，A 才能删除其 `UserRRef`。这涉及 **G1** 和 **G2**。\*\*G1\*\* 是显而易见的。对于 **G2**，`OwnerRRef` 是 `UserRRef` 的子节点，而 `UserRRef` 在收到来自所有者的 ACK 之前不会被删除。
+在所有者端，当收到 `torch.distributed.rpc.remote` 调用时，它会创建 `OwnerRRef`，并返回一个 ACK 来确认 `{100, 1}`（`RRefId`, `ForkId`）。只有在收到此 ACK 后，A 才能删除其 `UserRRef`。这涉及 **G1** 和 **G2**。\*\*G1\*\* 是显而易见的。对于 **G2**，`OwnerRRef` 是 `UserRRef` 的子节点，而 `UserRRef` 在收到来自所有者的 ACK 之前不会被删除。
 
 ![user_to_owner_ret.png](https://user-images.githubusercontent.com/16999635/69164772-98181300-0abe-11ea-93a7-9ad9f757cd94.png){width="500px"}
 
-上图展示了消息流，其中实线箭头包含用户函数，虚线箭头是内置消息。请注意，从 A 到 B 的前两条消息（`~torch.distributed.rpc.remote`{.interpreted-text role="meth"} 和 `~torch.distributed.rpc.RRef.to_here`{.interpreted-text role="meth"}）可能以任意顺序到达 B，但最终的删除消息只有在以下条件满足时才会发送：
+上图展示了消息流，其中实线箭头包含用户函数，虚线箭头是内置消息。请注意，从 A 到 B 的前两条消息（`torch.distributed.rpc.remote` 和 `torch.distributed.rpc.RRef.to_here`）可能以任意顺序到达 B，但最终的删除消息只有在以下条件满足时才会发送：
 
 - B 确认了 `UserRRef {100, 1}`（G2），并且
 - Python GC 同意删除本地的 `UserRRef` 实例。这发生在 RRef 不再在作用域内且符合垃圾回收条件时。

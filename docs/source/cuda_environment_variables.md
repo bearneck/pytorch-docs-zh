@@ -1,4 +1,4 @@
-# CUDA 环境变量 {#cuda_environment_variables}
+# CUDA 环境变量
 
 有关 CUDA 运行时环境变量的更多信息，请参阅 [CUDA 环境变量](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#env-vars)。
 
@@ -7,7 +7,7 @@
   变量                                   描述
   -------------------------------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   `PYTORCH_NO_CUDA_MEMORY_CACHING`       如果设置为 `1`，则禁用 CUDA 中的内存分配缓存。这对于调试很有用。
-  `PYTORCH_ALLOC_CONF`                   有关此环境变量的更深入解释，请参阅 `cuda-memory-management`{.interpreted-text role="ref"}。`PYTORCH_CUDA_ALLOC_CONF` 是其别名，仅为向后兼容性而提供。
+  `PYTORCH_ALLOC_CONF`                   有关此环境变量的更深入解释，请参阅 `cuda-memory-management`。`PYTORCH_CUDA_ALLOC_CONF` 是其别名，仅为向后兼容性而提供。
   `PYTORCH_NVML_BASED_CUDA_CHECK`        如果设置为 `1`，则在导入检查 CUDA 是否可用的 PyTorch 模块之前，PyTorch 将使用 NVML 来检查 CUDA 驱动程序是否正常工作，而不是使用 CUDA 运行时。如果分叉进程因 CUDA 初始化错误而失败，这可能会有所帮助。
   `TORCH_CUDNN_V8_API_LRU_CACHE_LIMIT`   cuDNN v8 API 的缓存限制。用于限制 cuDNN v8 API 使用的内存。默认值为 10000，假设每个 ExecutionPlan 为 200KiB，则大约对应 2GiB。设置为 `0` 表示无限制，设置为负值表示不缓存。
   `TORCH_CUDNN_V8_API_DISABLED`          如果设置为 `1`，则禁用 cuDNN v8 API。并将回退到 cuDNN v7 API。

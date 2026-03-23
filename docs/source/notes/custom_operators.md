@@ -1,4 +1,4 @@
-# PyTorch 自定义算子页面 {#custom-ops-landing-page}
+# PyTorch 自定义算子页面
 
 此页面已迁移。
 

@@ -14,7 +14,7 @@ orphan: true
 > 此外，还有一份更[全面的 torch.compile 手册](https://docs.google.com/document/d/1y5CRfMLdwEoF1nTk9q8qEu1mgMUuUtvhklPKJ2emLU8/edit#heading=h.ivdr7fmrbeab)可用。
 
 
-我们正在积极开发调试工具、性能分析器，并改进我们的错误和警告信息。下表列出了可用的工具及其典型用途。如需更多帮助，请参阅 `diagnosing-runtime-errors`。
+我们正在积极开发调试工具、性能分析器，并改进我们的错误和警告信息。下表列出了可用的工具及其典型用途。如需更多帮助，请参阅 *diagnosing-runtime-errors*。
 
 
 除了信息和调试日志外，您还可以使用 [torch.\_logging](https://pytorch.org/docs/main/logging.html) 进行更细粒度的日志记录。
@@ -39,8 +39,8 @@ orphan: true
 
 缩小问题范围的一般步骤如下：
 
-1. 使用 `"eager"` 后端运行您的程序。如果错误不再发生，则问题出在正在使用的后端编译器中（如果使用 TorchInductor，请继续步骤 2。如果不是，请参阅 `minifying-backend-compiler-errors`）。如果使用 `"eager"` 后端时错误仍然发生，则错误是由于 `torchdynamo-errors`。
-2. 仅当使用 `TorchInductor` 作为后端编译器时才需要此步骤。使用 `"aot_eager"` 后端运行模型。如果此后端引发错误，则错误发生在 AOTAutograd 追踪期间。如果使用此后端时错误不再发生，则 `minifying-torchinductor-errors`。
+1. 使用 `"eager"` 后端运行您的程序。如果错误不再发生，则问题出在正在使用的后端编译器中（如果使用 TorchInductor，请继续步骤 2。如果不是，请参阅 *minifying-backend-compiler-errors*）。如果使用 `"eager"` 后端时错误仍然发生，则错误是由于 *torchdynamo-errors*。
+2. 仅当使用 `TorchInductor` 作为后端编译器时才需要此步骤。使用 `"aot_eager"` 后端运行模型。如果此后端引发错误，则错误发生在 AOTAutograd 追踪期间。如果使用此后端时错误不再发生，则 *minifying-torchinductor-errors*。
 
 以下各节将分析这些情况。
 
@@ -199,7 +199,7 @@ compiled(*args)
 
 ### 最小化后端编译器错误
 
-对于 TorchInductor 以外的后端编译器，查找导致错误的子图的过程与 `minifying-torchinductor-errors` 中的步骤几乎相同，但有一个重要的注意事项。即，最小化工具现在将运行在 TorchDynamo 追踪的图上，而不是 AOTAutograd 的输出图上。让我们通过一个示例来了解。
+对于 TorchInductor 以外的后端编译器，查找导致错误的子图的过程与 *minifying-torchinductor-errors* 中的步骤几乎相同，但有一个重要的注意事项。即，最小化工具现在将运行在 TorchDynamo 追踪的图上，而不是 AOTAutograd 的输出图上。让我们通过一个示例来了解。
 
 ```py
 import torch
@@ -268,7 +268,7 @@ with torch.cuda.amp.autocast(enabled=False):
     res = run_fwd_maybe_bwd(opt_mod, args)
 ```
 
-最小化工具成功地将图缩减到在 `toy_compiler` 中引发错误的操作符。与 `minifying-torchinductor-errors` 中过程的另一个区别是，最小化工具在遇到后端编译器错误后会自动运行。成功运行后，最小化工具将 `repro.py` 写入 `torch._dynamo.config.base_dir`。
+最小化工具成功地将图缩减到在 `toy_compiler` 中引发错误的操作符。与 *minifying-torchinductor-errors* 中过程的另一个区别是，最小化工具在遇到后端编译器错误后会自动运行。成功运行后，最小化工具将 `repro.py` 写入 `torch._dynamo.config.base_dir`。
 
 ## 性能分析
 
@@ -403,7 +403,7 @@ compiled_fun = torch.compile(some_fun, ...)
 
 TorchDynamo 将尝试将 `some_fun` 中的所有 torch/张量操作编译到单个 FX 图中，但它可能无法将所有内容捕获到一个图中。
 
-某些图中断原因是 TorchDynamo 无法克服的，并且不容易修复。例如，调用 torch 之外的 C 扩展对 torchdynamo 是不可见的，并且可能执行任意操作，而 TorchDynamo 无法引入必要的守卫（参见 `making-dynamo-sound-guards`）来确保编译后的程序可以安全地重用。如果生成的片段很小，图中断可能会影响性能。为了最大化性能，尽可能减少图中断的数量非常重要。
+某些图中断原因是 TorchDynamo 无法克服的，并且不容易修复。例如，调用 torch 之外的 C 扩展对 torchdynamo 是不可见的，并且可能执行任意操作，而 TorchDynamo 无法引入必要的守卫（参见 *making-dynamo-sound-guards*）来确保编译后的程序可以安全地重用。如果生成的片段很小，图中断可能会影响性能。为了最大化性能，尽可能减少图中断的数量非常重要。
 
 ## 识别图中断的原因
 

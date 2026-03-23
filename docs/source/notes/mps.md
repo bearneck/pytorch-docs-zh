@@ -1,6 +1,6 @@
-# MPS 后端 {#MPS-Backend}
+# MPS 后端
 
-`mps`{.interpreted-text role="mod"} 设备支持在配备 Metal 编程框架的 macOS 设备上实现高性能 GPU 训练。它引入了一种新的设备，能够将机器学习计算图和基本运算分别映射到高效的 Metal Performance Shaders Graph 框架以及由 Metal Performance Shaders 框架提供的优化内核上。
+`mps` 设备支持在配备 Metal 编程框架的 macOS 设备上实现高性能 GPU 训练。它引入了一种新的设备，能够将机器学习计算图和基本运算分别映射到高效的 Metal Performance Shaders Graph 框架以及由 Metal Performance Shaders 框架提供的优化内核上。
 
 新的 MPS 后端扩展了 PyTorch 生态系统，并为现有脚本提供了在 GPU 上设置和运行运算的能力。
 

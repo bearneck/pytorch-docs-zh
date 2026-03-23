@@ -9,7 +9,7 @@ mystnb:
 ---
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import torch
 
 import header_code
@@ -179,9 +179,7 @@ try:
     f(x)  # 图中断：torch.save 不被支持
 except Exception as e:
     print(e)
-```
-
-```{code-cell}
+{code-cell}
 def f_rewritten(x):
     y = g(x)
     torch.save(y, "foo.pt")
@@ -199,10 +197,8 @@ def h(y):
     return z
 
 f_rewritten(x)
-```
+{code-cell}
 
-```{code-cell}
-:tags: [remove-cell]
 import os
 os.remove("foo.pt")
 ```

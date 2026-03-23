@@ -1,132 +1,130 @@
-
-
 # 概率分布 - torch.distributions
 
 
-## {hidden}`Distribution`
+## `Distribution`
 
 
-## {hidden}`ExponentialFamily`
+## `ExponentialFamily`
 
 
-## {hidden}`Bernoulli`
+## `Bernoulli`
 
 
-## {hidden}`Beta`
+## `Beta`
 
 
-## {hidden}`Binomial`
+## `Binomial`
 
 
-## {hidden}`Categorical`
+## `Categorical`
 
 
-## {hidden}`Cauchy`
+## `Cauchy`
 
 
-## {hidden}`Chi2`
+## `Chi2`
 
 
-## {hidden}`ContinuousBernoulli`
+## `ContinuousBernoulli`
 
 
-## {hidden}`Dirichlet`
+## `Dirichlet`
 
 
-## {hidden}`Exponential`
+## `Exponential`
 
 
-## {hidden}`FisherSnedecor`
+## `FisherSnedecor`
 
 
-## {hidden}`Gamma`
+## `Gamma`
 
 
-## {hidden}`GeneralizedPareto`
+## `GeneralizedPareto`
 
 
-## {hidden}`Geometric`
+## `Geometric`
 
 
-## {hidden}`Gumbel`
+## `Gumbel`
 
 
-## {hidden}`HalfCauchy`
+## `HalfCauchy`
 
 
-## {hidden}`HalfNormal`
+## `HalfNormal`
 
 
-## {hidden}`Independent`
+## `Independent`
 
 
-## {hidden}`InverseGamma`
+## `InverseGamma`
 
 
-## {hidden}`Kumaraswamy`
+## `Kumaraswamy`
 
 
-## {hidden}`LKJCholesky`
+## `LKJCholesky`
 
 
-## {hidden}`Laplace`
+## `Laplace`
 
 
-## {hidden}`LogNormal`
+## `LogNormal`
 
 
-## {hidden}`LowRankMultivariateNormal`
+## `LowRankMultivariateNormal`
 
 
-## {hidden}`MixtureSameFamily`
+## `MixtureSameFamily`
 
 
-## {hidden}`Multinomial`
+## `Multinomial`
 
 
-## {hidden}`MultivariateNormal`
+## `MultivariateNormal`
 
 
-## {hidden}`NegativeBinomial`
+## `NegativeBinomial`
 
 
-## {hidden}`Normal`
+## `Normal`
 
 
-## {hidden}`OneHotCategorical`
+## `OneHotCategorical`
 
 
-## {hidden}`Pareto`
+## `Pareto`
 
 
-## {hidden}`Poisson`
+## `Poisson`
 
 
-## {hidden}`RelaxedBernoulli`
+## `RelaxedBernoulli`
 
 
-## {hidden}`LogitRelaxedBernoulli`
+## `LogitRelaxedBernoulli`
 
 
-## {hidden}`RelaxedOneHotCategorical`
+## `RelaxedOneHotCategorical`
 
 
-## {hidden}`StudentT`
+## `StudentT`
 
 
-## {hidden}`TransformedDistribution`
+## `TransformedDistribution`
 
 
-## {hidden}`Uniform`
+## `Uniform`
 
 
-## {hidden}`VonMises`
+## `VonMises`
 
 
-## {hidden}`Weibull`
+## `Weibull`
 
 
-## {hidden}`Wishart`
+## `Wishart`
 
 
 ## `KL 散度`
@@ -144,4 +142,3 @@
 % 此模块需要编写文档。暂时添加在此处以供追踪
 
 % 用于追踪目的
-

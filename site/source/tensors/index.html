@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tensor-doc" class="md-skip">
+        <a href="#torchtensor" class="md-skip">
           跳转至
         </a>
       
@@ -8041,12 +8041,10 @@
   
 
 
-<p>currentmodule
-torch</p>
-<h1 id="tensor-doc">torch.Tensor<a class="headerlink" href="#tensor-doc" title="Permanent link">&para;</a></h1>
-<p><code class="interpreted-text" role="class">torch.Tensor</code> 是一个包含单一数据类型元素的多维矩阵。有关 dtype 支持的更多详细信息，请参阅 <code class="interpreted-text" role="ref">dtype-doc</code>。</p>
+<h1 id="torchtensor">torch.Tensor<a class="headerlink" href="#torchtensor" title="Permanent link">&para;</a></h1>
+<p><code>torch.Tensor</code> 是一个包含单一数据类型元素的多维矩阵。有关 dtype 支持的更多详细信息，请参阅 <code>dtype-doc</code>。</p>
 <h2 id="_1">初始化和基本操作<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>可以使用 <code class="interpreted-text" role="func">torch.tensor</code> 构造函数从 Python <code class="interpreted-text" role="class">list</code> 或序列构造张量：</p>
+<p>可以使用 <code>torch.tensor</code> 构造函数从 Python <code>list</code> 或序列构造张量：</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; torch.tensor([[1., -1.], [1., -1.]])
 tensor([[ 1.0000, -1.0000],
         [ 1.0000, -1.0000]])
@@ -8054,11 +8052,10 @@ tensor([[ 1.0000, -1.0000],
 tensor([[ 1,  2,  3],
         [ 4,  5,  6]])
 </code></pre></div>
-<p>warning
- title
-Warning</p>
-<p><code class="interpreted-text" role="func">torch.tensor</code> 总是复制 <code class="interpreted-text" role="attr">data</code>。如果你有一个 Tensor <code class="interpreted-text" role="attr">data</code> 并且只想更改其 <code>requires_grad</code> 标志，请使用 <code class="interpreted-text" role="meth">~torch.Tensor.requires_grad_</code> 或 <code class="interpreted-text" role="meth">~torch.Tensor.detach</code> 来避免复制。 如果你有一个 numpy 数组并且想避免复制，请使用 <code class="interpreted-text" role="func">torch.as_tensor</code>。</p>
-<p>可以通过向构造函数或张量创建操作传递 <code class="interpreted-text" role="class">torch.dtype</code> 和/或 <code class="interpreted-text" role="class">torch.device</code> 来构造特定数据类型的张量：</p>
+<blockquote>
+<p>⚠️ <strong>警告</strong>
+<code>torch.tensor</code> 总是复制 <code>data</code>。如果你有一个 Tensor <code>data</code> 并且只想更改其 <code>requires_grad</code> 标志，请使用 <code>torch.Tensor.requires_grad_</code> 或 <code>torch.Tensor.detach</code> 来避免复制。 如果你有一个 numpy 数组并且想避免复制，请使用 <code>torch.as_tensor</code>。</p>
+<p>可以通过向构造函数或张量创建操作传递 <code>torch.dtype</code> 和/或 <code>torch.device</code> 来构造特定数据类型的张量：</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; torch.zeros([2, 4], dtype=torch.int32)
 tensor([[ 0,  0,  0,  0],
         [ 0,  0,  0,  0]], dtype=torch.int32)
@@ -8067,7 +8064,7 @@ tensor([[ 0,  0,  0,  0],
 tensor([[ 1.0000,  1.0000,  1.0000,  1.0000],
         [ 1.0000,  1.0000,  1.0000,  1.0000]], dtype=torch.float64, device=&#39;cuda:0&#39;)
 </code></pre></div>
-<p>有关构建张量的更多信息，请参阅 <code class="interpreted-text" role="ref">tensor-creation-ops</code></p>
+<p>有关构建张量的更多信息，请参阅 <code>tensor-creation-ops</code></p>
 <p>可以使用 Python 的索引和切片表示法访问和修改张量的内容：</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; x = torch.tensor([[1, 2, 3], [4, 5, 6]])
 &gt;&gt;&gt; print(x[1][2])
@@ -8077,7 +8074,7 @@ tensor(6)
 tensor([[ 1,  8,  3],
         [ 4,  5,  6]])
 </code></pre></div>
-<p>使用 <code class="interpreted-text" role="meth">torch.Tensor.item</code> 从包含单个值的张量中获取一个 Python 数字：</p>
+<p>使用 <code>torch.Tensor.item</code> 从包含单个值的张量中获取一个 Python 数字：</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; x = torch.tensor([[1]])
 &gt;&gt;&gt; x
 tensor([[ 1]])
@@ -8089,8 +8086,8 @@ tensor(2.5000)
 &gt;&gt;&gt; x.item()
 2.5
 </code></pre></div>
-<p>有关索引的更多信息，请参阅 <code class="interpreted-text" role="ref">indexing-slicing-joining</code></p>
-<p>可以创建具有 <code class="interpreted-text" role="attr">requires_grad=True</code> 的张量，以便 <code class="interpreted-text" role="mod">torch.autograd</code> 记录对其的操作以进行自动微分。</p>
+<p>有关索引的更多信息，请参阅 <code>indexing-slicing-joining</code></p>
+<p>可以创建具有 <code>requires_grad=True</code> 的张量，以便 <code>torch.autograd</code> 记录对其的操作以进行自动微分。</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; x = torch.tensor([[1., -1.], [1., 1.]], requires_grad=True)
 &gt;&gt;&gt; out = x.pow(2).sum()
 &gt;&gt;&gt; out.backward()
@@ -8098,63 +8095,48 @@ tensor(2.5000)
 tensor([[ 2.0000, -2.0000],
         [ 2.0000,  2.0000]])
 </code></pre></div>
-<p>每个张量都有一个关联的 <code class="interpreted-text" role="class">torch.Storage</code>，用于保存其数据。张量类还提供了存储的多维、`跨步 \&lt;https://en.wikipedia.org/wiki/Stride_of_an_array&gt;`_ 视图，并定义了其上的数值操作。</p>
-<p>note
- title
-Note</p>
-<p>有关张量视图的更多信息，请参阅 <code class="interpreted-text" role="ref">tensor-view-doc</code>。</p>
-<p>note
- title
-Note</p>
-<p>有关 <code class="interpreted-text" role="class">torch.Tensor</code> 的 <code class="interpreted-text" role="class">torch.dtype</code>、<code class="interpreted-text" role="class">torch.device</code> 和 <code class="interpreted-text" role="class">torch.layout</code> 属性的更多信息，请参阅 <code class="interpreted-text" role="ref">tensor-attributes-doc</code>。</p>
-<p>note
- title
-Note</p>
-<p>修改张量的方法会带有下划线后缀标记。例如，<code class="interpreted-text" role="func">torch.FloatTensor.abs_</code> 就地计算绝对值并返回修改后的张量，而 <code class="interpreted-text" role="func">torch.FloatTensor.abs</code> 在新的张量中计算结果。</p>
-<p>note
- title
-Note</p>
-<p>要更改现有张量的 <code class="interpreted-text" role="class">torch.device</code> 和/或 <code class="interpreted-text" role="class">torch.dtype</code>，请考虑在张量上使用 <code class="interpreted-text" role="meth">~torch.Tensor.to</code> 方法。</p>
-<p>warning
- title
-Warning</p>
-<p><code class="interpreted-text" role="class">torch.Tensor</code> 的当前实现引入了内存开销，因此在具有许多微小张量的应用程序中可能导致意外的高内存使用。如果这是你的情况，请考虑使用一个大型结构。</p>
+<p>每个张量都有一个关联的 <code>torch.Storage</code>，用于保存其数据。张量类还提供了存储的多维、`跨步 \&lt;https://en.wikipedia.org/wiki/Stride_of_an_array&gt;`_ 视图，并定义了其上的数值操作。</p>
+<p>📝 <strong>注意</strong>
+有关张量视图的更多信息，请参阅 <code>tensor-view-doc</code>。</p>
+<p>📝 <strong>注意</strong>
+有关 <code>torch.Tensor</code> 的 <code>torch.dtype</code>、<code>torch.device</code> 和 <code>torch.layout</code> 属性的更多信息，请参阅 <code>tensor-attributes-doc</code>。</p>
+<p>📝 <strong>注意</strong>
+修改张量的方法会带有下划线后缀标记。例如，<code>torch.FloatTensor.abs_</code> 就地计算绝对值并返回修改后的张量，而 <code>torch.FloatTensor.abs</code> 在新的张量中计算结果。</p>
+<p>📝 <strong>注意</strong>
+要更改现有张量的 <code>torch.device</code> 和/或 <code>torch.dtype</code>，请考虑在张量上使用 <code>torch.Tensor.to</code> 方法。</p>
+<p>⚠️ <strong>警告</strong>
+<code>torch.Tensor</code> 的当前实现引入了内存开销，因此在具有许多微小张量的应用程序中可能导致意外的高内存使用。如果这是你的情况，请考虑使用一个大型结构。</p>
 <h2 id="_2">张量类参考<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>Tensor()
+</blockquote>
+<p>::: Tensor()
 根据你的使用场景，有几种主要的创建张量的方法。</p>
 <ul>
-<li>要使用现有数据创建张量，请使用 <code class="interpreted-text" role="func">torch.tensor</code>。</li>
-<li>要创建具有特定大小的张量，请使用 <code>torch.*</code> 张量创建操作（参见 <code class="interpreted-text" role="ref">tensor-creation-ops</code>）。</li>
-<li>要创建与另一个张量具有相同大小（和相似类型）的张量，请使用 <code>torch.*_like</code> 张量创建操作（参见 <code class="interpreted-text" role="ref">tensor-creation-ops</code>）。</li>
+<li>要使用现有数据创建张量，请使用 <code>torch.tensor</code>。</li>
+<li>要创建具有特定大小的张量，请使用 <code>torch.*</code> 张量创建操作（参见 <code>tensor-creation-ops</code>）。</li>
+<li>要创建与另一个张量具有相同大小（和相似类型）的张量，请使用 <code>torch.*_like</code> 张量创建操作（参见 <code>tensor-creation-ops</code>）。</li>
 <li>要创建与另一个张量类型相似但大小不同的张量，请使用 <code>tensor.new_*</code> 创建操作。</li>
-<li>有一个遗留的构造函数 <code>torch.Tensor</code>，不鼓励使用。请改用 <code class="interpreted-text" role="func">torch.tensor</code>。</li>
+<li>有一个遗留的构造函数 <code>torch.Tensor</code>，不鼓励使用。请改用 <code>torch.tensor</code>。</li>
 </ul>
-<p>method
-Tensor.__init__(self, data)</p>
-<p>此构造函数已弃用，我们建议改用 <code class="interpreted-text" role="func">torch.tensor</code>。此构造函数的行为取决于 <code>data</code> 的类型。</p>
+<p>Tensor.__init__(self, data)</p>
+<p>此构造函数已弃用，我们建议改用 <code>torch.tensor</code>。此构造函数的行为取决于 <code>data</code> 的类型。</p>
 <ul>
-<li>如果 <code>data</code> 是一个 Tensor，则返回原始 Tensor 的别名。与 <code class="interpreted-text" role="func">torch.tensor</code> 不同，这会跟踪自动微分，并将梯度传播到原始 Tensor。对于这种 <code>data</code> 类型，不支持 <code>device</code> 关键字参数。</li>
-<li>如果 <code>data</code> 是一个序列或嵌套序列，则创建一个默认 dtype（通常是 <code>torch.float32</code>）的张量，其数据是序列中的值，必要时执行强制转换。值得注意的是，这与 <code class="interpreted-text" role="func">torch.tensor</code> 不同，因为此构造函数总是构造一个浮点张量，即使输入全是整数。</li>
-<li>如果 <code>data</code> 是一个 <code class="interpreted-text" role="class">torch.Size</code>，则返回一个该大小的空张量。</li>
+<li>如果 <code>data</code> 是一个 Tensor，则返回原始 Tensor 的别名。与 <code>torch.tensor</code> 不同，这会跟踪自动微分，并将梯度传播到原始 Tensor。对于这种 <code>data</code> 类型，不支持 <code>device</code> 关键字参数。</li>
+<li>如果 <code>data</code> 是一个序列或嵌套序列，则创建一个默认 dtype（通常是 <code>torch.float32</code>）的张量，其数据是序列中的值，必要时执行强制转换。值得注意的是，这与 <code>torch.tensor</code> 不同，因为此构造函数总是构造一个浮点张量，即使输入全是整数。</li>
+<li>如果 <code>data</code> 是一个 <code>torch.Size</code>，则返回一个该大小的空张量。</li>
 </ul>
-<p>此构造函数不支持显式指定返回张量的 <code>dtype</code> 或 <code>device</code>。我们建议使用提供此功能的 <code class="interpreted-text" role="func">torch.tensor</code>。</p>
+<p>此构造函数不支持显式指定返回张量的 <code>dtype</code> 或 <code>device</code>。我们建议使用提供此功能的 <code>torch.tensor</code>。</p>
 <p>Args:</p>
 <p>:   data (array_like): 用于构造张量的数据。</p>
 <p>Keyword args:</p>
 <p>:   </p>
-<div class="highlight"><pre><span></span><code>device (`torch.device`{.interpreted-text role=&quot;class&quot;}, optional): 返回张量的期望设备。
+<div class="highlight"><pre><span></span><code>device (`torch.device`, optional): 返回张量的期望设备。
 
-:   默认值：如果为 None，则与此张量相同的 `torch.device`{.interpreted-text role=&quot;class&quot;}。
+:   默认值：如果为 None，则与此张量相同的 `torch.device`。
 </code></pre></div>
-<p>autoattribute
-Tensor.T</p>
-<p>autoattribute
-Tensor.H</p>
-<p>autoattribute
-Tensor.mT</p>
-<p>autoattribute
-Tensor.mH</p>
-<p>{.autosummary toctree="generated" nosignatures=""}</p>
+<p>Tensor.T</p>
+<p>Tensor.H</p>
+<p>Tensor.mT</p>
+<p>Tensor.mH</p>
 <p>Tensor.new_tensor Tensor.new_full Tensor.new_empty Tensor.new_ones Tensor.new_zeros</p>
 <p>Tensor.is_cuda Tensor.is_quantized Tensor.is_meta Tensor.device Tensor.grad Tensor.ndim Tensor.real Tensor.imag Tensor.nbytes Tensor.itemsize</p>
 <p>Tensor.abs <a href="">Tensor.abs</a> Tensor.absolute <a href="">Tensor.absolute</a> Tensor.acos <a href="">Tensor.acos</a> Tensor.arccos <a href="">Tensor.arccos</a> Tensor.add <a href="">Tensor.add</a> Tensor.addbmm <a href="">Tensor.addbmm</a> Tensor.addcdiv <a href="">Tensor.addcdiv</a> Tensor.addcmul <a href="">Tensor.addcmul</a> Tensor.addmm <a href="">Tensor.addmm</a> Tensor.sspaddmm Tensor.addmv <a href="">Tensor.addmv</a> Tensor.addr <a href="">Tensor.addr</a> Tensor.adjoint Tensor.allclose Tensor.amax Tensor.amin Tensor.aminmax Tensor.angle <a href="">Tensor.apply</a> Tensor.argmax Tensor.argmin Tensor.argsort Tensor.argwhere Tensor.asin <a href="">Tensor.asin</a> Tensor.arcsin <a href="">Tensor.arcsin</a> Tensor.as_strided Tensor.atan <a href="">Tensor.atan</a> Tensor.arctan <a href="">Tensor.arctan</a> Tensor.atan2 <a href="">Tensor.atan2</a> Tensor.arctan2 <a href="">Tensor.arctan2</a> Tensor.all Tensor.any Tensor.backward Tensor.baddbmm <a href="">Tensor.baddbmm</a> Tensor.bernoulli <a href="">Tensor.bernoulli</a> Tensor.bfloat16 Tensor.bincount Tensor.bitwise_not <a href="">Tensor.bitwise_not</a> Tensor.bitwise_and <a href="">Tensor.bitwise_and</a> Tensor.bitwise_or <a href="">Tensor.bitwise_or</a> Tensor.bitwise_xor <a href="">Tensor.bitwise_xor</a> Tensor.bitwise_left_shift <a href="">Tensor.bitwise_left_shift</a> Tensor.bitwise_right_shift <a href="">Tensor.bitwise_right_shift</a> Tensor.bmm Tensor.bool Tensor.byte Tensor.broadcast_to <a href="">Tensor.cauchy</a> Tensor.ceil <a href="">Tensor.ceil</a> Tensor.char Tensor.cholesky Tensor.cholesky_inverse Tensor.cholesky_solve Tensor.chunk Tensor.clamp <a href="">Tensor.clamp</a> Tensor.clip <a href="">Tensor.clip</a> Tensor.clone Tensor.contiguous <a href="">Tensor.copy</a> Tensor.conj Tensor.conj_physical <a href="">Tensor.conj_physical</a> Tensor.resolve_conj Tensor.resolve_neg Tensor.copysign <a href="">Tensor.copysign</a> Tensor.cos <a href="">Tensor.cos</a> Tensor.cosh <a href="">Tensor.cosh</a> Tensor.corrcoef Tensor.count_nonzero Tensor.cov Tensor.acosh <a href="">Tensor.acosh</a> Tensor.arccosh <a href="">Tensor.arccosh</a> Tensor.cpu Tensor.cross Tensor.cuda Tensor.logcumsumexp Tensor.cummax Tensor.cummin Tensor.cumprod <a href="">Tensor.cumprod</a> Tensor.cumsum <a href="">Tensor.cumsum</a> Tensor.chalf Tensor.cfloat Tensor.cdouble Tensor.data_ptr Tensor.deg2rad Tensor.dequantize Tensor.det Tensor.dense_dim Tensor.detach <a href="">Tensor.detach</a> Tensor.diag Tensor.diag_embed Tensor.diagflat Tensor.diagonal Tensor.diagonal_scatter <a href="">Tensor.fill_diagonal</a> Tensor.fmax Tensor.fmin Tensor.diff Tensor.digamma <a href="">Tensor.digamma</a> Tensor.dim Tensor.dim_order Tensor.dist Tensor.div <a href="">Tensor.div</a> Tensor.divide <a href="">Tensor.divide</a> Tensor.dot Tensor.double Tensor.dsplit Tensor.element_size Tensor.eq <a href="">Tensor.eq</a> Tensor.equal Tensor.erf <a href="">Tensor.erf</a> Tensor.erfc <a href="">Tensor.erfc</a> Tensor.erfinv <a href="">Tensor.erfinv</a> Tensor.exp <a href="">Tensor.exp</a> Tensor.expm1 <a href="">Tensor.expm1</a> Tensor.expand Tensor.expand_as <a href="">Tensor.exponential</a> Tensor.fix <a href="">Tensor.fix</a> <a href="">Tensor.fill</a> Tensor.flatten Tensor.flip Tensor.fliplr Tensor.flipud Tensor.float Tensor.float_power <a href="">Tensor.float_power</a> Tensor.floor <a href="">Tensor.floor</a> Tensor.floor_divide <a href="">Tensor.floor_divide</a> Tensor.fmod <a href="">Tensor.fmod</a> Tensor.frac <a href="">Tensor.frac</a> Tensor.frexp Tensor.gather Tensor.gcd <a href="">Tensor.gcd</a> Tensor.ge <a href="">Tensor.ge</a> Tensor.greater_equal <a href="">Tensor.greater_equal</a> <a href="">Tensor.geometric</a> Tensor.geqrf Tensor.ger Tensor.get_device Tensor.gt <a href="">Tensor.gt</a> Tensor.greater <a href="">Tensor.greater</a> Tensor.half Tensor.hardshrink Tensor.heaviside Tensor.histc Tensor.histogram Tensor.hsplit Tensor.hypot <a href="">Tensor.hypot</a> Tensor.i0 <a href="">Tensor.i0</a> Tensor.igamma <a href="">Tensor.igamma</a> Tensor.igammac <a href="">Tensor.igammac</a> <a href="">Tensor.index_add</a> Tensor.index_add <a href="">Tensor.index_copy</a> Tensor.index_copy <a href="">Tensor.index_fill</a> Tensor.index_fill <a href="">Tensor.index_put</a> Tensor.index_put <a href="">Tensor.index_reduce</a> Tensor.index_reduce Tensor.index_select Tensor.indices Tensor.inner Tensor.int Tensor.int_repr Tensor.inverse Tensor.isclose Tensor.isfinite Tensor.isinf Tensor.isposinf Tensor.isneginf Tensor.isnan Tensor.is_contiguous Tensor.is_complex Tensor.is_conj Tensor.is_floating_point Tensor.is_inference Tensor.is_leaf Tensor.is_pinned Tensor.is_set_to Tensor.is_shared Tensor.is_signed Tensor.is_sparse Tensor.istft Tensor.isreal Tensor.item Tensor.kthvalue Tensor.lcm <a href="">Tensor.lcm</a> Tensor.ldexp <a href="">Tensor.ldexp</a> Tensor.le <a href="">Tensor.le</a> Tensor.less_equal <a href="">Tensor.less_equal</a> Tensor.lerp <a href="">Tensor.lerp</a> Tensor.lgamma <a href="">Tensor.lgamma</a> Tensor.log <a href="">Tensor.log</a> Tensor.logdet Tensor.log10 <a href="">Tensor.log10</a> Tensor.log1p <a href="">Tensor.log1p</a> Tensor.log2 <a href="">Tensor.log2</a> <a href="">Tensor.log_normal</a> Tensor.logaddexp Tensor.logaddexp2 Tensor.logsumexp Tensor.logical_and <a href="">Tensor.logical_and</a> Tensor.logical_not <a href="">Tensor.logical_not</a> Tensor.logical_or <a href="">Tensor.logical_or</a> Tensor.logical_xor <a href="">Tensor.logical_xor</a> Tensor.logit <a href="">Tensor.logit</a> Tensor.long Tensor.lt <a href="">Tensor.lt</a> Tensor.less <a href="">Tensor.less</a> Tensor.lu Tensor.lu_solve Tensor.as_subclass <a href="">Tensor.map</a> <a href="">Tensor.masked_scatter</a> Tensor.masked_scatter <a href="">Tensor.masked_fill</a> Tensor.masked_fill Tensor.masked_select Tensor.matmul Tensor.matrix_power Tensor.matrix_exp Tensor.max Tensor.maximum Tensor.mean Tensor.module_load Tensor.nanmean Tensor.median Tensor.nanmedian Tensor.min Tensor.minimum Tensor.mm Tensor.smm Tensor.mode Tensor.movedim Tensor.moveaxis Tensor.msort Tensor.mul <a href="">Tensor.mul</a> Tensor.multiply <a href="">Tensor.multiply</a> Tensor.multinomial Tensor.mv Tensor.mvlgamma <a href="">Tensor.mvlgamma</a> Tensor.nansum Tensor.narrow Tensor.narrow_copy Tensor.ndimension Tensor.nan_to_num <a href="">Tensor.nan_to_num</a> Tensor.ne <a href="">Tensor.ne</a> Tensor.not_equal <a href="">Tensor.not_equal</a> Tensor.neg <a href="">Tensor.neg</a> Tensor.negative <a href="">Tensor.negative</a> Tensor.nelement Tensor.nextafter <a href="">Tensor.nextafter</a> Tensor.nonzero Tensor.norm <a href="">Tensor.normal</a> Tensor.numel Tensor.numpy Tensor.orgqr Tensor.ormqr Tensor.outer Tensor.permute Tensor.pin_memory Tensor.pinverse Tensor.polygamma <a href="">Tensor.polygamma</a> Tensor.positive Tensor.pow <a href="">Tensor.pow</a> Tensor.prod <a href="">Tensor.put</a> Tensor.qr Tensor.qscheme Tensor.quantile Tensor.nanquantile Tensor.q_scale Tensor.q_zero_point Tensor.q_per_channel_scales Tensor.q_per_channel_zero_points Tensor.q_per_channel_axis Tensor.rad2deg <a href="">Tensor.random</a> Tensor.ravel Tensor.reciprocal <a href="">Tensor.reciprocal</a> Tensor.record_stream Tensor.register_hook Tensor.register_post_accumulate_grad_hook Tensor.remainder <a href="">Tensor.remainder</a> Tensor.renorm <a href="">Tensor.renorm</a> Tensor.repeat Tensor.repeat_interleave Tensor.requires_grad <a href="">Tensor.requires_grad</a> Tensor.reshape Tensor.reshape_as <a href="">Tensor.resize</a> <a href="">Tensor.resize_as</a> Tensor.retain_grad Tensor.retains_grad Tensor.roll Tensor.rot90 Tensor.round <a href="">Tensor.round</a> Tensor.rsqrt <a href="">Tensor.rsqrt</a> Tensor.scatter <a href="">Tensor.scatter</a> <a href="">Tensor.scatter_add</a> Tensor.scatter_add <a href="">Tensor.scatter_reduce</a> Tensor.scatter_reduce Tensor.select Tensor.select_scatter <a href="">Tensor.set</a> <a href="">Tensor.share_memory</a> Tensor.short Tensor.sigmoid <a href="">Tensor.sigmoid</a> Tensor.sign <a href="">Tensor.sign</a> Tensor.signbit Tensor.sgn <a href="">Tensor.sgn</a> Tensor.sin <a href="">Tensor.sin</a> Tensor.sinc <a href="">Tensor.sinc</a> Tensor.sinh <a href="">Tensor.sinh</a> Tensor.asinh <a href="">Tensor.asinh</a> Tensor.arcsinh <a href="">Tensor.arcsinh</a> Tensor.shape Tensor.size Tensor.slogdet Tensor.slice_scatter Tensor.softmax Tensor.sort Tensor.split Tensor.sparse_mask Tensor.sparse_dim Tensor.sqrt <a href="">Tensor.sqrt</a> Tensor.square <a href="">Tensor.square</a> Tensor.squeeze <a href="">Tensor.squeeze</a> Tensor.std Tensor.stft Tensor.storage Tensor.untyped_storage Tensor.storage_offset Tensor.storage_type Tensor.stride Tensor.sub <a href="">Tensor.sub</a> Tensor.subtract <a href="">Tensor.subtract</a> Tensor.sum Tensor.sum_to_size Tensor.svd Tensor.swapaxes Tensor.swapdims Tensor.t <a href="">Tensor.t</a> Tensor.tensor_split Tensor.tile Tensor.to Tensor.to_mkldnn Tensor.take Tensor.take_along_dim Tensor.tan <a href="">Tensor.tan</a> Tensor.tanh <a href="">Tensor.tanh</a> Tensor.atanh <a href="">Tensor.atanh</a> Tensor.arctanh <a href="">Tensor.arctanh</a> Tensor.tolist Tensor.topk Tensor.to_dense Tensor.to_sparse Tensor.to_sparse_csr Tensor.to_sparse_csc Tensor.to_sparse_bsr Tensor.to_sparse_bsc Tensor.trace Tensor.transpose <a href="">Tensor.transpose</a> Tensor.triangular_solve Tensor.tril <a href="">Tensor.tril</a> Tensor.triu <a href="">Tensor.triu</a> Tensor.true_divide <a href="">Tensor.true_divide</a> Tensor.trunc <a href="">Tensor.trunc</a> Tensor.type Tensor.type_as Tensor.unbind Tensor.unflatten Tensor.unfold <a href="">Tensor.uniform</a> Tensor.unique Tensor.unique_consecutive Tensor.unsqueeze <a href="">Tensor.unsqueeze</a> Tensor.values Tensor.var Tensor.vdot Tensor.view Tensor.view_as Tensor.vsplit Tensor.where Tensor.xlogy <a href="">Tensor.xlogy</a> Tensor.xpu <a href="">Tensor.zero</a></p>

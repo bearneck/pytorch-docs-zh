@@ -8078,10 +8078,10 @@
     <span class="k">while</span> <span class="n">cond_fn</span><span class="p">(</span><span class="o">*</span><span class="n">val</span><span class="p">):</span>
         <span class="n">val</span> <span class="o">=</span> <span class="n">body_fn</span><span class="p">(</span><span class="o">*</span><span class="n">val</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">val</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>`torch.while_loop` 是 PyTorch 中的一个原型功能。它对输入和输出类型的支持有限。
-请期待未来 PyTorch 版本中更稳定的实现。
-更多关于功能分类的信息，请参阅：https://pytorch.org/blog/pytorch-feature-classification-changes/#prototype
+<span class="p">{</span><span class="n">warning</span><span class="p">}</span>
+<span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">while_loop</span><span class="err">`</span> <span class="n">是</span> <span class="n">PyTorch</span> <span class="n">中的一个原型功能</span><span class="err">。</span><span class="n">它对输入和输出类型的支持有限</span><span class="err">。</span>
+<span class="n">请期待未来</span> <span class="n">PyTorch</span> <span class="n">版本中更稳定的实现</span><span class="err">。</span>
+<span class="n">更多关于功能分类的信息</span><span class="err">，</span><span class="n">请参阅</span><span class="err">：</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pytorch</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">pytorch</span><span class="o">-</span><span class="n">feature</span><span class="o">-</span><span class="n">classification</span><span class="o">-</span><span class="n">changes</span><span class="o">/</span><span class="c1">#prototype</span>
 </code></pre></div>
 <h2 id="_1">示例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>下面是一个基本示例，使用 while_loop 进行迭代直到满足条件：</p>

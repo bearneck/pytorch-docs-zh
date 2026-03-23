@@ -1,4 +1,3 @@
-
 # IRs
 
 PyTorch 2.0 为后端提供了两组 IR 进行交互：Core Aten IR 和 Prims IR。
@@ -13,12 +12,9 @@ Core aten IR 是完全函数式的，此操作集中没有 `inplace` 或 `_out` 
 
 ```{warning}
   此操作集仍在积极开发中，未来将添加更多操作。
-```
+{csv-table}
 
-```{csv-table}
-   :file: ../../../build/ir/aten_ops.csv
-   :widths: auto
-   :header-rows: 1
+
 ```
 
 ## Prims IR
@@ -30,10 +26,7 @@ Prims IR 是比 core aten IR 更低级的操作集，它将操作进一步分解
 
 ```{warning}
   此操作集仍在积极开发中，未来将添加更多操作。
-```
+{csv-table}
 
-```{csv-table}
-   :file: ../../../build/ir/prims_ops.csv
-   :widths: auto
-   :header-rows: 1
+
 ```

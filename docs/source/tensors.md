@@ -1,14 +1,11 @@
- currentmodule
-torch
 
+# torch.Tensor
 
-# torch.Tensor {#tensor-doc}
-
-`torch.Tensor`{.interpreted-text role="class"} 是一个包含单一数据类型元素的多维矩阵。有关 dtype 支持的更多详细信息，请参阅 `dtype-doc`{.interpreted-text role="ref"}。
+`torch.Tensor` 是一个包含单一数据类型元素的多维矩阵。有关 dtype 支持的更多详细信息，请参阅 `dtype-doc`。
 
 ## 初始化和基本操作
 
-可以使用 `torch.tensor`{.interpreted-text role="func"} 构造函数从 Python `list`{.interpreted-text role="class"} 或序列构造张量：
+可以使用 `torch.tensor` 构造函数从 Python `list` 或序列构造张量：
 
     >>> torch.tensor([[1., -1.], [1., -1.]])
     tensor([[ 1.0000, -1.0000],
@@ -17,124 +14,99 @@ torch
     tensor([[ 1,  2,  3],
             [ 4,  5,  6]])
 
- warning
- title
-Warning
+
+> ⚠️ **警告**
+> `torch.tensor` 总是复制 `data`。如果你有一个 Tensor `data` 并且只想更改其 `requires_grad` 标志，请使用 `torch.Tensor.requires_grad_` 或 `torch.Tensor.detach` 来避免复制。 如果你有一个 numpy 数组并且想避免复制，请使用 `torch.as_tensor`。
+>
+> 可以通过向构造函数或张量创建操作传递 `torch.dtype` 和/或 `torch.device` 来构造特定数据类型的张量：
+>
+>     >>> torch.zeros([2, 4], dtype=torch.int32)
+>     tensor([[ 0,  0,  0,  0],
+>             [ 0,  0,  0,  0]], dtype=torch.int32)
+>     >>> cuda0 = torch.device('cuda:0')
+>     >>> torch.ones([2, 4], dtype=torch.float64, device=cuda0)
+>     tensor([[ 1.0000,  1.0000,  1.0000,  1.0000],
+>             [ 1.0000,  1.0000,  1.0000,  1.0000]], dtype=torch.float64, device='cuda:0')
+>
+> 有关构建张量的更多信息，请参阅 `tensor-creation-ops`
+>
+> 可以使用 Python 的索引和切片表示法访问和修改张量的内容：
+>
+>     >>> x = torch.tensor([[1, 2, 3], [4, 5, 6]])
+>     >>> print(x[1][2])
+>     tensor(6)
+>     >>> x[0][1] = 8
+>     >>> print(x)
+>     tensor([[ 1,  8,  3],
+>             [ 4,  5,  6]])
+>
+> 使用 `torch.Tensor.item` 从包含单个值的张量中获取一个 Python 数字：
+>
+>     >>> x = torch.tensor([[1]])
+>     >>> x
+>     tensor([[ 1]])
+>     >>> x.item()
+>     1
+>     >>> x = torch.tensor(2.5)
+>     >>> x
+>     tensor(2.5000)
+>     >>> x.item()
+>     2.5
+>
+> 有关索引的更多信息，请参阅 `indexing-slicing-joining`
+>
+> 可以创建具有 `requires_grad=True` 的张量，以便 `torch.autograd` 记录对其的操作以进行自动微分。
+>
+>     >>> x = torch.tensor([[1., -1.], [1., 1.]], requires_grad=True)
+>     >>> out = x.pow(2).sum()
+>     >>> out.backward()
+>     >>> x.grad
+>     tensor([[ 2.0000, -2.0000],
+>             [ 2.0000,  2.0000]])
+>
+> 每个张量都有一个关联的 `torch.Storage`，用于保存其数据。张量类还提供了存储的多维、\`跨步 \<https://en.wikipedia.org/wiki/Stride_of_an_array\>\`\_ 视图，并定义了其上的数值操作。
 
 
-`torch.tensor`{.interpreted-text role="func"} 总是复制 `data`{.interpreted-text role="attr"}。如果你有一个 Tensor `data`{.interpreted-text role="attr"} 并且只想更改其 `requires_grad` 标志，请使用 `~torch.Tensor.requires_grad_`{.interpreted-text role="meth"} 或 `~torch.Tensor.detach`{.interpreted-text role="meth"} 来避免复制。 如果你有一个 numpy 数组并且想避免复制，请使用 `torch.as_tensor`{.interpreted-text role="func"}。
+> 📝 **注意**
+> 有关张量视图的更多信息，请参阅 `tensor-view-doc`。
 
 
-可以通过向构造函数或张量创建操作传递 `torch.dtype`{.interpreted-text role="class"} 和/或 `torch.device`{.interpreted-text role="class"} 来构造特定数据类型的张量：
-
-    >>> torch.zeros([2, 4], dtype=torch.int32)
-    tensor([[ 0,  0,  0,  0],
-            [ 0,  0,  0,  0]], dtype=torch.int32)
-    >>> cuda0 = torch.device('cuda:0')
-    >>> torch.ones([2, 4], dtype=torch.float64, device=cuda0)
-    tensor([[ 1.0000,  1.0000,  1.0000,  1.0000],
-            [ 1.0000,  1.0000,  1.0000,  1.0000]], dtype=torch.float64, device='cuda:0')
-
-有关构建张量的更多信息，请参阅 `tensor-creation-ops`{.interpreted-text role="ref"}
-
-可以使用 Python 的索引和切片表示法访问和修改张量的内容：
-
-    >>> x = torch.tensor([[1, 2, 3], [4, 5, 6]])
-    >>> print(x[1][2])
-    tensor(6)
-    >>> x[0][1] = 8
-    >>> print(x)
-    tensor([[ 1,  8,  3],
-            [ 4,  5,  6]])
-
-使用 `torch.Tensor.item`{.interpreted-text role="meth"} 从包含单个值的张量中获取一个 Python 数字：
-
-    >>> x = torch.tensor([[1]])
-    >>> x
-    tensor([[ 1]])
-    >>> x.item()
-    1
-    >>> x = torch.tensor(2.5)
-    >>> x
-    tensor(2.5000)
-    >>> x.item()
-    2.5
-
-有关索引的更多信息，请参阅 `indexing-slicing-joining`{.interpreted-text role="ref"}
-
-可以创建具有 `requires_grad=True`{.interpreted-text role="attr"} 的张量，以便 `torch.autograd`{.interpreted-text role="mod"} 记录对其的操作以进行自动微分。
-
-    >>> x = torch.tensor([[1., -1.], [1., 1.]], requires_grad=True)
-    >>> out = x.pow(2).sum()
-    >>> out.backward()
-    >>> x.grad
-    tensor([[ 2.0000, -2.0000],
-            [ 2.0000,  2.0000]])
-
-每个张量都有一个关联的 `torch.Storage`{.interpreted-text role="class"}，用于保存其数据。张量类还提供了存储的多维、\`跨步 \<https://en.wikipedia.org/wiki/Stride_of_an_array\>\`\_ 视图，并定义了其上的数值操作。
-
- note
- title
-Note
+> 📝 **注意**
+> 有关 `torch.Tensor` 的 `torch.dtype`、`torch.device` 和 `torch.layout` 属性的更多信息，请参阅 `tensor-attributes-doc`。
 
 
-有关张量视图的更多信息，请参阅 `tensor-view-doc`{.interpreted-text role="ref"}。
+> 📝 **注意**
+> 修改张量的方法会带有下划线后缀标记。例如，`torch.FloatTensor.abs_` 就地计算绝对值并返回修改后的张量，而 `torch.FloatTensor.abs` 在新的张量中计算结果。
 
 
- note
- title
-Note
+> 📝 **注意**
+> 要更改现有张量的 `torch.device` 和/或 `torch.dtype`，请考虑在张量上使用 `torch.Tensor.to` 方法。
 
 
-有关 `torch.Tensor`{.interpreted-text role="class"} 的 `torch.dtype`{.interpreted-text role="class"}、`torch.device`{.interpreted-text role="class"} 和 `torch.layout`{.interpreted-text role="class"} 属性的更多信息，请参阅 `tensor-attributes-doc`{.interpreted-text role="ref"}。
+> ⚠️ **警告**
+> `torch.Tensor` 的当前实现引入了内存开销，因此在具有许多微小张量的应用程序中可能导致意外的高内存使用。如果这是你的情况，请考虑使用一个大型结构。
+>
+> ## 张量类参考
 
-
- note
- title
-Note
-
-
-修改张量的方法会带有下划线后缀标记。例如，`torch.FloatTensor.abs_`{.interpreted-text role="func"} 就地计算绝对值并返回修改后的张量，而 `torch.FloatTensor.abs`{.interpreted-text role="func"} 在新的张量中计算结果。
-
-
- note
- title
-Note
-
-
-要更改现有张量的 `torch.device`{.interpreted-text role="class"} 和/或 `torch.dtype`{.interpreted-text role="class"}，请考虑在张量上使用 `~torch.Tensor.to`{.interpreted-text role="meth"} 方法。
-
-
- warning
- title
-Warning
-
-
-`torch.Tensor`{.interpreted-text role="class"} 的当前实现引入了内存开销，因此在具有许多微小张量的应用程序中可能导致意外的高内存使用。如果这是你的情况，请考虑使用一个大型结构。
-
-
-## 张量类参考
-
- Tensor()
+::: Tensor()
 根据你的使用场景，有几种主要的创建张量的方法。
 
-- 要使用现有数据创建张量，请使用 `torch.tensor`{.interpreted-text role="func"}。
-- 要创建具有特定大小的张量，请使用 `torch.*` 张量创建操作（参见 `tensor-creation-ops`{.interpreted-text role="ref"}）。
-- 要创建与另一个张量具有相同大小（和相似类型）的张量，请使用 `torch.*_like` 张量创建操作（参见 `tensor-creation-ops`{.interpreted-text role="ref"}）。
+- 要使用现有数据创建张量，请使用 `torch.tensor`。
+- 要创建具有特定大小的张量，请使用 `torch.*` 张量创建操作（参见 `tensor-creation-ops`）。
+- 要创建与另一个张量具有相同大小（和相似类型）的张量，请使用 `torch.*_like` 张量创建操作（参见 `tensor-creation-ops`）。
 - 要创建与另一个张量类型相似但大小不同的张量，请使用 `tensor.new_*` 创建操作。
-- 有一个遗留的构造函数 `torch.Tensor`，不鼓励使用。请改用 `torch.tensor`{.interpreted-text role="func"}。
+- 有一个遗留的构造函数 `torch.Tensor`，不鼓励使用。请改用 `torch.tensor`。
 
 
- method
 Tensor.\_\_init\_\_(self, data)
 
-此构造函数已弃用，我们建议改用 `torch.tensor`{.interpreted-text role="func"}。此构造函数的行为取决于 `data` 的类型。
+此构造函数已弃用，我们建议改用 `torch.tensor`。此构造函数的行为取决于 `data` 的类型。
 
-- 如果 `data` 是一个 Tensor，则返回原始 Tensor 的别名。与 `torch.tensor`{.interpreted-text role="func"} 不同，这会跟踪自动微分，并将梯度传播到原始 Tensor。对于这种 `data` 类型，不支持 `device` 关键字参数。
-- 如果 `data` 是一个序列或嵌套序列，则创建一个默认 dtype（通常是 `torch.float32`）的张量，其数据是序列中的值，必要时执行强制转换。值得注意的是，这与 `torch.tensor`{.interpreted-text role="func"} 不同，因为此构造函数总是构造一个浮点张量，即使输入全是整数。
-- 如果 `data` 是一个 `torch.Size`{.interpreted-text role="class"}，则返回一个该大小的空张量。
+- 如果 `data` 是一个 Tensor，则返回原始 Tensor 的别名。与 `torch.tensor` 不同，这会跟踪自动微分，并将梯度传播到原始 Tensor。对于这种 `data` 类型，不支持 `device` 关键字参数。
+- 如果 `data` 是一个序列或嵌套序列，则创建一个默认 dtype（通常是 `torch.float32`）的张量，其数据是序列中的值，必要时执行强制转换。值得注意的是，这与 `torch.tensor` 不同，因为此构造函数总是构造一个浮点张量，即使输入全是整数。
+- 如果 `data` 是一个 `torch.Size`，则返回一个该大小的空张量。
 
-此构造函数不支持显式指定返回张量的 `dtype` 或 `device`。我们建议使用提供此功能的 `torch.tensor`{.interpreted-text role="func"}。
+此构造函数不支持显式指定返回张量的 `dtype` 或 `device`。我们建议使用提供此功能的 `torch.tensor`。
 
 Args:
 
@@ -144,28 +116,21 @@ Keyword args:
 
 :   
 
-    device (`torch.device`{.interpreted-text role="class"}, optional): 返回张量的期望设备。
+    device (`torch.device`, optional): 返回张量的期望设备。
 
-    :   默认值：如果为 None，则与此张量相同的 `torch.device`{.interpreted-text role="class"}。
+    :   默认值：如果为 None，则与此张量相同的 `torch.device`。
 
 
- autoattribute
 Tensor.T
 
 
- autoattribute
 Tensor.H
 
 
- autoattribute
 Tensor.mT
 
 
- autoattribute
 Tensor.mH
-
-
- {.autosummary toctree="generated" nosignatures=""}
 
 
 Tensor.new_tensor Tensor.new_full Tensor.new_empty Tensor.new_ones Tensor.new_zeros

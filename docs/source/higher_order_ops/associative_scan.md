@@ -79,9 +79,7 @@ inp = torch.randn(5, 3, device="cuda")
 dim_seq = torch.export.Dim("seq", min=2)
 ep = torch.export.export(mod, (inp,), dynamic_shapes={"xs": {0: dim_seq}})
 print(ep)
-```
 
-```
 ExportedProgram:
     class GraphModule(torch.nn.Module):
         def forward(self, xs: "f32[s83, 3]"):
@@ -127,4 +125,3 @@ Graph signature:
 - `combine_fn` 的输出不能是任何输入的别名。
 
 ## API 参考
-

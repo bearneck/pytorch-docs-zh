@@ -24,9 +24,7 @@ def map(
         xs_sliced = xs.select(0, idx)
         out.append(f(xs_sliced, *args))
     return torch.stack(out)
-```
-
-```{warning}
+{warning}
 `torch._higher_order_ops.map` 是 PyTorch 中的一个原型功能。您可能会遇到编译错误。
 更多关于功能分类的信息请阅读：https://pytorch.org/blog/pytorch-feature-classification-changes/#prototype
 ```
@@ -79,4 +77,3 @@ print(ep)
 - 主体函数不得修改输入。
 
 ## API 参考
-

@@ -36,9 +36,9 @@ torch.onnx.export(
 
 *基于 torch.export 的 ONNX 导出器是 PyTorch 2.6 及更新版本中最新的导出器*
 
-该导出器利用 `torch.export <torch.export>` 引擎，以提前编译 (AOT) 的方式生成一个仅表示函数中张量计算的追踪图。生成的追踪图 (1) 在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，(2) 消除了所有 Python 控制流和数据结构（某些例外情况除外），并且 (3) 在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的一组形状约束。
+该导出器利用 torch.export  引擎，以提前编译 (AOT) 的方式生成一个仅表示函数中张量计算的追踪图。生成的追踪图 (1) 在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，(2) 消除了所有 Python 控制流和数据结构（某些例外情况除外），并且 (3) 在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的一组形状约束。
 
-`了解更多关于基于 torch.export 的 ONNX 导出器 <onnx_export>`
+[了解更多关于基于 torch.export 的 ONNX 导出器 <onnx_export>](了解更多关于基于 torch.export 的 ONNX 导出器 <onnx_export>.md)
 
 ## 常见问题
 
@@ -48,7 +48,7 @@ torch.onnx.export(
 
 问：如何导出包含循环的模型？
 
-  请参阅 `torch.cond <cond>`。
+  请参阅 torch.cond 。
 
 ## 贡献 / 开发
 
@@ -64,5 +64,3 @@ ONNX 导出器是一个社区项目，我们欢迎贡献。我们遵循 [PyTorch
 
 
 ### 已弃用的 API
-
-

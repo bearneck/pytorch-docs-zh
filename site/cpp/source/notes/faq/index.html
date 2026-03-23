@@ -8050,7 +8050,7 @@
 <h2 id="pytorchaten">来自 PyTorch/ATen 的未定义符号错误<a class="headerlink" href="#pytorchaten" title="Permanent link">&para;</a></h2>
 <p><strong>问题</strong>：导入扩展时出现 <code>ImportError</code>，提示 PyTorch 或 ATen 中的某些 C++ 符号未定义。例如：:</p>
 <blockquote>
-<p>&gt;&gt;&gt; import extension Traceback (most recent call last): File \"\&lt;stdin&gt;\", line 1, in \&lt;module&gt; ImportError: /home/user/.pyenv/versions/3.7.1/lib/python3.7/site-packages/extension.cpython-37m-x86_64-linux-gnu.so: undefined symbol: [ZN2at19UndefinedTensorImpl10_singletonE]{#zn2at19undefinedtensorimpl10_singletone}</p>
+<p>&gt;&gt;&gt; import extension Traceback (most recent call last): File \"\&lt;stdin&gt;\", line 1, in \&lt;module&gt; ImportError: /home/user/.pyenv/versions/3.7.1/lib/python3.7/site-packages/extension.cpython-37m-x86_64-linux-gnu.so: undefined symbol: [ZN2at19UndefinedTensorImpl10_singletonE]</p>
 </blockquote>
 <p><strong>解决方法</strong>：解决方法是先 <code>import torch</code>，然后再导入你的扩展。这将使你扩展所依赖的 PyTorch 动态（共享）库中的符号可用，从而在导入扩展时能够解析这些符号。</p>
 <h2 id="at">我使用 <code>at::</code> 中的函数创建了一个张量并出现错误<a class="headerlink" href="#at" title="Permanent link">&para;</a></h2>

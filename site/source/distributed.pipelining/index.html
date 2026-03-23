@@ -8437,8 +8437,8 @@
 <h2 id="1-pipelinestage">步骤 1：构建 <code>PipelineStage</code><a class="headerlink" href="#1-pipelinestage" title="Permanent link">&para;</a></h2>
 <p>在使用 <code>PipelineSchedule</code> 之前，我们需要创建 <code>PipelineStage</code> 对象来包装在该阶段运行的模型部分。<code>PipelineStage</code> 负责分配通信缓冲区并创建发送/接收操作以与其对等节点通信。它管理中间缓冲区，例如尚未被消耗的前向输出，并提供一个实用程序来运行阶段模型的反向传播。</p>
 <p><code>PipelineStage</code> 需要知道阶段模型的输入和输出形状，以便正确分配通信缓冲区。形状必须是静态的，例如，在运行时，形状不能每一步都发生变化。如果运行时形状与预期形状不匹配，将引发 <code>PipeliningShapeError</code> 异常。当与其他并行技术组合或应用混合精度时，必须考虑这些技术，以便 <code>PipelineStage</code> 知道运行时阶段模块输出的正确形状（和数据类型）。</p>
-<p>用户可以通过传入一个代表应在该阶段运行的模型部分的 <code>nn.Module</code> 来直接构造 <code>PipelineStage</code> 实例。这可能需要对原始模型代码进行修改。请参阅 <code>option_1_manual</code> 中的示例。</p>
-<p>或者，划分前端可以使用图划分技术自动将你的模型拆分为一系列 <code>nn.Module</code>。此技术要求模型可以通过 <code>torch.Export</code> 进行追踪。生成的 <code>nn.Module</code> 与其他并行技术的可组合性尚处于实验阶段，可能需要一些变通方法。如果用户无法轻松更改模型代码，使用此前端可能更具吸引力。更多信息请参阅 <code>option_2_tracer</code>。</p>
+<p>用户可以通过传入一个代表应在该阶段运行的模型部分的 <code>nn.Module</code> 来直接构造 <code>PipelineStage</code> 实例。这可能需要对原始模型代码进行修改。请参阅 <em>option_1_manual</em> 中的示例。</p>
+<p>或者，划分前端可以使用图划分技术自动将你的模型拆分为一系列 <code>nn.Module</code>。此技术要求模型可以通过 <code>torch.Export</code> 进行追踪。生成的 <code>nn.Module</code> 与其他并行技术的可组合性尚处于实验阶段，可能需要一些变通方法。如果用户无法轻松更改模型代码，使用此前端可能更具吸引力。更多信息请参阅 <em>option_2_tracer</em>。</p>
 <h2 id="2-pipelineschedule">步骤 2：使用 <code>PipelineSchedule</code> 执行<a class="headerlink" href="#2-pipelineschedule" title="Permanent link">&para;</a></h2>
 <p>现在我们可以将 <code>PipelineStage</code> 附加到流水线调度方案，并使用输入数据运行该调度方案。以下是一个 GPipe 示例：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch.distributed.pipelining</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScheduleGPipe</span>
@@ -8475,8 +8475,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">layer_id</span><span class="p">)]</span> <span class="o">=</span> <span class="n">TransformerBlock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+<span class="n">python</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
     <span class="c1"># 在运行时处理层为 &#39;None&#39; 的情况，便于流水线切分</span>
     <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tok_embeddings</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tok_embeddings</span> <span class="k">else</span> <span class="n">tokens</span>
 

@@ -8093,8 +8093,8 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code>  `torch.finfo` 的构造函数可以在不提供参数的情况下调用，此时会为 PyTorch 的默认 dtype（由 `torch.get_default_dtype` 返回）创建该类。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>  `smallest_normal` 返回最小的*规格化*数，但存在更小的次规格化数。更多信息请参见 https://en.wikipedia.org/wiki/Denormal_number。
+{note}
+  `smallest_normal` 返回最小的*规格化*数，但存在更小的次规格化数。更多信息请参见 https://en.wikipedia.org/wiki/Denormal_number。
 </code></pre></div>
 <h2 id="torchiinfo">torch.iinfo<a class="headerlink" href="#torchiinfo" title="Permanent link">&para;</a></h2>
 <p><code>torch.iinfo</code> 是一个表示整型 <code>torch.dtype</code>（例如 <code>torch.uint8</code>、<code>torch.int8</code>、<code>torch.int16</code>、<code>torch.int32</code> 和 <code>torch.int64</code>）数值属性的对象。这类似于 <a href="https://numpy.org/doc/stable/reference/generated/numpy.iinfo.html">numpy.iinfo</a>。</p>

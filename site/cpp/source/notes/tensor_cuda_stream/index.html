@@ -8075,28 +8075,23 @@
 </ol>
 <div class="highlight"><pre><span></span><code><span class="n">CUDAStream</span><span class="w"> </span><span class="nf">getStreamFromPool</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">isHighPriority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="n">DeviceIndex</span><span class="w"> </span><span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span>
 </code></pre></div>
-<p>tip
- title
-Tip</p>
-<p>你可以通过将 [isHighPriority]{.title-ref} 设置为 [true]{.title-ref} 来从高优先级池中请求一个流，或者通过设置设备索引（默认为当前 CUDA 流的设备索引）来为特定设备请求一个流。</p>
+<blockquote>
+<p>💡 <strong>提示</strong>
+你可以通过将 [isHighPriority] 设置为 [true] 来从高优先级池中请求一个流，或者通过设置设备索引（默认为当前 CUDA 流的设备索引）来为特定设备请求一个流。</p>
 <ol>
 <li>获取指定 CUDA 设备的默认 CUDA 流，如果未传递设备索引，则获取当前设备的默认流。</li>
 </ol>
 <div class="highlight"><pre><span></span><code><span class="n">CUDAStream</span><span class="w"> </span><span class="nf">getDefaultCUDAStream</span><span class="p">(</span><span class="n">DeviceIndex</span><span class="w"> </span><span class="n">device_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span>
 </code></pre></div>
-<p>tip
- title
-Tip</p>
-<p>默认流是当你没有显式使用流时，大多数计算发生的地方。</p>
+<p>💡 <strong>提示</strong>
+默认流是当你没有显式使用流时，大多数计算发生的地方。</p>
 <ol>
 <li>获取索引为 <code>device_index</code> 的 CUDA 设备的当前 CUDA 流，如果未传递设备索引，则获取当前设备的当前流。</li>
 </ol>
 <div class="highlight"><pre><span></span><code><span class="n">CUDAStream</span><span class="w"> </span><span class="nf">getCurrentCUDAStream</span><span class="p">(</span><span class="n">DeviceIndex</span><span class="w"> </span><span class="n">device_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span>
 </code></pre></div>
-<p>tip
- title
-Tip</p>
-<p>当前 CUDA 流通常是该设备的默认 CUDA 流，但如果有人调用了 <code>setCurrentCUDAStream</code> 或使用了 <code>StreamGuard</code> 或 <code>CUDAStreamGuard</code>，则可能不同。</p>
+<p>💡 <strong>提示</strong>
+当前 CUDA 流通常是该设备的默认 CUDA 流，但如果有人调用了 <code>setCurrentCUDAStream</code> 或使用了 <code>StreamGuard</code> 或 <code>CUDAStreamGuard</code>，则可能不同。</p>
 <h2 id="cuda_1">设置 CUDA 流<a class="headerlink" href="#cuda_1" title="Permanent link">&para;</a></h2>
 <p>PyTorch 的 C++ API 提供了以下方式来设置 CUDA 流：</p>
 <ol>
@@ -8104,17 +8099,13 @@ Tip</p>
 </ol>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setCurrentCUDAStream</span><span class="p">(</span><span class="n">CUDAStream</span><span class="w"> </span><span class="n">stream</span><span class="p">);</span>
 </code></pre></div>
-<p>attention
- title
-Attention</p>
-<p>此函数可能与当前设备无关。它只改变流所属设备上的当前流。 我们建议使用 <code>CUDAStreamGuard</code>，因为它会切换到流的设备并使其成为该设备上的当前流。 <code>CUDAStreamGuard</code> 还会在销毁时恢复当前设备和流。</p>
+<p>❗ <strong>注意</strong>
+此函数可能与当前设备无关。它只改变流所属设备上的当前流。 我们建议使用 <code>CUDAStreamGuard</code>，因为它会切换到流的设备并使其成为该设备上的当前流。 <code>CUDAStreamGuard</code> 还会在销毁时恢复当前设备和流。</p>
 <ol>
 <li>使用 <code>CUDAStreamGuard</code> 在作用域内切换到某个 CUDA 流，它定义在 <a href="https://pytorch.org/cppdocs/api/structc10_1_1cuda_1_1_c_u_d_a_stream_guard.html">CUDAStreamGuard.h</a> 中。</li>
 </ol>
-<p>tip
- title
-Tip</p>
-<p>如果你需要在多个 CUDA 设备上设置流，请使用 <code>CUDAMultiStreamGuard</code>。</p>
+<p>💡 <strong>提示</strong>
+如果你需要在多个 CUDA 设备上设置流，请使用 <code>CUDAMultiStreamGuard</code>。</p>
 <h2 id="cuda_2">CUDA 流使用示例<a class="headerlink" href="#cuda_2" title="Permanent link">&para;</a></h2>
 <ol>
 <li>在同一设备上获取和设置 CUDA 流</li>
@@ -8137,8 +8128,8 @@ Tip</p>
 <span class="n">at</span><span class="o">::</span><span class="n">cuda</span><span class="o">::</span><span class="n">setCurrentCUDAStream</span><span class="p">(</span><span class="n">defaultStream</span><span class="p">);</span>
 <span class="c1">// tensor0 上的 sum() 操作使用 `defaultStream` 作为当前 CUDA 流</span>
 <span class="n">tensor0</span><span class="p">.</span><span class="n">sum</span><span class="p">();</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1">// 此示例与上一个示例相同，但显式指定了设备</span>
+<span class="w"> </span><span class="n">cpp</span>
+<span class="c1">// 此示例与上一个示例相同，但显式指定了设备</span>
 <span class="c1">// 索引并使用 CUDA 流保护器来设置当前 CUDA 流</span>
 
 <span class="c1">// 在设备 0 上创建一个张量</span>
@@ -8156,10 +8147,8 @@ Tip</p>
 <span class="c1">// tensor0 上的 sum() 操作使用设备 0 上的默认 CUDA 流作为当前 CUDA 流</span>
 <span class="n">tensor0</span><span class="p">.</span><span class="n">sum</span><span class="p">();</span>
 </code></pre></div>
-<p>attention
- title
-Attention</p>
-<p>上述代码运行在同一个 CUDA 设备上。`setCurrentCUDAStream` 总是在当前设备上设置当前 CUDA 流， 但请注意 [setCurrentCUDAStream]{.title-ref} 实际上是在传入的 CUDA 流所属的设备上设置当前流。</p>
+<p>❗ <strong>注意</strong>
+上述代码运行在同一个 CUDA 设备上。`setCurrentCUDAStream` 总是在当前设备上设置当前 CUDA 流， 但请注意 [setCurrentCUDAStream] 实际上是在传入的 CUDA 流所属的设备上设置当前流。</p>
 <ol>
 <li>在多个设备上获取和设置 CUDA 流。</li>
 </ol>
@@ -8180,12 +8169,12 @@ Attention</p>
 <span class="c1">// tensor0 上的 sum() 操作在设备 0 上使用 `myStream0` 作为当前 CUDA 流</span>
 <span class="n">tensor0</span><span class="p">.</span><span class="n">sum</span><span class="p">();</span>
 </code></pre></div>
-<p>// 通过在大括号作用域内使用 CUDA 设备保护器，将当前设备索引更改为 1 { at::cuda::CUDAGuard device_guard{1}; // 在设备 1 上创建一个张量 torch::Tensor tensor1 = torch::ones({2, 2}, torch::device(at::kCUDA)); // 在张量 1 上执行 sum() 操作时，使用 [myStream1]{.title-ref} 作为设备 1 上的当前 CUDA 流 tensor1.sum(); }</p>
+<p>// 通过在大括号作用域内使用 CUDA 设备保护器，将当前设备索引更改为 1 { at::cuda::CUDAGuard device_guard{1}; // 在设备 1 上创建一个张量 torch::Tensor tensor1 = torch::ones({2, 2}, torch::device(at::kCUDA)); // 在张量 1 上执行 sum() 操作时，使用 [myStream1] 作为设备 1 上的当前 CUDA 流 tensor1.sum(); }</p>
 <p>// 当 device_guard 被销毁后，当前设备重置为设备 0</p>
 <p>// 在设备 1 上获取一个新的 CUDA 流 at::cuda::CUDAStream myStream1_1 = at::cuda::getStreamFromPool(false, 1); // 在设备 1 上创建一个新的张量 torch::Tensor tensor1 = torch::ones({2, 2}, torch::device({torch::kCUDA, 1}));</p>
-<p>// 在作用域内使用 CUDA 流保护器，将当前设备索引更改为 1，并将设备 1 上的当前 CUDA 流更改为 [myStream1_1]{.title-ref} { at::cuda::CUDAStreamGuard stream_guard(myStream1_1); // 在张量 tensor1 上执行 sum() 操作时，使用 [myStream1_1]{.title-ref} 作为设备 1 上的当前 CUDA 流 tensor1.sum(); }</p>
-<p>// 当前设备重置为设备 0，且设备 1 上的当前 CUDA 流重置为 [myStream1]{.title-ref}</p>
-<p>// 在张量 tensor1 上执行 sum() 操作时，使用 [myStream1]{.title-ref} 作为设备 1 上的当前 CUDA 流 tensor1.sum();</p>
+<p>// 在作用域内使用 CUDA 流保护器，将当前设备索引更改为 1，并将设备 1 上的当前 CUDA 流更改为 [myStream1_1] { at::cuda::CUDAStreamGuard stream_guard(myStream1_1); // 在张量 tensor1 上执行 sum() 操作时，使用 [myStream1_1] 作为设备 1 上的当前 CUDA 流 tensor1.sum(); }</p>
+<p>// 当前设备重置为设备 0，且设备 1 上的当前 CUDA 流重置为 [myStream1]</p>
+<p>// 在张量 tensor1 上执行 sum() 操作时，使用 [myStream1] 作为设备 1 上的当前 CUDA 流 tensor1.sum();</p>
 <ol>
 <li>使用 CUDA 多流保护器</li>
 </ol>
@@ -8218,10 +8207,8 @@ Attention</p>
 <span class="c1">// 在张量 tensor1 上执行 sum() 操作时，使用默认 CUDA 流作为设备 1 上的当前 CUDA 流</span>
 <span class="n">tensor1</span><span class="p">.</span><span class="n">sum</span><span class="p">();</span>
 </code></pre></div>
-<p>attention
- title
-Attention</p>
-<p><code>CUDAMultiStreamGuard</code> 不会改变当前设备索引，它只改变每个传入流所在设备上的流。 除了作用域控制外，此保护器等同于在每个传入流上调用 <code>setCurrentCUDAStream</code>。</p>
+<p>❗ <strong>注意</strong>
+<code>CUDAMultiStreamGuard</code> 不会改变当前设备索引，它只改变每个传入流所在设备上的流。 除了作用域控制外，此保护器等同于在每个传入流上调用 <code>setCurrentCUDAStream</code>。</p>
 <ol>
 <li>在多设备上处理 CUDA 流的框架示例</li>
 </ol>
@@ -8280,6 +8267,7 @@ Attention</p>
 <span class="p">}</span>
 <span class="c1">// 当 `multi_guard` 被销毁后，设备 0 和设备 1 上的当前 CUDA 流重置为 `streams0[0]` 和 `streams1[0]`。</span>
 </code></pre></div>
+</blockquote>
 
 
 

@@ -14,6 +14,6 @@ orphan
 要将符合条件的候选人添加到维护者列表中，请创建一个 PR，将候选人添加到 [关注人员](https://pytorch.org/docs/main/community/persons_of_interest.html) 页面和 [merge_rules](https://github.com/pytorch/pytorch/blob/main/.github/merge_rules.yaml) 文件中。当前的维护者将进行支持投票。批准该 PR 的决策标准如下：
 
 - 合并前至少经过两个工作日（确保大多数贡献者已看到）
-- PR 具有正确的标签 ([module: ci]{.title-ref})
+- PR 具有正确的标签 ([module: ci])
 - 当前维护者没有提出反对意见
 - 获得当前维护者至少三个净 *点赞*（或者当该模块的维护者少于 3 人时，所有维护者都投票 *点赞*）。

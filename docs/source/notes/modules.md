@@ -1,4 +1,4 @@
-# 模块 {#modules}
+# 模块
 
 PyTorch 使用模块来表示神经网络。模块具有以下特点：
 
@@ -8,16 +8,14 @@ PyTorch 使用模块来表示神经网络。模块具有以下特点：
 
 本文档描述了模块，面向所有 PyTorch 用户。由于模块是 PyTorch 的基础，本文档中的许多主题在其他文档或教程中有详细阐述，这里也提供了许多相关文档的链接。
 
- contents
 
 local
 
 :   
 
-
 ## 一个简单的自定义模块
 
-首先，让我们看一个 PyTorch `~torch.nn.Linear`{.interpreted-text role="class"} 模块的简化自定义版本。该模块对其输入应用仿射变换。
+首先，让我们看一个 PyTorch `torch.nn.Linear` 模块的简化自定义版本。该模块对其输入应用仿射变换。
 
 ``` python
 import torch
@@ -35,8 +33,8 @@ class MyLinear(nn.Module):
 
 这个简单的模块具有模块的以下基本特征：
 
-- **它继承自基础 Module 类。** 所有模块都应继承 `~torch.nn.Module`{.interpreted-text role="class"} 以与其他模块组合使用。
-- **它定义了一些用于计算的\"状态\"。** 这里，状态由随机初始化的 `weight` 和 `bias` 张量组成，它们定义了仿射变换。由于它们都被定义为 `~torch.nn.parameter.Parameter`{.interpreted-text role="class"}，它们会被\*注册\*到模块中，并在调用 `~torch.nn.Module.parameters`{.interpreted-text role="func"} 时自动被跟踪和返回。参数可以被视为模块计算中\"可学习\"的部分（稍后会详细说明）。注意，模块不一定需要有状态，也可以是无状态的。
+- **它继承自基础 Module 类。** 所有模块都应继承 `torch.nn.Module` 以与其他模块组合使用。
+- **它定义了一些用于计算的\"状态\"。** 这里，状态由随机初始化的 `weight` 和 `bias` 张量组成，它们定义了仿射变换。由于它们都被定义为 `torch.nn.parameter.Parameter`，它们会被\*注册\*到模块中，并在调用 `torch.nn.Module.parameters` 时自动被跟踪和返回。参数可以被视为模块计算中\"可学习\"的部分（稍后会详细说明）。注意，模块不一定需要有状态，也可以是无状态的。
 - **它定义了一个执行计算的 forward() 函数。** 对于这个仿射变换模块，输入与 `weight` 参数进行矩阵乘法（使用 `@` 简写符号），然后加上 `bias` 参数以产生输出。更一般地说，模块的 `forward()` 实现可以执行任意涉及任意数量输入和输出的计算。
 
 这个简单的模块展示了模块如何将状态和计算打包在一起。可以构造并调用该模块的实例：
@@ -48,9 +46,9 @@ m(sample_input)
 : tensor([-0.3037, -1.0413, -4.2057], grad_fn=<AddBackward0>)
 ```
 
-注意模块本身是可调用的，调用它会执行其 `forward()` 函数。这个名称指的是\"前向传播\"和\"反向传播\"的概念，它们适用于每个模块。\"前向传播\"负责将模块所表示的计算应用于给定的输入（如上所示）。\"反向传播\"计算模块输出相对于其输入的梯度，这些梯度可用于通过梯度下降方法\"训练\"参数。PyTorch 的 autograd 系统会自动处理反向传播计算，因此无需为每个模块手动实现 `backward()` 函数。通过连续的前向/反向传播训练模块参数的过程在 `Neural Network Training with Modules`{.interpreted-text role="ref"} 中有详细说明。
+注意模块本身是可调用的，调用它会执行其 `forward()` 函数。这个名称指的是\"前向传播\"和\"反向传播\"的概念，它们适用于每个模块。\"前向传播\"负责将模块所表示的计算应用于给定的输入（如上所示）。\"反向传播\"计算模块输出相对于其输入的梯度，这些梯度可用于通过梯度下降方法\"训练\"参数。PyTorch 的 autograd 系统会自动处理反向传播计算，因此无需为每个模块手动实现 `backward()` 函数。通过连续的前向/反向传播训练模块参数的过程在 `Neural Network Training with Modules` 中有详细说明。
 
-模块注册的所有参数可以通过调用 `~torch.nn.Module.parameters`{.interpreted-text role="func"} 或 `~torch.nn.Module.named_parameters`{.interpreted-text role="func"} 进行迭代，后者包含每个参数的名称：
+模块注册的所有参数可以通过调用 `torch.nn.Module.parameters` 或 `torch.nn.Module.named_parameters` 进行迭代，后者包含每个参数的名称：
 
 ``` python
 for parameter in m.named_parameters():
@@ -68,7 +66,7 @@ tensor([ 0.3634,  0.2015, -0.8525], requires_grad=True))
 
 ## 模块作为构建块
 
-模块可以包含其他模块，这使得它们成为开发更复杂功能的有用构建块。最简单的方法是使用 `~torch.nn.Sequential`{.interpreted-text role="class"} 模块。它允许我们将多个模块链接在一起：
+模块可以包含其他模块，这使得它们成为开发更复杂功能的有用构建块。最简单的方法是使用 `torch.nn.Sequential` 模块。它允许我们将多个模块链接在一起：
 
 ``` python
 net = nn.Sequential(
@@ -82,7 +80,7 @@ net(sample_input)
 : tensor([-0.6749], grad_fn=<AddBackward0>)
 ```
 
-注意 `~torch.nn.Sequential`{.interpreted-text role="class"} 自动将第一个 `MyLinear` 模块的输出作为输入传递给 `~torch.nn.ReLU`{.interpreted-text role="class"}，并将其输出作为输入传递给第二个 `MyLinear` 模块。如上所示，它仅限于具有单个输入和输出的模块的顺序链接。
+注意 `torch.nn.Sequential` 自动将第一个 `MyLinear` 模块的输出作为输入传递给 `torch.nn.ReLU`，并将其输出作为输入传递给第二个 `MyLinear` 模块。如上所示，它仅限于具有单个输入和输出的模块的顺序链接。
 
 通常，对于最简单的用例之外的任何情况，建议定义一个自定义模块，因为这样可以完全灵活地控制子模块如何用于模块的计算。
 
@@ -104,7 +102,7 @@ class Net(nn.Module):
 
     :   x = self.l0(x) x = F.relu(x) x = self.l1(x) return x
 
-该模块由两个\"子模块\"或\"子模块\"（`l0` 和 `l1`）组成，它们定义了神经网络的层，并在模块的 `forward()` 方法中用于计算。可以通过调用 `~torch.nn.Module.children`{.interpreted-text role="func"} 或 `~torch.nn.Module.named_children`{.interpreted-text role="func"} 来遍历模块的直接子模块：
+该模块由两个\"子模块\"或\"子模块\"（`l0` 和 `l1`）组成，它们定义了神经网络的层，并在模块的 `forward()` 方法中用于计算。可以通过调用 `torch.nn.Module.children` 或 `torch.nn.Module.named_children` 来遍历模块的直接子模块：
 
 ``` python
 net = Net()
@@ -114,7 +112,7 @@ for child in net.named_children():
 ('l1', MyLinear())
 ```
 
-要深入到不仅仅是直接子模块，`~torch.nn.Module.modules`{.interpreted-text role="func"} 和 `~torch.nn.Module.named_modules`{.interpreted-text role="func"} 会\*递归地\*遍历一个模块及其所有子模块：
+要深入到不仅仅是直接子模块，`torch.nn.Module.modules` 和 `torch.nn.Module.named_modules` 会\*递归地\*遍历一个模块及其所有子模块：
 
 ``` python
 class BigNet(nn.Module):
@@ -144,7 +142,7 @@ for module in big_net.named_modules():
 ('net.l1', MyLinear())
 ```
 
-有时，模块需要动态定义子模块。`~torch.nn.ModuleList`{.interpreted-text role="class"} 和 `~torch.nn.ModuleDict`{.interpreted-text role="class"} 模块在此很有用；它们可以从列表或字典中注册子模块：
+有时，模块需要动态定义子模块。`torch.nn.ModuleList` 和 `torch.nn.ModuleDict` 模块在此很有用；它们可以从列表或字典中注册子模块：
 
 ``` python
 class DynamicNet(nn.Module):
@@ -169,7 +167,7 @@ sample_input = torch.randn(4)
 output = dynamic_net(sample_input, 'relu')
 ```
 
-对于任何给定的模块，其参数包括其直接参数以及所有子模块的参数。这意味着调用 `~torch.nn.Module.parameters`{.interpreted-text role="func"} 和 `~torch.nn.Module.named_parameters`{.interpreted-text role="func"} 将递归地包含子参数，从而方便地优化网络中的所有参数：
+对于任何给定的模块，其参数包括其直接参数以及所有子模块的参数。这意味着调用 `torch.nn.Module.parameters` 和 `torch.nn.Module.named_parameters` 将递归地包含子参数，从而方便地优化网络中的所有参数：
 
 ``` python
 for parameter in dynamic_net.named_parameters():
@@ -201,7 +199,7 @@ tensor([[ 0.2509], [-0.5052], [ 0.3088], [-1.4951]], requires_grad=True))
 tensor([0.3381], requires_grad=True))
 ```
 
-使用 `~torch.nn.Module.to`{.interpreted-text role="func"} 也可以轻松地将所有参数移动到不同的设备或更改其精度：
+使用 `torch.nn.Module.to` 也可以轻松地将所有参数移动到不同的设备或更改其精度：
 
 ``` python
 # 将所有参数移动到 CUDA 设备
@@ -214,7 +212,7 @@ dynamic_net(torch.randn(5, device='cuda', dtype=torch.float64))
 : tensor([6.5166], device='cuda:0', dtype=torch.float64, grad_fn=<AddBackward0>)
 ```
 
-更一般地，可以通过使用 `~torch.nn.Module.apply`{.interpreted-text role="func"} 函数将任意函数递归地应用于模块及其子模块。例如，对模块及其子模块的参数应用自定义初始化：
+更一般地，可以通过使用 `torch.nn.Module.apply` 函数将任意函数递归地应用于模块及其子模块。例如，对模块及其子模块的参数应用自定义初始化：
 
 ``` python
 # 定义一个初始化 Linear 权重的函数。
@@ -229,7 +227,7 @@ def init_weights(m):
 dynamic_net.apply(init_weights)
 ```
 
-这些示例展示了如何通过模块组合形成复杂的神经网络，并进行便捷的操作。为了以最少的样板代码快速轻松地构建神经网络，PyTorch 在 `torch.nn`{.interpreted-text role="mod"} 命名空间中提供了一个包含大量高性能模块的库，这些模块执行常见的神经网络操作，如池化、卷积、损失函数等。
+这些示例展示了如何通过模块组合形成复杂的神经网络，并进行便捷的操作。为了以最少的样板代码快速轻松地构建神经网络，PyTorch 在 `torch.nn` 命名空间中提供了一个包含大量高性能模块的库，这些模块执行常见的神经网络操作，如池化、卷积、损失函数等。
 
 在下一节中，我们将给出一个完整的神经网络训练示例。
 
@@ -238,9 +236,9 @@ dynamic_net.apply(init_weights)
 - PyTorch 提供的模块库：\`torch.nn \<https://pytorch.org/docs/stable/nn.html\>\`\_
 - 定义神经网络模块：https://pytorch.org/tutorials/beginner/examples_nn/polynomial_module.html
 
-## 使用模块进行神经网络训练 {#Neural Network Training with Modules}
+## 使用模块进行神经网络训练
 
-网络构建完成后，需要对其进行训练，其参数可以通过 `torch.optim`{.interpreted-text role="mod"} 中的 PyTorch 优化器轻松优化：
+网络构建完成后，需要对其进行训练，其参数可以通过 `torch.optim` 中的 PyTorch 优化器轻松优化：
 
 ``` python
 # 创建网络（来自上一节）和优化器
@@ -263,7 +261,7 @@ net.eval()
 ...
 ```
 
-在这个简化的示例中，网络学会简单地输出零，因为任何非零输出都会通过使用 `torch.abs`{.interpreted-text role="func"} 作为损失函数而根据其绝对值受到\"惩罚\"。虽然这不是一个非常有趣的任务，但训练的关键部分都已涵盖：
+在这个简化的示例中，网络学会简单地输出零，因为任何非零输出都会通过使用 `torch.abs` 作为损失函数而根据其绝对值受到\"惩罚\"。虽然这不是一个非常有趣的任务，但训练的关键部分都已涵盖：
 
 - 创建了一个网络。
 
@@ -290,7 +288,7 @@ tensor([[-0.0013],
         [-0.0008]], requires_grad=True)
 ```
 
-请注意，上述过程完全是在网络模块处于\"训练模式\"下完成的。模块默认处于训练模式，可以使用 `~torch.nn.Module.train`{.interpreted-text role="func"} 和 `~torch.nn.Module.eval`{.interpreted-text role="func"} 在训练模式和评估模式之间切换。它们的行为可能因所处模式而异。例如，`~torch.nn.BatchNorm`{.interpreted-text role="class"} 模块在训练期间维护一个运行均值和方差，当模块处于评估模式时不会更新这些值。通常，模块在训练期间应处于训练模式，仅在推理或评估时切换到评估模式。以下是一个自定义模块的示例，它在两种模式下行为不同：
+请注意，上述过程完全是在网络模块处于\"训练模式\"下完成的。模块默认处于训练模式，可以使用 `torch.nn.Module.train` 和 `torch.nn.Module.eval` 在训练模式和评估模式之间切换。它们的行为可能因所处模式而异。例如，`torch.nn.BatchNorm` 模块在训练期间维护一个运行均值和方差，当模块处于评估模式时不会更新这些值。通常，模块在训练期间应处于训练模式，仅在推理或评估时切换到评估模式。以下是一个自定义模块的示例，它在两种模式下行为不同：
 
 ``` python
 class ModalModule(nn.Module):
@@ -345,7 +343,7 @@ new_net.load_state_dict(torch.load('net.pt'))
   - **持久**缓冲区：包含在 `state_dict` 中（即在保存和加载时序列化）
   - **非持久**缓冲区：不包含在 `state_dict` 中（即在序列化时被排除）
 
-作为使用缓冲区的一个动机示例，考虑一个维护运行均值的简单模块。我们希望运行均值的当前值被视为模块 `state_dict` 的一部分，以便在加载模块的序列化形式时能够恢复它，但我们不希望它是可学习的。以下代码片段展示了如何使用 `~torch.nn.Module.register_buffer`{.interpreted-text role="func"} 来实现这一点：
+作为使用缓冲区的一个动机示例，考虑一个维护运行均值的简单模块。我们希望运行均值的当前值被视为模块 `state_dict` 的一部分，以便在加载模块的序列化形式时能够恢复它，但我们不希望它是可学习的。以下代码片段展示了如何使用 `torch.nn.Module.register_buffer` 来实现这一点：
 
 ``` python
 class RunningMean(nn.Module):
@@ -383,14 +381,14 @@ assert(torch.all(m.mean == m_loaded.mean))
 self.register_buffer('unserialized_thing', torch.randn(5), persistent=False)
 ```
 
-持久化和非持久化缓冲区都会受到通过 `~torch.nn.Module.to`{.interpreted-text role="func"} 应用的模型级设备/数据类型更改的影响：
+持久化和非持久化缓冲区都会受到通过 `torch.nn.Module.to` 应用的模型级设备/数据类型更改的影响：
 
 ``` python
 # 将所有模块参数和缓冲区移动到指定的设备/数据类型
 m.to(device='cuda', dtype=torch.float64)
 ```
 
-可以使用 `~torch.nn.Module.buffers`{.interpreted-text role="func"} 或 `~torch.nn.Module.named_buffers`{.interpreted-text role="func"} 迭代模块的缓冲区。
+可以使用 `torch.nn.Module.buffers` 或 `torch.nn.Module.named_buffers` 迭代模块的缓冲区。
 
 ``` python
 for buffer in m.named_buffers():
@@ -466,7 +464,7 @@ print(m_loaded.state_dict())
 
 ## 模块初始化
 
-默认情况下，`torch.nn`{.interpreted-text role="mod"} 提供的模块的参数和浮点缓冲区会在模块实例化期间，使用历史上对该模块类型表现良好的初始化方案，在 CPU 上初始化为 32 位浮点值。对于某些用例，可能希望使用不同的数据类型、设备（例如 GPU）或初始化技术进行初始化。
+默认情况下，`torch.nn` 提供的模块的参数和浮点缓冲区会在模块实例化期间，使用历史上对该模块类型表现良好的初始化方案，在 CPU 上初始化为 32 位浮点值。对于某些用例，可能希望使用不同的数据类型、设备（例如 GPU）或初始化技术进行初始化。
 
 示例：
 
@@ -490,11 +488,11 @@ print(m.running_mean)
 : tensor([0., 0., 0.], dtype=torch.float16)
 ```
 
-虽然模块编写者可以在其自定义模块中使用任何设备或数据类型来初始化参数，但良好的做法是默认也使用 `dtype=torch.float` 和 `device='cpu'`。或者，您可以通过遵循上述所有 `torch.nn`{.interpreted-text role="mod"} 模块都遵循的约定，为您的自定义模块在这些方面提供完全的灵活性：
+虽然模块编写者可以在其自定义模块中使用任何设备或数据类型来初始化参数，但良好的做法是默认也使用 `dtype=torch.float` 和 `device='cpu'`。或者，您可以通过遵循上述所有 `torch.nn` 模块都遵循的约定，为您的自定义模块在这些方面提供完全的灵活性：
 
 - 提供一个 `device` 构造函数关键字参数，该参数适用于模块注册的任何参数/缓冲区。
 - 提供一个 `dtype` 构造函数关键字参数，该参数适用于模块注册的任何参数/浮点缓冲区。
-- 仅在模块构造函数内对参数和缓冲区使用初始化函数（即来自 `torch.nn.init`{.interpreted-text role="mod"} 的函数）。请注意，这仅在使用 `~torch.nn.utils.skip_init`{.interpreted-text role="func"} 时需要；有关解释，请参阅 [此页面](https://pytorch.org/tutorials/prototype/skip_param_init.html#updating-modules-to-support-skipping-initialization)。
+- 仅在模块构造函数内对参数和缓冲区使用初始化函数（即来自 `torch.nn.init` 的函数）。请注意，这仅在使用 `torch.nn.utils.skip_init` 时需要；有关解释，请参阅 [此页面](https://pytorch.org/tutorials/prototype/skip_param_init.html#updating-modules-to-support-skipping-initialization)。
 
 更多信息，请查看：
 
@@ -502,12 +500,12 @@ print(m.running_mean)
 
 ## 模块钩子
 
-在 `使用模块进行神经网络训练`{.interpreted-text role="ref"} 中，我们演示了模块的训练过程，该过程迭代执行前向和后向传播，每次迭代更新模块参数。为了对此过程进行更多控制，PyTorch 提供了\"钩子\"，可以在前向或后向传播期间执行任意计算，甚至可以根据需要修改传播的执行方式。此功能的一些有用示例包括调试、可视化激活、深入检查梯度等。钩子可以添加到您自己未编写的模块中，这意味着此功能可以应用于第三方或 PyTorch 提供的模块。
+在 `使用模块进行神经网络训练` 中，我们演示了模块的训练过程，该过程迭代执行前向和后向传播，每次迭代更新模块参数。为了对此过程进行更多控制，PyTorch 提供了\"钩子\"，可以在前向或后向传播期间执行任意计算，甚至可以根据需要修改传播的执行方式。此功能的一些有用示例包括调试、可视化激活、深入检查梯度等。钩子可以添加到您自己未编写的模块中，这意味着此功能可以应用于第三方或 PyTorch 提供的模块。
 
 PyTorch 为模块提供两种类型的钩子：
 
-- **前向钩子** 在前向传播期间调用。可以使用 `~torch.nn.Module.register_forward_pre_hook`{.interpreted-text role="func"} 和 `~torch.nn.Module.register_forward_hook`{.interpreted-text role="func"} 为给定模块安装这些钩子。这些钩子将分别在调用前向函数之前和之后立即调用。或者，可以使用类似的 `~torch.nn.modules.module.register_module_forward_pre_hook`{.interpreted-text role="func"} 和 `~torch.nn.modules.module.register_module_forward_hook`{.interpreted-text role="func"} 函数为所有模块全局安装这些钩子。
-- **后向钩子** 在后向传播期间调用。可以使用 `~torch.nn.Module.register_full_backward_pre_hook`{.interpreted-text role="func"} 和 `~torch.nn.Module.register_full_backward_hook`{.interpreted-text role="func"} 安装这些钩子。这些钩子将在计算完此模块的后向传播时调用。`~torch.nn.Module.register_full_backward_pre_hook`{.interpreted-text role="func"} 允许用户访问输出的梯度，而 `~torch.nn.Module.register_full_backward_hook`{.interpreted-text role="func"} 允许用户访问输入和输出的梯度。或者，可以使用 `~torch.nn.modules.module.register_module_full_backward_hook`{.interpreted-text role="func"} 和 `~torch.nn.modules.module.register_module_full_backward_pre_hook`{.interpreted-text role="func"} 为所有模块全局安装它们。
+- **前向钩子** 在前向传播期间调用。可以使用 `torch.nn.Module.register_forward_pre_hook` 和 `torch.nn.Module.register_forward_hook` 为给定模块安装这些钩子。这些钩子将分别在调用前向函数之前和之后立即调用。或者，可以使用类似的 `torch.nn.modules.module.register_module_forward_pre_hook` 和 `torch.nn.modules.module.register_module_forward_hook` 函数为所有模块全局安装这些钩子。
+- **后向钩子** 在后向传播期间调用。可以使用 `torch.nn.Module.register_full_backward_pre_hook` 和 `torch.nn.Module.register_full_backward_hook` 安装这些钩子。这些钩子将在计算完此模块的后向传播时调用。`torch.nn.Module.register_full_backward_pre_hook` 允许用户访问输出的梯度，而 `torch.nn.Module.register_full_backward_hook` 允许用户访问输入和输出的梯度。或者，可以使用 `torch.nn.modules.module.register_module_full_backward_hook` 和 `torch.nn.modules.module.register_module_full_backward_pre_hook` 为所有模块全局安装它们。
 
 所有钩子都允许用户返回一个更新后的值，该值将在剩余的计算中使用。因此，这些钩子可用于在常规模块前向/后向传播过程中执行任意代码，或者修改某些输入/输出，而无需更改模块的 `forward()` 函数。
 

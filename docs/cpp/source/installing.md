@@ -15,7 +15,7 @@ unzip libtorch-shared-with-deps-latest.zip
 
 如果您是 Windows 开发者并且不想使用 CMake，可以跳转到 Visual Studio 扩展部分。
 
-接下来，我们可以编写一个最小的 CMake 构建配置来开发一个依赖 LibTorch 的小型应用程序。使用 LibTorch 并不强制要求 CMake，但它是推荐且受支持的构建系统，并且未来会得到良好支持。一个最基本的 [CMakeLists.txt]{.title-ref} 文件可能如下所示：
+接下来，我们可以编写一个最小的 CMake 构建配置来开发一个依赖 LibTorch 的小型应用程序。使用 LibTorch 并不强制要求 CMake，但它是推荐且受支持的构建系统，并且未来会得到良好支持。一个最基本的 [CMakeLists.txt] 文件可能如下所示：
 
 ``` cmake
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
@@ -41,7 +41,7 @@ if (MSVC)
 endif (MSVC)
 ```
 
-我们的示例实现将简单地创建一个新的 [torch::Tensor]{.title-ref} 并打印它：
+我们的示例实现将简单地创建一个新的 [torch::Tensor] 并打印它：
 
 ``` cpp
 #include <torch/torch.h>
@@ -53,7 +53,7 @@ int main() {
 }
 ```
 
-虽然您可以包含更细粒度的头文件以仅访问 PyTorch C++ API 的部分功能，但包含 [torch/torch.h]{.title-ref} 是包含其大部分功能的最可靠方式。
+虽然您可以包含更细粒度的头文件以仅访问 PyTorch C++ API 的部分功能，但包含 [torch/torch.h] 是包含其大部分功能的最可靠方式。
 
 最后一步是构建应用程序。为此，假设我们的示例目录结构如下：
 
@@ -72,7 +72,7 @@ cmake -DCMAKE_PREFIX_PATH=/absolute/path/to/libtorch ..
 cmake --build . --config Release
 ```
 
-其中 `/absolute/path/to/libtorch` 应该是解压后的 LibTorch 发行版的绝对（！）路径。如果 PyTorch 是通过 pip 安装的，可以使用 [torch.utils.cmake_prefix_path]{.title-ref} 变量查询 [CMAKE_PREFIX_PATH]{.title-ref}。在这种情况下，CMake 配置步骤将如下所示：
+其中 `/absolute/path/to/libtorch` 应该是解压后的 LibTorch 发行版的绝对（！）路径。如果 PyTorch 是通过 pip 安装的，可以使用 [torch.utils.cmake_prefix_path] 变量查询 [CMAKE_PREFIX_PATH]。在这种情况下，CMake 配置步骤将如下所示：
 
 ``` sh
 cmake -DCMAKE_PREFIX_PATH=`python3 -c 'import torch;print(torch.utils.cmake_prefix_path)'` ..
@@ -123,33 +123,30 @@ Scanning dependencies of target example-app
 root@4b5a67132e81:/example-app/build# ./example-app
 0.2063  0.6593  0.0866
 0.0796  0.5841  0.1569
-[ Variable[CPUFloatType]{2,3} ]
+ Variable[CPUFloatType ]
 ```
 
- tip
- title
-Tip
 
+> 💡 **提示**
+> 在 Windows 上，调试版和发布版构建不兼容 ABI。如果您计划在调试模式下构建项目，请尝试使用 LibTorch 的调试版本。同时，请确保在上述 `cmake --build .` 行中指定正确的配置。
+>
+> ## 系统要求
+>
+> 为确保 LibTorch 的顺利安装和使用，请确保您的系统满足以下要求：
+>
+> 1\. **GLIBC 版本**：
+>
+> :   - 对于 cxx11 ABI 版本，需要 GLIBC 2.29 或更高版本
+>
+> 2\. **GCC 版本**：
+>
+> :   - 对于 cxx11 ABI 版本，需要 GCC 9 或更高版本
+>
+> ## Visual Studio 扩展
+>
+> [LibTorch Project Template](https://marketplace.visualstudio.com/items?itemName=YiZhang.LibTorch001) 可以帮助 Windows 开发者 为调试和发布版本设置所有 libtorch 项目配置和链接选项。 它易于使用，你可以查看 [演示视频](https://ossci-windows.s3.us-east-1.amazonaws.com/vsextension/demo.mp4)。 唯一的先决条件是从 <https://pytorch.org> 下载 libtorch。
+>
+> ## 支持
+>
+> 如果你在此安装和基本使用指南中遇到任何问题， 请使用我们的 [论坛](https://discuss.pytorch.org/) 或 [GitHub issues](https://github.com/pytorch/pytorch/issues) 联系我们。
 
-在 Windows 上，调试版和发布版构建不兼容 ABI。如果您计划在调试模式下构建项目，请尝试使用 LibTorch 的调试版本。同时，请确保在上述 `cmake --build .` 行中指定正确的配置。
-
-
-## 系统要求
-
-为确保 LibTorch 的顺利安装和使用，请确保您的系统满足以下要求：
-
-1\. **GLIBC 版本**：
-
-:   - 对于 cxx11 ABI 版本，需要 GLIBC 2.29 或更高版本
-
-2\. **GCC 版本**：
-
-:   - 对于 cxx11 ABI 版本，需要 GCC 9 或更高版本
-
-## Visual Studio 扩展
-
-[LibTorch Project Template](https://marketplace.visualstudio.com/items?itemName=YiZhang.LibTorch001) 可以帮助 Windows 开发者 为调试和发布版本设置所有 libtorch 项目配置和链接选项。 它易于使用，你可以查看 [演示视频](https://ossci-windows.s3.us-east-1.amazonaws.com/vsextension/demo.mp4)。 唯一的先决条件是从 <https://pytorch.org> 下载 libtorch。
-
-## 支持
-
-如果你在此安装和基本使用指南中遇到任何问题， 请使用我们的 [论坛](https://discuss.pytorch.org/) 或 [GitHub issues](https://github.com/pytorch/pytorch/issues) 联系我们。

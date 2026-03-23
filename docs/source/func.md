@@ -32,4 +32,3 @@ torch.func，之前被称为 "functorch"，是为 PyTorch 提供的 [JAX 风格]
 组合 `vmap`、`grad` 和 `vjp` 变换使我们能够表达上述内容，而无需为每个用例设计单独的子系统。这种可组合函数变换的思想源自 [JAX 框架](https://github.com/google/jax)。
 
 ## 阅读更多
-

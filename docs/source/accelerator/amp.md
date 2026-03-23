@@ -48,4 +48,3 @@ PyTorch 为上述每种类型转换策略定义了一个通用的操作符列表
 
 - 注册一个后备处理程序，使未处理的操作回退到其正常实现。
 - 使用 `KERNEL_PRIVATEUSEONE` 辅助宏在 `AutocastPrivateUse1` 下注册特定的 aten 内核，该宏将操作映射到所需的精度实现（使用枚举 `at::autocast::CastPolicy`）
-

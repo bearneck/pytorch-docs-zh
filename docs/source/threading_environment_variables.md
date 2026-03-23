@@ -1,8 +1,7 @@
-
 # 线程环境变量
 
 ```{list-table}
-:header-rows: 1
+
 
 * - 变量
   - 描述

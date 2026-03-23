@@ -9,7 +9,7 @@ mystnb:
 ---
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import torch
 
 import header_code
@@ -48,7 +48,7 @@ Dynamo 追踪您的代码，并尝试将您的 PyTorch 代码捕获为单个 PyT
 - C 函数
 
 ```{code-cell}
-:tags: [remove-cell]
+
 torch._logging.set_logs(graph_breaks=True)
 ```
 
@@ -64,10 +64,8 @@ def f(x):
 
 x = torch.randn(3)
 print(f(x))
-```
+{code-cell}
 
-```{code-cell}
-:tags: [remove-cell]
 import os
 os.remove("foo.pt")
 ```
@@ -95,11 +93,9 @@ def h(x):
 以下是生成守卫的示例。`TENSOR_MATCH` 守卫检查输入的类型、设备、数据类型、形状等。
 
 ```{code-cell}
-:tags: [remove-cell]
-torch._logging.set_logs(guards=True)
-```
 
-```{code-cell}
+torch._logging.set_logs(guards=True)
+{code-cell}
 @torch.compile
 def fn(x):
     return x + 1
@@ -111,11 +107,9 @@ print(fn(torch.ones(3, 3)))
 如果所有先前编译代码实例的守卫检查都失败，那么 `torch.compile` 必须“重新编译”该函数，需要再次追踪原始代码。在下面的示例中，由于检查张量参数形状的守卫失败，需要重新编译。
 
 ```{code-cell}
-:tags: [remove-cell]
-torch._logging.set_logs(recompiles=True)
-```
 
-```{code-cell}
+torch._logging.set_logs(recompiles=True)
+{code-cell}
 @torch.compile
 def fn(x):
     return x + 1
@@ -131,12 +125,10 @@ print(fn(torch.ones(4, 4)))
 下面，我们启用动态形状，并注意不再需要重新编译。
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import logging
 torch._logging.set_logs(dynamic=logging.DEBUG, recompiles=True)
-```
-
-```{code-cell}
+{code-cell}
 @torch.compile(dynamic=True)
 def fn(x):
     return x + 1

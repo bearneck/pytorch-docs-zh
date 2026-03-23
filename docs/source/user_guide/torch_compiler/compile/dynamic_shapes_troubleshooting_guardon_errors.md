@@ -1,4 +1,3 @@
-
 # 排查 GuardOnDataDependentSymNode 错误
 当处理包含未绑定符号的 PyTorch 模型时，这些符号可能来自数据依赖操作（如 `item()`、`tolist()` 或 `nonzero()`），或来自使用 `torch._dynamo.decorators.mark_unbacked` 手动将某些输入尺寸标记为动态时，您可能会遇到 `GuardOnDataDependentSymNode` 错误。本节将解释这些错误是什么以及如何修复它们。
 
@@ -345,6 +344,6 @@ return y.narrow(0, 0, u0)
 原因是当您在 `values` 张量上执行 `torch.split()` 时，您需要为每个子序列创建张量，例如大小为 3、2 和 4 的张量。如果您有用于大小的未绑定 `SymInts`，它们会变成 `u0`、`u1` 和 `u2`。您可以轻松地指示它们是大小类型的，然后就完成了。但是，如果您有用于偏移量的未绑定 `SymInts`，它们会变成 `u1 - u0`、`u2 - u1`、`u3 - u2`，这会使事情复杂化。这些量不能方便地标记为大小类型，从而导致潜在问题。由于使用长度或偏移量编写代码相对简单，您应该优先使用长度。
 
 ```{seealso}
-* `dynamic_shapes`
-* `debugging-tlparse-torch-logs`
+* *dynamic_shapes*
+* *debugging-tlparse-torch-logs*
 ```

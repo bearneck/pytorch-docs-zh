@@ -8101,8 +8101,8 @@
 <p><div class="highlight"><pre><span></span><code><span class="w">   </span><span class="nv">TORCHINDUCTOR_UNIQUE_KERNEL_NAMES</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">TORCHINDUCTOR_BENCHMARK_KERNEL</span><span class="o">=</span><span class="m">1</span>
 <span class="w">   </span>python<span class="w"> </span>-u<span class="w"> </span>benchmarks/dynamo/timm_models.py<span class="w"> </span>–backend<span class="w"> </span>inductor<span class="w"> </span>–amp
 <span class="w">   </span>–performance<span class="w"> </span>–dashboard<span class="w"> </span>–only<span class="w"> </span>mixnet_l<span class="w"> </span>–disable-cudagraphs<span class="w"> </span>–training
-</code></pre></div>
-   <div class="highlight"><pre><span></span><code>该工具依赖内核名称来决定其类别。启用 ``TORCHINDUCTOR_UNIQUE_KERNEL_NAMES`` 对此至关重要。
+<span class="o">{</span>note<span class="o">}</span>
+该工具依赖内核名称来决定其类别。启用<span class="w"> </span><span class="sb">``</span>TORCHINDUCTOR_UNIQUE_KERNEL_NAMES<span class="sb">``</span><span class="w"> </span>对此至关重要。
 </code></pre></div>
 2. 在输出日志中，查找以下行：</p>
 <div class="highlight"><pre><span></span><code><span class="w">   </span>**Compiled<span class="w"> </span>module<span class="w"> </span>path:

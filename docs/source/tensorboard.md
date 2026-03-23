@@ -1,8 +1,7 @@
 # torch.utils.tensorboard
 
- automodule
-torch.utils.tensorboard
 
+torch.utils.tensorboard
 
 在深入之前，可以在 <https://www.tensorflow.org/tensorboard/> 找到关于 TensorBoard 的更多详细信息。
 
@@ -58,82 +57,62 @@ for n_iter in range(100):
 
 ## \|
 
- currentmodule
-torch.utils.tensorboard.writer
 
 
- autoclass
-SummaryWriter
-
- automethod
-\_\_init\_\_
-
-
- automethod
-add_scalar
-
-
- automethod
-add_scalars
-
-
- automethod
-add_histogram
-
-
- automethod
-add_image
-
-
- automethod
-add_images
-
-
- automethod
-add_figure
-
-
- automethod
-add_video
-
-
- automethod
-add_audio
-
-
- automethod
-add_text
-
-
- automethod
-add_graph
-
-
- automethod
-add_embedding
-
-
- automethod
-add_pr_curve
-
-
- automethod
-add_custom_scalars
-
-
- automethod
-add_mesh
-
-
- automethod
-add_hparams
-
-
- automethod
-flush
-
-
- automethod
-close
-
+> **AUTOCLASS**
+> SummaryWriter
+>
+>
+> \_\_init\_\_
+>
+>
+> add_scalar
+>
+>
+> add_scalars
+>
+>
+> add_histogram
+>
+>
+> add_image
+>
+>
+> add_images
+>
+>
+> add_figure
+>
+>
+> add_video
+>
+>
+> add_audio
+>
+>
+> add_text
+>
+>
+> add_graph
+>
+>
+> add_embedding
+>
+>
+> add_pr_curve
+>
+>
+> add_custom_scalars
+>
+>
+> add_mesh
+>
+>
+> add_hparams
+>
+>
+> flush
+>
+>
+> close
 

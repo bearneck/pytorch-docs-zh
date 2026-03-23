@@ -1,4 +1,4 @@
-# TorchInductor 与 AOTInductor 溯源追踪 {#torchinductor-provenance}
+# TorchInductor 与 AOTInductor 溯源追踪
 
 本节介绍如何在 `tlparse` 中使用 TorchInductor 和 AOTInductor 的溯源追踪功能。 溯源追踪可帮助您可视化输入 GraphModule 与 (AOT)Inductor 生成的优化代码之间的关系。此功能允许您追踪原始操作在编译过程中是如何被转换的。
 
@@ -26,7 +26,7 @@ AOTInductor 溯源追踪工具的示例截图：
     TORCH_TRACE=~/my_trace_log_dir INDUCTOR_PROVENANCE=1 python your_program.py
     ```
 
-    这将在 `~/my_trace_log_dir` 中生成一个日志文件。该日志文件将被 tlparse 用来生成溯源追踪高亮器。
+    这将在 `/my_trace_log_dir` 中生成一个日志文件。该日志文件将被 tlparse 用来生成溯源追踪高亮器。
 
 3.  使用 `--inductor-provenance` 标志对日志运行 `tlparse`。例如：
 
@@ -71,4 +71,4 @@ AOTInductor 溯源追踪工具的示例截图：
 `tlparse` 是一个用 Rust 编写的工具。
 
 - tlparse GitHub 仓库链接：https://github.com/pytorch/tlparse
-- 在 `torch.compiler_troubleshooting`{.interpreted-text role="ref"} 中了解更多关于 `tlparse` 的信息
+- 在 `torch.compiler_troubleshooting` 中了解更多关于 `tlparse` 的信息

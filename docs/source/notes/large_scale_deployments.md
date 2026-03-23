@@ -1,11 +1,9 @@
 # 大规模部署特性
 
- contents
 
 local
 
 :   
-
 
 本文档讨论在大型系统中运行 PyTorch 或在大规模组织中使用 PyTorch 操作多个系统时，可能有用的一些扩展点和技巧。
 
@@ -13,9 +11,9 @@ local
 
 ## 全范围算子性能分析
 
-PyTorch 内置了 `torch.autograd.profiler`{.interpreted-text role="mod"}，能够按需测量单个算子的执行时间。您可以使用相同的机制对运行 PyTorch 的任何进程进行\"始终开启\"的测量。这对于收集在给定进程或整个机器集群中运行的 PyTorch 工作负载信息非常有用。
+PyTorch 内置了 `torch.autograd.profiler`，能够按需测量单个算子的执行时间。您可以使用相同的机制对运行 PyTorch 的任何进程进行\"始终开启\"的测量。这对于收集在给定进程或整个机器集群中运行的 PyTorch 工作负载信息非常有用。
 
-可以通过 `torch::addGlobalCallback` 添加新的算子调用回调。钩子函数将接收描述调用上下文（例如 [name]{.title-ref}）的 `torch::RecordFunction` 结构体。如果启用，`RecordFunction::inputs()` 包含以 `torch::IValue` 变体类型表示的函数参数。请注意，输入日志记录的开销相对较大，因此需要显式启用。
+可以通过 `torch::addGlobalCallback` 添加新的算子调用回调。钩子函数将接收描述调用上下文（例如 [name]）的 `torch::RecordFunction` 结构体。如果启用，`RecordFunction::inputs()` 包含以 `torch::IValue` 变体类型表示的函数参数。请注意，输入日志记录的开销相对较大，因此需要显式启用。
 
 算子回调还可以访问 `c10::ThreadLocalDebugInfo::get()` 接口，该接口返回指向包含调试信息的结构体的指针。此调试信息可以通过使用 `at::DebugInfoGuard` 对象提前设置。调试信息会通过前向传播（包括异步 `fork` 任务）和后向传播传递，对于将有关执行环境（例如模型 ID）的额外信息从应用程序的高层传递到算子回调非常有用。
 
@@ -69,4 +67,4 @@ SetAPIUsageLogger([](const std::string& event_name) {
 PyTorch API 通常是松散耦合的，很容易用专门版本替换组件。常见的扩展点包括：
 
 - 用 C++ 实现的自定义算子 - 详见 [教程](https://pytorch.org/tutorials/advanced/cpp_extension.html)。
-- 自定义数据读取通常可以通过调用相应的 Python 库直接集成。可以通过扩展 `~torch.utils.data.Dataset`{.interpreted-text role="class"} 或 `~torch.utils.data.IterableDataset`{.interpreted-text role="class"} 来利用 `torch.utils.data`{.interpreted-text role="mod"} 的现有功能。
+- 自定义数据读取通常可以通过调用相应的 Python 库直接集成。可以通过扩展 `torch.utils.data.Dataset` 或 `torch.utils.data.IterableDataset` 来利用 `torch.utils.data` 的现有功能。

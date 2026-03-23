@@ -9,7 +9,7 @@ mystnb:
 ---
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import torch
 from compile import header_code
 
@@ -37,10 +37,8 @@ torch._logging.set_logs(graph_breaks=True, graph_code=True)
 
 ```{note}
 为简单起见，此示例使用了 `@torch.compile(dynamic=True)`。请注意，由于此选项容易出错，不推荐使用。
-关于启用动态形状的推荐方法，请参见 `enable-dynamic-behavior`。
-```
-
-```{code-cell}
+关于启用动态形状的推荐方法，请参见 *enable-dynamic-behavior*。
+{code-cell}
 import torch
 @torch.compile(dynamic=False)
 def f(x):
@@ -114,10 +112,10 @@ f(torch.rand(50))
 
 有以下几种方法可以使事物变为动态：
 
-* `automatic_dynamic`
-* `user_annotations` (推荐)
-* `torch_compile_dynamic_true` (仅用于测试)
-* `dynamic_shapes_advanced_control_options` (用于高级用例)
+* *automatic_dynamic*
+* *user_annotations* (推荐)
+* *torch_compile_dynamic_true* (仅用于测试)
+* *dynamic_shapes_advanced_control_options* (用于高级用例)
 
 请阅读下面关于每个选项的说明。
 
@@ -213,19 +211,17 @@ f(torch.rand(40))
 
 此设置强制所有尺寸和整数为动态，增加了遇到动态形状错误的可能性。由于容易出错，不建议设置此选项。它会使每个输入尺寸都变为动态，这可能导致性能下降并最终增加编译时间。
 
-PyTorch 还为动态形状提供了高级控制选项，请参阅：`dynamic_shapes_advanced_control_options`。
+PyTorch 还为动态形状提供了高级控制选项，请参阅：*dynamic_shapes_advanced_control_options*。
 
 ## 接下来该做什么？
 
 如果您遇到框架代码错误或特化问题，请提交问题以便审查和改进。如果问题出现在您的用户代码中，请考虑是否愿意重写代码以避免该问题。确定它是否影响正确性，或者是否是冗余检查。如果问题涉及带有 `constexpr` 参数的 Triton 自定义内核，请评估是否可以重写它以解决问题。
 
-```{toctree}
-:maxdepth: 1
-compile/dynamic_shapes_core_concepts
-compile/dynamic_shapes_troubleshooting
-compile/dynamic_shapes_advanced_control_options
-compile/dynamic_shapes_beyond_the_basics
-```
+- [Compile/dynamic Shapes Core Concepts](compile/dynamic_shapes_core_concepts.md)
+- [Compile/dynamic Shapes Troubleshooting](compile/dynamic_shapes_troubleshooting.md)
+- [Compile/dynamic Shapes Advanced Control Options](compile/dynamic_shapes_advanced_control_options.md)
+- [Compile/dynamic Shapes Beyond The Basics](compile/dynamic_shapes_beyond_the_basics.md)
+
 
 ```{seealso}
 * [tlparse 文档](https://github.com/pytorch/tlparse)

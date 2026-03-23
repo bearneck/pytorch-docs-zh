@@ -20,6 +20,6 @@
 - 原始文档：[pytorch/pytorch](https://github.com/pytorch/pytorch/tree/main/docs)
 - 翻译仓库：[bearneck/pytorch-docs-zh](https://github.com/bearneck/pytorch-docs-zh)
 - 翻译引擎：DeepSeek AI
-- 共翻译：**259 个文件**，全部转换为标准 Markdown
+- 共翻译：**259 个文件**，全部转为标准 Markdown
 
 > **注意**：代码块、API 名称、参数名均保留原文，仅描述性文字翻译为中文。

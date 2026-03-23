@@ -1,97 +1,87 @@
-
 # API 参考
 
-```{toctree}
-:maxdepth: 1
+- [C++ <https://docs Pytorch Org/cppdocs/>](C++ <https://docs.pytorch.org/cppdocs/>.md)
 
-C++ <https://docs.pytorch.org/cppdocs/>
-```
 
-```{toctree}
-:glob:
-:maxdepth: 1
-:caption: Python API
-
-torch
-nn
-nn.functional
-tensors
-tensor_attributes
-tensor_view
-torch.amp <amp>
-torch.autograd <autograd>
-torch.library <library>
-accelerator
-cpu
-cuda
-torch.cuda.memory <torch_cuda_memory>
-mps
-xpu
-mtia
-mtia.memory
-mtia.mtia_graph
-meta
-torch.backends <backends>
-torch.export <user_guide/torch_compiler/export>
-torch.distributed <distributed>
-torch.distributed.tensor <distributed.tensor>
-torch.distributed.algorithms.join <distributed.algorithms.join>
-torch.distributed.elastic <distributed.elastic>
-torch.distributed.fsdp <fsdp>
-torch.distributed.fsdp.fully_shard <distributed.fsdp.fully_shard>
-torch.distributed.tensor.parallel <distributed.tensor.parallel>
-torch.distributed.optim <distributed.optim>
-torch.distributed.pipelining <distributed.pipelining>
-torch.distributed._symmetric_memory <symmetric_memory>
-torch.distributed.checkpoint <distributed.checkpoint>
-torch.distributions <distributions>
-torch.compiler <torch.compiler_api>
-torch.fft <fft>
-torch.func <func>
-futures
-fx
-fx.experimental
-torch.hub <hub>
-torch.linalg <linalg>
-torch.monitor <monitor>
-torch.signal <signal>
-torch.special <special>
-torch.overrides
-torch.nativert <nativert>
-torch.package <package>
-profiler
-nn.init
-nn.attention
-onnx
-optim
-complex_numbers
-ddp_comm_hooks
-quantization
-rpc
-torch.random <random>
-masked
-torch.nested <nested>
-size
-sparse
-storage
-torch.testing <testing>
-torch.utils <utils>
-torch.utils.benchmark <benchmark_utils>
-torch.utils.checkpoint <checkpoint>
-torch.utils.cpp_extension <cpp_extension>
-torch.utils.data <data>
-torch.utils.deterministic <deterministic>
-torch.utils.jit <jit_utils>
-torch.utils.dlpack <dlpack>
-torch.utils.mobile_optimizer <mobile_optimizer>
-torch.utils.model_zoo <model_zoo>
-torch.utils.tensorboard <tensorboard>
-torch.utils.module_tracker <module_tracker>
-type_info
-named_tensor
-name_inference
-torch.__config__ <config_mod>
-torch.__future__ <future_mod>
-logging
-torch_environment_variables
-```
+- [Torch](torch.md)
+- [Nn](nn.md)
+- [Nn Functional](nn.functional.md)
+- [Tensors](tensors.md)
+- [Tensor Attributes](tensor_attributes.md)
+- [Tensor View](tensor_view.md)
+- [Torch Amp <amp>](torch.amp <amp>.md)
+- [Torch Autograd <autograd>](torch.autograd <autograd>.md)
+- [Torch Library <library>](torch.library <library>.md)
+- [Accelerator](accelerator.md)
+- [Cpu](cpu.md)
+- [Cuda](cuda.md)
+- [Torch Cuda Memory <torch Cuda Memory>](torch.cuda.memory <torch_cuda_memory>.md)
+- [Mps](mps.md)
+- [Xpu](xpu.md)
+- [Mtia](mtia.md)
+- [Mtia Memory](mtia.memory.md)
+- [Mtia Mtia Graph](mtia.mtia_graph.md)
+- [Meta](meta.md)
+- [Torch Backends <backends>](torch.backends <backends>.md)
+- [Torch Export <user Guide/torch Compiler/export>](torch.export <user_guide/torch_compiler/export>.md)
+- [Torch Distributed <distributed>](torch.distributed <distributed>.md)
+- [Torch Distributed Tensor <distributed Tensor>](torch.distributed.tensor <distributed.tensor>.md)
+- [Torch Distributed Algorithms Join <distributed Algorithms Join>](torch.distributed.algorithms.join <distributed.algorithms.join>.md)
+- [Torch Distributed Elastic <distributed Elastic>](torch.distributed.elastic <distributed.elastic>.md)
+- [Torch Distributed Fsdp <fsdp>](torch.distributed.fsdp <fsdp>.md)
+- [Torch Distributed Fsdp Fully Shard <distributed Fsdp Fully Shard>](torch.distributed.fsdp.fully_shard <distributed.fsdp.fully_shard>.md)
+- [Torch Distributed Tensor Parallel <distributed Tensor Parallel>](torch.distributed.tensor.parallel <distributed.tensor.parallel>.md)
+- [Torch Distributed Optim <distributed Optim>](torch.distributed.optim <distributed.optim>.md)
+- [Torch Distributed Pipelining <distributed Pipelining>](torch.distributed.pipelining <distributed.pipelining>.md)
+- [Torch Distributed Symmetric Memory <symmetric Memory>](torch.distributed._symmetric_memory <symmetric_memory>.md)
+- [Torch Distributed Checkpoint <distributed Checkpoint>](torch.distributed.checkpoint <distributed.checkpoint>.md)
+- [Torch Distributions <distributions>](torch.distributions <distributions>.md)
+- [Torch Compiler <torch Compiler Api>](torch.compiler <torch.compiler_api>.md)
+- [Torch Fft <fft>](torch.fft <fft>.md)
+- [Torch Func <func>](torch.func <func>.md)
+- [Futures](futures.md)
+- [Fx](fx.md)
+- [Fx Experimental](fx.experimental.md)
+- [Torch Hub <hub>](torch.hub <hub>.md)
+- [Torch Linalg <linalg>](torch.linalg <linalg>.md)
+- [Torch Monitor <monitor>](torch.monitor <monitor>.md)
+- [Torch Signal <signal>](torch.signal <signal>.md)
+- [Torch Special <special>](torch.special <special>.md)
+- [Torch Overrides](torch.overrides.md)
+- [Torch Nativert <nativert>](torch.nativert <nativert>.md)
+- [Torch Package <package>](torch.package <package>.md)
+- [Profiler](profiler.md)
+- [Nn Init](nn.init.md)
+- [Nn Attention](nn.attention.md)
+- [Onnx](onnx.md)
+- [Optim](optim.md)
+- [Complex Numbers](complex_numbers.md)
+- [Ddp Comm Hooks](ddp_comm_hooks.md)
+- [Quantization](quantization.md)
+- [Rpc](rpc.md)
+- [Torch Random <random>](torch.random <random>.md)
+- [Masked](masked.md)
+- [Torch Nested <nested>](torch.nested <nested>.md)
+- [Size](size.md)
+- [Sparse](sparse.md)
+- [Storage](storage.md)
+- [Torch Testing <testing>](torch.testing <testing>.md)
+- [Torch Utils <utils>](torch.utils <utils>.md)
+- [Torch Utils Benchmark <benchmark Utils>](torch.utils.benchmark <benchmark_utils>.md)
+- [Torch Utils Checkpoint <checkpoint>](torch.utils.checkpoint <checkpoint>.md)
+- [Torch Utils Cpp Extension <cpp Extension>](torch.utils.cpp_extension <cpp_extension>.md)
+- [Torch Utils Data <data>](torch.utils.data <data>.md)
+- [Torch Utils Deterministic <deterministic>](torch.utils.deterministic <deterministic>.md)
+- [Torch Utils Jit <jit Utils>](torch.utils.jit <jit_utils>.md)
+- [Torch Utils Dlpack <dlpack>](torch.utils.dlpack <dlpack>.md)
+- [Torch Utils Mobile Optimizer <mobile Optimizer>](torch.utils.mobile_optimizer <mobile_optimizer>.md)
+- [Torch Utils Model Zoo <model Zoo>](torch.utils.model_zoo <model_zoo>.md)
+- [Torch Utils Tensorboard <tensorboard>](torch.utils.tensorboard <tensorboard>.md)
+- [Torch Utils Module Tracker <module Tracker>](torch.utils.module_tracker <module_tracker>.md)
+- [Type Info](type_info.md)
+- [Named Tensor](named_tensor.md)
+- [Name Inference](name_inference.md)
+- [Torch Config <config Mod>](torch.__config__ <config_mod>.md)
+- [Torch Future <future Mod>](torch.__future__ <future_mod>.md)
+- [Logging](logging.md)
+- [Torch Environment Variables](torch_environment_variables.md)

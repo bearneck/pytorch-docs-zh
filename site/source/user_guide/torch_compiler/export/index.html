@@ -8464,7 +8464,7 @@ example_args = (torch.randn(10, 10), torch.randn(10, 10))
 exported_program: ExportedProgram = export(Mod(), args=example_args)
 print(exported_program)
 </code></pre></div>
-<p><code>torch.export</code> 生成一个简洁的中间表示（IR），并遵循以下不变性。关于 IR 的更多规范可以在 <code>此处 &lt;export.ir_spec&gt;</code> 找到。</p>
+<p><code>torch.export</code> 生成一个简洁的中间表示（IR），并遵循以下不变性。关于 IR 的更多规范可以在 此处  找到。</p>
 <ul>
 <li><strong>正确性</strong>：它保证是原始程序的一个正确表示，并保持原始程序相同的调用约定。</li>
 <li><strong>规范化</strong>：图中不包含 Python 语义。原始程序中的子模块被内联，形成一个完全扁平化的计算图。</li>
@@ -8485,7 +8485,7 @@ print(exported_program)
 <li><strong>可用性权衡</strong>：由于 <code>torch.compile</code> 在遇到不可追踪的内容时能够回退到 Python 运行时，因此它灵活得多。而 <code>torch.export</code> 则需要用户提供更多信息或重写代码以使其可追踪。</li>
 </ul>
 <p>与 <code>torch.fx.symbolic_trace</code> 相比，<code>torch.export</code> 使用 TorchDynamo 进行追踪，后者在 Python 字节码级别操作，使其能够追踪任意 Python 结构，不受 Python 操作符重载支持的限制。此外，<code>torch.export</code> 对张量元数据进行细粒度跟踪，因此对张量形状等条件的判断不会导致追踪失败。总的来说，<code>torch.export</code> 预期能在更多用户程序上工作，并生成更低级别的图（在 <code>torch.ops.aten</code> 操作符级别）。请注意，用户仍然可以在 <code>torch.export</code> 之前使用 <code>torch.fx.symbolic_trace</code> 作为预处理步骤。</p>
-<p>与 <code>torch.jit.script</code> 相比，<code>torch.export</code> 不捕获 Python 控制流或数据结构，除非使用显式的 <code>控制流操作符 &lt;higher_order_ops&gt;</code>，但由于其对 Python 字节码的全面覆盖，它支持更多的 Python 语言特性。生成的图更简单，除了显式的控制流操作符外，只有直线控制流。</p>
+<p>与 <code>torch.jit.script</code> 相比，<code>torch.export</code> 不捕获 Python 控制流或数据结构，除非使用显式的 控制流操作符 ，但由于其对 Python 字节码的全面覆盖，它支持更多的 Python 语言特性。生成的图更简单，除了显式的控制流操作符外，只有直线控制流。</p>
 <p>与 <code>torch.jit.trace</code> 相比，<code>torch.export</code> 是正确的：它可以追踪对尺寸进行整数计算的代码，并记录所有必要的边界条件，以确保特定追踪对于其他输入是有效的。</p>
 <h2 id="pytorch">导出 PyTorch 模型<a class="headerlink" href="#pytorch" title="Permanent link">&para;</a></h2>
 <p>主要入口点是通过 <code>torch.export.export</code>，它接收一个 <code>torch.nn.Module</code> 和示例输入，并将计算图捕获到一个 <code>torch.export.ExportedProgram</code> 中。示例如下：</p>
@@ -8696,7 +8696,7 @@ ep = torch.export.export(M(), input1, dynamic_shapes=ai)
 print(ep)
 </code></pre></div>
 <h2 id="_6">序列化<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>要保存 <code>ExportedProgram</code>，用户可以使用 <code>torch.export.save</code> 和 <code>torch.export.load</code> API。生成的文件是一个具有特定结构的 zip 文件。该结构的详细信息在 <code>PT2 归档规范 &lt;export.pt2_archive&gt;</code> 中定义。</p>
+<p>要保存 <code>ExportedProgram</code>，用户可以使用 <code>torch.export.save</code> 和 <code>torch.export.load</code> API。生成的文件是一个具有特定结构的 zip 文件。该结构的详细信息在 PT2 归档规范  中定义。</p>
 <p>示例：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
@@ -8838,12 +8838,12 @@ print(my_ep.graph_module.print_readable(print_output=False))
 <p>请注意，<code>torch.ops.aten.conv2d.default</code> 现在不是被分解为 <code>torch.ops.aten.convolution.default</code>，而是被分解为 <code>torch.ops.aten.convolution.default</code> 和 <code>torch.ops.aten.mul.Tensor</code>，这与我们的自定义分解规则相匹配。</p>
 <h2 id="torchexport_1">torch.export 的限制<a class="headerlink" href="#torchexport_1" title="Permanent link">&para;</a></h2>
 <p>由于 <code>torch.export</code> 是从 PyTorch 程序捕获计算图的一次性过程，它最终可能会遇到程序中无法追踪的部分，因为几乎不可能支持追踪所有 PyTorch 和 Python 特性。在 <code>torch.compile</code> 的情况下，不支持的操作会导致"图中断"，不支持的操作将通过默认的 Python 求值运行。相比之下，<code>torch.export</code> 将要求用户提供额外信息或重写部分代码以使其可追踪。</p>
-<p><code>Draft-export &lt;export.draft_export&gt;</code> 是一个很好的资源，列出了追踪程序时会遇到的图中断，以及解决这些错误的额外调试信息。</p>
-<p><code>ExportDB &lt;torch.export_db&gt;</code> 也是一个很好的资源，用于了解支持和不受支持的程序类型，以及重写程序使其可追踪的方法。</p>
+<p>Draft-export  是一个很好的资源，列出了追踪程序时会遇到的图中断，以及解决这些错误的额外调试信息。</p>
+<p>ExportDB  也是一个很好的资源，用于了解支持和不受支持的程序类型，以及重写程序使其可追踪的方法。</p>
 <h3 id="torchdynamo">TorchDynamo 不支持<a class="headerlink" href="#torchdynamo" title="Permanent link">&para;</a></h3>
-<p>当使用 <code>torch.export</code> 并设置 <code>strict=True</code> 时，这将使用 TorchDynamo 在 Python 字节码级别评估程序以追踪成图。与之前的追踪框架相比，使程序可追踪所需的改写会显著减少，但仍会有一些 Python 特性不受支持。解决这些图中断的一个选项是通过将 <code>strict</code> 标志更改为 <code>strict=False</code> 来使用 <code>非严格导出 &lt;non-strict-export&gt;</code>。</p>
+<p>当使用 <code>torch.export</code> 并设置 <code>strict=True</code> 时，这将使用 TorchDynamo 在 Python 字节码级别评估程序以追踪成图。与之前的追踪框架相比，使程序可追踪所需的改写会显著减少，但仍会有一些 Python 特性不受支持。解决这些图中断的一个选项是通过将 <code>strict</code> 标志更改为 <code>strict=False</code> 来使用 非严格导出 。</p>
 <h3 id="_7">数据/形状依赖的控制流<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>当未对形状进行特化时，数据依赖的控制流（例如 <code>if x.shape[0] &gt; 2</code>）也可能遇到图中断，因为追踪编译器无法在不生成组合爆炸路径数量的代码的情况下处理此类情况。在这种情况下，用户需要使用特殊的控制流运算符重写代码。目前，我们支持 <code>高阶运算符 &lt;higher_order_ops&gt;</code> 来表达条件、映射、扫描和循环等控制流模式。</p>
+<p>当未对形状进行特化时，数据依赖的控制流（例如 <code>if x.shape[0] &gt; 2</code>）也可能遇到图中断，因为追踪编译器无法在不生成组合爆炸路径数量的代码的情况下处理此类情况。在这种情况下，用户需要使用特殊的控制流运算符重写代码。目前，我们支持 高阶运算符  来表达条件、映射、扫描和循环等控制流模式。</p>
 <p>你也可以参考这个
 <a href="https://docs.pytorch.org/tutorials/intermediate/torch_export_tutorial.html#data-dependent-errors">教程</a>
 了解处理数据依赖错误的更多方法。</p>
@@ -8853,27 +8853,25 @@ print(my_ep.graph_module.print_readable(print_output=False))
 <a href="https://docs.pytorch.org/tutorials/advanced/custom_ops_landing_page.html">教程</a>。</p>
 <p>如果不幸你的模型使用了尚未实现 FakeTensor 内核的 ATen 运算符，请提交一个问题。</p>
 <h2 id="_8">延伸阅读<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>:caption: 面向导出用户的附加链接
-:maxdepth: 1
-
-export/api_reference
-export/programming_model
-export/ir_spec
-export/pt2_archive
-export/draft_export
-export/joint_with_descriptors
-../../higher_order_ops/index
-../../generated/exportdb/index
-torch.compiler_aot_inductor
-torch.compiler_ir
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>:caption: 面向 PyTorch 开发者的深入探讨
-:maxdepth: 1
-
-torch.compiler_dynamic_shapes
-torch.compiler_fake_tensor
-torch.compiler_transformations
-</code></pre></div>
+<ul>
+<li><a href="api_reference/">Export/api Reference</a></li>
+<li><a href="programming_model/">Export/programming Model</a></li>
+<li><a href="ir_spec/">Export/ir Spec</a></li>
+<li><a href="pt2_archive/">Export/pt2 Archive</a></li>
+<li><a href="draft_export/">Export/draft Export</a></li>
+<li><a href="joint_with_descriptors/">Export/joint With Descriptors</a></li>
+<li><a href="../../../higher_order_ops/">/ /higher Order Ops/index</a></li>
+<li><a href="../../generated/exportdb/index.md">/ /generated/exportdb/index</a></li>
+<li><a href="../torch.compiler_aot_inductor/">Torch Compiler Aot Inductor</a></li>
+<li>
+<p><a href="../torch.compiler_ir/">Torch Compiler Ir</a></p>
+</li>
+<li>
+<p><a href="../torch.compiler_dynamic_shapes/">Torch Compiler Dynamic Shapes</a></p>
+</li>
+<li><a href="../torch.compiler_fake_tensor/">Torch Compiler Fake Tensor</a></li>
+<li><a href="../torch.compiler_transformations/">Torch Compiler Transformations</a></li>
+</ul>
 
 
 

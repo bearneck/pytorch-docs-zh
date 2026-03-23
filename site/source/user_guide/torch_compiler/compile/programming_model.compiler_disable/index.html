@@ -7956,8 +7956,7 @@
   
 
 
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
-import torch
+<div class="highlight"><pre><span></span><code>import torch
 
 import header_code
 
@@ -7984,8 +7983,8 @@ def f(x):
     return x + 4  # 被跟踪
 
 print(f(torch.ones(3)))
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>def inner2(x):
+{code-cell}
+def inner2(x):
     torch._dynamo.graph_break()  # 被跟踪
     return x + 1  # 被跟踪
 

@@ -1,10 +1,9 @@
-
 # PT2 归档规范
 
 以下规范定义了可通过以下方法生成的归档格式：
 
-* 通过调用 `torch.export.save` 的 `torch.export <torch.export>`
-* 通过调用 `torch._inductor.aoti_compile_and_package` 的 `AOTInductor <torch.compiler_aot_inductor>`
+* 通过调用 `torch.export.save` 的 torch.export 
+* 通过调用 `torch._inductor.aoti_compile_and_package` 的 AOTInductor 
 
 该归档是一个 zip 文件，可以使用标准的 zipfile API 进行操作。
 

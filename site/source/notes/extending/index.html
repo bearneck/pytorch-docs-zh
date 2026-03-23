@@ -6663,7 +6663,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-autograd" class="md-nav__link">
+  <a href="#torchautograd" class="md-nav__link">
     <span class="md-ellipsis">
       
         扩展 torch.autograd
@@ -6719,10 +6719,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#combining-forward-context" class="md-nav__link">
+  <a href="#functionforward-functionsetup_context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        合并或分离的 ~Function.forward 和 ~Function.setup_context
+        合并或分离的 Function.forward 和 Function.setup_context
       
     </span>
   </a>
@@ -6730,7 +6730,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forward-ad-autograd-function" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         前向模式自动微分
@@ -6785,7 +6785,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-torch-python" class="md-nav__link">
+  <a href="#torch-python-api" class="md-nav__link">
     <span class="md-ellipsis">
       
         扩展 torch Python API
@@ -6857,7 +6857,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-torch-c++" class="md-nav__link">
+  <a href="#torch-api" class="md-nav__link">
     <span class="md-ellipsis">
       
         扩展 torch 原生 API
@@ -6869,7 +6869,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#torch-dispatch-calling-convention" class="md-nav__link">
+  <a href="#__torch_dispatch__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __torch_dispatch__ 调用约定
@@ -6885,7 +6885,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#torch-api" class="md-nav__link">
+  <a href="#torch-api_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         使用模式扩展所有 torch API
@@ -8233,7 +8233,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-autograd" class="md-nav__link">
+  <a href="#torchautograd" class="md-nav__link">
     <span class="md-ellipsis">
       
         扩展 torch.autograd
@@ -8289,10 +8289,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#combining-forward-context" class="md-nav__link">
+  <a href="#functionforward-functionsetup_context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        合并或分离的 ~Function.forward 和 ~Function.setup_context
+        合并或分离的 Function.forward 和 Function.setup_context
       
     </span>
   </a>
@@ -8300,7 +8300,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#forward-ad-autograd-function" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         前向模式自动微分
@@ -8355,7 +8355,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-torch-python" class="md-nav__link">
+  <a href="#torch-python-api" class="md-nav__link">
     <span class="md-ellipsis">
       
         扩展 torch Python API
@@ -8427,7 +8427,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#extending-torch-c++" class="md-nav__link">
+  <a href="#torch-api" class="md-nav__link">
     <span class="md-ellipsis">
       
         扩展 torch 原生 API
@@ -8439,7 +8439,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#torch-dispatch-calling-convention" class="md-nav__link">
+  <a href="#__torch_dispatch__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __torch_dispatch__ 调用约定
@@ -8455,7 +8455,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#torch-api" class="md-nav__link">
+  <a href="#torch-api_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         使用模式扩展所有 torch API
@@ -8486,58 +8486,56 @@
 
 
 <h1 id="pytorch">扩展 PyTorch<a class="headerlink" href="#pytorch" title="Permanent link">&para;</a></h1>
-<p>本文档将介绍扩展 <code class="interpreted-text" role="mod">torch.nn</code>、<code class="interpreted-text" role="mod">torch.autograd</code>、<code class="interpreted-text" role="mod">torch</code> 以及编写自定义 C++ 扩展的方法。</p>
+<p>本文档将介绍扩展 <code>torch.nn</code>、<code>torch.autograd</code>、<code>torch</code> 以及编写自定义 C++ 扩展的方法。</p>
 <h2 id="_1">添加新运算符<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>PyTorch 提供了大量作用于张量的运算符库（例如 <code class="interpreted-text" role="func">torch.add</code>、<code class="interpreted-text" role="func">torch.sum</code> 等）。然而，您可能希望为 PyTorch 引入新的自定义操作，并使其行为类似于 PyTorch 的内置运算符。为此，您必须通过 Python <code class="interpreted-text" role="ref">torch-library-docs</code> 或 C++ TORCH_LIBRARY API 向 PyTorch 注册自定义操作。</p>
+<p>PyTorch 提供了大量作用于张量的运算符库（例如 <code>torch.add</code>、<code>torch.sum</code> 等）。然而，您可能希望为 PyTorch 引入新的自定义操作，并使其行为类似于 PyTorch 的内置运算符。为此，您必须通过 Python <code>torch-library-docs</code> 或 C++ TORCH_LIBRARY API 向 PyTorch 注册自定义操作。</p>
 <p>更多详情请参阅 <a href="https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html">PyTorch 自定义运算符主页</a>。</p>
-<h2 id="extending-autograd">扩展 <code class="interpreted-text" role="mod">torch.autograd</code><a class="headerlink" href="#extending-autograd" title="Permanent link">&para;</a></h2>
-<p>currentmodule
-torch.autograd</p>
-<p>向 <code class="interpreted-text" role="mod">~torch.autograd</code> 添加操作需要为每个操作实现一个新的 <code class="interpreted-text" role="class">Function</code> 子类。请记住，Functions 是 <code class="interpreted-text" role="mod">~torch.autograd</code> 用来编码操作历史并计算梯度的工具。</p>
+<h2 id="torchautograd">扩展 <code>torch.autograd</code><a class="headerlink" href="#torchautograd" title="Permanent link">&para;</a></h2>
+<p>向 <code>torch.autograd</code> 添加操作需要为每个操作实现一个新的 <code>Function</code> 子类。请记住，Functions 是 <code>torch.autograd</code> 用来编码操作历史并计算梯度的工具。</p>
 <p>本文档的第一部分重点介绍反向模式自动微分，因为它是最广泛使用的功能。最后一部分讨论了前向模式自动微分的扩展。</p>
 <h3 id="_2">何时使用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>通常，如果您希望在模型中执行不可微分或依赖于非 PyTorch 库（例如 NumPy）的计算，但仍希望您的操作能够与其他操作链接并与自动微分引擎协同工作，那么请实现自定义函数。</p>
-<p>在某些情况下，自定义函数也可用于提高性能和内存使用效率：如果您使用 <a href="https://pytorch.org/tutorials/advanced/cpp_extension.html">C++ 扩展</a> 实现了前向和反向传播，可以将它们包装在 <code class="interpreted-text" role="class">~Function</code> 中以与自动微分引擎交互。如果您希望减少为反向传播保存的缓冲区数量，可以使用自定义函数将多个操作组合在一起。</p>
+<p>在某些情况下，自定义函数也可用于提高性能和内存使用效率：如果您使用 <a href="https://pytorch.org/tutorials/advanced/cpp_extension.html">C++ 扩展</a> 实现了前向和反向传播，可以将它们包装在 <code>Function</code> 中以与自动微分引擎交互。如果您希望减少为反向传播保存的缓冲区数量，可以使用自定义函数将多个操作组合在一起。</p>
 <h3 id="_3">何时不使用<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>如果您已经可以使用 PyTorch 的内置操作编写函数，那么其反向计算图（很可能）已经能够被自动微分记录。在这种情况下，您不需要自己实现反向函数。考虑使用普通的 Python 函数。</p>
-<p>如果您需要维护状态，即可训练参数，您应该（同时）使用自定义模块。有关扩展 <code class="interpreted-text" role="mod">torch.nn</code> 的更多信息，请参阅下面的部分。</p>
+<p>如果您需要维护状态，即可训练参数，您应该（同时）使用自定义模块。有关扩展 <code>torch.nn</code> 的更多信息，请参阅下面的部分。</p>
 <p>如果您希望在反向传播期间修改梯度或执行副作用，请考虑注册 <a href="https://pytorch.org/docs/stable/generated/torch.Tensor.register_hook.html#torch.Tensor.register_hook">张量钩子</a> 或 <a href="https://pytorch.org/docs/stable/notes/modules.html#module-hooks">模块钩子</a>。</p>
 <h3 id="_4">如何使用<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>请按以下步骤操作： 1. 子类化 <code class="interpreted-text" role="class">~Function</code> 并实现 <code class="interpreted-text" role="meth">~Function.forward</code>、（可选的）<code class="interpreted-text" role="meth">~Function.setup_context</code> 和 <code class="interpreted-text" role="meth">~Function.backward</code> 参数上调用适当的方法。 3. 声明您的函数是否支持 } 方法。 2. 在 [ctx]{.title-ref<a href="https://pytorch.org/tutorials/intermediate/custom_function_double_backward_tutorial.html">双重反向传播</a>。 4. 使用 gradcheck 验证您的梯度是否正确。</p>
-<p><strong>步骤 1：</strong> 子类化 <code class="interpreted-text" role="class">Function</code> 后，您需要定义 3 个方法：</p>
+<p>请按以下步骤操作： 1. 子类化 <code>Function</code> 并实现 <code>Function.forward</code>、（可选的）<code>Function.setup_context</code> 和 <code>Function.backward</code> 方法。 2. 在 [ctx] 参数上调用适当的方法。 3. 声明您的函数是否支持 <a href="https://pytorch.org/tutorials/intermediate/custom_function_double_backward_tutorial.html">双重反向传播</a>。 4. 使用 gradcheck 验证您的梯度是否正确。</p>
+<p><strong>步骤 1：</strong> 子类化 <code>Function</code> 后，您需要定义 3 个方法：</p>
 <ul>
-<li><code class="interpreted-text" role="meth">~Function.forward</code>）的 } 是执行操作的代码。它可以接受任意数量的参数，其中一些可以是可选的（如果您指定了默认值）。这里接受所有类型的 Python 对象。跟踪历史记录（即 [requires_grad=True]{.title-ref<code class="interpreted-text" role="class">Tensor</code> 参数将在调用前转换为不跟踪历史记录的张量，并且它们的使用将在计算图中注册。请注意，此逻辑不会遍历列表/字典/任何其他数据结构，只会考虑作为调用直接参数的张量。您可以返回单个 <code class="interpreted-text" role="class">Tensor</code> 输出，或者在有多个输出时返回张量的 <code class="interpreted-text" role="class">tuple</code>。此外，请参阅 <code class="interpreted-text" role="class">Function</code> 的文档，查找只能在 <code class="interpreted-text" role="meth">~Function.forward</code> 中调用的有用方法的描述。</li>
-<li><code class="interpreted-text" role="meth">~Function.setup_context</code> 对象的"组合式" }（可选）。您可以编写一个接受 [ctx]{.title-ref<code class="interpreted-text" role="meth">~Function.forward</code> 的独立 }，或者（从 PyTorch 2.0 开始）编写一个不接受 [ctx]{.title-ref<code class="interpreted-text" role="meth">~Function.forward</code> 的 } 和一个负责修改 [ctx]{.title-ref<code class="interpreted-text" role="meth">~Function.setup_context</code> 方法。<code class="interpreted-text" role="meth">~Function.forward</code> 应包含计算逻辑，而 <code class="interpreted-text" role="meth">~Function.setup_context</code> 的修改（不应包含任何计算逻辑）。通常，独立的 } 应仅负责 [ctx]{.title-ref<code class="interpreted-text" role="meth">~Function.forward</code> 和 <code class="interpreted-text" role="meth">~Function.setup_context</code> 更接近 PyTorch 原生操作的工作方式，因此与各种 PyTorch 子系统的组合性更好。更多详情请参阅 <code class="interpreted-text" role="ref">combining-forward-context</code>。</li>
-<li><code class="interpreted-text" role="meth">~Function.backward</code>（或 <code class="interpreted-text" role="meth">~Function.vjp</code>）定义了梯度公式。它将接收与输出数量相同的 <code class="interpreted-text" role="class">Tensor</code> 参数，每个参数代表相对于该输出的梯度。**切勿**就地修改这些参数，这一点非常重要。它应返回与输入数量相同的张量，每个张量包含相对于其对应输入的梯度。如果您的输入不需要梯度（<code class="interpreted-text" role="attr">~ctx.needs_input_grad</code> 是一个布尔值元组，指示每个输入是否需要梯度计算），或者是非 <code class="interpreted-text" role="class">Tensor</code> 对象，您可以返回 <code class="interpreted-text" role="class">python:None</code>。此外，如果您对 <code class="interpreted-text" role="meth">~Function.forward</code> 有可选参数，只要它们都是 <code class="interpreted-text" role="any">python:None</code>，您可以返回比输入数量更多的梯度。</li>
+<li><code>Function.forward</code> 是执行操作的代码。它可以接受任意数量的参数，其中一些可以是可选的（如果您指定了默认值）。这里接受所有类型的 Python 对象。跟踪历史记录（即 [requires_grad=True]）的 <code>Tensor</code> 参数将在调用前转换为不跟踪历史记录的张量，并且它们的使用将在计算图中注册。请注意，此逻辑不会遍历列表/字典/任何其他数据结构，只会考虑作为调用直接参数的张量。您可以返回单个 <code>Tensor</code> 输出，或者在有多个输出时返回张量的 <code>tuple</code>。此外，请参阅 <code>Function</code> 的文档，查找只能在 <code>Function.forward</code> 中调用的有用方法的描述。</li>
+<li><code>Function.setup_context</code>（可选）。您可以编写一个接受 [ctx] 对象的"组合式" <code>Function.forward</code>，或者（从 PyTorch 2.0 开始）编写一个不接受 [ctx] 的独立 <code>Function.forward</code> 和一个负责修改 [ctx] 的 <code>Function.setup_context</code> 方法。<code>Function.forward</code> 应包含计算逻辑，而 <code>Function.setup_context</code> 应仅负责 [ctx] 的修改（不应包含任何计算逻辑）。通常，独立的 <code>Function.forward</code> 和 <code>Function.setup_context</code> 更接近 PyTorch 原生操作的工作方式，因此与各种 PyTorch 子系统的组合性更好。更多详情请参阅 <code>combining-forward-context</code>。</li>
+<li><code>Function.backward</code>（或 <code>Function.vjp</code>）定义了梯度公式。它将接收与输出数量相同的 <code>Tensor</code> 参数，每个参数代表相对于该输出的梯度。**切勿**就地修改这些参数，这一点非常重要。它应返回与输入数量相同的张量，每个张量包含相对于其对应输入的梯度。如果您的输入不需要梯度（<code>ctx.needs_input_grad</code> 是一个布尔值元组，指示每个输入是否需要梯度计算），或者是非 <code>Tensor</code> 对象，您可以返回 <code>python:None</code>。此外，如果您对 <code>Function.forward</code> 有可选参数，只要它们都是 <code>python:None</code>，您可以返回比输入数量更多的梯度。</li>
 </ul>
-<p><strong>步骤 2：</strong> 您有责任正确使用 [ctx]{.title-ref} 中的函数，以确保新的 <code class="interpreted-text" role="class">Function</code> 能够与自动微分引擎正常工作。</p>
+<p><strong>步骤 2：</strong> 您有责任正确使用 [ctx] 中的函数，以确保新的 <code>Function</code> 能够与自动微分引擎正常工作。</p>
 <ul>
-<li><code class="interpreted-text" role="meth">~torch.autograd.function.FunctionCtx.save_for_backward</code> 应被用于保存反向传播所需的任何张量（而不是直接保存在 <code>ctx</code> 上）。你不能对非张量使用 <code>save_for_backward</code>；这些应直接存储在 <code>ctx</code> 上。</li>
+<li><code>torch.autograd.function.FunctionCtx.save_for_backward</code> 应被用于保存反向传播所需的任何张量（而不是直接保存在 <code>ctx</code> 上）。你不能对非张量使用 <code>save_for_backward</code>；这些应直接存储在 <code>ctx</code> 上。</li>
 </ul>
 <p>通过 <code>save_for_backward</code> 保存张量：</p>
 <p>1. 允许自动微分引擎在 <code>autograd.Function</code> 的反向计算完成后立即清除它们。 （如果张量直接存储在 <code>ctx</code> 上，它将在自动微分图的生命周期内不必要地保持存活------通常直到迭代结束。）</p>
 <ol>
 <li>有助于避免某些引用循环（例如，因为 <code>autograd.Function</code> 本身的张量输出会保持对 ctx 的引用）。</li>
-<li>对于与依赖于 <code class="interpreted-text" role="class">torch.autograd.graph.saved_tensors_hooks</code> 的功能（如激活检查点和卸载）的兼容性很重要。</li>
+<li>对于与依赖于 <code>torch.autograd.graph.saved_tensors_hooks</code> 的功能（如激活检查点和卸载）的兼容性很重要。</li>
 </ol>
-<p>如果既非输入也非输出的张量被保存用于反向传播，你的 <code class="interpreted-text" role="class">~Function</code> 可能不支持双反向传播（参见步骤 3）。</p>
+<p>如果既非输入也非输出的张量被保存用于反向传播，你的 <code>Function</code> 可能不支持双反向传播（参见步骤 3）。</p>
 <ul>
 <li>
-<p><code class="interpreted-text" role="meth">~torch.autograd.function.FunctionCtx.mark_dirty</code> 必须用于标记在前向函数中被原地修改的任何输入。</p>
+<p><code>torch.autograd.function.FunctionCtx.mark_dirty</code> 必须用于标记在前向函数中被原地修改的任何输入。</p>
 </li>
 <li>
-<p><code class="interpreted-text" role="meth">~torch.autograd.function.FunctionCtx.mark_non_differentiable</code> 必须用于告知引擎某个输出是否不可微分。默认情况下，所有可微分类型的输出张量都将被设置为需要梯度。不可微分类型（即整数类型）的张量永远不会被标记为需要梯度。</p>
+<p><code>torch.autograd.function.FunctionCtx.mark_non_differentiable</code> 必须用于告知引擎某个输出是否不可微分。默认情况下，所有可微分类型的输出张量都将被设置为需要梯度。不可微分类型（即整数类型）的张量永远不会被标记为需要梯度。</p>
 </li>
 <li>
-<p><code class="interpreted-text" role="meth">~torch.autograd.function.FunctionCtx.set_materialize_grads</code> 为 False 的张量 x）在调用反向函数之前将不会被转换为填充零的张量，因此你的代码需要将这些对象视为填充零的张量来处理。此设置的默认值为 True。} 可用于告知自动微分引擎，在输出不依赖于输入的情况下，通过不具体化提供给反向函数的梯度张量来优化梯度计算。也就是说，如果设置为 False，Python 中的 None 对象或 C++ 中的"未定义张量"（即 [x.defined()]{.title-ref</p>
+<p><code>torch.autograd.function.FunctionCtx.set_materialize_grads</code> 可用于告知自动微分引擎，在输出不依赖于输入的情况下，通过不具体化提供给反向函数的梯度张量来优化梯度计算。也就是说，如果设置为 False，Python 中的 None 对象或 C++ 中的"未定义张量"（即 [x.defined()] 为 False 的张量 x）在调用反向函数之前将不会被转换为填充零的张量，因此你的代码需要将这些对象视为填充零的张量来处理。此设置的默认值为 True。</p>
 </li>
 </ul>
-<p>除了 <code>ctx</code> 方法外，<code class="interpreted-text" role="class">~Function</code> 类还支持以下类属性：</p>
+<p>除了 <code>ctx</code> 方法外，<code>Function</code> 类还支持以下类属性：</p>
 <ul>
-<li><code class="interpreted-text" role="attr">~Function.clear_saved_tensors_on_access</code>：当在 <code class="interpreted-text" role="class">~Function</code> 子类上设置为 <code>True</code> 时，在反向传播中访问 <code>ctx.saved_tensors</code> 将清除对这些张量的内部引用。这使得张量可以在 <code>saved_tensors</code> 返回的局部变量超出作用域后立即被释放，而不是等待缓冲区在 Node 执行结束时被清除。这可以减少在保存的张量仅需使用一次的反向传播中的峰值内存使用量。默认值为 <code>False</code>。请注意，启用此选项后，<code>saved_tensors</code> 只能访问一次；第二次访问将引发错误。</li>
+<li><code>Function.clear_saved_tensors_on_access</code>：当在 <code>Function</code> 子类上设置为 <code>True</code> 时，在反向传播中访问 <code>ctx.saved_tensors</code> 将清除对这些张量的内部引用。这使得张量可以在 <code>saved_tensors</code> 返回的局部变量超出作用域后立即被释放，而不是等待缓冲区在 Node 执行结束时被清除。这可以减少在保存的张量仅需使用一次的反向传播中的峰值内存使用量。默认值为 <code>False</code>。请注意，启用此选项后，<code>saved_tensors</code> 只能访问一次；第二次访问将引发错误。</li>
 </ul>
-<p><strong>步骤 3：</strong> 如果你的 <code class="interpreted-text" role="class">~Function</code> 不支持双反向传播，你应该通过用 <code class="interpreted-text" role="func">~function.once_differentiable</code> 装饰 backward 来明确声明这一点。使用此装饰器后，尝试通过你的函数执行双反向传播将产生错误。有关双反向传播的更多信息，请参阅我们的双反向传播教程。</p>
-<p><strong>步骤 4：</strong> 建议使用 <code class="interpreted-text" role="func">torch.autograd.gradcheck</code> 来检查你的反向函数是否正确计算了前向传播的梯度，方法是通过你的反向函数计算雅可比矩阵，并与使用有限差分法数值计算的雅可比矩阵进行逐元素比较。</p>
+<p><strong>步骤 3：</strong> 如果你的 <code>Function</code> 不支持双反向传播，你应该通过用 <code>function.once_differentiable</code> 装饰 backward 来明确声明这一点。使用此装饰器后，尝试通过你的函数执行双反向传播将产生错误。有关双反向传播的更多信息，请参阅我们的双反向传播教程。</p>
+<p><strong>步骤 4：</strong> 建议使用 <code>torch.autograd.gradcheck</code> 来检查你的反向函数是否正确计算了前向传播的梯度，方法是通过你的反向函数计算雅可比矩阵，并与使用有限差分法数值计算的雅可比矩阵进行逐元素比较。</p>
 <h3 id="_5">示例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>下面你可以找到一个 <code>Linear</code> 函数的代码，附有额外注释：:</p>
 <blockquote>
@@ -8594,35 +8592,32 @@ torch.autograd</p>
 &gt; return grad_x, grad_weight1, grad_weight2
 </code></pre></div>
 </blockquote>
-<p>如果你需要保存在 <code class="interpreted-text" role="meth">~Function.forward</code> 中计算的任何"中间"张量，它们必须作为输出返回，或者结合使用 <code>forward</code> 和 <code class="interpreted-text" role="meth">~Function.setup_context</code>（参见 <code class="interpreted-text" role="ref">combining-forward-context</code>）。 请注意，这意味着如果你希望梯度通过这些中间值流动，你需要为它们定义梯度公式（另请参阅 <a href="https://pytorch.org/tutorials/intermediate/custom_function_double_backward_tutorial.html">双重反向传播教程</a> ）：:</p>
+<p>如果你需要保存在 <code>Function.forward</code> 中计算的任何"中间"张量，它们必须作为输出返回，或者结合使用 <code>forward</code> 和 <code>Function.setup_context</code>（参见 <code>combining-forward-context</code>）。 请注意，这意味着如果你希望梯度通过这些中间值流动，你需要为它们定义梯度公式（另请参阅 <a href="https://pytorch.org/tutorials/intermediate/custom_function_double_backward_tutorial.html">双重反向传播教程</a> ）：:</p>
 <blockquote>
 <p>class MyCube(torch.autograd.Function):</p>
 <p>:   \@staticmethod def forward(x): # 我们希望保存 dx 用于反向传播。为此，它必须作为输出返回。 dx = 3 * x ** 2 result = x ** 3 return result, dx</p>
 <div class="highlight"><pre><span></span><code>\@staticmethod def setup_context(ctx, inputs, output): x, = inputs result, dx = output ctx.save_for_backward(x, dx)
 
-\@staticmethod def backward(ctx, grad_output, grad_dx): x, dx = ctx.saved_tensors \# 为了使 autograd.Function 能够处理高阶梯度，我们必须添加 [dx]{.title-ref} 的梯度贡献， \# 即 grad_dx \* 6 \* x。 result = grad_output \* dx + grad_dx \* 6 \* x return result
+\@staticmethod def backward(ctx, grad_output, grad_dx): x, dx = ctx.saved_tensors \# 为了使 autograd.Function 能够处理高阶梯度，我们必须添加 [dx] 的梯度贡献， \# 即 grad_dx \* 6 \* x。 result = grad_output \* dx + grad_dx \* 6 \* x return result
 </code></pre></div>
 <p># 将 MyCube 包装在一个函数中，以便更清晰地显示输出是什么 def my_cube(x): result, dx = MyCube.apply(x) return result</p>
-</blockquote>
-<p>note
- title
-Note</p>
-<p><code>backward</code> 的输入，即 <code class="interpreted-text" role="attr">grad_output</code>，也可以是跟踪历史的张量。因此，如果 <code>backward</code> 是通过可微分操作实现的（例如，调用另一个自定义的 <code class="interpreted-text" role="class">~torch.autograd.Function</code>），高阶导数将正常工作。 在这种情况下，使用 <code>save_for_backward</code> 保存的张量也可以在反向传播中使用，并且有梯度流回，但保存在 <code>ctx</code> 中的张量不会有梯度流回。 如果你需要保存在 <code>ctx</code> 中的张量有梯度流回，你应该将其设为自定义 <code>Function</code> 的输出，并使用 <code>save_for_backward</code> 保存。</p>
+<p>📝 <strong>注意</strong>
+<code>backward</code> 的输入，即 <code>grad_output</code>，也可以是跟踪历史的张量。因此，如果 <code>backward</code> 是通过可微分操作实现的（例如，调用另一个自定义的 <code>torch.autograd.Function</code>），高阶导数将正常工作。 在这种情况下，使用 <code>save_for_backward</code> 保存的张量也可以在反向传播中使用，并且有梯度流回，但保存在 <code>ctx</code> 中的张量不会有梯度流回。 如果你需要保存在 <code>ctx</code> 中的张量有梯度流回，你应该将其设为自定义 <code>Function</code> 的输出，并使用 <code>save_for_backward</code> 保存。</p>
 <p>你可能希望检查你实现的反向方法是否确实计算了函数的导数。可以通过使用小的有限差分与数值近似进行比较来实现：:</p>
 <blockquote>
 <p>from torch.autograd import gradcheck</p>
 <p># gradcheck 接受一个张量元组作为输入，检查用这些张量评估的梯度是否足够接近数值近似， # 如果它们都满足此条件则返回 True。 input = (torch.randn(20,20,dtype=torch.double,requires_grad=True), torch.randn(30,20,dtype=torch.double,requires_grad=True)) test = gradcheck(linear, input, eps=1e-6, atol=1e-4) print(test)</p>
 </blockquote>
-<p>有关有限差分梯度比较的更多细节，请参见 <code class="interpreted-text" role="ref">grad-check</code>。 如果你的函数用于高阶导数（对反向传播进行微分），你可以使用同一包中的 <code>gradgradcheck</code> 函数来检查高阶导数。</p>
-<h3 id="combining-forward-context">合并或分离的 <code class="interpreted-text" role="meth">~Function.forward</code> 和 <code class="interpreted-text" role="meth">~Function.setup_context</code><a class="headerlink" href="#combining-forward-context" title="Permanent link">&para;</a></h3>
-<p>定义 <code class="interpreted-text" role="class">~Function</code> 主要有两种方式。要么：</p>
+<p>有关有限差分梯度比较的更多细节，请参见 <code>grad-check</code>。 如果你的函数用于高阶导数（对反向传播进行微分），你可以使用同一包中的 <code>gradgradcheck</code> 函数来检查高阶导数。</p>
+<h3 id="functionforward-functionsetup_context">合并或分离的 <code>Function.forward</code> 和 <code>Function.setup_context</code><a class="headerlink" href="#functionforward-functionsetup_context" title="Permanent link">&para;</a></h3>
+<p>定义 <code>Function</code> 主要有两种方式。要么：</p>
 <ul>
-<li>定义一个将前向计算逻辑与 <code class="interpreted-text" role="meth">~Function.setup_context</code> 结合的 <code class="interpreted-text" role="meth">~Function.forward</code></li>
-<li>（从 PyTorch 2.0 开始）定义独立的 <code class="interpreted-text" role="meth">~Function.forward</code> 和 <code class="interpreted-text" role="meth">~Function.setup_context</code></li>
+<li>定义一个将前向计算逻辑与 <code>Function.setup_context</code> 结合的 <code>Function.forward</code></li>
+<li>（从 PyTorch 2.0 开始）定义独立的 <code>Function.forward</code> 和 <code>Function.setup_context</code></li>
 </ul>
-<p>我们推荐第二种方式（独立的 <code class="interpreted-text" role="meth">~Function.forward</code> 和 <code class="interpreted-text" role="meth">~Function.setup_context</code>）， 因为它更接近 PyTorch 原生操作的实现方式，并且能与 <code class="interpreted-text" role="mod">torch.func</code> 变换组合使用。 然而，我们计划在将来同时支持两种方式； 将 <code class="interpreted-text" role="meth">~Function.forward</code> 与 <code class="interpreted-text" role="meth">~Function.setup_context</code> 结合使用会带来更大的灵活性， 因为您能够保存中间结果而不必将其作为输出返回。</p>
-<p>关于如何定义具有独立 <code class="interpreted-text" role="meth">~Function.forward</code> 和 <code class="interpreted-text" role="meth">~Function.setup_context</code> 的 <code class="interpreted-text" role="class">~Function</code>， 请参阅前一节。</p>
-<p>以下是如何定义具有合并的 <code class="interpreted-text" role="meth">~Function.forward</code> 和 <code class="interpreted-text" role="meth">~Function.setup_context</code> 的 <code class="interpreted-text" role="class">Function</code> 的示例：:</p>
+<p>我们推荐第二种方式（独立的 <code>Function.forward</code> 和 <code>Function.setup_context</code>）， 因为它更接近 PyTorch 原生操作的实现方式，并且能与 <code>torch.func</code> 变换组合使用。 然而，我们计划在将来同时支持两种方式； 将 <code>Function.forward</code> 与 <code>Function.setup_context</code> 结合使用会带来更大的灵活性， 因为您能够保存中间结果而不必将其作为输出返回。</p>
+<p>关于如何定义具有独立 <code>Function.forward</code> 和 <code>Function.setup_context</code> 的 <code>Function</code>， 请参阅前一节。</p>
+<p>以下是如何定义具有合并的 <code>Function.forward</code> 和 <code>Function.setup_context</code> 的 <code>Function</code> 的示例：:</p>
 <blockquote>
 <p>class LinearFunction(Function):</p>
 <p>:   \@staticmethod # ctx 是 forward 的第一个参数 def forward(ctx, input, weight, bias=None): # 前向传播可以使用 ctx。 ctx.save_for_backward(input, weight, bias) output = input.mm(weight.t()) if bias is not None: output += bias.unsqueeze(0).expand_as(output) return output</p>
@@ -8645,29 +8640,27 @@ Note</p>
 &gt; return grad_input, grad_weight, grad_bias
 </code></pre></div>
 </blockquote>
-<h3 id="forward-ad-autograd-function">前向模式自动微分<a class="headerlink" href="#forward-ad-autograd-function" title="Permanent link">&para;</a></h3>
-<p>重写前向模式自动微分公式的 API 非常相似，但有一些细微差别。 您可以实现 <code class="interpreted-text" role="meth">~Function.jvp</code> 函数。</p>
-<p>该函数将接收与输入数量相同的 <code class="interpreted-text" role="class">Tensor</code> 参数，每个参数代表对应输入的梯度。 它应返回与输出数量相同的张量，每个张量包含对应输出的梯度。 <code class="interpreted-text" role="meth">~Function.jvp</code> 将在 <code class="interpreted-text" role="meth">~Function.forward</code> 方法之后、<code class="interpreted-text" role="meth">~Function.apply</code> 返回之前被调用。</p>
-<p><code class="interpreted-text" role="meth">~Function.jvp</code> 与 <code class="interpreted-text" role="meth">~Function.backward</code> 函数有一些细微差别：</p>
+<h3 id="_6">前向模式自动微分<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>重写前向模式自动微分公式的 API 非常相似，但有一些细微差别。 您可以实现 <code>Function.jvp</code> 函数。</p>
+<p>该函数将接收与输入数量相同的 <code>Tensor</code> 参数，每个参数代表对应输入的梯度。 它应返回与输出数量相同的张量，每个张量包含对应输出的梯度。 <code>Function.jvp</code> 将在 <code>Function.forward</code> 方法之后、<code>Function.apply</code> 返回之前被调用。</p>
+<p><code>Function.jvp</code> 与 <code>Function.backward</code> 函数有一些细微差别：</p>
 <ul>
-<li>您可以使用 [ctx]{.title-ref} 将任何数据从 <code class="interpreted-text" role="meth">~Function.forward</code> 传递到 <code class="interpreted-text" role="meth">~Function.jvp</code> 函数。 如果该状态在 <code class="interpreted-text" role="meth">~Function.backward</code> 中不需要，您可以在 <code class="interpreted-text" role="meth">~Function.jvp</code> 函数末尾通过执行 <code>del ctx.foo</code> 来显式释放它。</li>
-<li><code class="interpreted-text" role="meth">~Function.jvp</code> 的实现必须是可反向微分的，或者显式检查给定的前向模式梯度中是否有设置了 <code>requires_grad</code> 的。</li>
-<li><code class="interpreted-text" role="meth">~Function.jvp</code> 函数必须与 <code class="interpreted-text" role="meth">~Function.forward</code> 个输入梯度的视图。} 的视图/原地操作行为保持一致。 例如，如果第 [i]{.title-ref} 个输入被原地修改，那么第 [i]{.title-ref} 个梯度也必须原地更新。 类似地，如果第 [j]{.title-ref} 个输出是第 [k]{.title-ref} 个输入的视图，那么返回的第 [j]{.title-ref} 个输出梯度必须是给定第 [k]{.title-ref</li>
-<li>由于用户无法指定需要计算哪些梯度，<code class="interpreted-text" role="meth">~Function.jvp</code> 函数应始终计算所有输出的梯度。</li>
-<li>前向模式梯度确实遵循 <code class="interpreted-text" role="meth">~torch.autograd.function.FunctionCtx.set_materialize_grads</code> 输入梯度。} 设置的标志， 当此功能被禁用时，您可能会得到 [None]{.title-ref</li>
+<li>您可以使用 [ctx] 将任何数据从 <code>Function.forward</code> 传递到 <code>Function.jvp</code> 函数。 如果该状态在 <code>Function.backward</code> 中不需要，您可以在 <code>Function.jvp</code> 函数末尾通过执行 <code>del ctx.foo</code> 来显式释放它。</li>
+<li><code>Function.jvp</code> 的实现必须是可反向微分的，或者显式检查给定的前向模式梯度中是否有设置了 <code>requires_grad</code> 的。</li>
+<li><code>Function.jvp</code> 函数必须与 <code>Function.forward</code> 的视图/原地操作行为保持一致。 例如，如果第 [i] 个输入被原地修改，那么第 [i] 个梯度也必须原地更新。 类似地，如果第 [j] 个输出是第 [k] 个输入的视图，那么返回的第 [j] 个输出梯度必须是给定第 [k] 个输入梯度的视图。</li>
+<li>由于用户无法指定需要计算哪些梯度，<code>Function.jvp</code> 函数应始终计算所有输出的梯度。</li>
+<li>前向模式梯度确实遵循 <code>torch.autograd.function.FunctionCtx.set_materialize_grads</code> 设置的标志， 当此功能被禁用时，您可能会得到 [None] 输入梯度。</li>
 </ul>
-<h3 id="torchfunc-torchvmap"><code class="interpreted-text" role="mod">torch.func</code> 变换和/或 <code class="interpreted-text" role="func">torch.vmap</code><a class="headerlink" href="#torchfunc-torchvmap" title="Permanent link">&para;</a></h3>
-<p>详情请参阅 <code class="interpreted-text" role="ref">func-autograd-function</code>。</p>
-<h2 id="torchnn">扩展 <code class="interpreted-text" role="mod">torch.nn</code><a class="headerlink" href="#torchnn" title="Permanent link">&para;</a></h2>
-<p>currentmodule
-torch.nn</p>
-<p><code class="interpreted-text" role="mod">~torch.nn</code> 导出两种接口------模块及其函数版本。 您可以通过两种方式扩展它，但我们建议对所有包含参数或缓冲区的层使用模块， 并建议对无参数操作（如激活函数、池化等）使用函数形式。</p>
+<h3 id="torchfunc-torchvmap"><code>torch.func</code> 变换和/或 <code>torch.vmap</code><a class="headerlink" href="#torchfunc-torchvmap" title="Permanent link">&para;</a></h3>
+<p>详情请参阅 <code>func-autograd-function</code>。</p>
+<h2 id="torchnn">扩展 <code>torch.nn</code><a class="headerlink" href="#torchnn" title="Permanent link">&para;</a></h2>
+<p><code>torch.nn</code> 导出两种接口------模块及其函数版本。 您可以通过两种方式扩展它，但我们建议对所有包含参数或缓冲区的层使用模块， 并建议对无参数操作（如激活函数、池化等）使用函数形式。</p>
 <p>添加操作的功能版本已在上面的章节中完全涵盖。</p>
-<h3 id="module">添加 <code class="interpreted-text" role="class">Module</code><a class="headerlink" href="#module" title="Permanent link">&para;</a></h3>
-<p>由于 <code class="interpreted-text" role="mod">~torch.nn</code> 大量使用 <code class="interpreted-text" role="mod">~torch.autograd</code>，添加新的 <code class="interpreted-text" role="class">Module</code> 需要实现一个 <code class="interpreted-text" role="class">~torch.autograd.Function</code>， 该函数执行操作并能计算梯度。从现在开始，假设我们想要实现一个 <code>Linear</code> 模块，并且我们已经如上文所示实现了函数。 添加此模块所需的代码非常少。现在，需要实现两个函数：</p>
+<h3 id="module">添加 <code>Module</code><a class="headerlink" href="#module" title="Permanent link">&para;</a></h3>
+<p>由于 <code>torch.nn</code> 大量使用 <code>torch.autograd</code>，添加新的 <code>Module</code> 需要实现一个 <code>torch.autograd.Function</code>， 该函数执行操作并能计算梯度。从现在开始，假设我们想要实现一个 <code>Linear</code> 模块，并且我们已经如上文所示实现了函数。 添加此模块所需的代码非常少。现在，需要实现两个函数：</p>
 <ul>
 <li><code>__init__</code>（*可选*）------接收诸如核大小、特征数量等参数，并初始化参数和缓冲区。</li>
-<li><code class="interpreted-text" role="meth">~Module.forward</code>------实例化一个 <code class="interpreted-text" role="class">~torch.autograd.Function</code> 并使用它来执行操作。 它与上面显示的函数包装器非常相似。</li>
+<li><code>Module.forward</code>------实例化一个 <code>torch.autograd.Function</code> 并使用它来执行操作。 它与上面显示的函数包装器非常相似。</li>
 </ul>
 <p>以下是如何实现 <code>Linear</code> 模块的示例：:</p>
 <blockquote>
@@ -8690,14 +8683,12 @@ def extra_repr(self):
 :   \# （可选）设置关于此模块的额外信息。你可以通过 \# 打印此类的对象来测试它。 return \&#39;input_features={}, output_features={}, bias={}\&#39;.format( self.input_features, self.output_features, self.bias is not None )
 </code></pre></div>
 </blockquote>
-<h2 id="extending-torch-python">扩展 <code class="interpreted-text" role="mod">torch</code> Python API<a class="headerlink" href="#extending-torch-python" title="Permanent link">&para;</a></h2>
-<p>你可以通过定义一个自定义类，其方法与 <code class="interpreted-text" role="class">Tensor</code> 匹配，来创建模拟 <code class="interpreted-text" role="class">Tensor</code> 的自定义类型。但是，如果你希望能够将这些类型传递给顶层 <code class="interpreted-text" role="mod">torch</code> 命名空间中接受 <code class="interpreted-text" role="class">Tensor</code> 操作数的函数，例如 <code class="interpreted-text" role="func">torch.add</code>，该怎么办？</p>
-<p>如果你的自定义 Python 类型定义了一个名为 <code>__torch_function__</code> 的方法，当你的自定义类的实例被传递给 <code class="interpreted-text" role="mod">torch</code> 命名空间中的函数时，PyTorch 将调用你的 <code>__torch_function__</code> 实现。这使得可以为 <code class="interpreted-text" role="mod">torch</code> 命名空间中的任何函数定义自定义实现，你的 <code>__torch_function__</code> 实现可以调用这些函数，从而允许你的用户将你的自定义类型与他们已经为 <code class="interpreted-text" role="class">Tensor</code> 编写的现有 PyTorch 工作流一起使用。这适用于与 <code class="interpreted-text" role="class">Tensor</code> 无关的"鸭子"类型以及用户定义的 <code class="interpreted-text" role="class">Tensor</code> 子类。</p>
-<h3 id="tensor-torch">使用类似 <code class="interpreted-text" role="class">Tensor</code> 的类型扩展 <code class="interpreted-text" role="mod">torch</code><a class="headerlink" href="#tensor-torch" title="Permanent link">&para;</a></h3>
-<p>note
- title
-Note</p>
-<p>此功能受到 NumPy <code>__array_function__</code> 协议的启发。更多详细信息，请参阅 <a href="https://numpy.org/doc/stable/user/basics.dispatch.html#basics-dispatch">NumPy 文档</a> 和 <a href="https://numpy.org/neps/nep-0018-array-function-protocol.html">NEP-0018</a>。</p>
+<h2 id="torch-python-api">扩展 <code>torch</code> Python API<a class="headerlink" href="#torch-python-api" title="Permanent link">&para;</a></h2>
+<p>你可以通过定义一个自定义类，其方法与 <code>Tensor</code> 匹配，来创建模拟 <code>Tensor</code> 的自定义类型。但是，如果你希望能够将这些类型传递给顶层 <code>torch</code> 命名空间中接受 <code>Tensor</code> 操作数的函数，例如 <code>torch.add</code>，该怎么办？</p>
+<p>如果你的自定义 Python 类型定义了一个名为 <code>__torch_function__</code> 的方法，当你的自定义类的实例被传递给 <code>torch</code> 命名空间中的函数时，PyTorch 将调用你的 <code>__torch_function__</code> 实现。这使得可以为 <code>torch</code> 命名空间中的任何函数定义自定义实现，你的 <code>__torch_function__</code> 实现可以调用这些函数，从而允许你的用户将你的自定义类型与他们已经为 <code>Tensor</code> 编写的现有 PyTorch 工作流一起使用。这适用于与 <code>Tensor</code> 无关的"鸭子"类型以及用户定义的 <code>Tensor</code> 子类。</p>
+<h3 id="tensor-torch">使用类似 <code>Tensor</code> 的类型扩展 <code>torch</code><a class="headerlink" href="#tensor-torch" title="Permanent link">&para;</a></h3>
+<p>📝 <strong>注意</strong>
+此功能受到 NumPy <code>__array_function__</code> 协议的启发。更多详细信息，请参阅 <a href="https://numpy.org/doc/stable/user/basics.dispatch.html#basics-dispatch">NumPy 文档</a> 和 <a href="https://numpy.org/neps/nep-0018-array-function-protocol.html">NEP-0018</a>。</p>
 <p>为了具体说明，让我们从一个简单的示例开始，说明 API 分派机制。我们将创建一个自定义类型，表示一个 2D 标量张量，由阶数 <code>N</code> 和对角线元素的值 <code>value</code> 参数化：:</p>
 <blockquote>
 <p>class ScalarTensor(object):</p>
@@ -8719,7 +8710,7 @@ def tensor(self):
 <blockquote>
 <p>&gt;&gt;&gt; d = ScalarTensor(5, 2) &gt;&gt;&gt; d ScalarTensor(N=5, value=2) &gt;&gt;&gt; d.tensor() tensor([[2., 0., 0., 0., 0.], [0., 2., 0., 0., 0.], [0., 0., 2., 0., 0.], [0., 0., 0., 2., 0.], [0., 0., 0., 0., 2.]])</p>
 </blockquote>
-<p>如果我们尝试将此对象与 <code class="interpreted-text" role="mod">torch</code> API 一起使用，将会遇到问题：:</p>
+<p>如果我们尝试将此对象与 <code>torch</code> API 一起使用，将会遇到问题：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; import torch &gt;&gt;&gt; torch.mean(d) TypeError: mean(): argument \'input\' (position 1) must be Tensor, not ScalarTensor</p>
 </blockquote>
@@ -8735,10 +8726,8 @@ def tensor(self):
 </blockquote>
 </blockquote>
 <p><code>__torch_function__</code> 方法接受四个参数：<code>func</code>，对被覆盖的 torch API 函数的引用；<code>types</code>，实现 <code>__torch_function__</code> 的类 Tensor 类型的列表；<code>args</code>，传递给函数的参数元组；以及 <code>kwargs</code>，传递给函数的关键字参数字典。它使用一个名为 <code>HANDLED_FUNCTIONS</code> 的全局分派表来存储自定义实现。此字典的键是 <code>torch</code> 命名空间中的函数，值是 <code>ScalarTensor</code> 的实现。</p>
-<p>note
- title
-Note</p>
-<p>使用全局分派表不是 <code>__torch_function__</code> API 的强制部分，它只是构建覆盖实现的有用设计模式。</p>
+<p>📝 <strong>注意</strong>
+使用全局分派表不是 <code>__torch_function__</code> API 的强制部分，它只是构建覆盖实现的有用设计模式。</p>
 <p>仅凭这个类定义还不足以让 <code>torch.mean</code> 在处理 <code>ScalarTensor</code> 时正确工作------我们还需要为 <code>ScalarTensor</code> 操作数定义 <code>torch.mean</code> 的实现，并将该实现添加到 <code>HANDLED_FUNCTIONS</code> 调度表字典中。一种实现方式是定义一个装饰器：:</p>
 <blockquote>
 <p>import functools def implements(torch_function): \"\"\"Register a torch function override for ScalarTensor\"\"\" def decorator(func): functools.update_wrapper(func, torch_function) HANDLED_FUNCTIONS[torch_function] = func return func return decorator</p>
@@ -8751,7 +8740,7 @@ Note</p>
 <blockquote>
 <p>&gt;&gt;&gt; d = ScalarTensor(5, 2) &gt;&gt;&gt; torch.mean(d) 0.4</p>
 </blockquote>
-<p>当然，<code>torch.mean</code> 是最简单的覆盖函数示例，因为它只接受一个操作数。我们可以使用相同的机制来覆盖接受多个操作数的函数，其中任何一个操作数可能是定义了 <code>__torch_function__</code> 的张量或类张量对象，例如对于 <code class="interpreted-text" role="func">torch.add</code>：:</p>
+<p>当然，<code>torch.mean</code> 是最简单的覆盖函数示例，因为它只接受一个操作数。我们可以使用相同的机制来覆盖接受多个操作数的函数，其中任何一个操作数可能是定义了 <code>__torch_function__</code> 的张量或类张量对象，例如对于 <code>torch.add</code>：:</p>
 <blockquote>
 <p>def ensure_tensor(data):</p>
 <p>:   </p>
@@ -8763,30 +8752,30 @@ return torch.as_tensor(data)
 </code></pre></div>
 <p>\@implements(torch.add) def add(input, other): try: if input._N == other._N: return ScalarTensor(input._N, input._value + other._value) else: raise ValueError(\"Shape mismatch!\") except AttributeError: return torch.add(ensure_tensor(input), ensure_tensor(other))</p>
 </blockquote>
-<p>这个版本在双操作数都是 <code>ScalarTensor</code> 实例时采用快速路径，而当任一操作数不是 <code>ScalarTensor</code> 时则退化为将数据转换为张量的较慢路径。这使得覆盖函数在任一操作数是 <code>ScalarTensor</code> 或常规 <code class="interpreted-text" role="class">Tensor</code> 时都能正确工作：:</p>
+<p>这个版本在双操作数都是 <code>ScalarTensor</code> 实例时采用快速路径，而当任一操作数不是 <code>ScalarTensor</code> 时则退化为将数据转换为张量的较慢路径。这使得覆盖函数在任一操作数是 <code>ScalarTensor</code> 或常规 <code>Tensor</code> 时都能正确工作：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; s = ScalarTensor(2, 2) &gt;&gt;&gt; torch.add(s, s) ScalarTensor(N=2, value=4) &gt;&gt;&gt; t = torch.tensor([[1, 1,], [1, 1]]) &gt;&gt;&gt; torch.add(s, t) tensor([[3., 1.], [1., 3.]])</p>
 </blockquote>
-<p>请注意，我们的 <code>add</code> 实现不像 <code class="interpreted-text" role="func">torch.add</code> 那样接受 <code>alpha</code> 或 <code>out</code> 作为关键字参数：:</p>
+<p>请注意，我们的 <code>add</code> 实现不像 <code>torch.add</code> 那样接受 <code>alpha</code> 或 <code>out</code> 作为关键字参数：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; torch.add(s, s, alpha=2) TypeError: add() got an unexpected keyword argument \'alpha\'</p>
 </blockquote>
-<p>为了速度和灵活性，<code>__torch_function__</code> 调度机制不会检查覆盖函数的签名是否与 <code class="interpreted-text" role="mod">torch</code> API 中被覆盖函数的签名匹配。对于某些应用，忽略可选参数是可以接受的，但为了确保与 <code class="interpreted-text" role="class">Tensor</code> 的完全兼容性，用户实现的 torch API 函数应当注意精确模拟被覆盖函数的 API。</p>
-<p><code class="interpreted-text" role="mod">torch</code> API 中没有显式覆盖的函数会从 <code>__torch_function__</code> 返回 <code>NotImplemented</code>。如果所有定义了 <code>__torch_function__</code> 的操作数都返回 <code>NotImplemented</code>，PyTorch 将引发 <code>TypeError</code>。这意味着大多数情况下，当传递了该类型的实例时，没有为该类型提供显式覆盖的操作将引发 <code>TypeError</code>：:</p>
+<p>为了速度和灵活性，<code>__torch_function__</code> 调度机制不会检查覆盖函数的签名是否与 <code>torch</code> API 中被覆盖函数的签名匹配。对于某些应用，忽略可选参数是可以接受的，但为了确保与 <code>Tensor</code> 的完全兼容性，用户实现的 torch API 函数应当注意精确模拟被覆盖函数的 API。</p>
+<p><code>torch</code> API 中没有显式覆盖的函数会从 <code>__torch_function__</code> 返回 <code>NotImplemented</code>。如果所有定义了 <code>__torch_function__</code> 的操作数都返回 <code>NotImplemented</code>，PyTorch 将引发 <code>TypeError</code>。这意味着大多数情况下，当传递了该类型的实例时，没有为该类型提供显式覆盖的操作将引发 <code>TypeError</code>：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; torch.mul(s, 3) TypeError: no implementation found for \'torch.mul\' on types that implement __torch_function__: [ScalarTensor]</p>
 </blockquote>
-<p>实际上，这意味着如果你想使用这种方式的 <code>__torch_function__</code> 实现来覆盖函数，你需要显式实现完整的 <code class="interpreted-text" role="mod">torch</code> API 或你用例关心的整个 API 子集。这可能是一个很高的要求，因为完整的 <code class="interpreted-text" role="mod">torch</code> API 非常广泛。</p>
-<p>另一种选择是，对于未处理的运算不返回 <code>NotImplemented</code>，而是在没有可用覆盖时将 <code class="interpreted-text" role="class">Tensor</code> 传递给原始的 <code class="interpreted-text" role="mod">torch</code> 函数。例如，如果我们将 <code>ScalarTensor</code> 的 <code>__torch_function__</code> 实现改为以下版本：:</p>
+<p>实际上，这意味着如果你想使用这种方式的 <code>__torch_function__</code> 实现来覆盖函数，你需要显式实现完整的 <code>torch</code> API 或你用例关心的整个 API 子集。这可能是一个很高的要求，因为完整的 <code>torch</code> API 非常广泛。</p>
+<p>另一种选择是，对于未处理的运算不返回 <code>NotImplemented</code>，而是在没有可用覆盖时将 <code>Tensor</code> 传递给原始的 <code>torch</code> 函数。例如，如果我们将 <code>ScalarTensor</code> 的 <code>__torch_function__</code> 实现改为以下版本：:</p>
 <blockquote>
 <p>\@classmethod def __torch_function__(cls, func, types, args=(), kwargs=None): if kwargs is None: kwargs = {} if func not in HANDLED_FUNCTIONS or not all( issubclass(t, (torch.Tensor, ScalarTensor)) for t in types ): args = [a.tensor() if hasattr(a, \'tensor\') else a for a in args] return func(<em>args,kwargs) return HANDLED_FUNCTIONS[func](</em>args, **kwargs)</p>
 </blockquote>
-<p>那么 <code class="interpreted-text" role="func">torch.mul</code> 将能正确工作，尽管返回类型将始终是 <code class="interpreted-text" role="class">Tensor</code> 而不是 <code class="interpreted-text" role="class">ScalarTensor</code>，即使两个操作数都是 <code class="interpreted-text" role="class">ScalarTensor</code> 实例：:</p>
+<p>那么 <code>torch.mul</code> 将能正确工作，尽管返回类型将始终是 <code>Tensor</code> 而不是 <code>ScalarTensor</code>，即使两个操作数都是 <code>ScalarTensor</code> 实例：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; s = ScalarTensor(2, 2) &gt;&gt;&gt; torch.mul(s, s) tensor([[4., 0.], [0., 4.]])</p>
 </blockquote>
-<p>另请参阅下面的 <code>MetadataTensor</code> 示例，这是该模式的另一种变体，但始终返回 <code>MetadataTensor</code> 以在 <code class="interpreted-text" role="mod">torch</code> API 的运算中传播元数据。</p>
-<p><code>__torch_function__</code> 协议设计用于完整覆盖 API，部分覆盖可能导致不理想的结果，特别是某些函数引发 <code>TypeError</code>。这对于子类尤其重要，其中 [torch.add]{.title-ref}、`torch.Tensor.__add__` 和 [torch.Tensor.add]{.title-ref} 三者都必须被覆盖，即使它们返回完全相同的结果。未能做到这一点也可能导致无限递归。如果需要从 <code>torch.Tensor</code> 子类实现函数，必须在实现中使用 <code>super().__torch_function__</code>。</p>
+<p>另请参阅下面的 <code>MetadataTensor</code> 示例，这是该模式的另一种变体，但始终返回 <code>MetadataTensor</code> 以在 <code>torch</code> API 的运算中传播元数据。</p>
+<p><code>__torch_function__</code> 协议设计用于完整覆盖 API，部分覆盖可能导致不理想的结果，特别是某些函数引发 <code>TypeError</code>。这对于子类尤其重要，其中 [torch.add]、`torch.Tensor.__add__` 和 [torch.Tensor.add] 三者都必须被覆盖，即使它们返回完全相同的结果。未能做到这一点也可能导致无限递归。如果需要从 <code>torch.Tensor</code> 子类实现函数，必须在实现中使用 <code>super().__torch_function__</code>。</p>
 <h3 id="torchtensor">子类化 <code>torch.Tensor</code><a class="headerlink" href="#torchtensor" title="Permanent link">&para;</a></h3>
 <p>从 1.7.0 版本开始，应用于 <code>torch.Tensor</code> 子类的 <code>torch.Tensor</code> 方法及公共 <code>torch.*</code> 命名空间中的函数将返回子类实例而不是 <code>torch.Tensor</code> 实例：：</p>
 <blockquote>
@@ -8815,8 +8804,8 @@ TypeError: no implementation found for &#39;torch.add&#39; on types that impleme
 </code></pre></div>
 <p>但是，如果希望覆盖张量子类上的某个方法，可以通过直接覆盖该方法（为子类定义它）或使用 <code>__torch_function__</code> 并与 <code>func</code> 匹配来实现。</p>
 <p>在子类的 <code>__torch_function__</code> 中，应始终调用 <code>super().__torch_function__(func, ...)</code> 而不是直接调用 <code>func</code>，这与 1.7.0 版本之前的情况不同。如果不这样做，可能会导致 <code>func</code> 递归地再次进入 <code>__torch_function__</code>，从而引发无限递归。</p>
-<h3 id="tensor-torch_1">使用 <code class="interpreted-text" role="class">Tensor</code> 包装器类型扩展 <code class="interpreted-text" role="mod">torch</code><a class="headerlink" href="#tensor-torch_1" title="Permanent link">&para;</a></h3>
-<p>另一种有用的场景是包装 <code class="interpreted-text" role="class">Tensor</code> 的类型，无论是作为属性还是通过子类化。下面我们实现了这种类型的一个特例，即 <code>MetadataTensor</code>，它将一个元数据字典附加到 <code class="interpreted-text" role="class">Tensor</code> 上，并通过 <code class="interpreted-text" role="mod">torch</code> 操作进行传播。由于这是针对完整 <code class="interpreted-text" role="mod">torch</code> API 的通用包装，我们不需要单独实现每个覆盖，因此可以使 <code>__torch_function__</code> 的实现对允许的操作更加宽松:</p>
+<h3 id="tensor-torch_1">使用 <code>Tensor</code> 包装器类型扩展 <code>torch</code><a class="headerlink" href="#tensor-torch_1" title="Permanent link">&para;</a></h3>
+<p>另一种有用的场景是包装 <code>Tensor</code> 的类型，无论是作为属性还是通过子类化。下面我们实现了这种类型的一个特例，即 <code>MetadataTensor</code>，它将一个元数据字典附加到 <code>Tensor</code> 上，并通过 <code>torch</code> 操作进行传播。由于这是针对完整 <code>torch</code> API 的通用包装，我们不需要单独实现每个覆盖，因此可以使 <code>__torch_function__</code> 的实现对允许的操作更加宽松:</p>
 <div class="highlight"><pre><span></span><code>class MetadataTensor(object):
     def __init__(self, data, metadata=None, **kwargs):
         self._t = torch.as_tensor(data, **kwargs)
@@ -8835,7 +8824,7 @@ TypeError: no implementation found for &#39;torch.add&#39; on types that impleme
         ret = func(*args, **kwargs)
         return MetadataTensor(ret, metadata=metadatas[0])
 </code></pre></div>
-<p>这个简单的实现不一定适用于 <code class="interpreted-text" role="mod">torch</code> API 中的每个函数，但对于捕获大多数常见操作来说已经足够:</p>
+<p>这个简单的实现不一定适用于 <code>torch</code> API 中的每个函数，但对于捕获大多数常见操作来说已经足够:</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; metadata = {&#39;owner&#39;: &#39;Ministry of Silly Walks&#39;}
 &gt;&gt;&gt; m = MetadataTensor([[1, 2], [3, 4]], metadata=metadata)
 &gt;&gt;&gt; t = torch.tensor([[1, 2], [1, 2]])
@@ -8876,8 +8865,8 @@ tensor([[1, 4],
 <p>&gt;&gt;&gt; import inspect &gt;&gt;&gt; from torch.overrides import get_testing_overrides &gt;&gt;&gt; override_dict = get_testing_overrides() &gt;&gt;&gt; dummy_add = override_dict[torch.add] &gt;&gt;&gt; inspect.signature(dummy_add) \&lt;Signature (input, other, out=None)&gt;</p>
 </blockquote>
 <p>最后，<code>torch.overrides.get_ignored_functions</code> 返回一个函数元组，这些函数明确不能被 <code>__torch_function__</code> 重写。此列表可用于确认未出现在 <code>get_overridable_functions</code> 返回的字典中的函数确实无法被重写。</p>
-<h2 id="extending-torch-c++">扩展 <code class="interpreted-text" role="mod">torch</code> 原生 API<a class="headerlink" href="#extending-torch-c++" title="Permanent link">&para;</a></h2>
-<p>虽然 <code>__torch_function__</code> 允许有效地扩展 PyTorch 纯 Python 组件的行为，但它不允许扩展 PyTorch 中 C++ 实现的部分。为此，<code class="interpreted-text" role="class">Tensor</code> 子类也可以定义 <code>__torch_dispatch__</code>，它将能够在 C++ 级别重写行为。</p>
+<h2 id="torch-api">扩展 <code>torch</code> 原生 API<a class="headerlink" href="#torch-api" title="Permanent link">&para;</a></h2>
+<p>虽然 <code>__torch_function__</code> 允许有效地扩展 PyTorch 纯 Python 组件的行为，但它不允许扩展 PyTorch 中 C++ 实现的部分。为此，<code>Tensor</code> 子类也可以定义 <code>__torch_dispatch__</code>，它将能够在 C++ 级别重写行为。</p>
 <p>要有效使用此功能，了解 PyTorch 原生部分的实现方式非常重要。其中最重要的组件是我们称之为"分发器"的部分（最佳描述可在此 <a href="http://blog.ezyang.com/2020/09/lets-talk-about-the-pytorch-dispatcher/">博客文章</a> 中找到，尽管它略有陈旧）。如其名称所示，它负责为特定函数调用调用正确的后端函数。例如，当调用 <code>torch.add(a, b)</code> 时，分发器将检查两个参数，确定此特定调用应使用哪个"特性"（自动微分、自动混合精度、函数化等）和哪个"后端"（CPU、CUDA、MPS 等），最后调用所有正确的内核。 内核执行的一个非常常见的操作是"重新分发"。例如，在 GPU 上使用自动混合精度运行神经网络时，第一次调用将是自动混合精度内核，它将处理任何潜在的自动混合精度逻辑并向下重新分发。下一个特性将是自动微分，它将正确创建自动微分图然后向下重新分发。最后，我们到达 CUDA 的后端内核，它将启动正确的 CUDA 内核并返回最终结果。在返回途中，自动微分会将图附加到输出上，最后，自动混合精度将有机会在退出时进行任何所需的更新。</p>
 <p>分发器的一个配置是所有这些特性和后端键被调用的顺序。最新的列表及其顺序可以在 <code>DispatchKey.h</code> 文件内的 <code>DispatchKey</code> 枚举中找到。出于扩展 torch 的目的，本讨论中重要的顺序子集是：</p>
 <p>vmap -&gt; Autocast -&gt; Autograd -&gt; ZeroTensor -&gt; Neg/Conj -&gt; Functionalize -&gt; Python -&gt; Backends</p>
@@ -8887,12 +8876,12 @@ tensor([[1, 4],
 <li>此代码"在所有特性之下"运行。因此，像常规后端一样，它仅负责生成每个 Tensor 的输出值（并且可以且应该忽略所有高级特性，如自动微分、自动混合精度等）。</li>
 <li>如果任何高级特性实现了给定函数而未重新分发，它将永远不会到达 <code>Python</code> 键，因此 <code>__torch_dispatch__</code> 回调永远不会被触发。这尤其发生在 CompositeImplicitAutograd 函数上，这些函数在自动微分级别评估而无需重新分发。这是因为 CompositeImplicitAutograd 函数通过隐式调用其他原生操作来指定其自动微分公式，因此在自动微分级别，该函数被分解为其原生操作，并评估这些操作。</li>
 <li>当回调到 Python 以及包装结果时，使用与常规 PyTorch Python/C++ 绑定相同的转换。特别是，某些对象无法在 Python 中表示，需要特殊处理（例如，未定义的张量变为 None）。</li>
-<li>我们的原生函数被延迟填充为 <code>torch.ops.{namespace}.{func_name}.{overload_name}</code> 作为可调用的 Python 对象，以便从 Python 轻松与之交互。提供给 <code>__torch_dispatch__</code> 的 <code>func</code> 对象始终是此命名空间中的一个条目。此命名空间可用于直接调用原生操作，并绕过通常的 Python API 和绑定代码。</li>
+<li>我们的原生函数被延迟填充为 <code>torch.ops.{namespace}.{func_name}.</code> 作为可调用的 Python 对象，以便从 Python 轻松与之交互。提供给 <code>__torch_dispatch__</code> 的 <code>func</code> 对象始终是此命名空间中的一个条目。此命名空间可用于直接调用原生操作，并绕过通常的 Python API 和绑定代码。</li>
 </ul>
 <p>与 <code>__torch_function__</code> 能够拦截 torch 的所有 Python API 和 Tensor 方法类似，<code>__torch_dispatch__</code> 能够拦截所有对 aten 原生 API 的调用。请注意，进入调度器之前，Tensor 上的所有方法都会转换为函数调用，因此在这里都会显示为函数调用：<code>torch.add(a, 2)</code> 和 <code>a + 2</code> 将导致完全相同的 aten 调用。 这些函数大多定义在 <code>native_functions.yaml</code> 中，该文件指定了这些函数的属性及其后端实现。然后，它们的实现连同指定的特性会通过代码生成自动注册。 一些更特殊的函数或特性也会在 C++ 代码库的其他地方或用户定义的 C++ 扩展中注册。</p>
-<p>也可以使用 <code class="interpreted-text" role="mod">torch.library</code> 添加`新的`原生函数。这个 Python 特性允许为原生函数定义和/或添加新的实现。这可以用来添加缺失的内核、替换现有的内核或定义全新的原生函数。</p>
+<p>也可以使用 <code>torch.library</code> 添加`新的`原生函数。这个 Python 特性允许为原生函数定义和/或添加新的实现。这可以用来添加缺失的内核、替换现有的内核或定义全新的原生函数。</p>
 <p>你可以在 <a href="https://github.com/albanD/subclass_zoo">subclass zoo</a> 仓库中找到许多基于 <code>__torch_dispatch__</code> 的子类示例。</p>
-<h3 id="torch-dispatch-calling-convention"><code>__torch_dispatch__</code> 调用约定<a class="headerlink" href="#torch-dispatch-calling-convention" title="Permanent link">&para;</a></h3>
+<h3 id="__torch_dispatch__"><code>__torch_dispatch__</code> 调用约定<a class="headerlink" href="#__torch_dispatch__" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">__torch_dispatch__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">pass</span>
@@ -8902,9 +8891,9 @@ tensor([[1, 4],
 <li><code>kwargs</code> 包含运算符模式中的仅关键字参数。 如果某个 kwarg 等于其默认值（在模式中），则不会传递它。</li>
 <li><code>args</code> 包含所有其他参数，无论它们是如何传递给运算符的（位置参数 vs 关键字参数）。 如果某个 arg 等于其默认值，并且它是右侧的位置参数或其右侧的所有参数都未传递，则不会传递它。</li>
 </ul>
-<h2 id="torch-api">使用模式扩展所有 <code class="interpreted-text" role="mod">torch</code> API<a class="headerlink" href="#torch-api" title="Permanent link">&para;</a></h2>
+<h2 id="torch-api_1">使用模式扩展所有 <code>torch</code> API<a class="headerlink" href="#torch-api_1" title="Permanent link">&para;</a></h2>
 <p>遗憾的是，有些函数不接受 Tensor 输入。这意味着上述子类方法不能用于覆盖所有 PyTorch 函数的行为。此外，如果用例需要拦截每个函数调用，将每个 Tensor 更改为子类可能会过于侵入。</p>
-<p>为了解决这个用例，我们引入了"模式"的概念。这些模式适用于 <code>__torch_function__</code> 和 <code>__torch_dispatch__</code> 覆盖，分别通过子类化 <code class="interpreted-text" role="class">torch.overrides.TorchFunctionMode</code> 和 <code class="interpreted-text" role="class">torch.utils._python_dispatch.TorchDispatchMode</code> 创建，并用作上下文管理器。</p>
+<p>为了解决这个用例，我们引入了"模式"的概念。这些模式适用于 <code>__torch_function__</code> 和 <code>__torch_dispatch__</code> 覆盖，分别通过子类化 <code>torch.overrides.TorchFunctionMode</code> 和 <code>torch.utils._python_dispatch.TorchDispatchMode</code> 创建，并用作上下文管理器。</p>
 <p>为了简化描述其与子类和其他模式的交互方式，每当进入模式的上下文管理器时，每个函数的行为都像是在参数列表的开头有一个额外的 Tensor 参数，该参数以模式作为子类。 这尤其意味着所有模式处理程序将在任何子类处理程序之前被调用，并且对应于内部上下文管理器的模式将始终首先运行。</p>
 <p>同样重要的是要注意，在给定的模式处理程序中，该特定模式是禁用的，可以通过执行 <code>with self:</code> 手动重新启用。</p>
 <p>以下是一个展示每种类型日志模式的示例：:</p>
@@ -8933,6 +8922,7 @@ tensor([[1, 4],
 </blockquote>
 <p>TorchDispatchMode 日志记录：</p>
 <p>:   # 此处 autograd 的 requires_grad 标志被移除，同时填充了默认参数。 Dispatch Log: aten.rand.default(<em>([10],),{\'device\': device(type=\'cpu\'), \'pin_memory\': False}) Dispatch Log: aten.mul.Tensor(</em>(tensor([0.2151, 0.6018, 0.8415, 0.9060, 0.2974, 0.7708, 0.6668, 0.0352, 0.7948, 0.6023], requires_grad=True), 2), <strong>{}) Dispatch Log: aten.sum.default(*(tensor([0.4303, 1.2036, 1.6831, 1.8120, 0.5949, 1.5416, 1.3335, 0.0705, 1.5897, 1.2046], grad_fn=\&lt;MulBackward0&gt;),),</strong>{}) # 此处我们看不到对 backward 本身的调用，而是其组成部分。从这里开始，是创建初始梯度的工厂函数。 Dispatch Log: aten.ones_like.default(<em>(tensor(11.4637, grad_fn=\&lt;SumBackward0&gt;),),{\'pin_memory\': False, \'memory_format\': torch.preserve_format}) # 这是 sum 的反向传播 Dispatch Log: aten.expand.default(</em>(tensor(1.), [10]), <strong>{}) Dispatch Log: aten.mul.Tensor(*(tensor([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]), 2),</strong>{}) Dispatch Log: aten.detach.default(<em>(tensor([2., 2., 2., 2., 2., 2., 2., 2., 2., 2.]),),{}) Dispatch Log: aten.detach.default(</em>(tensor([2., 2., 2., 2., 2., 2., 2., 2., 2., 2.]),), **{})</p>
+</blockquote>
 
 
 

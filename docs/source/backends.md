@@ -1,5 +1,3 @@
-
-
 # torch.backends
 
 
@@ -39,7 +37,7 @@
 
 
 {eval-rst}
-.. automodule:: torch.backends.mps
+
 ```
 
 
@@ -64,5 +62,3 @@
 
 
 ## torch.backends.xeon
-
-

@@ -1,6 +1,4 @@
-
-> **CURRENTMODULE**
-> torch.distributed.tensor
+> **CURRENTMODULE**：torch.distributed.tensor
 
 
 # torch.distributed.tensor

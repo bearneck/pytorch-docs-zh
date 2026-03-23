@@ -1,4 +1,4 @@
-# 训练脚本 {#elastic_train_script}
+# 训练脚本
 
 如果你的训练脚本能与 `torch.distributed.launch` 配合工作，那么它也能继续与 `torchrun` 配合工作，但存在以下差异：
 

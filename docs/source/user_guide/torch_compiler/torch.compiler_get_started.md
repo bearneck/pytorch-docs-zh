@@ -1,7 +1,6 @@
-
 # 入门指南
 
-在阅读本节之前，请确保已阅读 `torch.compiler_overview`
+在阅读本节之前，请确保已阅读 *torch.compiler_overview*
 
 让我们从一个简单的 `torch.compile` 示例开始，该示例演示了如何将 `torch.compile` 用于推理。这个示例展示了 `torch.cos()` 和 `torch.sin()` 功能，它们是逐点运算符的示例，因为它们对向量进行逐元素操作。此示例可能不会显示出显著的性能提升，但应有助于您直观地理解如何在您自己的程序中使用 `torch.compile`。
 
@@ -99,5 +98,5 @@ opt_model(torch.randn(64,3,7,7))
 在本节中，我们回顾了几个推理示例，并对 torch.compile 的工作原理有了基本的了解。以下是您接下来可以查看的内容：
 
 - [torch.compile 训练教程](https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html)
-- `torch.compiler_api`
-- `torchdynamo_fine_grain_tracing`
+- *torch.compiler_api*
+- *torchdynamo_fine_grain_tracing*

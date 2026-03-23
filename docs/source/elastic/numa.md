@@ -1,9 +1,7 @@
-# NUMA 绑定 {#numa-api}
+# NUMA 绑定
 
- {.automodule members=""}
+
 torch.numa
 
 
- {.automodule members="" undoc-members="" member-order="bysource"}
 torch.numa.binding
-

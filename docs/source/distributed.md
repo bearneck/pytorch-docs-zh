@@ -1,5 +1,3 @@
-
-
 # 分布式通信包 - torch.distributed
 
 
@@ -81,7 +79,7 @@ PyTorch 分布式包支持 Linux（稳定版）、macOS（稳定版）和 Window
 
 ## 基础
 
-`torch.distributed` 包为运行在一台或多台机器上的多个计算节点之间的多进程并行提供了 PyTorch 支持和通信原语。类 `torch.nn.parallel.DistributedDataParallel` 基于此功能构建，作为任何 PyTorch 模型的包装器，提供同步分布式训练。这与 `multiprocessing` 和 `torch.nn.DataParallel` 提供的并行类型不同，因为它支持多个网络连接的机器，并且用户必须为每个进程显式启动主训练脚本的单独副本。
+`torch.distributed` 包为运行在一台或多台机器上的多个计算节点之间的多进程并行提供了 PyTorch 支持和通信原语。类 `torch.nn.parallel.DistributedDataParallel` 基于此功能构建，作为任何 PyTorch 模型的包装器，提供同步分布式训练。这与 [multiprocessing](multiprocessing.md) 和 `torch.nn.DataParallel` 提供的并行类型不同，因为它支持多个网络连接的机器，并且用户必须为每个进程显式启动主训练脚本的单独副本。
 
 在单机同步的情况下，`torch.distributed` 或 `torch.nn.parallel.DistributedDataParallel` 包装器相对于其他数据并行方法（包括 `torch.nn.DataParallel`）可能仍然具有优势：
 
@@ -176,19 +174,19 @@ ______________________________________________________________________
 
 ## 组
 
-默认情况下，集合操作在默认组（也称为 world）上运行，并要求所有进程进入分布式函数调用。然而，某些工作负载可以从更细粒度的通信中受益。这就是分布式组发挥作用的地方。`~torch.distributed.new_group` 函数可用于创建新组，包含所有进程的任意子集。它返回一个不透明的组句柄，可以作为 `group` 参数传递给所有集合操作（集合操作是在某些众所周知的编程模式中交换信息的分布式函数）。
+默认情况下，集合操作在默认组（也称为 world）上运行，并要求所有进程进入分布式函数调用。然而，某些工作负载可以从更细粒度的通信中受益。这就是分布式组发挥作用的地方。`torch.distributed.new_group` 函数可用于创建新组，包含所有进程的任意子集。它返回一个不透明的组句柄，可以作为 `group` 参数传递给所有集合操作（集合操作是在某些众所周知的编程模式中交换信息的分布式函数）。
 
 
 ## DeviceMesh
 
 DeviceMesh 是一个更高级别的抽象，用于管理进程组（或 NCCL 通信器）。
-它允许用户轻松创建节点间和节点内的进程组，而无需担心如何为不同的子进程组正确设置秩，并有助于轻松管理这些分布式进程组。`~torch.distributed.device_mesh.init_device_mesh` 函数可用于创建新的 DeviceMesh，并通过一个描述设备拓扑的网格形状来实现。
+它允许用户轻松创建节点间和节点内的进程组，而无需担心如何为不同的子进程组正确设置秩，并有助于轻松管理这些分布式进程组。`torch.distributed.device_mesh.init_device_mesh` 函数可用于创建新的 DeviceMesh，并通过一个描述设备拓扑的网格形状来实现。
 
 
 ## 点对点通信
 
 
-`~torch.distributed.isend` 和 `~torch.distributed.irecv`
+`torch.distributed.isend` 和 `torch.distributed.irecv`
 在使用时会返回分布式请求对象。通常，此对象的类型是未指定的，因为它们不应手动创建，但保证支持两种方法：
 
 - `is_completed()` - 如果操作已完成则返回 True
@@ -237,7 +235,7 @@ if rank == 0:
 
 ## 分布式键值存储
 
-distributed 包附带一个分布式键值存储，可用于在进程组之间共享信息，也可用于在 `torch.distributed.init_process_group` 中初始化分布式包（通过显式创建存储作为指定 `init_method` 的替代方案）。键值存储有 3 种选择：`~torch.distributed.TCPStore`、`~torch.distributed.FileStore` 和 `~torch.distributed.HashStore`。
+distributed 包附带一个分布式键值存储，可用于在进程组之间共享信息，也可用于在 `torch.distributed.init_process_group` 中初始化分布式包（通过显式创建存储作为指定 `init_method` 的替代方案）。键值存储有 3 种选择：`torch.distributed.TCPStore`、`torch.distributed.FileStore` 和 `torch.distributed.HashStore`。
 
 
 ## 分析集体通信
@@ -320,7 +318,7 @@ with torch.profiler():
 
 ## 生成工具
 
-`multiprocessing-doc` 包还在 `torch.multiprocessing.spawn` 中提供了一个 `spawn` 函数。这个辅助函数可用于生成多个进程。它的工作原理是传入你想要运行的函数，然后生成 N 个进程来运行它。这也可以用于多进程分布式训练。
+*multiprocessing-doc* 包还在 `torch.multiprocessing.spawn` 中提供了一个 `spawn` 函数。这个辅助函数可用于生成多个进程。它的工作原理是传入你想要运行的函数，然后生成 N 个进程来运行它。这也可以用于多进程分布式训练。
 
 关于如何使用它的参考资料，请参阅 [PyTorch 示例 - ImageNet 实现](https://github.com/pytorch/examples/tree/master/imagenet)
 
@@ -502,9 +500,7 @@ def worker(rank):
     tensor = torch.randn(10 if rank == 0 else 20).cuda()
     dist.all_reduce(tensor)
     torch.cuda.synchronize(device=rank)
-```
-
-```python
+python
 if __name__ == "__main__":
     os.environ["MASTER_ADDR"] = "localhost"
     os.environ["MASTER_PORT"] = "29501"
@@ -562,8 +558,4 @@ RuntimeError: Error when verifying shape tensors for collective ALLREDUCE on ran
 % 在此处添加它们以便跟踪，直到它们得到更永久的修复。
 
 
-```{toctree}
-:hidden:
-
-distributed._dist2
-```
+- [Distributed Dist2](distributed._dist2.md)

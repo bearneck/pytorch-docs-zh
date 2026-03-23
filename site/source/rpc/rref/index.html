@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#remote-reference-protocol" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -7920,7 +7920,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         背景
@@ -7931,7 +7931,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         假设
@@ -7954,7 +7954,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         设计推理
@@ -7965,7 +7965,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         实现
@@ -7981,7 +7981,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         协议场景
@@ -8063,26 +8063,26 @@
 
 <p>orphan</p>
 <p>:   </p>
-<h1 id="remote-reference-protocol">远程引用协议<a class="headerlink" href="#remote-reference-protocol" title="Permanent link">&para;</a></h1>
-<p>本文档描述了远程引用协议的设计细节，并逐步介绍了不同场景下的消息流。在继续之前，请确保您熟悉 <code class="interpreted-text" role="ref">distributed-rpc-framework</code>。</p>
-<h2 id="_1">背景<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>RRef 代表远程引用。它是对位于本地或远程工作进程上的对象的引用，并在底层透明地处理引用计数。从概念上讲，它可以被视为一个分布式共享指针。应用程序可以通过调用 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 来创建 RRef。每个 RRef 由 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 调用的被调用方工作进程（即所有者）拥有，并可以被多个用户使用。所有者存储真实数据并跟踪全局引用计数。每个 RRef 可以通过一个全局唯一的 <code>RRefId</code> 来标识，该 ID 在 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 调用的调用方创建时分配。</p>
-<p>在所有者工作进程上，只有一个 <code>OwnerRRef</code> 实例，它包含真实数据；而在用户工作进程上，可以根据需要创建任意多个 <code>UserRRef</code>，且 <code>UserRRef</code> 不持有数据。所有者上的所有使用都将通过全局唯一的 <code>RRefId</code> 来检索唯一的 <code>OwnerRRef</code> 实例。当在 <code class="interpreted-text" role="meth">~torch.distributed.rpc.rpc_sync</code>、<code class="interpreted-text" role="meth">~torch.distributed.rpc.rpc_async</code> 或 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 调用中作为参数或返回值使用时，会创建一个 <code>UserRRef</code>，并且会通知所有者以更新引用计数。当全局范围内没有 <code>UserRRef</code> 实例，并且所有者上也没有对 <code>OwnerRRef</code> 的引用时，<code>OwnerRRef</code> 及其数据将被删除。</p>
-<h2 id="_2">假设<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h1 id="_1">远程引用协议<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>本文档描述了远程引用协议的设计细节，并逐步介绍了不同场景下的消息流。在继续之前，请确保您熟悉 <code>distributed-rpc-framework</code>。</p>
+<h2 id="_2">背景<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>RRef 代表远程引用。它是对位于本地或远程工作进程上的对象的引用，并在底层透明地处理引用计数。从概念上讲，它可以被视为一个分布式共享指针。应用程序可以通过调用 <code>torch.distributed.rpc.remote</code> 来创建 RRef。每个 RRef 由 <code>torch.distributed.rpc.remote</code> 调用的被调用方工作进程（即所有者）拥有，并可以被多个用户使用。所有者存储真实数据并跟踪全局引用计数。每个 RRef 可以通过一个全局唯一的 <code>RRefId</code> 来标识，该 ID 在 <code>torch.distributed.rpc.remote</code> 调用的调用方创建时分配。</p>
+<p>在所有者工作进程上，只有一个 <code>OwnerRRef</code> 实例，它包含真实数据；而在用户工作进程上，可以根据需要创建任意多个 <code>UserRRef</code>，且 <code>UserRRef</code> 不持有数据。所有者上的所有使用都将通过全局唯一的 <code>RRefId</code> 来检索唯一的 <code>OwnerRRef</code> 实例。当在 <code>torch.distributed.rpc.rpc_sync</code>、<code>torch.distributed.rpc.rpc_async</code> 或 <code>torch.distributed.rpc.remote</code> 调用中作为参数或返回值使用时，会创建一个 <code>UserRRef</code>，并且会通知所有者以更新引用计数。当全局范围内没有 <code>UserRRef</code> 实例，并且所有者上也没有对 <code>OwnerRRef</code> 的引用时，<code>OwnerRRef</code> 及其数据将被删除。</p>
+<h2 id="_3">假设<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>RRef 协议的设计基于以下假设。</p>
 <ul>
 <li><strong>瞬时网络故障</strong>：RRef 设计通过重试消息来处理瞬时网络故障。它无法处理节点崩溃或永久性网络分区。当这些事件发生时，应用程序应停止所有工作进程，恢复到上一个检查点，并恢复训练。</li>
-<li><strong>非幂等用户定义函数</strong>：我们假设提供给 <code class="interpreted-text" role="meth">~torch.distributed.rpc.rpc_sync</code>、<code class="interpreted-text" role="meth">~torch.distributed.rpc.rpc_async</code> 或 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 的用户函数不是幂等的，因此不能重试。然而，内部的 RRef 控制消息是幂等的，并在消息失败时重试。</li>
+<li><strong>非幂等用户定义函数</strong>：我们假设提供给 <code>torch.distributed.rpc.rpc_sync</code>、<code>torch.distributed.rpc.rpc_async</code> 或 <code>torch.distributed.rpc.remote</code> 的用户函数不是幂等的，因此不能重试。然而，内部的 RRef 控制消息是幂等的，并在消息失败时重试。</li>
 <li><strong>乱序消息传递</strong>：我们不假设任意一对节点之间的消息传递顺序，因为发送方和接收方都使用多个线程。无法保证哪条消息会先被处理。</li>
 </ul>
 <h2 id="rref">RRef 生命周期<a class="headerlink" href="#rref" title="Permanent link">&para;</a></h2>
 <p>该协议的目标是在适当的时间删除 <code>OwnerRRef</code>。删除 <code>OwnerRRef</code> 的正确时机是当没有存活的 <code>UserRRef</code> 实例，并且用户代码也没有持有对 <code>OwnerRRef</code> 的引用时。棘手的部分是确定是否存在任何存活的 <code>UserRRef</code> 实例。</p>
-<h3 id="_3">设计推理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_4">设计推理<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>用户可以通过三种情况获取 <code>UserRRef</code>：</p>
 <p>1)  从所有者接收一个 <code>UserRRef</code>。
 2)  从另一个用户接收一个 <code>UserRRef</code>。
 3)  创建一个由另一个工作进程拥有的新 <code>UserRRef</code>。</p>
-<p>情况 1 是最简单的，所有者将其 RRef 传递给用户，其中所有者调用 <code class="interpreted-text" role="meth">~torch.distributed.rpc.rpc_sync</code>、<code class="interpreted-text" role="meth">~torch.distributed.rpc.rpc_async</code> 或 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 并使用其 RRef 作为参数。在这种情况下，将在用户上创建一个新的 <code>UserRRef</code>。由于所有者是调用方，它可以轻松更新其本地 <code>OwnerRRef</code> 的引用计数。</p>
+<p>情况 1 是最简单的，所有者将其 RRef 传递给用户，其中所有者调用 <code>torch.distributed.rpc.rpc_sync</code>、<code>torch.distributed.rpc.rpc_async</code> 或 <code>torch.distributed.rpc.remote</code> 并使用其 RRef 作为参数。在这种情况下，将在用户上创建一个新的 <code>UserRRef</code>。由于所有者是调用方，它可以轻松更新其本地 <code>OwnerRRef</code> 的引用计数。</p>
 <p>唯一的要求是任何 <code>UserRRef</code> 在销毁时必须通知所有者。因此，我们需要第一个保证：</p>
 <p><strong>G1. 当任何 UserRRef 被删除时，所有者将收到通知。</strong></p>
 <p>由于消息可能会延迟到达或乱序，我们需要另一个保证来确保删除消息不会被过早处理。如果 A 向 B 发送一条涉及 RRef 的消息，我们称 A 上的 RRef（父 RRef）和 B 上的 RRef（子 RRef）。</p>
@@ -8103,10 +8103,10 @@
     |
     A -&gt; Y -&gt; Z
 </code></pre></div>
-<p>如果 Z 在 <code>UserRRef</code> 上调用 <code class="interpreted-text" role="meth">~torch.distributed.rpc.RRef.to_here</code>，那么当 Z 被删除时，所有者至少知道 A，因为否则 <code class="interpreted-text" role="meth">~torch.distributed.rpc.RRef.to_here</code> 不会完成。如果 Z 没有调用 <code class="interpreted-text" role="meth">~torch.distributed.rpc.RRef.to_here</code>，那么所有者有可能在收到来自 A 和 Y 的任何消息之前，先收到来自 Z 的所有消息。在这种情况下，由于 <code>OwnerRRef</code> 的实际数据尚未创建，也就没有什么可删除的。这等同于 Z 根本不存在。因此，这仍然是可行的。</p>
-<h3 id="_4">实现<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>如果 Z 在 <code>UserRRef</code> 上调用 <code>torch.distributed.rpc.RRef.to_here</code>，那么当 Z 被删除时，所有者至少知道 A，因为否则 <code>torch.distributed.rpc.RRef.to_here</code> 不会完成。如果 Z 没有调用 <code>torch.distributed.rpc.RRef.to_here</code>，那么所有者有可能在收到来自 A 和 Y 的任何消息之前，先收到来自 Z 的所有消息。在这种情况下，由于 <code>OwnerRRef</code> 的实际数据尚未创建，也就没有什么可删除的。这等同于 Z 根本不存在。因此，这仍然是可行的。</p>
+<h3 id="_5">实现<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p><strong>G1</strong> 通过在 <code>UserRRef</code> 析构函数中发送删除消息来实现。为了提供 <strong>G2</strong>，每当父 <code>UserRRef</code> 被分叉时，它会被放入一个上下文中，并以新的 <code>ForkId</code> 为索引。父 <code>UserRRef</code> 只有在收到来自子节点的确认消息（ACK）时，才会从上下文中移除，而子节点只有在得到所有者确认后才会发送 ACK。</p>
-<h2 id="_5">协议场景<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_6">协议场景<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>现在让我们讨论上述设计如何转化为以下四种场景中的协议。</p>
 <h3 id="rref_1">用户将 RRef 作为返回值与所有者共享<a class="headerlink" href="#rref_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>import torch
@@ -8117,10 +8117,10 @@ rref = rpc.remote(&#39;B&#39;, torch.add, args=(torch.ones(2), 1))
 # 假设 rref 的 RRefId 为 100，ForkId 为 1
 rref.to_here()
 </code></pre></div>
-<p>在这种情况下，<code>UserRRef</code> 在用户 worker A 上创建，然后它随远程消息一起传递给所有者 worker B，随后 B 创建 <code>OwnerRRef</code>。方法 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 立即返回，这意味着 <code>UserRRef</code> 可以在所有者知道它之前被分叉/使用。</p>
-<p>在所有者端，当收到 <code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 调用时，它会创建 <code>OwnerRRef</code>，并返回一个 ACK 来确认 <code>{100, 1}</code>（<code>RRefId</code>, <code>ForkId</code>）。只有在收到此 ACK 后，A 才能删除其 <code>UserRRef</code>。这涉及 <strong>G1</strong> 和 <strong>G2</strong>。**G1** 是显而易见的。对于 <strong>G2</strong>，<code>OwnerRRef</code> 是 <code>UserRRef</code> 的子节点，而 <code>UserRRef</code> 在收到来自所有者的 ACK 之前不会被删除。</p>
+<p>在这种情况下，<code>UserRRef</code> 在用户 worker A 上创建，然后它随远程消息一起传递给所有者 worker B，随后 B 创建 <code>OwnerRRef</code>。方法 <code>torch.distributed.rpc.remote</code> 立即返回，这意味着 <code>UserRRef</code> 可以在所有者知道它之前被分叉/使用。</p>
+<p>在所有者端，当收到 <code>torch.distributed.rpc.remote</code> 调用时，它会创建 <code>OwnerRRef</code>，并返回一个 ACK 来确认 <code>{100, 1}</code>（<code>RRefId</code>, <code>ForkId</code>）。只有在收到此 ACK 后，A 才能删除其 <code>UserRRef</code>。这涉及 <strong>G1</strong> 和 <strong>G2</strong>。**G1** 是显而易见的。对于 <strong>G2</strong>，<code>OwnerRRef</code> 是 <code>UserRRef</code> 的子节点，而 <code>UserRRef</code> 在收到来自所有者的 ACK 之前不会被删除。</p>
 <p><img alt="user_to_owner_ret.png" src="https://user-images.githubusercontent.com/16999635/69164772-98181300-0abe-11ea-93a7-9ad9f757cd94.png" width="500px" /></p>
-<p>上图展示了消息流，其中实线箭头包含用户函数，虚线箭头是内置消息。请注意，从 A 到 B 的前两条消息（<code class="interpreted-text" role="meth">~torch.distributed.rpc.remote</code> 和 <code class="interpreted-text" role="meth">~torch.distributed.rpc.RRef.to_here</code>）可能以任意顺序到达 B，但最终的删除消息只有在以下条件满足时才会发送：</p>
+<p>上图展示了消息流，其中实线箭头包含用户函数，虚线箭头是内置消息。请注意，从 A 到 B 的前两条消息（<code>torch.distributed.rpc.remote</code> 和 <code>torch.distributed.rpc.RRef.to_here</code>）可能以任意顺序到达 B，但最终的删除消息只有在以下条件满足时才会发送：</p>
 <ul>
 <li>B 确认了 <code>UserRRef {100, 1}</code>（G2），并且</li>
 <li>Python GC 同意删除本地的 <code>UserRRef</code> 实例。这发生在 RRef 不再在作用域内且符合垃圾回收条件时。</li>

@@ -1,4 +1,3 @@
-
 # torch.compile 故障排除
 
 您正尝试在 PyTorch 模型上使用 `torch.compile` 来提升性能，但效果不如预期。可能是性能没有改善、出现崩溃，或者编译时间过长。本文提供了一些技巧、变通方法和调试工具，帮助您应对这些挑战。
@@ -6,7 +5,7 @@
 **目录**
 
 ```{contents}
-:local: true
+
 ```
 
 ## 设定预期
@@ -49,9 +48,7 @@ def fn(x):
         return x + len(f.read())
 
 fn(torch.ones(3, 3))
-```
 
-```
 $TORCH_LOGS="graph_breaks" python playground.py
 Graph break in user code at /data/users/williamwen/pytorch/playground.py:7
 Reason: Unsupported: builtin: open [<class 'torch._dynamo.variables.constant.ConstantVariable'>, <class 'torch._dynamo.variables.constant.ConstantVariable'>] False
@@ -94,9 +91,7 @@ def fn(x):
     return x + 1
 
 fn(torch.ones(3, 3))
-```
 
-```
 $ TORCH_LOGS="guards" python playground.py
 GUARDS:
 ```
@@ -126,9 +121,7 @@ def fn(x):
 
 fn(torch.ones(3, 3))
 fn(torch.ones(4, 4))
-```
 
-```
 $ TORCH_LOGS="recompiles" python playground.py
 Recompiling function fn in /data/users/williamwen/pytorch/playground.py:3
     triggered by the following guard failure(s):
@@ -153,9 +146,7 @@ def fn(x):
 
 fn(torch.ones(3, 3))
 fn(torch.ones(4, 4))
-```
 
-```
 $ TORCH_LOGS="dynamic,recompiles" python playground.py
 create_symbol s0 = 3 for L['x'].size()[0] [2, int_oo] at playground.py:5 in fn (_dynamo/variables/builder.py:2718 in <lambda>), for more info run with TORCHDYNAMO_EXTENDED_DEBUG_CREATE_SYMBOL="s0"
 produce_guards
@@ -187,9 +178,7 @@ tlparse /tmp/tracedir
 ```{warning}
 追踪日志包含你所有的模型代码。
 如果你正在处理的模型是敏感的，请不要共享追踪日志。追踪日志**不包含**权重。
-```
-
-```{raw} html
+{raw} html
     <style>
         .red {background-color:#ff0000;}
         .green {background-color:#00ff00;}
@@ -207,12 +196,12 @@ tlparse /tmp/tracedir
     如果你不熟悉正在编译的代码库，这尤其有用！
 -   存在多少个图中断 / 不同的编译区域？
     （每个不同的编译都是其自己颜色编码的块，如 {dark-green}`[0/0]`）。
-    可能发生图中断的帧显示为浅绿色 {green}`[2/4]`。
+    可能发生图中断的帧显示为浅绿色 `[2/4]`。
     如果有很多帧，那是可疑的，表明你可能有一些灾难性的图中断，或者你的代码可能不太适合 `torch.compile`。
 -   我重新编译特定帧多少次了？重新编译很多次的帧看起来像：
     {dark-green}`[10/0]` {dark-green}`[10/1]` {dark-green}`[10/2]`
     \- 如果某个东西被重新编译了很多次，那是非常可疑的，值得调查，即使它不是问题的根本原因。
--   是否存在编译错误？出错的帧看起来像 {red}`[0/1]`。
+-   是否存在编译错误？出错的帧看起来像 `[0/1]`。
 -   我为给定帧生成了哪些中间编译器产物？
     例如，你可以查看生成的高级 FX 图或生成的 Triton 代码。
 -   特定帧是否有相关信息？你可以在 `compilation_metrics` 中找到这些信息。
@@ -242,7 +231,7 @@ torch._logging.set_logs(graph_breaks=True)
 ...
 ```
 
-更多 `TORCH_LOGS` 选项请参阅 `troubleshooting-torch-logs-options`。
+更多 `TORCH_LOGS` 选项请参阅 *troubleshooting-torch-logs-options*。
 完整选项列表请查看 [torch.\_logging](https://pytorch.org/docs/stable/logging.html)
 和 [torch.\_logging.set_logs](https://pytorch.org/docs/stable/generated/torch._logging.set_logs.html#torch._logging.set_logs)。
 
@@ -272,9 +261,7 @@ opt_model = torch.compile(model)
 for _ in range(N_ITERS):
     inp = ...
     out = opt_model(inp)
-```
-
-```py
+py
 # 训练
 model = ...
 opt = torch.optim.Adam(model.parameters())
@@ -290,9 +277,7 @@ def train(mod, data):
 for _ in range(N_ITERS):
     inp = ...
     train(model, inp)
-```
-
-```py
+py
 # DistributedDataParallel
 model = ...
 opt_model = torch.compile(model)
@@ -384,9 +369,7 @@ def fn(x):
     return x - y.item()
 
 fn(torch.ones(3, 3))
-```
 
-```
 $ TORCH_LOGS="graph_breaks" python playground.py
 Graph break in user code at /data/users/williamwen/pytorch/playground.py:6
 Reason: Data-dependent jump
@@ -498,9 +481,7 @@ def fn(x):
     return torch.sin(x)
 
 fn(torch.ones(3, 3))
-```
 
-```
 $ TORCH_LOGS="graph_breaks" python playground.py
 log!
 ```
@@ -519,9 +500,7 @@ def fn(x):
     return y
 
 fn(torch.ones(3, 3))
-```
 
-```
 $ TORCH_LOGS="graph_breaks" python playground.py
 Graph break in user code at /data/users/williamwen/pytorch/playground.py:5
 Reason: Unsupported: TypeError <built-in method sin of type object at 0x7fd6fd764600>: sin() takes 1 positional argument but 2 were given
@@ -569,9 +548,7 @@ def fn(x):
 
 for i in range(1, 10):
     fn(torch.ones(i))
-```
 
-```
 $ python playground.py
 torch._dynamo hit config.recompile_limit (8)
     function: 'fn' (/data/users/williamwen/pytorch/playground.py:5)
@@ -595,9 +572,7 @@ def fn(x, c):
 
 for i in range(1, 10):
     fn(torch.ones(i), 0.5 + i)
-```
 
-```
 $ TORCH_LOGS="recompiles" python playground.py
 Recompiling function fn in /data/users/williamwen/pytorch/playground.py:3
     triggered by the following guard failure(s):
@@ -633,9 +608,7 @@ def fn(inp):
 
 for i in range(1, 10):
     fn(torch.ones(3, 3))
-```
 
-```
 $ TORCH_LOGS="recompiles" python playground.py
 Recompiling function step in /data/users/williamwen/pytorch/torch/optim/adam.py:189
     triggered by the following guard failure(s):
@@ -797,9 +770,7 @@ def f(x):
     return x
 
 f(torch.ones(3, 3))
-```
 
-```
 $ TORCH_LOGS="trace_bytecode,trace_source,graph_code" python playground.py
 TRACE starts_line /data/users/williamwen/pytorch/playground.py:6 in f ()
     @torch.compile(backend="eager")
@@ -894,9 +865,7 @@ def f(x):
     return y
 
 f(torch.ones(3, 3))
-```
 
-```
 $ python playground.py
 --Return--
 > /data/users/williamwen/pytorch/torch/_dynamo/comptime.py(392)inner()->None

@@ -83,5 +83,3 @@ RS 流:                     |[RS(c)]  [ RS(b)|     RS(a,d)   ]
 
 
 前端 API 是 `fully_shard`，可以在 `module` 上调用：
-
-

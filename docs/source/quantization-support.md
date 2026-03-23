@@ -110,7 +110,7 @@
 ## torch.ao.nn.quantized
 
 
-此模块实现了 nn 层（如 `~torch.nn.Conv2d` 和 `torch.nn.ReLU`）的量化版本。
+此模块实现了 nn 层（如 `torch.nn.Conv2d` 和 `torch.nn.ReLU`）的量化版本。
 
 
 ## torch.ao.nn.quantized.functional
@@ -125,9 +125,9 @@
 ## torch.ao.nn.quantized.dynamic
 
 
-动态量化的 `~torch.nn.Linear`、`~torch.nn.LSTM`、
-`~torch.nn.LSTMCell`、`~torch.nn.GRUCell` 和
-`~torch.nn.RNNCell`。
+动态量化的 `torch.nn.Linear`、`torch.nn.LSTM`、
+`torch.nn.LSTMCell`、`torch.nn.GRUCell` 和
+`torch.nn.RNNCell`。
 
 
 ## 量化数据类型与量化方案
@@ -135,10 +135,8 @@
 请注意，当前算子实现仅支持 **conv** 和 **linear** 算子的权重进行逐通道量化。此外，输入数据与量化数据之间的映射关系如下：
 
 
-其中 :math:`[x_\text{min}, x_\text{max}]` 表示输入数据的范围，而 :math:`Q_\text{min}` 和 :math:`Q_\text{max}` 分别是量化数据类型的最小值和最大值。
+其中 :math:`[x_\text{min}, x_\text{max}]` 表示输入数据的范围，而 :math:`Q_\text` 和 :math:`Q_\text` 分别是量化数据类型的最小值和最大值。
 
 请注意，:math:`s` 和 :math:`z` 的选择意味着，只要零在输入数据范围内或使用对称量化，零的表示就不会引入量化误差。
 
 可以通过 `自定义算子机制 <https://pytorch.org/tutorials/advanced/torch_script_custom_ops.html>`_ 实现额外的数据类型和量化方案。
-
-

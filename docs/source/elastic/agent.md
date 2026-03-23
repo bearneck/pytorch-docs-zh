@@ -1,18 +1,13 @@
 # 弹性代理
 
- automodule
-torch.distributed.elastic.agent
 
-
- currentmodule
 torch.distributed.elastic.agent
 
 
 ## 服务器
 
- automodule
-torch.distributed.elastic.agent.server
 
+torch.distributed.elastic.agent.server
 
 下图展示了一个管理本地工作进程组的代理。
 
@@ -20,59 +15,39 @@ torch.distributed.elastic.agent.server
 
 ## 概念
 
-本节描述了理解 [agent]{.title-ref} 在 torchelastic 中作用所需的高级类和概念。
-
- currentmodule
-torch.distributed.elastic.agent.server
+本节描述了理解 [agent] 在 torchelastic 中作用所需的高级类和概念。
 
 
- {.autoclass members=""}
 ElasticAgent
 
 
- {.autoclass members=""}
 WorkerSpec
 
 
- {.autoclass members=""}
 WorkerState
 
 
- {.autoclass members=""}
 Worker
 
 
- {.autoclass members=""}
 WorkerGroup
-
 
 ## 实现
 
 以下是 torchelastic 提供的代理实现。
 
- currentmodule
-torch.distributed.elastic.agent.server.local_elastic_agent
 
-
- autoclass
 LocalElasticAgent
-
 
 ## 扩展代理
 
 要扩展代理，你可以直接实现 `ElasticAgent`，但我们建议你改为扩展 `SimpleElasticAgent`，它提供了大部分框架，只留下几个特定的抽象方法需要实现。
 
- currentmodule
-torch.distributed.elastic.agent.server
 
-
- {.autoclass members="" private-members=""}
 SimpleElasticAgent
 
 
- autoclass
 torch.distributed.elastic.agent.server.api.RunResult
-
 
 ## 代理中的看门狗
 
@@ -82,14 +57,11 @@ torch.distributed.elastic.agent.server.api.RunResult
 
 如果在 `LocalElasticAgent` 进程中定义了环境变量 `TORCHELASTIC_HEALTH_CHECK_PORT`，则可以在 `LocalElasticAgent` 中启用健康检查监控服务器。 通过添加健康检查服务器的接口，可以在指定端口号上启动 tcp/http 服务器来扩展该功能。 此外，健康检查服务器将具有回调功能来检查看门狗是否存活。
 
- automodule
+
 torch.distributed.elastic.agent.server.health_check_server
 
 
- {.autoclass members=""}
 HealthCheckServer
 
 
- autofunction
 torch.distributed.elastic.agent.server.health_check_server.create_healthcheck_server
-

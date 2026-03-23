@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#torchinductor-provenance" class="md-skip">
+        <a href="#torchinductor-aotinductor" class="md-skip">
           跳转至
         </a>
       
@@ -8069,7 +8069,7 @@
   
 
 
-<h1 id="torchinductor-provenance">TorchInductor 与 AOTInductor 溯源追踪<a class="headerlink" href="#torchinductor-provenance" title="Permanent link">&para;</a></h1>
+<h1 id="torchinductor-aotinductor">TorchInductor 与 AOTInductor 溯源追踪<a class="headerlink" href="#torchinductor-aotinductor" title="Permanent link">&para;</a></h1>
 <p>本节介绍如何在 <code>tlparse</code> 中使用 TorchInductor 和 AOTInductor 的溯源追踪功能。 溯源追踪可帮助您可视化输入 GraphModule 与 (AOT)Inductor 生成的优化代码之间的关系。此功能允许您追踪原始操作在编译过程中是如何被转换的。</p>
 <p>下方展示了溯源追踪工具的一些示例截图。 该工具可视化了输入图（面板1）、梯度后图（面板2）和 Inductor 生成代码（面板3）中节点之间的映射关系。</p>
 <p><strong>加粗</strong> 的行表示当前溯源追踪功能所覆盖的节点/内核。 我们目前覆盖 triton 内核、cpp 内核和组合内核。 黄色高亮显示了节点/内核的溯源。</p>
@@ -8087,7 +8087,7 @@
 <p>使用所需的标志运行您的程序：</p>
 <div class="highlight"><pre><span></span><code><span class="nv">TORCH_TRACE</span><span class="o">=</span>~/my_trace_log_dir<span class="w"> </span><span class="nv">INDUCTOR_PROVENANCE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>your_program.py
 </code></pre></div>
-<p>这将在 <code>~/my_trace_log_dir</code> 中生成一个日志文件。该日志文件将被 tlparse 用来生成溯源追踪高亮器。</p>
+<p>这将在 <code>/my_trace_log_dir</code> 中生成一个日志文件。该日志文件将被 tlparse 用来生成溯源追踪高亮器。</p>
 </li>
 <li>
 <p>使用 <code>--inductor-provenance</code> 标志对日志运行 <code>tlparse</code>。例如：</p>
@@ -8137,7 +8137,7 @@
 <p><code>tlparse</code> 是一个用 Rust 编写的工具。</p>
 <ul>
 <li>tlparse GitHub 仓库链接：https://github.com/pytorch/tlparse</li>
-<li>在 <code class="interpreted-text" role="ref">torch.compiler_troubleshooting</code> 中了解更多关于 <code>tlparse</code> 的信息</li>
+<li>在 <code>torch.compiler_troubleshooting</code> 中了解更多关于 <code>tlparse</code> 的信息</li>
 </ul>
 
 

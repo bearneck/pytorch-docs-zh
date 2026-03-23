@@ -9,7 +9,7 @@ mystnb:
 ---
 
 ```{code-cell}
-:tags: [remove-cell]
+
 import torch
 
 import header_code
@@ -207,17 +207,13 @@ try:
     fn(torch.randn(3))
 except Exception as e:
     print(e)
-```
-
-```{code-cell}
+{code-cell}
 @torch.compile(fullgraph=True)
 def inner(x):
     x = x + 1
     torch._dynamo.graph_break()
     return x + 2
-```
-
-```python
+python
 @torch.compile(fullgraph=False)
 def fn(x):
     return inner(x)

@@ -1,5 +1,3 @@
-
-
 # torch.package
 `torch.package` 增加了对创建包含工件和任意 PyTorch 代码的包的支持。这些包可以被保存、共享，用于在以后或不同机器上加载和执行模型，甚至可以使用 `torch::deploy` 部署到生产环境。
 
@@ -12,11 +10,9 @@
 切勿解包可能来自不可信来源或可能被篡改的数据。
 
 更多信息，请查阅 `pickle` 模块的[文档](https://docs.python.org/3/library/pickle.html)。
-```
+{contents}
 
-```{contents}
-:local:
-:depth: 2
+
 ```
 
 ## 教程
@@ -205,10 +201,7 @@ def unpackage_foo(
     foo.time_exported = time_exported
     return foo
 
-```
-
-
-```python
+python
 # 保存类 Foo 实例的示例
 
 import torch
@@ -228,9 +221,7 @@ imported_foo = pi.load_pickle('foo_collection', 'foo1.pkl')
 print(f"foo_1 string: '{imported_foo.my_string}'")
 print(f"foo_1 export time: {imported_foo.time_exported}")
 print(f"foo_1 import time: {imported_foo.time_imported}")
-```
 
-```
 # 运行上述脚本的输出
 ─── foo_package
     ├── foo-generated

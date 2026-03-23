@@ -4,44 +4,27 @@
 
 ## 快速开始
 
-```{toctree}
-:caption: 使用指南
-:maxdepth: 1
+- [Elastic/quickstart](elastic/quickstart.md)
+- [Elastic/train Script](elastic/train_script.md)
+- [Elastic/examples](elastic/examples.md)
 
-elastic/quickstart
-elastic/train_script
-elastic/examples
-```
 
 ## 文档
 
-```{toctree}
-:caption: API
-:maxdepth: 1
+- [Elastic/run](elastic/run.md)
+- [Elastic/agent](elastic/agent.md)
+- [Elastic/multiprocessing](elastic/multiprocessing.md)
+- [Elastic/errors](elastic/errors.md)
+- [Elastic/rendezvous](elastic/rendezvous.md)
+- [Elastic/timer](elastic/timer.md)
+- [Elastic/metrics](elastic/metrics.md)
+- [Elastic/events](elastic/events.md)
+- [Elastic/subprocess Handler](elastic/subprocess_handler.md)
+- [Elastic/control Plane](elastic/control_plane.md)
+- [Elastic/numa](elastic/numa.md)
 
-elastic/run
-elastic/agent
-elastic/multiprocessing
-elastic/errors
-elastic/rendezvous
-elastic/timer
-elastic/metrics
-elastic/events
-elastic/subprocess_handler
-elastic/control_plane
-elastic/numa
-```
 
-```{toctree}
-:caption: 高级主题
-:maxdepth: 1
+- [Elastic/customization](elastic/customization.md)
 
-elastic/customization
-```
 
-```{toctree}
-:caption: 插件
-:maxdepth: 1
-
-elastic/kubernetes
-```
+- [Elastic/kubernetes](elastic/kubernetes.md)

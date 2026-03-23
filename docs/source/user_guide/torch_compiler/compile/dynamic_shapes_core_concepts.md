@@ -1,4 +1,3 @@
-
 # 动态形状核心概念
 
 本节描述了 PyTorch 中动态形状的核心概念。旨在为从事 PyTorch 编译器栈工作的工程师以及任何希望理解动态形状内部工作原理的人员提供参考。
@@ -12,7 +11,7 @@ x = torch.randn(5, 5) # 此张量的形状为 [s0, 5]
 y = torch.cat([x, x], dim=0) # 此张量的形状为 [2*s0, 5]
 ```
 
-然而，`z = x * y` 会抛出错误，因为我们知道像乘法这样的逐点操作必须在相同大小的张量上进行，但我们静态地知道 `s0 != 2 * s0`。敏锐的读者可能会指出，当 `s0 == 0` 时这不成立，而此处这无关紧要的原因在 `zero-one-specialization` 中有所描述。
+然而，`z = x * y` 会抛出错误，因为我们知道像乘法这样的逐点操作必须在相同大小的张量上进行，但我们静态地知道 `s0 != 2 * s0`。敏锐的读者可能会指出，当 `s0 == 0` 时这不成立，而此处这无关紧要的原因在 *zero-one-specialization* 中有所描述。
 
 ## 守卫
 
@@ -107,6 +106,6 @@ PyTorch 默认假设静态形状。当检测到大小变化时，它会尝试使
 - 其他重要文件: `torch/_subclasses/fake_tensor.py`, `torch/_meta_registrations.py`, 分解函数, PrimTorch 参考
 
 ```{seealso}
-* `dynamic_shapes`
-* `dynamic_shapes_troubleshooting`
+* *dynamic_shapes*
+* *dynamic_shapes_troubleshooting*
 ```

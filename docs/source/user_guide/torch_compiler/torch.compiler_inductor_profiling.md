@@ -28,8 +28,7 @@
       TORCHINDUCTOR_UNIQUE_KERNEL_NAMES=1 TORCHINDUCTOR_BENCHMARK_KERNEL=1
       python -u benchmarks/dynamo/timm_models.py –backend inductor –amp
       –performance –dashboard –only mixnet_l –disable-cudagraphs –training
-   ```
-   ```{note}
+   {note}
    该工具依赖内核名称来决定其类别。启用 ``TORCHINDUCTOR_UNIQUE_KERNEL_NAMES`` 对此至关重要。
    ```
 2. 在输出日志中，查找以下行：
