@@ -5,6 +5,62 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/libtorch/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/frontend/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/installing/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/library/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/stable/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/faq/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/inference_mode/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/maybe_owned/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/tensor_basics/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/tensor_creation/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/tensor_cuda_stream/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/tensor_indexing/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/cpp/source/notes/versioning/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
@@ -41,6 +97,22 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/cpp_extension/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/cpp_index/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/cpu/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/cuda._sanitizer/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/cuda.aliases/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
@@ -50,6 +122,18 @@
     </url>
     <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/cuda.tunable/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/cuda_environment_variables/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/cudnn_persistent_rnn/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/cudnn_rnn_determinism/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
@@ -245,6 +329,10 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/nativert/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/nested/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
@@ -265,7 +353,23 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/nn.attention/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/nn.attention.varlen/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/nn.functional/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/nn.init/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/nn/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
@@ -321,6 +425,10 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/quantization/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/random/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
@@ -337,11 +445,35 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/sparse/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/special/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/storage/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/symmetric_memory/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/tensor_attributes/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/tensor_view/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/tensorboard/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/tensors/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
@@ -366,6 +498,10 @@
     </url>
     <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/torch.intermediate_debug_printer/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/torch/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
@@ -433,6 +569,94 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/community/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/community/build_ci_governance/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/community/contribution_guide/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/community/design/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/community/governance/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/community/persons_of_interest/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/agent/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/control_plane/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/customization/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/errors/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/events/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/examples/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/kubernetes/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/metrics/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/multiprocessing/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/numa/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/quickstart/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/rendezvous/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/run/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/subprocess_handler/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/timer/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/elastic/train_script/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/higher_order_ops/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
@@ -457,7 +681,111 @@
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/amp_examples/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/autograd/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/broadcasting/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/cpu_threading_torchscript_inference/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/cuda/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/custom_operators/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/ddp/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/extending.func/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/extending/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/faq/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/get_start_xpu/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/gradcheck/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/hip/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/large_scale_deployments/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/libtorch_stable_abi/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/local_tensor_tutorial/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/mkldnn/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/modules/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/mps/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/multiprocessing/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/numerical_accuracy/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/out/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/randomness/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/serialization/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/notes/windows/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/rpc/distributed_autograd/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/rpc/rref/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
@@ -550,6 +878,10 @@
     </url>
     <url>
          <loc>https://bearneck.github.io/pytorch-docs-zh/source/user_guide/torch_compiler/torch.compiler_inductor_profiling/</loc>
+         <lastmod>2026-03-23</lastmod>
+    </url>
+    <url>
+         <loc>https://bearneck.github.io/pytorch-docs-zh/source/user_guide/torch_compiler/torch.compiler_inductor_provenance/</loc>
          <lastmod>2026-03-23</lastmod>
     </url>
     <url>
