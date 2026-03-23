@@ -972,10 +972,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="默认梯度布局">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -983,11 +982,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1000,10 +994,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="张量的原地操作">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1011,11 +1004,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1042,10 +1030,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function" class="md-nav__link">
+  <a href="#hiddenfunction" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Function
+        {hidden}Function
       
     </span>
   </a>
@@ -1064,7 +1052,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function_1" class="md-nav__link">
+  <a href="#function" class="md-nav__link">
     <span class="md-ellipsis">
       
         自定义 Function 工具
@@ -10080,10 +10068,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="默认梯度布局">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10091,11 +10078,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -10108,10 +10090,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="张量的原地操作">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10119,11 +10100,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -10150,10 +10126,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function" class="md-nav__link">
+  <a href="#hiddenfunction" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Function
+        {hidden}Function
       
     </span>
   </a>
@@ -10172,7 +10148,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function_1" class="md-nav__link">
+  <a href="#function" class="md-nav__link">
     <span class="md-ellipsis">
       
         自定义 Function 工具
@@ -10295,99 +10271,377 @@
 
 
 <h1 id="-torchautograd">自动微分包 - torch.autograd<a class="headerlink" href="#-torchautograd" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>模块：<code>torch.autograd</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.autograd.backward</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.grad</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_1">前向模式自动微分<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p>⚠️ <strong>警告</strong>
-此 API 处于测试阶段。尽管函数签名不太可能更改，但在我们将其视为稳定版本之前，计划改进算子覆盖范围。</p>
-</blockquote>
-<p>有关如何使用此 API 的详细步骤，请参阅<a href="https://pytorch.org/tutorials/intermediate/forward_ad_usage.html">前向模式 AD 教程</a>。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forward_ad.dual_level</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>forward_ad.make_dual</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>forward_ad.unpack_dual</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>forward_ad.enter_dual_level</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>forward_ad.exit_dual_level</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>forward_ad.UnpackedDualTensor</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="api">函数式高阶 API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p>⚠️ <strong>警告</strong>
-此 API 处于测试阶段。尽管函数签名不太可能更改，但在我们将其视为稳定版本之前，计划对性能进行重大改进。</p>
-</blockquote>
-<p>本节包含基于上述基础 API 构建的 autograd 高阶 API，允许您计算雅可比矩阵、海森矩阵等。</p>
-<p>此 API 适用于仅接受张量作为输入并仅返回张量的用户提供函数。
-如果您的函数接受其他非张量参数或未设置 requires_grad 的张量，可以使用 lambda 表达式捕获它们。
-例如，对于接受三个输入的函数 <code>f</code>：一个我们想要计算雅可比矩阵的张量、另一个应视为常量的张量以及一个布尔标志，即 <code>f(input, constant, flag=flag)</code>，
-您可以这样使用：<code>functional.jacobian(lambda x: f(x, constant, flag=flag), input)</code>。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>functional.jacobian</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>functional.hessian</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>functional.vjp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>functional.jvp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>functional.vhp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>functional.hvp</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_2">局部禁用梯度计算<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>有关无梯度模式与推理模式之间差异以及其他可能与这两者混淆的相关机制的更多信息，请参阅 <em>locally-disable-grad-doc</em>。
-另请参阅 <em>torch-rst-local-disable-grad</em> 以获取可用于局部禁用梯度的函数列表。</p>
 <h2 id="_3">默认梯度布局<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>当非稀疏的 <code>param</code> 在 <code>torch.autograd.backward</code> 或 <code>torch.Tensor.backward</code> 期间接收到非稀疏梯度时，
-<code>param.grad</code> 按以下方式累积：</p>
-<p>如果 <code>param.grad</code> 初始为 <code>None</code>：</p>
-<ol>
-<li>如果 <code>param</code> 的内存是非重叠且密集的，<code>.grad</code> 将创建与 <code>param</code> 匹配的步幅（从而匹配 <code>param</code> 的布局）。</li>
-<li>否则，<code>.grad</code> 将创建行主序连续步幅。</li>
-</ol>
-<p>如果 <code>param</code> 已具有非稀疏的 <code>.grad</code> 属性：</p>
-<ol>
-<li>如果 <code>create_graph=False</code>，<code>backward()</code> 会就地累加到 <code>.grad</code> 中，这会保留其步幅。</li>
-<li>如果 <code>create_graph=True</code>，<code>backward()</code> 会将 <code>.grad</code> 替换为新张量 <code>.grad + new grad</code>，这会尝试（但不保证）匹配现有 <code>.grad</code> 的步幅。</li>
-</ol>
-<p>建议使用默认行为（在第一次 <code>backward()</code> 之前让 <code>.grad</code> 保持为 <code>None</code>，以便根据 1 或 2 创建其布局，并根据 3 或 4 随时间保留）以获得最佳性能。
-调用 <code>model.zero_grad()</code> 或 <code>optimizer.zero_grad()</code> 不会影响 <code>.grad</code> 布局。</p>
-<p>实际上，在每次累积阶段之前将所有 <code>.grad</code> 重置为 <code>None</code>，例如：</p>
-<div class="highlight"><pre><span></span><code>for iterations...
-    ...
-    for param in model.parameters():
-        param.grad = None
-    loss.backward()
-</code></pre></div>
-<p>这样每次都会根据 1 或 2 重新创建它们，是 <code>model.zero_grad()</code> 或 <code>optimizer.zero_grad()</code> 的有效替代方案，可能会提高某些网络的性能。</p>
-<h3 id="_4">手动梯度布局<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>如果您需要手动控制 <code>.grad</code> 的步幅，请在第一次 <code>backward()</code> 之前将 <code>param.grad =</code> 分配为具有所需步幅的零张量，并且永远不要将其重置为 <code>None</code>。
-只要 <code>create_graph=False</code>，3 保证您的布局得以保留。
-4 表明即使 <code>create_graph=True</code>，您的布局也<em>可能</em>得以保留。</p>
+<h2 id="_4">手动梯度布局<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <h2 id="_5">张量的原地操作<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>在 autograd 中支持原地操作是一个难题，我们不建议在大多数情况下使用它们。Autograd 积极的缓冲区释放和重用使其非常高效，实际上原地操作显著降低内存使用的情况非常少。除非您在严重的内存压力下操作，否则可能永远不需要使用它们。</p>
-<h3 id="_6">原地正确性检查<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>所有 <code>Tensor</code> 都会跟踪应用于它们的原地操作，如果实现检测到某个张量在其中一个函数中保存用于反向传播，但之后被原地修改，则在开始反向传播时会引发错误。这确保如果您使用原地函数且未看到任何错误，则可以确信计算的梯度是正确的。</p>
+<h2 id="_6">原地正确性检查<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <h2 id="variable">Variable（已弃用）<a class="headerlink" href="#variable" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p>⚠️ <strong>警告</strong>
-Variable API 已被弃用：使用张量进行自动微分不再需要 Variables。Autograd 自动支持 <code>requires_grad</code> 设置为 <code>True</code> 的张量。以下是变更的快速指南：</p>
-<ul>
-<li><code>Variable(tensor)</code> 和 <code>Variable(tensor, requires_grad)</code> 仍按预期工作，但它们返回的是张量而不是 Variables。</li>
-<li><code>var.data</code> 与 <code>tensor.data</code> 相同。</li>
-<li>诸如 <code>var.backward(), var.detach(), var.register_hook()</code> 等方法现在可以在具有相同方法名的张量上使用。</li>
-</ul>
-<p>此外，现在可以使用工厂方法创建具有 <code>requires_grad=True</code> 的张量，例如 <code>torch.randn</code>、<code>torch.zeros</code>、<code>torch.ones</code> 等，如下所示：</p>
-<p><code>autograd_tensor = torch.randn((2, 3, 4), requires_grad=True)</code></p>
-</blockquote>
 <h2 id="_7">张量自动微分函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<h2 id="function"><code>Function</code><a class="headerlink" href="#function" title="Permanent link">&para;</a></h2>
+<h2 id="hiddenfunction">{hidden}<code>Function</code><a class="headerlink" href="#hiddenfunction" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.autograd.Function</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Function.forward</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Function.backward</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Function.jvp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Function.vmap</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_8">上下文方法混入类<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>当创建一个新的 <code>Function</code> 时，以下方法可用于 <code>ctx</code>。</p>
-<h2 id="function_1">自定义 Function 工具<a class="headerlink" href="#function_1" title="Permanent link">&para;</a></h2>
-<p>用于 backward 方法的装饰器。</p>
-<p>用于构建 PyTorch 工具的基础自定义 <code>Function</code></p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>function.FunctionCtx.mark_dirty</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>function.FunctionCtx.mark_non_differentiable</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>function.FunctionCtx.save_for_backward</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>function.FunctionCtx.set_materialize_grads</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="function">自定义 Function 工具<a class="headerlink" href="#function" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>function.once_differentiable</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>function.BackwardCFunction</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>function.InplaceFunction</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>function.NestedIOFunction</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_9">数值梯度检查<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<p>% 仅为重置此文件其余部分的基础路径</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.autograd.gradcheck.gradcheck</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.gradcheck.gradgradcheck</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.gradcheck.GradcheckError</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_10">性能分析器<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
-<p>Autograd 包含一个性能分析器，允许你检查模型中不同操作符的成本——无论是在 CPU 还是 GPU 上。目前实现了三种模式——仅使用 CPU 的 <code>torch.autograd.profiler.profile</code>、基于 nvprof（同时记录 CPU 和 GPU 活动）的 <code>torch.autograd.profiler.emit_nvtx</code>，以及基于 vtune 性能分析器的 <code>torch.autograd.profiler.emit_itt</code>。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.autograd.profiler.profile</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.profiler.emit_nvtx</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.profiler.emit_itt</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.profile.export_chrome_trace</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.profile.key_averages</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.profile.self_cpu_time_total</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.profile.total_average</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.parse_nvprof_trace</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.EnforceUnique</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.KinetoStepTracker</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.record_function</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler_util.Interval</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler_util.Kernel</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler_util.MemRecordsAcc</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler_util.StringTable</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>profiler.load_nvprof</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_11">调试与异常检测<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.autograd.detect_anomaly</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.set_detect_anomaly</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>grad_mode.set_multithreading_enabled</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="autograd">Autograd 计算图<a class="headerlink" href="#autograd" title="Permanent link">&para;</a></h2>
-<p>Autograd 提供了一些方法，允许用户检查计算图并在反向传播过程中介入行为。</p>
-<p>如果张量是由 autograd 记录的操作的输出（即启用了 grad_mode 并且至少有一个输入需要梯度），那么 <code>torch.Tensor</code> 的 <code>grad_fn</code> 属性会持有一个 <code>torch.autograd.graph.Node</code>，否则为 <code>None</code>。</p>
-<p>一些操作需要在正向传播期间保存中间结果，以便执行反向传播。
-这些中间结果作为属性保存在 <code>grad_fn</code> 上，并且可以被访问。
-例如：</p>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; a = torch.tensor([0., 0., 0.], requires_grad=True)
-&gt;&gt;&gt; b = a.exp()
-&gt;&gt;&gt; print(isinstance(b.grad_fn, torch.autograd.graph.Node))
-True
-&gt;&gt;&gt; print(dir(b.grad_fn))
-[&#39;__call__&#39;, &#39;__class__&#39;, &#39;__delattr__&#39;, &#39;__dir__&#39;, &#39;__doc__&#39;, &#39;__eq__&#39;, &#39;__format__&#39;, &#39;__ge__&#39;, &#39;__getattribute__&#39;, &#39;__gt__&#39;, &#39;__hash__&#39;, &#39;__init__&#39;, &#39;__init_subclass__&#39;, &#39;__le__&#39;, &#39;__lt__&#39;, &#39;__ne__&#39;, &#39;__new__&#39;, &#39;__reduce__&#39;, &#39;__reduce_ex__&#39;, &#39;__repr__&#39;, &#39;__setattr__&#39;, &#39;__sizeof__&#39;, &#39;__str__&#39;, &#39;__subclasshook__&#39;, &#39;_raw_saved_result&#39;, &#39;_register_hook_dict&#39;, &#39;_saved_result&#39;, &#39;metadata&#39;, &#39;name&#39;, &#39;next_functions&#39;, &#39;register_hook&#39;, &#39;register_prehook&#39;, &#39;requires_grad&#39;]
-&gt;&gt;&gt; print(torch.allclose(b.grad_fn._saved_result, b))
-True
-</code></pre></div>
-<p>你也可以使用钩子定义这些保存的张量应该如何打包/解包。
-一个常见的应用是通过将这些中间结果保存到磁盘或 CPU 而不是留在 GPU 上，来用计算换取内存。如果你注意到你的模型在评估时适合 GPU，但在训练时不适合，这尤其有用。
-另请参阅 <em>saved-tensors-hooks-doc</em>。</p>
-<p>% 此模块需要文档记录。暂时添加在此处以供追踪</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.autograd.graph.saved_tensors_hooks</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.graph.save_on_cpu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.graph.disable_saved_tensors_hooks</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.graph.register_multi_grad_hook</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.graph.allow_mutation_on_saved_tensors</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.graph.GradientEdge</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.graph.get_gradient_edge</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>graph.Node.name</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>graph.Node.metadata</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>graph.Node.next_functions</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>graph.Node.register_hook</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>graph.Node.register_prehook</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>graph.increment_version</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 

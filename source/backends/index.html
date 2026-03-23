@@ -9859,6 +9859,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#torchbackendsmps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        torch.backends.mps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#torchbackendsmkl" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9953,38 +9964,291 @@
 
 
 <h1 id="torchbackends">torch.backends<a class="headerlink" href="#torchbackends" title="Permanent link">&para;</a></h1>
-<p><code>torch.backends</code> 控制 PyTorch 支持的各种后端的行为。</p>
-<p>这些后端包括：</p>
-<ul>
-<li><code>torch.backends.cpu</code></li>
-<li><code>torch.backends.cuda</code></li>
-<li><code>torch.backends.cudnn</code></li>
-<li><code>torch.backends.cusparselt</code></li>
-<li><code>torch.backends.mha</code></li>
-<li><code>torch.backends.mps</code></li>
-<li><code>torch.backends.mkl</code></li>
-<li><code>torch.backends.mkldnn</code></li>
-<li><code>torch.backends.nnpack</code></li>
-<li><code>torch.backends.openmp</code></li>
-<li><code>torch.backends.opt_einsum</code></li>
-<li><code>torch.backends.xeon</code></li>
-</ul>
+<blockquote>
+<p>模块：<code>torch.backends</code></p>
+</blockquote>
 <h2 id="torchbackendscpu">torch.backends.cpu<a class="headerlink" href="#torchbackendscpu" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.cpu.get_cpu_capability</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendscuda">torch.backends.cuda<a class="headerlink" href="#torchbackendscuda" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.cuda.is_built</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.preferred_blas_library</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.preferred_rocm_fa_library</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.preferred_linalg_library</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.SDPAParams</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.flash_sdp_enabled</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.enable_mem_efficient_sdp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.mem_efficient_sdp_enabled</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.enable_flash_sdp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.math_sdp_enabled</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.enable_math_sdp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.fp16_bf16_reduction_math_sdp_allowed</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.allow_fp16_bf16_reduction_math_sdp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.cudnn_sdp_enabled</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.enable_cudnn_sdp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.is_flash_attention_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.can_use_flash_attention</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.can_use_efficient_attention</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.can_use_cudnn_attention</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cuda.sdp_kernel</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendscudnn">torch.backends.cudnn<a class="headerlink" href="#torchbackendscudnn" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.cudnn.version</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cudnn.is_available</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendscusparselt">torch.backends.cusparselt<a class="headerlink" href="#torchbackendscusparselt" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.cusparselt.version</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.cusparselt.is_available</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsmha">torch.backends.mha<a class="headerlink" href="#torchbackendsmha" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.mha.get_fastpath_enabled</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.mha.set_fastpath_enabled</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsmiopen">torch.backends.miopen<a class="headerlink" href="#torchbackendsmiopen" title="Permanent link">&para;</a></h2>
-<p>{eval-rst}</p>
-<p>```</p>
+<h2 id="torchbackendsmps">torch.backends.mps<a class="headerlink" href="#torchbackendsmps" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.mps.is_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.mps.is_built</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsmkl">torch.backends.mkl<a class="headerlink" href="#torchbackendsmkl" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.mkl.is_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.mkl.verbose</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsmkldnn">torch.backends.mkldnn<a class="headerlink" href="#torchbackendsmkldnn" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.mkldnn.is_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.mkldnn.verbose</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsnnpack">torch.backends.nnpack<a class="headerlink" href="#torchbackendsnnpack" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.nnpack.is_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.nnpack.flags</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.nnpack.set_flags</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsopenmp">torch.backends.openmp<a class="headerlink" href="#torchbackendsopenmp" title="Permanent link">&para;</a></h2>
-<p>% 其他后端的文档需要在此处添加。
-% 这里的自动模块只是为了确保检查运行，但目前它们实际上
-% 不会向渲染页面添加任何内容。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.openmp.is_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.kleidiai.is_available</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsopt_einsum">torch.backends.opt_einsum<a class="headerlink" href="#torchbackendsopt_einsum" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.backends.opt_einsum.is_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.backends.opt_einsum.get_opt_einsum</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="torchbackendsxeon">torch.backends.xeon<a class="headerlink" href="#torchbackendsxeon" title="Permanent link">&para;</a></h2>
 
 

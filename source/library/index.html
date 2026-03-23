@@ -10007,21 +10007,129 @@
 
 
 <h1 id="torchlibrary">torch.library<a class="headerlink" href="#torchlibrary" title="Permanent link">&para;</a></h1>
-<p>torch.library 是一组用于扩展 PyTorch 核心算子库的 API。它包含用于测试自定义算子、创建新的自定义算子以及扩展使用 PyTorch C++ 算子注册 API（例如 aten 算子）定义的算子的实用工具。</p>
-<p>关于如何有效使用这些 API 的详细指南，请参阅 <a href="https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html">PyTorch 自定义算子介绍页面</a> 以获取更多详细信息。</p>
-<h2 id="_1">测试自定义算子<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>使用 <code>torch.library.opcheck</code> 来测试自定义算子是否存在对 Python torch.library 和/或 C++ TORCH_LIBRARY API 的错误使用。此外，如果你的算子支持训练，请使用 <code>torch.autograd.gradcheck</code> 来测试梯度在数学上是否正确。</p>
-<h2 id="python">在 Python 中创建新的自定义算子<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
-<p>使用 <code>torch.library.custom_op</code> 来创建新的自定义算子。</p>
-<h2 id="python-c">扩展自定义算子（从 Python 或 C++ 创建）<a class="headerlink" href="#python-c" title="Permanent link">&para;</a></h2>
-<p>使用 <code>register.*</code> 方法，例如 <code>torch.library.register_kernel</code> 和 <code>torch.library.register_fake</code>，来为任何算子添加实现（这些算子可能是使用 <code>torch.library.custom_op</code> 或通过 PyTorch 的 C++ 算子注册 API 创建的）。</p>
-<h2 id="api">底层 API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<p>以下 API 是 PyTorch C++ 底层算子注册 API 的直接绑定。</p>
 <blockquote>
-<p>⚠️ <strong>警告</strong>
-底层算子注册 API 和 PyTorch 调度器是一个复杂的 PyTorch 概念。我们建议在可能的情况下使用上述更高级别的 API（不需要 torch.library.Library 对象）。<code>这篇博客文章 &lt;http://blog.ezyang.com/2020/09/lets-talk-about-the-pytorch-dispatcher/&gt;</code>_ 是了解 PyTorch 调度器的一个很好的起点。</p>
+<p>模块：<code>torch.library</code></p>
 </blockquote>
-<p>一个引导你了解如何使用此 API 的示例教程可在 <a href="https://colab.research.google.com/drive/1RRhSfk7So3Cn02itzLWE9K4Fam-8U011?usp=sharing">Google Colab</a> 上找到。</p>
+<h2 id="_1">测试自定义算子<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.library.opcheck</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="python">在 Python 中创建新的自定义算子<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.library.custom_op</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.triton_op</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.wrap_triton</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="python-c">扩展自定义算子（从 Python 或 C++ 创建）<a class="headerlink" href="#python-c" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.library.register_kernel</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.register_autocast</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.register_autograd</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.register_fake</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.register_vmap</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.impl_abstract</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.get_ctx</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.register_torch_dispatch</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.infer_schema</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch._library.custom_ops.CustomOpDef</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.get_kernel</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="api">底层 API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.library.Library</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.fallthrough_kernel</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.define</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.library.impl</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 

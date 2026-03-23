@@ -10068,66 +10068,66 @@ check_tensor(L[&#39;b&#39;], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplac
 <p>这段代码会触发有用（但可能冗长）的打印输出。</p>
 <p>例如，<code>toy_example</code> 中第一个图的打印输出是：</p>
 <p>__compiled_fn_0 <eval_with_key>.1
-操作码       名称      目标                                                  参数              关键字参数</p>
-<hr />
-<p>placeholder    a        a                                                       ()                {}
-placeholder    b        b                                                       ()                {}
-call_function  abs_1    <built-in method abs of type object at 0x7f9ca082f8a0>  (a,)              {}
-call_function  add      <built-in function add>                                 (abs_1, 1)        {}
-call_function  truediv  <built-in function truediv>                             (a, add)          {}
-call_method    sum_1    sum                                                     (b,)              {}
-call_function  lt       <built-in function lt>                                  (sum_1, 0)        {}
-output         output   output                                                  ((truediv, lt),)  {}
-原始字节码 toy_example example.py 第 12 行
- 14           0 LOAD_FAST                0 (a)
-              2 LOAD_GLOBAL              0 (torch)
-              4 LOAD_METHOD              1 (abs)
-              6 LOAD_FAST                0 (a)
-              8 CALL_METHOD              1
-             10 LOAD_CONST               1 (1)
-             12 BINARY_ADD
-             14 BINARY_TRUE_DIVIDE
-             16 STORE_FAST               2 (x)
- 15          18 LOAD_FAST                1 (b)
-             20 LOAD_METHOD              2 (sum)
-             22 CALL_METHOD              0
-             24 LOAD_CONST               2 (0)
-             26 COMPARE_OP               0 (&lt;)
-             28 POP_JUMP_IF_FALSE       19 (to 38)
- 16          30 LOAD_FAST                1 (b)
-             32 LOAD_CONST               3 (-1)
-             34 BINARY_MULTIPLY
-             36 STORE_FAST               1 (b)
- 17     &gt;&gt;   38 LOAD_FAST                2 (x)
-             40 LOAD_FAST                1 (b)
-             42 BINARY_MULTIPLY
-             44 RETURN_VALUE
-修改后的字节码 toy_example example.py 第 12 行
- 12           0 LOAD_GLOBAL              3 (__compiled_fn_0)
-              2 LOAD_FAST                0 (a)
-              4 LOAD_FAST                1 (b)
-              6 CALL_FUNCTION            2
-              8 UNPACK_SEQUENCE          2
-             10 STORE_FAST               2 (x)
-             12 POP_JUMP_IF_FALSE       12 (to 24)
-             14 LOAD_GLOBAL              4 (__resume_at_30_1)
-             16 LOAD_FAST                1 (b)
-             18 LOAD_FAST                2 (x)
-             20 CALL_FUNCTION            2
-             22 RETURN_VALUE
-        &gt;&gt;   24 LOAD_GLOBAL              5 (__resume_at_38_2)
-             26 LOAD_FAST                1 (b)
-             28 LOAD_FAST                2 (x)
-             30 CALL_FUNCTION            2
-             32 RETURN_VALUE
-可能的源代码：
-def toy_example(a, b):
-    __temp_1 = __compiled_fn_0(a, b)
-    x = __temp_1[0]
-    if __temp_1[1]:
-        return __resume_at_30_1(b, x)
-    return __resume_at_38_2(b, x)
-如果您发现反编译的代码有误，请在 https://github.com/youkaichao/depyf/issues 提交问题。</p>
+| 操作码       名称 | 目标 | 参数 | 关键字参数 |  |
+|---|---|---|---|---|
+| placeholder | a | a | () | {} |
+| placeholder | b | b | () | {} |
+| call_function | abs_1 | <built-in method abs of type object at 0x7f9ca082f8a0> | (a,) | {} |
+| call_function | add | <built-in function add> | (abs_1, 1) | {} |
+| call_function | truediv | <built-in function truediv> | (a, add) | {} |
+| call_method | sum_1 | sum | (b,) | {} |
+| call_function | lt | <built-in function lt> | (sum_1, 0) | {} |
+| output | output | output | ((truediv, lt),) | {} |
+| 原始字节码 toy_exa | le exam | e.py 第 12 行 |  |  |
+| 14 | LOAD_F | T                0 (a) |  |  |
+|  | LOAD_G | BAL              0 (torch) |  |  |
+|  | LOAD_M | HOD              1 (abs) |  |  |
+|  | LOAD_F | T                0 (a) |  |  |
+|  | CALL_M | HOD              1 |  |  |
+|  | LOAD_C | ST               1 (1) |  |  |
+|  | BINARY | DD |  |  |
+|  | BINARY | RUE_DIVIDE |  |  |
+|  | STORE_ | ST               2 (x) |  |  |
+| 15 | LOAD_F | T                1 (b) |  |  |
+|  | LOAD_M | HOD              2 (sum) |  |  |
+|  | CALL_M | HOD              0 |  |  |
+|  | LOAD_C | ST               2 (0) |  |  |
+|  | COMPAR | OP               0 (&lt;) |  |  |
+|  | POP_JU | <em>IF_FALSE       19 (to 38) |  |  |
+| 16 | LOAD_F | T                1 (b) |  |  |
+|  | LOAD_C | ST               3 (-1) |  |  |
+|  | BINARY | ULTIPLY |  |  |
+|  | STORE</em> | ST               1 (b) |  |  |
+| 17     &gt;&gt; | LOAD_F | T                2 (x) |  |  |
+|  | LOAD_F | T                1 (b) |  |  |
+|  | BINARY | ULTIPLY |  |  |
+|  | RETURN | ALUE |  |  |
+| 修改后的字节码 toy_e | mple ex | ple.py 第 12 行 |  |  |
+| 12 | LOAD_G | BAL              3 (__compiled_fn_0) |  |  |
+|  | LOAD_F | T                0 (a) |  |  |
+|  | LOAD_F | T                1 (b) |  |  |
+|  | CALL_F | CTION            2 |  |  |
+|  | UNPACK | EQUENCE          2 |  |  |
+|  | STORE_ | ST               2 (x) |  |  |
+|  | POP_JU | _IF_FALSE       12 (to 24) |  |  |
+|  | LOAD_G | BAL              4 (__resume_at_30_1) |  |  |
+|  | LOAD_F | T                1 (b) |  |  |
+|  | LOAD_F | T                2 (x) |  |  |
+|  | CALL_F | CTION            2 |  |  |
+|  | RETURN | ALUE |  |  |
+| &gt;&gt; | LOAD_G | BAL              5 (__resume_at_38_2) |  |  |
+|  | LOAD_F | T                1 (b) |  |  |
+|  | LOAD_F | T                2 (x) |  |  |
+|  | CALL_F | CTION            2 |  |  |
+|  | RETURN | ALUE |  |  |
+| 可能的源代码： |  |  |  |  |
+| def toy_examp | (a, b): |  |  |  |
+| __temp_1 | __compi | d_fn_0(a, b) |  |  |
+| x = __tem | 1[0] |  |  |  |
+| if __temp | [1]: |  |  |  |
+| retur | __resum | at_30_1(b, x) |  |  |
+| return __ | sume_at | 8_2(b, x) |  |  |
+| 如果您发现反编译的代码有误 | 在 https | /github.com/youkaichao/depyf/issues 提交问题。 |  |  |</p>
 <p>顶部您可以看到 FX 图。
 接下来，您可以看到函数的原始字节码，然后是 Dynamo 生成的修改后的字节码，以及供参考的反编译源代码。最后，您可以看到我们上面介绍过的守卫。</p>
 <p>在修改后的字节码中，<code>__compiled_fn_0</code> 是 <code>my_compiler()</code>（已编译的图）的返回值。<code>__resume_at_30_1</code> 和 <code>__resume_at_38_2</code> 都是生成的延续函数，用于在图断点（在字节码偏移量 30 和 38 处）之后恢复执行。这些函数的形式如下：</p>

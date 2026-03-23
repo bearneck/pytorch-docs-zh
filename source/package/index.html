@@ -10684,6 +10684,51 @@ Python 标准。然而，也可以从打包代码内部访问父 :class:<code>Pa
 <p>对于 <code>__file__</code>，像 <code>torchvision/models/resnet18.py</code> 这样的名称会变为 <code>&lt;torch_package_0&gt;.torchvision/modules/resnet18.py</code>。</p>
 <p>名称重整有助于避免不同包之间模块名称的无意冲突，并通过使堆栈跟踪和打印语句更清晰地显示它们是否引用打包代码来帮助调试。有关重整的面向开发者的详细信息，请查阅 <code>torch/package/</code> 中的 <code>mangling.md</code>。</p>
 <h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.package.analyze.find_first_use_of_broken_modules.__init__</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.package.PackagingError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.package.EmptyMatchError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.package.PackageExporter</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.package.PackageImporter</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.package.Directory</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <!-- 此模块需要文档记录。暂时添加在此处以供跟踪 -->
 
 

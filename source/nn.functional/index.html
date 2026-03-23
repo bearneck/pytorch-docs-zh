@@ -1097,30 +1097,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dataparallel-gpu" class="md-nav__link">
+  <a href="#hiddendata_parallel" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DataParallel 函数 (多 GPU，分布式)
+        :hidden:data_parallel
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="DataParallel 函数 (多 GPU，分布式)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#data_parallel" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        [data_parallel]
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -10110,30 +10093,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dataparallel-gpu" class="md-nav__link">
+  <a href="#hiddendata_parallel" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DataParallel 函数 (多 GPU，分布式)
+        :hidden:data_parallel
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="DataParallel 函数 (多 GPU，分布式)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#data_parallel" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        [data_parallel]
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -10218,31 +10184,617 @@
 
 <h1 id="torchnnfunctional">torch.nn.functional<a class="headerlink" href="#torchnnfunctional" title="Permanent link">&para;</a></h1>
 <h2 id="_1">卷积函数<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>conv1d conv2d conv3d conv_transpose1d conv_transpose2d conv_transpose3d unfold fold</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.conv1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.conv2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.conv3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.conv_transpose1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.conv_transpose2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.conv_transpose3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.unfold</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.fold</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_2">池化函数<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>avg_pool1d avg_pool2d avg_pool3d max_pool1d max_pool2d max_pool3d max_unpool1d max_unpool2d max_unpool3d lp_pool1d lp_pool2d lp_pool3d adaptive_max_pool1d adaptive_max_pool2d adaptive_max_pool3d adaptive_avg_pool1d adaptive_avg_pool2d adaptive_avg_pool3d fractional_max_pool2d fractional_max_pool3d</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.avg_pool1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.avg_pool2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.avg_pool3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.max_pool1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.max_pool2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.max_pool3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.max_unpool1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.max_unpool2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.max_unpool3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.lp_pool1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.lp_pool2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.lp_pool3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.adaptive_max_pool1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.adaptive_max_pool2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.adaptive_max_pool3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.adaptive_avg_pool1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.adaptive_avg_pool2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.adaptive_avg_pool3d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.fractional_max_pool2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.fractional_max_pool3d</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_3">注意力机制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p><code>torch.nn.attention.bias</code> 模块包含设计用于与 scaled_dot_product_attention 一起使用的注意力偏置。</p>
-<p>scaled_dot_product_attention</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.scaled_dot_product_attention</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_4">非线性激活函数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>threshold <a href="">threshold</a> relu <a href="">relu</a> hardtanh <a href="">hardtanh</a> hardswish relu6 elu <a href="">elu</a> selu celu leaky_relu <a href="">leaky_relu</a> prelu rrelu <a href="">rrelu</a> glu gelu logsigmoid hardshrink tanhshrink softsign softplus softmin softmax softshrink gumbel_softmax log_softmax tanh sigmoid hardsigmoid silu mish batch_norm group_norm instance_norm layer_norm local_response_norm rms_norm normalize</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.threshold</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.threshold_</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.relu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.relu_</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.hardtanh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.hardtanh_</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.hardswish</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.relu6</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.elu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.elu_</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.selu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.celu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.leaky_relu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.leaky_relu_</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.prelu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.rrelu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.rrelu_</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.glu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.gelu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.logsigmoid</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.hardshrink</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.tanhshrink</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.softsign</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.softplus</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.softmin</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.softmax</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.softshrink</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.gumbel_softmax</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.log_softmax</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.tanh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.sigmoid</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.hardsigmoid</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.silu</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.mish</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.batch_norm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.group_norm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.instance_norm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.layer_norm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.local_response_norm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.rms_norm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.normalize</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_5">线性函数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>linear bilinear</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.linear</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.bilinear</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="dropout">Dropout 函数<a class="headerlink" href="#dropout" title="Permanent link">&para;</a></h2>
-<p>dropout alpha_dropout feature_alpha_dropout dropout1d dropout2d dropout3d</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.dropout</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.alpha_dropout</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.feature_alpha_dropout</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.dropout1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.dropout2d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.dropout3d</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_6">稀疏函数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>embedding embedding_bag one_hot</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.embedding</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.embedding_bag</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.one_hot</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_7">距离函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<p>pairwise_distance cosine_similarity pdist</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.pairwise_distance</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.cosine_similarity</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.pdist</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_8">损失函数<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>binary_cross_entropy binary_cross_entropy_with_logits poisson_nll_loss cosine_embedding_loss cross_entropy ctc_loss gaussian_nll_loss hinge_embedding_loss kl_div l1_loss mse_loss margin_ranking_loss multilabel_margin_loss multilabel_soft_margin_loss multi_margin_loss nll_loss huber_loss smooth_l1_loss soft_margin_loss triplet_margin_loss triplet_margin_with_distance_loss</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.binary_cross_entropy</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.binary_cross_entropy_with_logits</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.poisson_nll_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.cosine_embedding_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.cross_entropy</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.ctc_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.gaussian_nll_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.hinge_embedding_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.kl_div</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.l1_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.mse_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.margin_ranking_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.multilabel_margin_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.multilabel_soft_margin_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.multi_margin_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.nll_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.huber_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.smooth_l1_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.soft_margin_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.triplet_margin_loss</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.triplet_margin_with_distance_loss</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_9">视觉函数<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<p>pixel_shuffle pixel_unshuffle pad interpolate upsample upsample_nearest upsample_bilinear grid_sample affine_grid</p>
-<h2 id="dataparallel-gpu">DataParallel 函数 (多 GPU，分布式)<a class="headerlink" href="#dataparallel-gpu" title="Permanent link">&para;</a></h2>
-<h3 id="data_parallel">[data_parallel]<a class="headerlink" href="#data_parallel" title="Permanent link">&para;</a></h3>
-<p>torch.nn.parallel.data_parallel</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.pixel_shuffle</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.pixel_unshuffle</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.pad</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.interpolate</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.upsample</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.upsample_nearest</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.upsample_bilinear</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.grid_sample</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.affine_grid</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hiddendata_parallel">:hidden:<code>data_parallel</code><a class="headerlink" href="#hiddendata_parallel" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.parallel.data_parallel</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_10">低精度函数<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
-<p>ScalingType SwizzleType grouped_mm scaled_mm scaled_grouped_mm</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nn.functional.ScalingType</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.SwizzleType</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.grouped_mm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.scaled_mm</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nn.functional.scaled_grouped_mm</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 

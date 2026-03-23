@@ -7303,10 +7303,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="发布模型">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7316,8 +7315,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7325,11 +7324,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -7342,10 +7336,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="从 Hub 加载模型">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7355,8 +7348,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7366,8 +7359,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7377,8 +7370,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7386,11 +7379,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -9959,10 +9947,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="发布模型">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9972,8 +9959,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9981,11 +9968,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -9998,10 +9980,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="从 Hub 加载模型">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10011,8 +9992,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10022,8 +10003,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10033,8 +10014,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10042,11 +10023,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -10119,80 +10095,65 @@
 
 
 <h1 id="torchhub">torch.hub<a class="headerlink" href="#torchhub" title="Permanent link">&para;</a></h1>
-<p>PyTorch Hub 是一个预训练模型仓库，旨在促进研究可复现性。</p>
+<blockquote>
+<p>模块：<code>torch.hub</code></p>
+</blockquote>
 <h2 id="_1">发布模型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>PyTorch Hub 支持通过添加一个简单的 <code>hubconf.py</code> 文件，将预训练模型（模型定义和预训练权重）发布到 GitHub 仓库。</p>
-<p><code>hubconf.py</code> 可以有多个入口点。每个入口点被定义为一个 Python 函数（例如：您想要发布的预训练模型）。</p>
-<div class="highlight"><pre><span></span><code>  <span class="k">def</span><span class="w"> </span><span class="nf">entrypoint_name</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-      <span class="c1"># args &amp; kwargs 是可选的，用于接受位置参数/关键字参数的模型。</span>
-      <span class="o">...</span>
-</code></pre></div>
-<h3 id="_2">如何实现一个入口点？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>以下是一个代码片段，展示了如果我们扩展 <code>pytorch/vision/hubconf.py</code> 中的实现，如何为 <code>resnet18</code> 模型指定一个入口点。
-在大多数情况下，在 <code>hubconf.py</code> 中导入正确的函数就足够了。这里我们只是希望使用扩展版本作为示例来说明其工作原理。
-您可以在 <a href="https://github.com/pytorch/vision/blob/master/hubconf.py">pytorch/vision 仓库</a> 中查看完整脚本。</p>
-<div class="highlight"><pre><span></span><code>  <span class="n">dependencies</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;torch&#39;</span><span class="p">]</span>
-  <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.models.resnet</span><span class="w"> </span><span class="kn">import</span> <span class="n">resnet18</span> <span class="k">as</span> <span class="n">_resnet18</span>
-
-  <span class="c1"># resnet18 是入口点的名称</span>
-  <span class="k">def</span><span class="w"> </span><span class="nf">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">      </span><span class="sd">&quot;&quot;&quot; # 此文档字符串会显示在 hub.help() 中</span>
-<span class="sd">      Resnet18 模型</span>
-<span class="sd">      pretrained (bool): kwargs，将预训练权重加载到模型中</span>
-<span class="sd">      &quot;&quot;&quot;</span>
-      <span class="c1"># 调用模型，加载预训练权重</span>
-      <span class="n">model</span> <span class="o">=</span> <span class="n">_resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="n">pretrained</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-      <span class="k">return</span> <span class="n">model</span>
-</code></pre></div>
-<ul>
-<li><code>dependencies</code> 变量是 <strong>加载</strong> 模型所需的包名称<strong>列表</strong>。请注意，这可能与训练模型所需的依赖项略有不同。</li>
-<li><code>args</code> 和 <code>kwargs</code> 会传递给实际的可调用函数。</li>
-<li>函数的文档字符串用作帮助信息。它解释了模型的功能以及允许的位置/关键字参数。强烈建议在此处添加一些示例。</li>
-<li>入口点函数可以返回一个模型（nn.module），或者返回辅助工具以使工作流程更顺畅，例如分词器。</li>
-<li>以下划线为前缀的可调用对象被视为辅助函数，不会出现在 <code>torch.hub.list()</code> 中。</li>
-<li>预训练权重可以存储在 GitHub 仓库本地，或者通过 <code>torch.hub.load_state_dict_from_url()</code> 加载。如果小于 2GB，建议将其附加到 <a href="https://help.github.com/en/articles/distributing-large-binaries">项目发布</a> 并使用发布中的 URL。
-  在上面的示例中，<code>torchvision.models.resnet.resnet18</code> 处理了 <code>pretrained</code> 参数，或者您可以将以下逻辑放在入口点定义中。</li>
-</ul>
-<div class="highlight"><pre><span></span><code>  <span class="k">if</span> <span class="n">pretrained</span><span class="p">:</span>
-      <span class="c1"># 对于保存在本地 GitHub 仓库中的检查点，例如 &lt;RELATIVE_PATH_TO_CHECKPOINT&gt;=weights/save.pth</span>
-      <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
-      <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">RELATIVE_PATH_TO_CHECKPOINT</span><span class="o">&gt;</span><span class="p">)</span>
-      <span class="n">state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">)</span>
-      <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
-
-      <span class="c1"># 对于保存在其他地方的检查点</span>
-      <span class="n">checkpoint</span> <span class="o">=</span> <span class="s1">&#39;https://download.pytorch.org/models/resnet18-5c106cde.pth&#39;</span>
-      <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">hub</span><span class="o">.</span><span class="n">load_state_dict_from_url</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-</code></pre></div>
-<h3 id="_3">重要提示<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<ul>
-<li>发布的模型应至少位于一个分支/标签中。不能是随机的提交。</li>
-</ul>
+<h2 id="_2">如何实现一个入口点？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">重要提示<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <h2 id="hub">从 Hub 加载模型<a class="headerlink" href="#hub" title="Permanent link">&para;</a></h2>
-<p>PyTorch Hub 提供了便捷的 API，可以通过 <code>torch.hub.list()</code> 探索 hub 中所有可用的模型，通过 <code>torch.hub.help()</code> 显示文档字符串和示例，并使用 <code>torch.hub.load()</code> 加载预训练模型。</p>
-<h3 id="_4">运行加载的模型：<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>请注意，<code>torch.hub.load()</code> 中的 <code>*args</code> 和 <code>**kwargs</code> 用于 <strong>实例化</strong> 模型。加载模型后，如何找出可以用该模型做什么？
-建议的工作流程是：</p>
-<ul>
-<li><code>dir(model)</code> 查看模型的所有可用方法。</li>
-<li><code>help(model.foo)</code> 检查运行 <code>model.foo</code> 需要哪些参数。</li>
-</ul>
-<p>为了帮助用户在不反复查阅文档的情况下进行探索，我们强烈建议仓库所有者使函数帮助信息清晰简洁。包含一个最小工作示例也很有帮助。</p>
-<h3 id="_5">我下载的模型保存在哪里？<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>按以下顺序使用位置：</p>
-<ul>
-<li>调用 <code>hub.set_dir(&lt;PATH_TO_HUB_DIR&gt;)</code></li>
-<li><code>$TORCH_HOME/hub</code>，如果设置了环境变量 <code>TORCH_HOME</code>。</li>
-<li><code>$XDG_CACHE_HOME/torch/hub</code>，如果设置了环境变量 <code>XDG_CACHE_HOME</code>。</li>
-<li><code>/.cache/torch/hub</code></li>
-</ul>
-<h3 id="_6">缓存逻辑<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>默认情况下，我们加载文件后不会清理它们。如果文件已存在于 <code>torch.hub.get_dir()</code> 返回的目录中，Hub 默认会使用缓存。</p>
-<p>用户可以通过调用 <code>hub.load(..., force_reload=True)</code> 强制重新加载。这将删除现有的 GitHub 文件夹和下载的权重，并重新初始化一次新的下载。当更新发布到同一分支时，这很有用，用户可以跟上最新的发布。</p>
-<h3 id="_7">已知限制：<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>Torch hub 的工作原理是像安装包一样导入它。Python 导入会引入一些副作用。例如，您可以在 Python 缓存 <code>sys.modules</code> 和 <code>sys.path_importer_cache</code> 中看到新条目，这是正常的 Python 行为。
-这也意味着，如果不同仓库具有相同的子包名称（通常是 <code>model</code> 子包），则在从不同仓库导入不同模型时，可能会出现导入错误。解决此类导入错误的一种方法是从 <code>sys.modules</code> 字典中删除有问题的子包；更多详细信息可以在 <a href="https://github.com/pytorch/hub/issues/243#issuecomment-942403391">此 GitHub 问题</a> 中找到。</p>
-<p>这里值得提及一个已知的限制：用户<strong>无法</strong>在<strong>同一个 Python 进程</strong>中加载同一仓库的两个不同分支。这就像在 Python 中安装两个同名的包一样，这是不可取的。如果你真的尝试这样做，缓存机制可能会介入并带来意想不到的结果。当然，在独立的进程中分别加载它们是完全可行的。</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.hub.list</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.hub.help</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.hub.load</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.hub.download_url_to_file</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.hub.load_state_dict_from_url</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">运行加载的模型：<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_5">我下载的模型保存在哪里？<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.hub.get_dir</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.hub.set_dir</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">缓存逻辑<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">已知限制：<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 
 
 

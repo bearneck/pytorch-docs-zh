@@ -10570,6 +10570,40 @@ torch.Size([2, j1, 128])</p>
 <li>对于参差维度上的操作，可以考虑使用一个不会对输出产生负面偏差的、经过适当选择的填充值，将其转换为填充密集张量，运行操作符，然后再转换回 NJT。在 <code>torch.compile</code> 内部，这些转换可以被融合以避免具体化填充的中间张量。</li>
 </ul>
 <h2 id="_13">构造和转换函数的详细文档<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.nested.nested_tensor</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nested.nested_tensor_from_jagged</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nested.as_nested_tensor</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nested.to_padded_tensor</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nested.masked_select</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.nested.narrow</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 

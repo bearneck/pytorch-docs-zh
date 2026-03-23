@@ -10300,6 +10300,40 @@ dist.all_reduce(inp)
 当使用对称内存张量时，NCCL 会透明地启用此高精度累加。除了上述对称张量创建和 rendezvous 操作外，无需额外配置。目前这仅适用于支持域内的 <code>reduce_scatter</code> 和 <code>all_reduce</code> 操作；其他集体操作（例如 <code>all_gather</code>）和节点间通信不受影响。</p>
 </blockquote>
 <h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed._symmetric_memory.empty</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed._symmetric_memory.rendezvous</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed._symmetric_memory.is_nvshmem_available</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed._symmetric_memory.set_backend</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed._symmetric_memory.get_backend</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed._symmetric_memory.get_mem_pool</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_9">操作参考<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>📝 <strong>注意</strong>

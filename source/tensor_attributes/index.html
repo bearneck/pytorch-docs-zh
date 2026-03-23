@@ -10011,33 +10011,115 @@
 <h2 id="torchdtype">torch.dtype<a class="headerlink" href="#torchdtype" title="Permanent link">&para;</a></h2>
 <p><code>torch.dtype</code> 是一个表示 <code>torch.Tensor</code> 数据类型的对象。PyTorch 支持多种不同的数据类型：</p>
 <p><strong>浮点数据类型</strong></p>
-<p>dtype                                                               描述</p>
-<hr />
-<p><code>torch.float32</code> 或 <code>torch.float</code>                                    32位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754">https://en.wikipedia.org/wiki/IEEE_754</a>
-  <code>torch.float64</code> 或 <code>torch.double</code>                                   64位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754">https://en.wikipedia.org/wiki/IEEE_754</a>
-  <code>torch.float16</code> 或 <code>torch.half</code>                                     16位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754，S-E-M">https://en.wikipedia.org/wiki/IEEE_754，S-E-M</a> 1-5-10
-  <code>torch.bfloat16</code>                                                    16位浮点数，有时称为 Brain 浮点数，S-E-M 1-8-7
-  <code>torch.complex32</code> 或 <code>torch.chalf</code>                                  32位复数，包含两个 [float16] 分量
-  <code>torch.complex64</code> 或 <code>torch.cfloat</code>                                 64位复数，包含两个 [float32] 分量
-  <code>torch.complex128</code> 或 <code>torch.cdouble</code>                               128位复数，包含两个 [float64] 分量
-  <code>torch.float8_e4m3fn</code> <a href="#shell">[shell]</a>,[^1]           8位浮点数，S-E-M 1-4-3，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a>
-  <code>torch.float8_e5m2</code> <a href="#shell">[shell]</a>                  8位浮点数，S-E-M 1-5-2，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a>
-  <code>torch.float8_e4m3fnuz</code> <a href="#shell">[shell]</a>,[^2]         8位浮点数，S-E-M 1-4-3，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a>
-  <code>torch.float8_e5m2fnuz</code> <a href="#shell">[shell]</a>,[^3]         8位浮点数，S-E-M 1-5-2，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a>
-  <code>torch.float8_e8m0fnu</code> <a href="#shell">[shell]</a>,[^4]          8位浮点数，S-E-M 0-8-0，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a>
-  <code>torch.float4_e2m1fn_x2</code> <a href="#shell">[shell]</a>,[^5],[^6]   打包的4位浮点数，S-E-M 1-2-1，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a></p>
+<table>
+<thead>
+<tr>
+<th>dtype</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.float32</code> 或 <code>torch.float</code></td>
+<td>2位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754">https://en.wikipedia.org/wiki/IEEE_754</a></td>
+</tr>
+<tr>
+<td><code>torch.float64</code> 或 <code>torch.double</code></td>
+<td>4位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754">https://en.wikipedia.org/wiki/IEEE_754</a></td>
+</tr>
+<tr>
+<td><code>torch.float16</code> 或 <code>torch.half</code></td>
+<td>6位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754，S-E-M">https://en.wikipedia.org/wiki/IEEE_754，S-E-M</a> 1-5-10</td>
+</tr>
+<tr>
+<td><code>torch.bfloat16</code></td>
+<td>16位浮点数，有时称为 Brain 浮点数，S-E-M 1-8-7</td>
+</tr>
+<tr>
+<td><code>torch.complex32</code> 或 <code>torch.chalf</code></td>
+<td>2位复数，包含两个 [float16] 分量</td>
+</tr>
+<tr>
+<td><code>torch.complex64</code> 或 <code>torch.cfloat</code></td>
+<td>4位复数，包含两个 [float32] 分量</td>
+</tr>
+<tr>
+<td><code>torch.complex128</code> 或 <code>torch.cdouble</code></td>
+<td>28位复数，包含两个 [float64] 分量</td>
+</tr>
+<tr>
+<td><code>torch.float8_e4m3fn</code> <a href="#shell">[shell]</a>,[^1]           8位浮点数，S-E-</td>
+<td>1-4-3，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a></td>
+</tr>
+<tr>
+<td><code>torch.float8_e5m2</code> <a href="#shell">[shell]</a>                  8位浮点数，S-E-</td>
+<td>1-5-2，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a></td>
+</tr>
+<tr>
+<td><code>torch.float8_e4m3fnuz</code> <a href="#shell">[shell]</a>,[^2]         8位浮点数，S-E-</td>
+<td>1-4-3，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a></td>
+</tr>
+<tr>
+<td><code>torch.float8_e5m2fnuz</code> <a href="#shell">[shell]</a>,[^3]         8位浮点数，S-E-</td>
+<td>1-5-2，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a></td>
+</tr>
+<tr>
+<td><code>torch.float8_e8m0fnu</code> <a href="#shell">[shell]</a>,[^4]          8位浮点数，S-E-</td>
+<td>0-8-0，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a></td>
+</tr>
+<tr>
+<td><code>torch.float4_e2m1fn_x2</code> <a href="#shell">[shell]</a>,[^5],[^6]   打包的4位浮点数，S</td>
+<td>E-M 1-2-1，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a></td>
+</tr>
+</tbody>
+</table>
 <p><strong>整数数据类型</strong></p>
-<p>dtype                                                描述</p>
-<hr />
-<p><code>torch.uint8</code>                                        8位整数（无符号）
-  <code>torch.int8</code>                                         8位整数（有符号）
-  <code>torch.uint16</code> <a href="#shell">[shell]</a>,[^7]   16位整数（无符号）
-  <code>torch.int16</code> 或 <code>torch.short</code>                       16位整数（有符号）
-  <code>torch.uint32</code> <a href="#shell">[shell]</a>,[^8]   32位整数（无符号）
-  <code>torch.int32</code> 或 <code>torch.int</code>                         32位整数（有符号）
-  <code>torch.uint64</code> <a href="#shell">[shell]</a>,[^9]   64位整数（无符号）
-  <code>torch.int64</code> 或 <code>torch.long</code>                        64位整数（有符号）
-  <code>torch.bool</code>                                         布尔型</p>
+<table>
+<thead>
+<tr>
+<th>dtype</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.uint8</code></td>
+<td>8位整数（无符号）</td>
+</tr>
+<tr>
+<td><code>torch.int8</code></td>
+<td>8位整数（有符号）</td>
+</tr>
+<tr>
+<td><code>torch.uint16</code> <a href="#shell">[shell]</a>,[^7]   16位整数（无符号）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>torch.int16</code> 或 <code>torch.short</code></td>
+<td>6位整数（有符号）</td>
+</tr>
+<tr>
+<td><code>torch.uint32</code> <a href="#shell">[shell]</a>,[^8]   32位整数（无符号）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>torch.int32</code> 或 <code>torch.int</code></td>
+<td>2位整数（有符号）</td>
+</tr>
+<tr>
+<td><code>torch.uint64</code> <a href="#shell">[shell]</a>,[^9]   64位整数（无符号）</td>
+<td></td>
+</tr>
+<tr>
+<td><code>torch.int64</code> 或 <code>torch.long</code></td>
+<td>4位整数（有符号）</td>
+</tr>
+<tr>
+<td><code>torch.bool</code></td>
+<td>布尔型</td>
+</tr>
+</tbody>
+</table>
 <p><strong>注意</strong>：遗留构造函数如 <code>torch.*.FloatTensor</code>、<code>torch.*.DoubleTensor</code>、<code>torch.*.HalfTensor</code>、 <code>torch.*.BFloat16Tensor</code>、<code>torch.*.ByteTensor</code>、<code>torch.*.CharTensor</code>、<code>torch.*.ShortTensor</code>、<code>torch.*.IntTensor</code>、 <code>torch.*.LongTensor</code>、<code>torch.*.BoolTensor</code> 仅为向后兼容而保留，不应再使用。</p>
 <p>要判断一个 <code>torch.dtype</code> 是否为浮点数据类型，可以使用属性 <code>is_floating_point</code>，如果数据类型是浮点类型，则返回 <code>True</code>。</p>
 <p>要判断一个 <code>torch.dtype</code> 是否为复数数据类型，可以使用属性 <code>is_complex</code>，如果数据类型是复数类型，则返回 <code>True</code>。</p>

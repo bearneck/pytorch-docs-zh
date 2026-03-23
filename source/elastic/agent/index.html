@@ -10075,32 +10075,77 @@
 
 
 <h1 id="_1">弹性代理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>模块：<code>torch.distributed.elastic.agent</code></p>
+</blockquote>
 <p>torch.distributed.elastic.agent</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.agent.server.health_check_server.create_healthcheck_server</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.agent.ElasticAgent</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.WorkerSpec</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.WorkerState</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.Worker</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.WorkerGroup</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.LocalElasticAgent</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.SimpleElasticAgent</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.server.api.RunResult</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.agent.HealthCheckServer</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_2">服务器<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>torch.distributed.elastic.agent.server</p>
-<p>下图展示了一个管理本地工作进程组的代理。</p>
-<p><img alt="image" src="agent_diagram.jpg" /></p>
 <h2 id="_3">概念<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>本节描述了理解 [agent] 在 torchelastic 中作用所需的高级类和概念。</p>
-<p>ElasticAgent</p>
-<p>WorkerSpec</p>
-<p>WorkerState</p>
-<p>Worker</p>
-<p>WorkerGroup</p>
 <h2 id="_4">实现<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>以下是 torchelastic 提供的代理实现。</p>
-<p>LocalElasticAgent</p>
 <h2 id="_5">扩展代理<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>要扩展代理，你可以直接实现 <code>ElasticAgent</code>，但我们建议你改为扩展 <code>SimpleElasticAgent</code>，它提供了大部分框架，只留下几个特定的抽象方法需要实现。</p>
-<p>SimpleElasticAgent</p>
-<p>torch.distributed.elastic.agent.server.api.RunResult</p>
 <h2 id="_6">代理中的看门狗<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>如果在 <code>LocalElasticAgent</code> 进程中定义了值为 1 的环境变量 <code>TORCHELASTIC_ENABLE_FILE_TIMER</code>，则可以在 <code>LocalElasticAgent</code> 中启用基于命名管道的看门狗。 可选地，可以设置另一个环境变量 <code>TORCHELASTIC_TIMER_FILE</code>，为其指定一个唯一的命名管道文件名。如果未设置环境变量 <code>TORCHELASTIC_TIMER_FILE</code>，<code>LocalElasticAgent</code> 将在内部创建一个唯一的文件名，并将其设置为环境变量 <code>TORCHELASTIC_TIMER_FILE</code>，此环境变量将传播到工作进程，使它们能够连接到 <code>LocalElasticAgent</code> 使用的同一命名管道。</p>
 <h2 id="_7">健康检查服务器<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<p>如果在 <code>LocalElasticAgent</code> 进程中定义了环境变量 <code>TORCHELASTIC_HEALTH_CHECK_PORT</code>，则可以在 <code>LocalElasticAgent</code> 中启用健康检查监控服务器。 通过添加健康检查服务器的接口，可以在指定端口号上启动 tcp/http 服务器来扩展该功能。 此外，健康检查服务器将具有回调功能来检查看门狗是否存活。</p>
-<p>torch.distributed.elastic.agent.server.health_check_server</p>
-<p>HealthCheckServer</p>
-<p>torch.distributed.elastic.agent.server.health_check_server.create_healthcheck_server</p>
 
 
 

@@ -9989,9 +9989,45 @@
 
 <h1 id="torchonnxops">torch.onnx.ops<a class="headerlink" href="#torchonnxops" title="Permanent link">&para;</a></h1>
 <h2 id="_1">符号运算符<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.onnx.ops.symbolic</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.onnx.ops.symbolic_multi_out</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <p>这些运算符可用于在 FX 计算图中符号化地创建任何 ONNX 算子。
 这些运算符不执行实际计算。建议在 <code>if torch.onnx.is_in_onnx_export</code> 代码块内使用它们。</p>
 <h2 id="onnx">ONNX 运算符<a class="headerlink" href="#onnx" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.onnx.ops.rotary_embedding</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.onnx.ops.attention</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <p>以下运算符作为原生 PyTorch 算子实现，可以导出为 ONNX 运算符。它们可以在 <code>nn.Module</code> 中原生使用。</p>
 <p>例如，您可以定义一个模块：</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -10052,6 +10088,20 @@ graph(
         <span class="k">return</span> <span class="p">(</span><span class="n">rotary_embedding</span><span class="p">,)</span>
 </code></pre></div>
 <h2 id="onnx-aten">ONNX 到 ATen 的分解表<a class="headerlink" href="#onnx-aten" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.onnx.ops.aten_decompositions</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <p>您可以使用 <code>torch.onnx.ops.aten_decompositions</code> 来获取一个分解表，将上述定义的 ONNX 运算符分解为 ATen 运算符。</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>

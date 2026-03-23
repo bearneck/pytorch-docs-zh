@@ -9884,27 +9884,91 @@
 <h1 id="cuda">CUDA 环境变量<a class="headerlink" href="#cuda" title="Permanent link">&para;</a></h1>
 <p>有关 CUDA 运行时环境变量的更多信息，请参阅 <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#env-vars">CUDA 环境变量</a>。</p>
 <p><strong>PyTorch 环境变量</strong></p>
-<p>变量                                   描述</p>
-<hr />
-<p><code>PYTORCH_NO_CUDA_MEMORY_CACHING</code>       如果设置为 <code>1</code>，则禁用 CUDA 中的内存分配缓存。这对于调试很有用。
-  <code>PYTORCH_ALLOC_CONF</code>                   有关此环境变量的更深入解释，请参阅 <code>cuda-memory-management</code>。<code>PYTORCH_CUDA_ALLOC_CONF</code> 是其别名，仅为向后兼容性而提供。
-  <code>PYTORCH_NVML_BASED_CUDA_CHECK</code>        如果设置为 <code>1</code>，则在导入检查 CUDA 是否可用的 PyTorch 模块之前，PyTorch 将使用 NVML 来检查 CUDA 驱动程序是否正常工作，而不是使用 CUDA 运行时。如果分叉进程因 CUDA 初始化错误而失败，这可能会有所帮助。
-  <code>TORCH_CUDNN_V8_API_LRU_CACHE_LIMIT</code>   cuDNN v8 API 的缓存限制。用于限制 cuDNN v8 API 使用的内存。默认值为 10000，假设每个 ExecutionPlan 为 200KiB，则大约对应 2GiB。设置为 <code>0</code> 表示无限制，设置为负值表示不缓存。
-  <code>TORCH_CUDNN_V8_API_DISABLED</code>          如果设置为 <code>1</code>，则禁用 cuDNN v8 API。并将回退到 cuDNN v7 API。
-  <code>TORCH_ALLOW_TF32_CUBLAS_OVERRIDE</code>     如果设置为 <code>1</code>，则强制启用 TF32，覆盖 <code>set_float32_matmul_precision</code> 设置。
-  <code>TORCH_NCCL_USE_COMM_NONBLOCKING</code>      如果设置为 <code>1</code>，则在 NCCL 中启用非阻塞错误处理。
-  <code>TORCH_NCCL_AVOID_RECORD_STREAMS</code>      如果设置为 <code>0</code>，则在 NCCL 中启用回退到基于记录流的同步行为。
-  <code>TORCH_CUDNN_V8_API_DEBUG</code>             如果设置为 <code>1</code>，则健全性检查是否正在使用 cuDNN V8。</p>
+<table>
+<thead>
+<tr>
+<th>变量                                   描</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PYTORCH_NO_CUDA_MEMORY_CACHING</code></td>
+<td>如果设置为 <code>1</code>，则禁用 CUDA 中的内存分配缓存。这对于调试很有用。</td>
+</tr>
+<tr>
+<td><code>PYTORCH_ALLOC_CONF</code></td>
+<td>有关此环境变量的更深入解释，请参阅 <code>cuda-memory-management</code>。<code>PYTORCH_CUDA_ALLOC_CONF</code> 是其别名，仅为向后兼容性而提供。</td>
+</tr>
+<tr>
+<td><code>PYTORCH_NVML_BASED_CUDA_CHECK</code></td>
+<td>如果设置为 <code>1</code>，则在导入检查 CUDA 是否可用的 PyTorch 模块之前，PyTorch 将使用 NVML 来检查 CUDA 驱动程序是否正常工作，而不是使用 CUDA 运行时。如果分叉进程因 CUDA 初始化错误而失败，这可能会有所帮助。</td>
+</tr>
+<tr>
+<td><code>TORCH_CUDNN_V8_API_LRU_CACHE_LIMIT</code></td>
+<td>cuDNN v8 API 的缓存限制。用于限制 cuDNN v8 API 使用的内存。默认值为 10000，假设每个 ExecutionPlan 为 200KiB，则大约对应 2GiB。设置为 <code>0</code> 表示无限制，设置为负值表示不缓存。</td>
+</tr>
+<tr>
+<td><code>TORCH_CUDNN_V8_API_DISABLED</code></td>
+<td>如果设置为 <code>1</code>，则禁用 cuDNN v8 API。并将回退到 cuDNN v7 API。</td>
+</tr>
+<tr>
+<td><code>TORCH_ALLOW_TF32_CUBLAS_OVERRIDE</code></td>
+<td>如果设置为 <code>1</code>，则强制启用 TF32，覆盖 <code>set_float32_matmul_precision</code> 设置。</td>
+</tr>
+<tr>
+<td><code>TORCH_NCCL_USE_COMM_NONBLOCKING</code></td>
+<td>如果设置为 <code>1</code>，则在 NCCL 中启用非阻塞错误处理。</td>
+</tr>
+<tr>
+<td><code>TORCH_NCCL_AVOID_RECORD_STREAMS</code></td>
+<td>如果设置为 <code>0</code>，则在 NCCL 中启用回退到基于记录流的同步行为。</td>
+</tr>
+<tr>
+<td><code>TORCH_CUDNN_V8_API_DEBUG</code></td>
+<td>如果设置为 <code>1</code>，则健全性检查是否正在使用 cuDNN V8。</td>
+</tr>
+</tbody>
+</table>
 <p><strong>CUDA 运行时和库环境变量</strong></p>
-<p>变量                        描述</p>
-<hr />
-<p><code>CUDA_VISIBLE_DEVICES</code>      应提供给 CUDA 运行时的 GPU 设备 ID 的逗号分隔列表。如果设置为 <code>-1</code>，则不提供任何 GPU。
-  <code>CUDA_LAUNCH_BLOCKING</code>      如果设置为 <code>1</code>，则使 CUDA 调用同步。这对于调试很有用。
-  <code>CUBLAS_WORKSPACE_CONFIG</code>   此环境变量用于为每次分配设置 cuBLAS 的工作空间配置。格式为 <code>:[SIZE]:[COUNT]</code>。 例如，每次分配的默认工作空间大小为 <code>CUBLAS_WORKSPACE_CONFIG=:4096:2:16:8</code>，它指定总大小为 <code>2 * 4096 + 8 * 16 KiB</code>。 要强制 cuBLAS 避免使用工作空间，请设置 <code>CUBLAS_WORKSPACE_CONFIG=:0:0</code>。
-  <code>CUDNN_CONV_WSCAP_DBG</code>      类似于 <code>CUBLAS_WORKSPACE_CONFIG</code>，此环境变量用于为每次分配设置 cuDNN 的工作空间配置。
-  <code>CUBLASLT_WORKSPACE_SIZE</code>   类似于 <code>CUBLAS_WORKSPACE_CONFIG</code>，此环境变量用于设置 cuBLASLT 的工作空间大小。
-  <code>CUDNN_ERRATA_JSON_FILE</code>    可以设置为勘误过滤器的文件路径，该过滤器可以传递给 cuDNN 以避免特定的引擎配置，主要用于调试或硬编码自动调优。
-  <code>NVIDIA_TF32_OVERRIDE</code>      如果设置为 <code>0</code>，则全局禁用所有内核中的 TF32，覆盖所有 PyTorch 设置。</p>
+<table>
+<thead>
+<tr>
+<th>变量                        描</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CUDA_VISIBLE_DEVICES</code></td>
+<td>应提供给 CUDA 运行时的 GPU 设备 ID 的逗号分隔列表。如果设置为 <code>-1</code>，则不提供任何 GPU。</td>
+</tr>
+<tr>
+<td><code>CUDA_LAUNCH_BLOCKING</code></td>
+<td>如果设置为 <code>1</code>，则使 CUDA 调用同步。这对于调试很有用。</td>
+</tr>
+<tr>
+<td><code>CUBLAS_WORKSPACE_CONFIG</code></td>
+<td>此环境变量用于为每次分配设置 cuBLAS 的工作空间配置。格式为 <code>:[SIZE]:[COUNT]</code>。 例如，每次分配的默认工作空间大小为 <code>CUBLAS_WORKSPACE_CONFIG=:4096:2:16:8</code>，它指定总大小为 <code>2 * 4096 + 8 * 16 KiB</code>。 要强制 cuBLAS 避免使用工作空间，请设置 <code>CUBLAS_WORKSPACE_CONFIG=:0:0</code>。</td>
+</tr>
+<tr>
+<td><code>CUDNN_CONV_WSCAP_DBG</code></td>
+<td>类似于 <code>CUBLAS_WORKSPACE_CONFIG</code>，此环境变量用于为每次分配设置 cuDNN 的工作空间配置。</td>
+</tr>
+<tr>
+<td><code>CUBLASLT_WORKSPACE_SIZE</code></td>
+<td>类似于 <code>CUBLAS_WORKSPACE_CONFIG</code>，此环境变量用于设置 cuBLASLT 的工作空间大小。</td>
+</tr>
+<tr>
+<td><code>CUDNN_ERRATA_JSON_FILE</code></td>
+<td>可以设置为勘误过滤器的文件路径，该过滤器可以传递给 cuDNN 以避免特定的引擎配置，主要用于调试或硬编码自动调优。</td>
+</tr>
+<tr>
+<td><code>NVIDIA_TF32_OVERRIDE</code></td>
+<td>如果设置为 <code>0</code>，则全局禁用所有内核中的 TF32，覆盖所有 PyTorch 设置。</td>
+</tr>
+</tbody>
+</table>
 
 
 

@@ -3905,28 +3905,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        编写自定义计时器服务器/客户端
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        调试信息日志记录
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -9922,28 +9900,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        编写自定义计时器服务器/客户端
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        调试信息日志记录
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -10031,30 +9987,73 @@
 
 
 <h1 id="_1">过期计时器<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>torch.distributed.elastic.timer</p>
-<h2 id="_2">客户端方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>torch.distributed.elastic.timer.configure</p>
-<p>torch.distributed.elastic.timer.expires</p>
-<h2 id="_3">服务器/客户端实现<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>以下是 torchelastic 提供的计时器服务器和客户端对。</p>
 <blockquote>
-<p>📝 <strong>注意</strong>
-计时器服务器和客户端必须始终成对实现和使用， 因为服务器和客户端之间存在消息传递协议。</p>
-<p>以下是一对基于 <code>multiprocess.Queue</code> 实现的计时器服务器和客户端。</p>
-<p>LocalTimerServer</p>
-<p>LocalTimerClient</p>
-<p>以下是另一对基于命名管道实现的计时器服务器和客户端。</p>
-<p>FileTimerServer</p>
-<p>FileTimerClient</p>
-<h2 id="_4">编写自定义计时器服务器/客户端<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>要编写自己的计时器服务器和客户端，请分别继承 <code>torch.distributed.elastic.timer.TimerServer</code>（服务器）和 <code>torch.distributed.elastic.timer.TimerClient</code>（客户端）。 <code>TimerRequest</code> 对象用于在服务器和客户端之间传递消息。</p>
-<p>TimerRequest</p>
-<p>TimerServer</p>
-<p>TimerClient</p>
-<h2 id="_5">调试信息日志记录<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>torch.distributed.elastic.timer.debug_info_logging</p>
-<p>torch.distributed.elastic.timer.debug_info_logging.log_debug_info_for_expired_timers</p>
+<p>模块：<code>torch.distributed.elastic.timer</code></p>
 </blockquote>
+<p>torch.distributed.elastic.timer</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.timer.configure</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.expires</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.debug_info_logging.log_debug_info_for_expired_timers</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.timer.LocalTimerServer</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.LocalTimerClient</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.FileTimerServer</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.FileTimerClient</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.TimerRequest</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.TimerServer</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.timer.TimerClient</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_2">客户端方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">服务器/客户端实现<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 
 
 

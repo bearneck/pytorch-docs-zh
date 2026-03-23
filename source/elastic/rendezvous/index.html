@@ -3832,106 +3832,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#exceptions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        异常 (Exceptions)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#implementations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        实现 (Implementations)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="实现 (Implementations)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#dynamic-rendezvous" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        动态集合点 (Dynamic Rendezvous)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="动态集合点 (Dynamic Rendezvous)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#c10d-c10d-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C10d 后端 (C10d Backend)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 后端 (Etcd Backend)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-rendezvous-legacy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 集合点 (旧版) (Etcd Rendezvous (Legacy))
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-store" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 存储 (Etcd Store)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 服务器 (Etcd Server)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -10022,106 +9922,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#exceptions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        异常 (Exceptions)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#implementations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        实现 (Implementations)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="实现 (Implementations)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#dynamic-rendezvous" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        动态集合点 (Dynamic Rendezvous)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="动态集合点 (Dynamic Rendezvous)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#c10d-c10d-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C10d 后端 (C10d Backend)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 后端 (Etcd Backend)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-rendezvous-legacy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 集合点 (旧版) (Etcd Rendezvous (Legacy))
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-store" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 存储 (Etcd Store)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-etcd-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Etcd 服务器 (Etcd Server)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -10209,53 +10009,124 @@
 
 
 <h1 id="rendezvous">集合点 (Rendezvous)<a class="headerlink" href="#rendezvous" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>模块：<code>torch.distributed.elastic.rendezvous</code></p>
+</blockquote>
 <p>torch.distributed.elastic.rendezvous</p>
 <p>下方是一个描述集合点如何工作的状态图。</p>
 <p><img alt="image" src="etcd_rdzv_diagram.png" /></p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.build(rank,</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.create_handler</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.create_backend</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousParameters</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousHandlerRegistry</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousHandler</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousInfo</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousStoreInfo</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousClosedError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousTimeoutError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousConnectionError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousStateError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousGracefulExitError</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.DynamicRendezvousHandler()</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousBackend</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.RendezvousTimeout</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.C10dRendezvousBackend</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.EtcdRendezvousBackend</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.EtcdRendezvousHandler</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.EtcdStore</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.rendezvous.EtcdServer</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="registry">注册表 (Registry)<a class="headerlink" href="#registry" title="Permanent link">&para;</a></h2>
-<p>RendezvousParameters</p>
-<p>RendezvousHandlerRegistry</p>
-<p>torch.distributed.elastic.rendezvous.registry</p>
 <h2 id="handler">处理器 (Handler)<a class="headerlink" href="#handler" title="Permanent link">&para;</a></h2>
-<p>RendezvousHandler</p>
 <h2 id="dataclasses">数据类 (Dataclasses)<a class="headerlink" href="#dataclasses" title="Permanent link">&para;</a></h2>
-<p>RendezvousInfo</p>
-<blockquote>
-<p><strong>AUTOCLASS</strong>
-RendezvousStoreInfo</p>
-<p>build(rank, store)</p>
-<h2 id="exceptions">异常 (Exceptions)<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h2>
-<p>RendezvousError</p>
-<p>RendezvousClosedError</p>
-<p>RendezvousTimeoutError</p>
-<p>RendezvousConnectionError</p>
-<p>RendezvousStateError</p>
-<p>RendezvousGracefulExitError</p>
-<h2 id="implementations">实现 (Implementations)<a class="headerlink" href="#implementations" title="Permanent link">&para;</a></h2>
-<h3 id="dynamic-rendezvous">动态集合点 (Dynamic Rendezvous)<a class="headerlink" href="#dynamic-rendezvous" title="Permanent link">&para;</a></h3>
-<p>create_handler</p>
-<p>DynamicRendezvousHandler()</p>
-<p>RendezvousBackend</p>
-<p>RendezvousTimeout</p>
-<h4 id="c10d-c10d-backend">C10d 后端 (C10d Backend)<a class="headerlink" href="#c10d-c10d-backend" title="Permanent link">&para;</a></h4>
-<p>create_backend</p>
-<p>C10dRendezvousBackend</p>
-<h4 id="etcd-etcd-backend">Etcd 后端 (Etcd Backend)<a class="headerlink" href="#etcd-etcd-backend" title="Permanent link">&para;</a></h4>
-<p>create_backend</p>
-<p>EtcdRendezvousBackend</p>
-<h3 id="etcd-etcd-rendezvous-legacy">Etcd 集合点 (旧版) (Etcd Rendezvous (Legacy))<a class="headerlink" href="#etcd-etcd-rendezvous-legacy" title="Permanent link">&para;</a></h3>
-<p>⚠️ <strong>警告</strong>
-<code>DynamicRendezvousHandler</code> 类已取代 <code>EtcdRendezvousHandler</code> 类，推荐大多数用户使用。<code>EtcdRendezvousHandler</code> 目前处于维护模式，未来将被弃用。</p>
-<p>EtcdRendezvousHandler</p>
-<h3 id="etcd-etcd-store">Etcd 存储 (Etcd Store)<a class="headerlink" href="#etcd-etcd-store" title="Permanent link">&para;</a></h3>
-<p><code>EtcdStore</code> 是当使用 etcd 作为集合点后端时，由 <code>next_rendezvous()</code> 返回的 C10d <code>Store</code> 实例类型。</p>
-<p>EtcdStore</p>
-<h3 id="etcd-etcd-server">Etcd 服务器 (Etcd Server)<a class="headerlink" href="#etcd-etcd-server" title="Permanent link">&para;</a></h3>
-<p><code>EtcdServer</code> 是一个便利类，可以让你轻松地在子进程中启动和停止一个 etcd 服务器。这对于测试或单节点（多工作进程）部署非常有用，因为手动在旁设置一个 etcd 服务器很麻烦。</p>
-<p>⚠️ <strong>警告</strong>
-对于生产环境和多节点部署，请考虑正确部署一个高可用的 etcd 服务器，因为这是分布式作业的单一故障点。</p>
-<p>EtcdServer</p>
-</blockquote>
 
 
 

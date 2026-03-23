@@ -10851,9 +10851,26 @@ loss.backward()      # 清晰地处理“未定义”与“零”梯度
 <h3 id="_4">梯度模式<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>除了设置 <code>requires_grad</code> 外，还有三种梯度模式可以从 Python 中选择，这些模式会影响 PyTorch 中的计算如何被 autograd 内部处理：默认模式（梯度模式）、无梯度模式和推理模式，所有这些都可以通过上下文管理器和装饰器切换。</p>
 <hr />
-<p>模式           是否将操作排除在反向图记录之外   是否跳过额外的 autograd 跟踪开销   在该模式下创建的张量稍后是否可用于梯度模式   示例</p>
-<hr />
-<p>默认模式                                                                           ✓                                            正向传播</p>
+<table>
+<thead>
+<tr>
+<th>模式           是</th>
+<th>将操作排除在反向图记录之外   是否跳过额外的 autograd</th>
+<th>跟踪开销   在该模式下创建的张量稍后是否可用于梯度模式   示例</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认模式</td>
+<td></td>
+<td>✓</td>
+<td>正向传</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p>无梯度模式     ✓                                                                   ✓                                            优化器更新</p>
 <p>推理模式       ✓                                ✓                                                                               数据处理、模型评估</p>
 <hr />

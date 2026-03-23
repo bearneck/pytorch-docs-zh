@@ -1952,10 +1952,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="简介">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1965,8 +1964,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#maskedtensor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1974,11 +1973,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1991,10 +1985,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="支持的运算符">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2004,8 +1997,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2015,8 +2008,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2026,8 +2019,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2035,11 +2028,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -9959,10 +9947,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="简介">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9972,8 +9959,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#maskedtensor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9981,11 +9968,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -9998,10 +9980,9 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="支持的运算符">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10011,8 +9992,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10022,8 +10003,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10033,8 +10014,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10042,11 +10023,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -10119,60 +10095,555 @@
 
 
 <h1 id="torchmasked">torch.masked<a class="headerlink" href="#torchmasked" title="Permanent link">&para;</a></h1>
-<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="_2">动机<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <blockquote>
-<p>⚠️ <strong>警告</strong>
-PyTorch 的掩码张量 API 目前处于原型阶段，未来可能会发生变化。</p>
+<p>模块：<code>torch.masked</code></p>
 </blockquote>
-<p>MaskedTensor 作为 <code>torch.Tensor</code> 的扩展，为用户提供了以下能力：</p>
-<ul>
-<li>使用任何掩码语义（例如可变长度张量、nan* 运算符等）</li>
-<li>区分 0 梯度和 NaN 梯度</li>
-<li>各种稀疏应用（参见下方教程）</li>
-</ul>
-<p>"已指定"和"未指定"在 PyTorch 中有着悠久的历史，但缺乏正式的语义，且肯定缺乏一致性；事实上，MaskedTensor 正是源于普通 <code>torch.Tensor</code> 类无法妥善处理的诸多问题。因此，MaskedTensor 的一个主要目标是成为 PyTorch 中"已指定"和"未指定"值的权威来源，使其成为一等公民而非事后考虑。反过来，这应进一步释放<a href="https://pytorch.org/docs/stable/sparse.html">稀疏性</a>的潜力，实现更安全、更一致的运算符，并为用户和开发者提供更顺畅、更直观的体验。</p>
-<h3 id="maskedtensor">什么是 MaskedTensor？<a class="headerlink" href="#maskedtensor" title="Permanent link">&para;</a></h3>
-<p>MaskedTensor 是一个张量子类，由 1) 输入（数据）和 2) 掩码组成。掩码告诉我们输入中的哪些条目应被包含或忽略。</p>
-<p>举例来说，假设我们想要掩码掉所有等于 0 的值（用灰色表示）并取最大值：</p>
-<p>顶部是普通张量示例，底部是 MaskedTensor，其中所有 0 值都被掩码掉。根据是否使用掩码，这显然会产生不同的结果，但这种灵活的结构允许用户在计算过程中系统地忽略他们希望忽略的任何元素。</p>
-<p>我们已经编写了一些现有教程来帮助用户入门，例如：</p>
-<ul>
-<li><a href="https://docs.pytorch.org/tutorials/unstable/maskedtensor_overview">概述 – 新用户的起点，讨论如何使用 MaskedTensor 及其用途</a></li>
-<li><a href="https://docs.pytorch.org/tutorials/unstable/maskedtensor_sparsity">稀疏性 – MaskedTensor 支持稀疏 COO 和 CSR 数据及掩码张量</a></li>
-<li><a href="https://docs.pytorch.org/tutorials/unstable/maskedtensor_adagrad">Adagrad 稀疏语义 – 一个实际示例，展示 MaskedTensor 如何简化稀疏语义和实现</a></li>
-<li><a href="https://docs.pytorch.org/tutorials/unstable/maskedtensor_advanced_semantics">高级语义 – 讨论为何做出某些决策（例如要求二元/归约操作的掩码匹配）、与 NumPy 的 MaskedArray 的差异以及归约语义</a></li>
-</ul>
+<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_2">动机<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="maskedtensor">什么是 MaskedTensor？<a class="headerlink" href="#maskedtensor" title="Permanent link">&para;</a></h2>
 <h2 id="_3">支持的运算符<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<h3 id="_4">一元运算符<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>一元运算符是仅包含单个输入的运算符。将它们应用于 MaskedTensor 相对简单：如果数据在给定索引处被掩码，我们应用该运算符，否则我们将继续掩码该数据。</p>
-<p>可用的一元运算符包括：</p>
-<p>可用的原地一元运算符包括以上所有运算符<strong>除了</strong>：</p>
-<h3 id="_5">二元运算符<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>正如您在教程中可能看到的，<code>MaskedTensor</code> 也实现了二元操作，但有一个注意事项：两个 MaskedTensor 中的掩码必须匹配，否则将引发错误。如错误提示所述，如果您需要支持特定运算符或对它们的行为方式有建议的语义，请在 GitHub 上提交问题。目前，我们决定采用最保守的实现，以确保用户确切了解正在发生的情况，并对掩码语义的决策保持谨慎。</p>
-<p>可用的二元运算符包括：</p>
-<p>可用的原地二元运算符包括以上所有运算符<strong>除了</strong>：</p>
-<h3 id="_6">归约操作<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>以下归约操作可用（支持自动梯度）。更多信息，<a href="https://pytorch.org/tutorials/unstable/maskedtensor_overview.html">概述</a>教程详细介绍了归约的一些示例，而<a href="https://pytorch.org/tutorials/unstable/maskedtensor_advanced_semantics.html">高级语义</a>教程则深入讨论了我们是如何决定某些归约语义的。</p>
-<h3 id="_7">视图和选择函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>我们还包含了一系列视图和选择函数；直观上，这些运算符会同时应用于数据和掩码，然后将结果包装在 <code>MaskedTensor</code> 中。举个简单的例子，考虑 <code>select</code> 函数：</p>
-<div class="highlight"><pre><span></span><code>    <span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="o">&gt;&gt;&gt;</span> <span class="n">data</span>
-    <span class="n">tensor</span><span class="p">([[</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span>  <span class="mf">2.</span><span class="p">,</span>  <span class="mf">3.</span><span class="p">],</span>
-            <span class="p">[</span> <span class="mf">4.</span><span class="p">,</span>  <span class="mf">5.</span><span class="p">,</span>  <span class="mf">6.</span><span class="p">,</span>  <span class="mf">7.</span><span class="p">],</span>
-            <span class="p">[</span> <span class="mf">8.</span><span class="p">,</span>  <span class="mf">9.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">11.</span><span class="p">]])</span>
-    <span class="o">&gt;&gt;&gt;</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">]])</span>
-    <span class="o">&gt;&gt;&gt;</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">masked_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
-    <span class="o">&gt;&gt;&gt;</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">tensor</span><span class="p">([</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">7.</span><span class="p">])</span>
-    <span class="o">&gt;&gt;&gt;</span> <span class="n">mask</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">tensor</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
-    <span class="o">&gt;&gt;&gt;</span> <span class="n">mt</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">MaskedTensor</span><span class="p">(</span>
-      <span class="p">[</span>      <span class="o">--</span><span class="p">,</span>   <span class="mf">5.0000</span><span class="p">,</span>       <span class="o">--</span><span class="p">,</span>       <span class="o">--</span><span class="p">]</span>
-    <span class="p">)</span>
-</code></pre></div>
-<p>目前支持以下操作：</p>
+<h2 id="_4">一元运算符<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.masked.abs</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.absolute</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.acos</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.arccos</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.acosh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.arccosh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.angle</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.asin</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.arcsin</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.asinh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.arcsinh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.atan</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.arctan</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.atanh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.arctanh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.bitwise_not</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.ceil</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.clamp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.clip</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.conj_physical</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.cos</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.cosh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.deg2rad</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.digamma</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.erf</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.erfc</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.erfinv</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.exp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.exp2</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.expm1</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.fix</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.floor</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.frac</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.lgamma</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.log</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.log10</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.log1p</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.log2</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.logit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.i0</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.isnan</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.nan_to_num</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.neg</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.negative</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.positive</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.pow</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.rad2deg</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.reciprocal</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.round</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.rsqrt</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sigmoid</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sign</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sgn</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.signbit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sin</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sinc</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sinh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sqrt</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.square</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.tan</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.tanh</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.trunc</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">二元运算符<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.masked.add</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.atan2</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.arctan2</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.bitwise_and</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.bitwise_or</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.bitwise_xor</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.bitwise_left_shift</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.bitwise_right_shift</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.div</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.divide</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.floor_divide</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.fmod</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.logaddexp</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.logaddexp2</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.mul</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.multiply</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.nextafter</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.remainder</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.sub</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.subtract</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.true_divide</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.eq</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.ne</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.le</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.ge</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.greater</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.greater_equal</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.gt</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.less_equal</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.lt</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.less</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.maximum</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.minimum</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.fmax</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.fmin</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.not_equal</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.equal</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">归约操作<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">视图和选择函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.masked.atleast_1d</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.broadcast_tensors</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.broadcast_to</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.cat</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.chunk</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.column_stack</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.dsplit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.flatten</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.hsplit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.hstack</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.kron</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.meshgrid</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.narrow</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>nn.functional.unfold</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.ravel</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.select</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.split</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.stack</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.t</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.transpose</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.vsplit</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.masked.vstack</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.expand</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.expand_as</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.reshape</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.reshape_as</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.unfold</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.view</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 

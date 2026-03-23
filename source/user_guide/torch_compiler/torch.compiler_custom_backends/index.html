@@ -10207,31 +10207,34 @@
 </code></pre></div>
 <p>运行上述示例会产生以下输出：</p>
 <div class="highlight"><pre><span></span><code>my_compiler() 调用时传入的 FX 计算图：
-操作码         名称    目标                                                  参数        关键字参数
--------------  ------  ------------------------------------------------------  ----------  --------
-placeholder    x       x                                                       ()          {}
-placeholder    y       y                                                       ()          {}
-call_function  cos     &lt;built-in method cos of type object at 0x7f1a894649a8&gt;  (x,)        {}
-call_function  sin     &lt;built-in method sin of type object at 0x7f1a894649a8&gt;  (y,)        {}
-call_function  add     &lt;built-in function add&gt;                                 (cos, sin)  {}
-output         output  output                                                  ((add,),)   {}
-</code></pre></div>
-<p>这对于 <code>torch.nn.Module</code> 同样适用，如下所示：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">my_compiler</span><span class="p">(</span><span class="n">gm</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">fx</span><span class="o">.</span><span class="n">GraphModule</span><span class="p">,</span> <span class="n">example_inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;my_compiler() called with FX graph:&quot;</span><span class="p">)</span>
-    <span class="n">gm</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">print_tabular</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">gm</span><span class="o">.</span><span class="n">forward</span>  <span class="c1"># 返回一个可调用的 Python 函数</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">MockModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">MockModule</span><span class="p">()</span>
-<span class="n">optimized_mod</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">my_compiler</span><span class="p">)</span>
-<span class="n">optimized_mod</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+| 操作码         名 | 目标 | 参数 | 关键字参数 |  |
+|---|---|---|---|---|
+| placeholder | x | x | () | {} |
+| placeholder | y | y | () | {} |
+| call_function | cos | &lt;built-in method cos of type object at 0x7f1a894649a8&gt; | (x,) | {} |
+| call_function | sin | &lt;built-in method sin of type object at 0x7f1a894649a8&gt; | (y,) | {} |
+| call_function | add | &lt;built-in function add&gt; | (cos, sin) | {} |
+| output | output | output | ((add,),) | {} |
+| ``` |  |  |  |  |
+
+这对于 `torch.nn.Module` 同样适用，如下所示：
+
+```python
+from typing import List
+import torch
+def my_compiler(gm: torch.fx.GraphModule, example_inputs: List[torch.Tensor]):
+    print(&quot;my_compiler() called with FX graph:&quot;)
+    gm.graph.print_tabular()
+    return gm.forward  # 返回一个可调用的 Python 函数
+class MockModule(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.relu = torch.nn.ReLU()
+    def forward(self, x):
+        return self.relu(torch.cos(x))
+mod = MockModule()
+optimized_mod = torch.compile(mod, backend=my_compiler)
+optimized_mod(torch.randn(10))
 </code></pre></div>
 <p>让我们再看一个包含控制流的例子：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
@@ -10251,33 +10254,33 @@ output         output  output                                                  (
 </code></pre></div>
 <p>运行此示例会产生以下输出：</p>
 <div class="highlight"><pre><span></span><code>my_compiler() called with FX graph:
-opcode         name     target                                                  args              kwargs
--------------  -------  ------------------------------------------------------  ----------------  --------
-placeholder    a        a                                                       ()                {}
-placeholder    b        b                                                       ()                {}
-call_function  abs_1    &lt;built-in method abs of type object at 0x7f8d259298a0&gt;  (a,)              {}
-call_function  add      &lt;built-in function add&gt;                                 (abs_1, 1)        {}
-call_function  truediv  &lt;built-in function truediv&gt;                             (a, add)          {}
-call_method    sum_1    sum                                                     (b,)              {}
-call_function  lt       &lt;built-in function lt&gt;                                  (sum_1, 0)        {}
-output         output   output                                                  ((truediv, lt),)  {}
+| opcode | name | target | args | kwargs |
+|---|---|---|---|---|
+| placeholder | a | a | () | {} |
+| placeholder | b | b | () | {} |
+| call_function | abs_1 | &lt;built-in method abs of type object at 0x7f8d259298a0&gt; | (a,) | {} |
+| call_function | add | &lt;built-in function add&gt; | (abs_1, 1) | {} |
+| call_function | truediv | &lt;built-in function truediv&gt; | (a, add) | {} |
+| call_method | sum_1 | sum | (b,) | {} |
+| call_function | lt | &lt;built-in function lt&gt; | (sum_1, 0) | {} |
+| output | output | output | ((truediv, lt),) | {} |
 
 my_compiler() called with FX graph:
-opcode         name    target                   args         kwargs
--------------  ------  -----------------------  -----------  --------
-placeholder    b       b                        ()           {}
-placeholder    x       x                        ()           {}
-call_function  mul     &lt;built-in function mul&gt;  (b, -1)      {}
-call_function  mul_1   &lt;built-in function mul&gt;  (x, mul)     {}
-output         output  output                   ((mul_1,),)  {}
+| opcode | name | target | args | kwargs |
+|---|---|---|---|---|
+| placeholder | b | b | () | {} |
+| placeholder | x | x | () | {} |
+| call_function | mul | &lt;built-in function mul&gt; | (b, -1) | {} |
+| call_function | mul_1 | &lt;built-in function mul&gt; | (x, mul) | {} |
+| output | output | output | ((mul_1,),) | {} |
 
 my_compiler() called with FX graph:
-opcode         name    target                   args       kwargs
--------------  ------  -----------------------  ---------  --------
-placeholder    b       b                        ()         {}
-placeholder    x       x                        ()         {}
-call_function  mul     &lt;built-in function mul&gt;  (x, b)     {}
-output         output  output                   ((mul,),)  {}
+| opcode | name | target | args | kwargs |
+|---|---|---|---|---|
+| placeholder | b | b | () | {} |
+| placeholder | x | x | () | {} |
+| call_function | mul | &lt;built-in function mul&gt; | (x, b) | {} |
+| output | output | output | ((mul,),) | {} |
 
 最后两个计算图的顺序是不确定的，取决于即时编译器先遇到哪一个。
 </code></pre></div>

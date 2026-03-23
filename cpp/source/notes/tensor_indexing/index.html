@@ -10015,9 +10015,20 @@
 <p>以下是一些将 Python 索引代码转换为 C++ 的示例：</p>
 <h2 id="getter">Getter<a class="headerlink" href="#getter" title="Permanent link">&para;</a></h2>
 <hr />
-<p>Python                                               C++ (假设 <code>using namespace torch::indexing</code>)</p>
-<hr />
-<p><code>tensor[None]</code>                                       <code>tensor.index({None})</code></p>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>C++ (假设 <code>using namespace torch::indexing</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tensor[None]</code></td>
+<td><code>tensor.index({None})</code></td>
+</tr>
+</tbody>
+</table>
 <p><code>tensor[Ellipsis, ...]</code>                              <code>tensor.index({Ellipsis, "..."})</code></p>
 <p><code>tensor[1, 2]</code>                                       <code>tensor.index({1, 2})</code></p>
 <p><code>tensor[True, False]</code>                                <code>tensor.index({true, false})</code></p>
@@ -10027,9 +10038,20 @@
 <hr />
 <h2 id="setter">Setter<a class="headerlink" href="#setter" title="Permanent link">&para;</a></h2>
 <hr />
-<p>Python                                                   C++ (假设 <code>using namespace torch::indexing</code>)</p>
-<hr />
-<p><code>tensor[None] = 1</code>                                       <code>tensor.index_put_({None}, 1)</code></p>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>C++ (假设 <code>using namespace torch::indexing</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tensor[None] = 1</code></td>
+<td><code>tensor.index_put_({None}, 1)</code></td>
+</tr>
+</tbody>
+</table>
 <p><code>tensor[Ellipsis, ...] = 1</code>                              <code>tensor.index_put_({Ellipsis, "..."}, 1)</code></p>
 <p><code>tensor[1, 2] = 1</code>                                       <code>tensor.index_put_({1, 2}, 1)</code></p>
 <p><code>tensor[True, False] = 1</code>                                <code>tensor.index_put_({true, false}, 1)</code></p>
@@ -10040,9 +10062,20 @@
 <h2 id="pythonc">Python/C++ 索引类型之间的转换<a class="headerlink" href="#pythonc" title="Permanent link">&para;</a></h2>
 <p>Python 和 C++ 索引类型之间的一一对应关系如下：</p>
 <hr />
-<p>Python                   C++ (假设使用 <code>using namespace torch::indexing</code>)</p>
-<hr />
-<p><code>None</code>                   <code>None</code></p>
+<table>
+<thead>
+<tr>
+<th>Python</th>
+<th>C++ (假设使用 <code>using namespace torch::indexing</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>None</code></td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
 <p><code>Ellipsis</code>               <code>Ellipsis</code></p>
 <p><code>...</code>                    <code>"..."</code></p>
 <p><code>123</code>                    <code>123</code></p>
