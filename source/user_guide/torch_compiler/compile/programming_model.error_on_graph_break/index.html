@@ -10087,10 +10087,10 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
-torch._logging.set_logs(graph_breaks=True)
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h1 id="error_on_graph_break">切换 <code>error_on_graph_break</code><a class="headerlink" href="#error_on_graph_break" title="Permanent link">&para;</a></h1>
 <p><strong>摘要：</strong></p>
@@ -10109,163 +10109,163 @@ torch._logging.set_logs(graph_breaks=True)
 相比之下，一旦 <code>fullgraph</code> 设置为 <code>True</code>，就不能再设置为 <code>False</code>。
 最后，<code>error_on_graph_break</code> 的优先级低于 <code>fullgraph</code>——<code>error_on_graph_break</code> 仅在 <code>fullgraph=False</code> 时生效。</p>
 <h2 id="error_on_graph_breakfalse"><code>error_on_graph_break(False)</code> 示例<a class="headerlink" href="#error_on_graph_breakfalse" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>@torch._dynamo.error_on_graph_break(False)
-def code_with_a_difficult_graph_break(x):
-    x = x + 1
-    torch._dynamo.graph_break()
-    return x + 2
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">code_with_a_difficult_graph_break</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-def inner(x):
-    return code_with_a_difficult_graph_break(x)
+<span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">code_with_a_difficult_graph_break</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# 注意：fullgraph=False
-@torch._dynamo.error_on_graph_break(True)
-@torch.compile
-def fn(x):
-    return inner(x)
+<span class="c1"># 注意：fullgraph=False</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# 没有错误，但存在图中断
-fn(torch.randn(3))
+<span class="c1"># 没有错误，但存在图中断</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>在 <code>error_on_graph_break(True)</code> 下使用 <code>error_on_graph_break(False)</code> 适用于我们希望最小化图中断（即遵循 <code>fullgraph=True</code> 编程模型）的情况，但存在一些代码段包含难以规避的非性能关键图中断。</p>
 <p><code>error_on_graph_break()</code> 也可以用作上下文管理器：</p>
-<div class="highlight"><pre><span></span><code># 注意：fullgraph=False
-@torch._dynamo.error_on_graph_break(True)
-@torch.compile
-def fn(x):
-    x = x + 1
-    with torch._dynamo.error_on_graph_break(False):
-        torch._dynamo.graph_break()  # 没有错误
-    return x + 2
+<div class="highlight"><pre><span></span><code><span class="c1"># 注意：fullgraph=False</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>  <span class="c1"># 没有错误</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-# 没有错误，但存在图中断
-fn(torch.randn(3))
+<span class="c1"># 没有错误，但存在图中断</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>您可以使用猴子补丁来切换无法编辑源代码的代码（例如框架代码）的 <code>error_on_graph_break</code>：</p>
-<div class="highlight"><pre><span></span><code>class ThirdPartyModule(torch.nn.Module):
-    def forward(self, x):
-        x = x + 1
-        torch._dynamo.graph_break()
-        return x + 2
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ThirdPartyModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-tp_mod = ThirdPartyModule()
-tp_mod.forward = torch._dynamo.error_on_graph_break(False)(tp_mod.forward)
+<span class="n">tp_mod</span> <span class="o">=</span> <span class="n">ThirdPartyModule</span><span class="p">()</span>
+<span class="n">tp_mod</span><span class="o">.</span><span class="n">forward</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">False</span><span class="p">)(</span><span class="n">tp_mod</span><span class="o">.</span><span class="n">forward</span><span class="p">)</span>
 
-@torch._dynamo.error_on_graph_break(True)
-@torch.compile
-def fn(x):
-    return tp_mod.forward(x)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tp_mod</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# 没有错误，但存在图中断
-fn(torch.randn(3))
+<span class="c1"># 没有错误，但存在图中断</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <h2 id="error_on_graph_breaktrue"><code>error_on_graph_break(True)</code> 示例<a class="headerlink" href="#error_on_graph_breaktrue" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>@torch._dynamo.error_on_graph_break(True)
-def inner2(x):
-    x = x + 1
-    torch._dynamo.graph_break()  # 错误
-    return x + 2
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>  <span class="c1"># 错误</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-def inner(x):
-    return inner2(x)
+<span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# fullgraph=False, error_on_graph_break=False
-@torch.compile
-def fn(x):
-    x = x + 4
-    torch._dynamo.graph_break()  # 没有错误
-    return inner(x)
+<span class="c1"># fullgraph=False, error_on_graph_break=False</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">4</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>  <span class="c1"># 没有错误</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-try:
-    fn(torch.randn(3))
-except Exception as e:
-    print(e)
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div>
 <p>在 <code>error_on_graph_break(False)</code> 下使用 <code>error_on_graph_break(True)</code> 适用于我们希望灵活使用 <code>torch.compile</code>（即遵循 <code>fullgraph=False</code> 编程模型）的情况，但存在一些性能关键的代码段，我们希望确保这些代码段不包含图中断。</p>
 <h2 id="error_on_graph_break_1"><code>error_on_graph_break</code> 嵌套行为<a class="headerlink" href="#error_on_graph_break_1" title="Permanent link">&para;</a></h2>
 <p><code>torch._dynamo.error_on_graph_break()</code> 也会影响嵌套调用的 <code>error_on_graph_break</code> 设置：</p>
-<div class="highlight"><pre><span></span><code>def inner(x):
-    x = x + 1
-    torch._dynamo.graph_break()
-    return x + 2
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-def inner2(x):
-    with torch._dynamo.error_on_graph_break(False):
-        return inner(x)
+<span class="k">def</span><span class="w"> </span><span class="nf">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-@torch._dynamo.error_on_graph_break(True)
-@torch.compile
-def fn(x):
-    return inner2(x)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# 没有错误
-fn(torch.randn(3))
+<span class="c1"># 没有错误</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p><code>torch._dynamo.error_on_graph_break()</code> 可以在另一个 <code>torch._dynamo.error_on_graph_break()</code> 区域内使用：</p>
-<div class="highlight"><pre><span></span><code>def inner(x):
-    x = x + 1
-    with torch._dynamo.error_on_graph_break(False):
-        torch._dynamo.graph_break()
-    return x + 2
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-def inner2(x):
-    with torch._dynamo.error_on_graph_break(True):
-        return inner(x)
+<span class="k">def</span><span class="w"> </span><span class="nf">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-@torch.compile
-def fn(x):
-    return inner2(x)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-# 没有错误
-fn(torch.randn(3))
+<span class="c1"># 没有错误</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <h2 id="fullgraph">与 <code>fullgraph</code> 的交互<a class="headerlink" href="#fullgraph" title="Permanent link">&para;</a></h2>
 <p><code>fullgraph=True</code> 的优先级高于 <code>error_on_graph_break</code>：</p>
-<div class="highlight"><pre><span></span><code>@torch._dynamo.error_on_graph_break(False)
-def inner(x):
-    x = x + 1
-    torch._dynamo.graph_break()
-    return x + 2
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">error_on_graph_break</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-@torch.compile(fullgraph=True)
-def fn(x):
-    return inner(x)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-try:
-    fn(torch.randn(3))
-except Exception as e:
-    print(e)
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div>
 <p><code>fullgraph=True</code> 不能切换回 <code>fullgraph=False</code>：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile(fullgraph=False)
-def inner(x):
-    x = x + 1
-    torch._dynamo.graph_break()
-    return x + 2
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
 
-@torch.compile(fullgraph=True)
-def fn(x):
-    return inner(x)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-try:
-    fn(torch.randn(3))
-except Exception as e:
-    print(e)
-{code-cell}
-@torch.compile(fullgraph=True)
-def inner(x):
-    x = x + 1
-    torch._dynamo.graph_break()
-    return x + 2
-python
-@torch.compile(fullgraph=False)
-def fn(x):
-    return inner(x)
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="n">python</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-try:
-    fn(torch.randn(3))
-except Exception as e:
-    print(e)
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="fullgraphtruefalse-error_on_graph_break"><code>fullgraph=True/False</code> 与 <code>error_on_graph_break</code> 对比总结<a class="headerlink" href="#fullgraphtruefalse-error_on_graph_break" title="Permanent link">&para;</a></h2>
 <p>下表总结了 <code>fullgraph=True/False</code> 和 <code>error_on_graph_break</code> 之间的区别：</p>

@@ -10575,12 +10575,12 @@ def some_fun(x):
 
 compiled_fun = torch.compile(some_fun, ...)
 ...
-</code></pre></div></p>
-<p>TorchDynamo 将尝试将 <code>some_fun</code> 中的所有 torch/张量操作编译到单个 FX 图中，但它可能无法将所有内容捕获到一个图中。</p>
+</code></pre></div>
+TorchDynamo 将尝试将 <code>some_fun</code> 中的所有 torch/张量操作编译到单个 FX 图中，但它可能无法将所有内容捕获到一个图中。</p>
 <p>某些图中断原因是 TorchDynamo 无法克服的，并且不容易修复。例如，调用 torch 之外的 C 扩展对 torchdynamo 是不可见的，并且可能执行任意操作，而 TorchDynamo 无法引入必要的守卫（参见 <em>making-dynamo-sound-guards</em>）来确保编译后的程序可以安全地重用。如果生成的片段很小，图中断可能会影响性能。为了最大化性能，尽可能减少图中断的数量非常重要。</p>
 <h2 id="_4">识别图中断的原因<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>要识别程序中的所有图中断及其相关原因，可以使用 <code>torch._dynamo.explain</code>。此工具在提供的函数上运行 TorchDynamo 并汇总遇到的图中断。以下是一个使用示例：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch._dynamo</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dynamo</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">toy_example</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -10609,7 +10609,7 @@ compiled_fun = torch.compile(some_fun, ...)
 <span class="sd">  ...</span>
 <span class="sd">&quot;&quot;&quot;</span>
 </code></pre></div>
-<p>输出包括：</p>
+输出包括：</p>
 <ul>
 <li><code>out_guards</code> - 一个列表的列表，其中每个子列表包含必须通过的守卫，以确保跟踪的图是有效的。</li>
 <li><code>graphs</code> - 成功跟踪的图模块列表。</li>

@@ -9875,15 +9875,15 @@
 <p><code>torch.Size</code> 是调用 <code>torch.Tensor.size</code> 的返回类型。它描述了原始张量所有维度的大小。
 作为 <code>tuple</code> 的子类，它支持常见的序列操作，如索引和获取长度。</p>
 <p>示例：</p>
-<p><code>{code-block} python
-    &gt;&gt;&gt; x = torch.ones(10, 20, 30)
-    &gt;&gt;&gt; s = x.size()
-    &gt;&gt;&gt; s
-    torch.Size([10, 20, 30])
-    &gt;&gt;&gt; s[1]
-    20
-    &gt;&gt;&gt; len(s)
-    3</code></p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="mi">20</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="mi">3</span>
+</code></pre></div>
 
 
 

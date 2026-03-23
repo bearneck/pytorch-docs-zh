@@ -10139,10 +10139,10 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
-from compile import header_code
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compile</span><span class="w"> </span><span class="kn">import</span> <span class="n">header_code</span>
 
-torch._logging.set_logs(graph_breaks=True, graph_code=True)
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">graph_code</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h1 id="_1">动态形状<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>本节解释了如何在 PyTorch 中处理动态形状，包括如何调试和修复常见错误、在算子中实现对动态形状的支持，以及理解其底层机制。</p>
@@ -10156,7 +10156,7 @@ torch._logging.set_logs(graph_breaks=True, graph_code=True)
 <p>动态形状不支持动态秩的程序，即输入张量维度发生变化的程序，因为这不常见且会带来不必要的复杂性。</p>
 <h2 id="_2">尺寸/整数为动态意味着什么？<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>动态形状通过使某些维度或整数变为动态来避免重新编译。例如，如果一个函数 <code>f(x)</code> 使用静态尺寸编译，它将需要为不同尺寸重新编译：</p>
-<div class="highlight"><pre><span></span><code>为简单起见，此示例使用了 `@torch.compile(dynamic=True)`。请注意，由于此选项容易出错，不推荐使用。
+<p><div class="highlight"><pre><span></span><code>为简单起见，此示例使用了 `@torch.compile(dynamic=True)`。请注意，由于此选项容易出错，不推荐使用。
 关于启用动态形状的推荐方法，请参见 *enable-dynamic-behavior*。
 {code-cell}
 import torch
@@ -10169,43 +10169,43 @@ f(torch.rand(20))
 f(torch.rand(30))
 f(torch.rand(40))
 </code></pre></div>
-<p>在生成的输出中，您可以看到创建了四个图。
+在生成的输出中，您可以看到创建了四个图。
 请参阅相应的 <a href="../../_static/img/dynamic_shapes/tlparse1_dynamic_shapes_false.png" target="_blank">tlparse 输出</a></p>
 <p>通过使尺寸变为动态，该函数可以处理各种尺寸而无需重新编译：</p>
-<div class="highlight"><pre><span></span><code>import torch
-@torch.compile(dynamic=True)
-def f(x):
-     return x* x.size()[0]
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+     <span class="k">return</span> <span class="n">x</span><span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-f(torch.rand(10))
-f(torch.rand(20))
-f(torch.rand(30))
-f(torch.rand(40))
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">40</span><span class="p">))</span>
 </code></pre></div>
-<p>启用动态形状后，只创建了一个图。请参阅
+启用动态形状后，只创建了一个图。请参阅
 相应的 <a href="../../_static/img/dynamic_shapes/tlparse2_dynamic_shapes_true.png" target="_blank">tlparse 输出</a>。</p>
 <p>虽然对于这个小例子，编译时间差异很小，但更复杂的用例将显示出显著的性能改进。</p>
 <h2 id="_3">什么是特化？<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p><strong>特化</strong> 指的是通过检查控制流中的形状条件，为特定输入形状优化计算图。如果基于形状条件进入某个分支，则该图将针对该条件进行定制。如果新的输入不满足此条件，系统将重新编译该图。</p>
 <p>特化允许您为特定的输入形状创建优化的计算图，这可以显著提高执行速度。</p>
-<div class="highlight"><pre><span></span><code>import torch
-@torch.compile(dynamic=True)
-def f(x):
-    if x.size()[0] == 10:
-        return x * 10
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">10</span>
 
-    if x.size()[0] &lt;= 30:
-        return x*200
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="mi">200</span>
 
-    return x*x.size()[0]
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-f(torch.rand(10))
-f(torch.rand(20))
-f(torch.rand(30))
-f(torch.rand(40))
-f(torch.rand(50))
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">40</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">))</span>
 </code></pre></div>
-<p>在上面的代码中，我们特化了图要求输入尺寸为 10 的情况，在这种情况下它将返回 <code>x * 10</code>。如果输入尺寸小于 30，它将返回 <code>x * 200</code>。在输出中，您可以看到这创建了三个图。</p>
+在上面的代码中，我们特化了图要求输入尺寸为 10 的情况，在这种情况下它将返回 <code>x * 10</code>。如果输入尺寸小于 30，它将返回 <code>x * 200</code>。在输出中，您可以看到这创建了三个图。</p>
 <p>请参阅相应的 <a href="../../_static/img/dynamic_shapes/tlparse3_specialization.png" target="_blank">tlparse 输出</a></p>
 <p>这是为上述函数创建的图：</p>
 <p>```{image} ../../_static/img/dynamic_shapes/dynamic_shapes_example_specialization.png
@@ -10248,14 +10248,13 @@ f(torch.rand(50))
 &gt; torch._dynamo.mark_dynamic(x, 0)
 &gt; compiled_model = torch.compile(model)
 &gt; ```
-
 `torch._dynamo.mark_dynamic` 函数将张量的一个维度标记为动态，如果该维度被特化，则会失败。它不适用于整数。仅当您知道使用此输入的所有计算图都收敛到单个动态计算图时，才使用此函数。否则，您可能会遇到具有误导性的约束违反错误。在这种情况下，请考虑使用 `torch._dynamo.maybe_mark_dynamic`。目前，`torch._dynamo.mark_dynamic` 的优先级不高于 `force_parameter_static_shapes = True` 或 `force_nn_module_property_static_shapes = True`。
 
 如果您事先知道某个特定维度将是动态的，可以使用 `torch._dynamo.mark_dynamic(tensor, dim)` 来避免初始重新编译。此外，如果您已经知道此维度的最小和最大可能值，可以使用 `torch._dynamo.mark_dynamic(tensor, dim, min=min, max=max)` 来指定它们。
 
 以下是一个简单的示例：
 
-```{code-cell}
+```python
 import torch
 
 @torch.compile
@@ -10279,17 +10278,17 @@ f(torch.randn(40))
 <h4 id="dynamic_sources">动态允许列表 (<code>DYNAMIC_SOURCES</code>)<a class="headerlink" href="#dynamic_sources" title="Permanent link">&para;</a></h4>
 <p>使用环境变量 <code>TORCH_COMPILE_DYNAMIC_SOURCES</code> 传递一个配置列表，其中包含要标记为动态的源名称。例如：<code>TORCH_COMPILE_DYNAMIC_SOURCES=L[‘x’],L[‘y’]</code>。使用 <code>tlparse</code> 中的 PGO 工件最容易找到这些动态源名称。您可以从 PGO 工件中复制并粘贴动态源名称。此方法适用于整数和张量尺寸，并且优先级高于所有其他强制静态形状的标志。如果标记为动态的内容被特化，或者提供的输入不存在，它不会抛出错误。</p>
 <p>以下是一个示例：</p>
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-@torch.compile()
-def f(x):
-     return x * x.size()[0]
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-with torch.compiler.config.patch(dynamic_sources=&quot;L[&#39;x&#39;]&quot;):
-    f(torch.rand(10))
-f(torch.rand(20))
-f(torch.rand(30))
-f(torch.rand(40))
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="n">dynamic_sources</span><span class="o">=</span><span class="s2">&quot;L[&#39;x&#39;]&quot;</span><span class="p">):</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">40</span><span class="p">))</span>
 </code></pre></div>
 <h4 id="torchcompilerset_stance-eager_then_compile"><code>torch.compiler.set_stance ("eager_then_compile")</code><a class="headerlink" href="#torchcompilerset_stance-eager_then_compile" title="Permanent link">&para;</a></h4>
 <p>有时，确定哪些输入应标记为动态可能具有挑战性。如果您愿意为第一批数据接受性能成本，另一个便捷的选择是使用 <code>eager_then_compile</code> 姿态，它会自动为您确定动态输入。更多信息，请参阅 <code>torch.compiler.set_stance</code> 和 <a href="https://docs.pytorch.org/tutorials/recipes/torch_compiler_set_stance_tutorial.html">使用 torch.compiler.set_stance 进行动态编译控制</a>。</p>

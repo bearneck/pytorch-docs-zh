@@ -10214,27 +10214,27 @@
 <p><strong>G2. 在子 RRef 被所有者确认之前，父 RRef 不会被删除。</strong></p>
 <p>在情况 2 和 3 中，所有者可能仅部分或完全不知道 RRef 的分支图。例如，一个 RRef 可能在用户上创建，并且在所有者收到任何 RPC 调用之前，创建者用户可能已经与其他用户共享了该 RRef，而这些用户可能进一步共享该 RRef。一个不变式是，任何 RRef 的分支图始终是一棵树，因为分叉一个 RRef 总是在被调用方（除非被调用方是所有者）创建一个新的 <code>UserRRef</code> 实例，因此每个 RRef 都有一个单一的父节点。</p>
 <p>所有者对树中任何 <code>UserRRef</code> 的看法有三个阶段：</p>
-<div class="highlight"><pre><span></span><code>1) 未知 -&gt; 2) 已知 -&gt; 3) 已删除。
+<p><div class="highlight"><pre><span></span><code>1) 未知 -&gt; 2) 已知 -&gt; 3) 已删除。
 </code></pre></div>
-<p>所有者对整个树的看法不断变化。当所有者认为没有存活的 <code>UserRRef</code> 实例时，它会删除其 <code>OwnerRRef</code> 实例，即当 <code>OwnerRRef</code> 被删除时，所有 <code>UserRRef</code> 实例可能确实已被删除或处于未知状态。危险的情况是当一些分支未知而其他分支已删除时。</p>
+所有者对整个树的看法不断变化。当所有者认为没有存活的 <code>UserRRef</code> 实例时，它会删除其 <code>OwnerRRef</code> 实例，即当 <code>OwnerRRef</code> 被删除时，所有 <code>UserRRef</code> 实例可能确实已被删除或处于未知状态。危险的情况是当一些分支未知而其他分支已删除时。</p>
 <p><strong>G2</strong> 显然保证了在所有者知道其所有子 <code>UserRRef</code> 实例之前，任何父 <code>UserRRef</code> 都不能被删除。然而，子 <code>UserRRef</code> 可能在所有者知道其父 <code>UserRRef</code> 之前被删除。</p>
 <p>考虑以下示例，其中 <code>OwnerRRef</code> 分叉到 A，然后 A 分叉到 Y，Y 分叉到 Z：</p>
-<div class="highlight"><pre><span></span><code>OwnerRRef -&gt; A -&gt; Y -&gt; Z
+<p><div class="highlight"><pre><span></span><code>OwnerRRef -&gt; A -&gt; Y -&gt; Z
 </code></pre></div>
-<p>如果 Z 的所有消息（包括删除消息）都在 Y 的消息之前被所有者处理，那么所有者将在知道 Y 存在之前得知 Z 的删除。然而，这不会引起任何问题。因为，至少 Y 的一个祖先（A）仍然存活，并且它会阻止所有者删除 <code>OwnerRRef</code>。更具体地说，如果所有者不知道 Y，那么由于 <strong>G2</strong>，A 不能被删除，而所有者知道 A，因为它是 A 的父节点。</p>
+如果 Z 的所有消息（包括删除消息）都在 Y 的消息之前被所有者处理，那么所有者将在知道 Y 存在之前得知 Z 的删除。然而，这不会引起任何问题。因为，至少 Y 的一个祖先（A）仍然存活，并且它会阻止所有者删除 <code>OwnerRRef</code>。更具体地说，如果所有者不知道 Y，那么由于 <strong>G2</strong>，A 不能被删除，而所有者知道 A，因为它是 A 的父节点。</p>
 <p>如果 RRef 是在用户上创建的，情况会稍微复杂一些：</p>
-<div class="highlight"><pre><span></span><code>OwnerRRef
+<p><div class="highlight"><pre><span></span><code>OwnerRRef
     ^
     |
     A -&gt; Y -&gt; Z
 </code></pre></div>
-<p>如果 Z 在 <code>UserRRef</code> 上调用 <code>torch.distributed.rpc.RRef.to_here</code>，那么当 Z 被删除时，所有者至少知道 A，因为否则 <code>torch.distributed.rpc.RRef.to_here</code> 不会完成。如果 Z 没有调用 <code>torch.distributed.rpc.RRef.to_here</code>，那么所有者有可能在收到来自 A 和 Y 的任何消息之前，先收到来自 Z 的所有消息。在这种情况下，由于 <code>OwnerRRef</code> 的实际数据尚未创建，也就没有什么可删除的。这等同于 Z 根本不存在。因此，这仍然是可行的。</p>
+如果 Z 在 <code>UserRRef</code> 上调用 <code>torch.distributed.rpc.RRef.to_here</code>，那么当 Z 被删除时，所有者至少知道 A，因为否则 <code>torch.distributed.rpc.RRef.to_here</code> 不会完成。如果 Z 没有调用 <code>torch.distributed.rpc.RRef.to_here</code>，那么所有者有可能在收到来自 A 和 Y 的任何消息之前，先收到来自 Z 的所有消息。在这种情况下，由于 <code>OwnerRRef</code> 的实际数据尚未创建，也就没有什么可删除的。这等同于 Z 根本不存在。因此，这仍然是可行的。</p>
 <h3 id="_5">实现<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p><strong>G1</strong> 通过在 <code>UserRRef</code> 析构函数中发送删除消息来实现。为了提供 <strong>G2</strong>，每当父 <code>UserRRef</code> 被分叉时，它会被放入一个上下文中，并以新的 <code>ForkId</code> 为索引。父 <code>UserRRef</code> 只有在收到来自子节点的确认消息（ACK）时，才会从上下文中移除，而子节点只有在得到所有者确认后才会发送 ACK。</p>
 <h2 id="_6">协议场景<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>现在让我们讨论上述设计如何转化为以下四种场景中的协议。</p>
 <h3 id="rref_1">用户将 RRef 作为返回值与所有者共享<a class="headerlink" href="#rref_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code>import torch
 import torch.distributed.rpc as rpc
 
 # 在 worker A 上
@@ -10242,7 +10242,7 @@ rref = rpc.remote(&#39;B&#39;, torch.add, args=(torch.ones(2), 1))
 # 假设 rref 的 RRefId 为 100，ForkId 为 1
 rref.to_here()
 </code></pre></div>
-<p>在这种情况下，<code>UserRRef</code> 在用户 worker A 上创建，然后它随远程消息一起传递给所有者 worker B，随后 B 创建 <code>OwnerRRef</code>。方法 <code>torch.distributed.rpc.remote</code> 立即返回，这意味着 <code>UserRRef</code> 可以在所有者知道它之前被分叉/使用。</p>
+在这种情况下，<code>UserRRef</code> 在用户 worker A 上创建，然后它随远程消息一起传递给所有者 worker B，随后 B 创建 <code>OwnerRRef</code>。方法 <code>torch.distributed.rpc.remote</code> 立即返回，这意味着 <code>UserRRef</code> 可以在所有者知道它之前被分叉/使用。</p>
 <p>在所有者端，当收到 <code>torch.distributed.rpc.remote</code> 调用时，它会创建 <code>OwnerRRef</code>，并返回一个 ACK 来确认 <code>{100, 1}</code>（<code>RRefId</code>, <code>ForkId</code>）。只有在收到此 ACK 后，A 才能删除其 <code>UserRRef</code>。这涉及 <strong>G1</strong> 和 <strong>G2</strong>。**G1** 是显而易见的。对于 <strong>G2</strong>，<code>OwnerRRef</code> 是 <code>UserRRef</code> 的子节点，而 <code>UserRRef</code> 在收到来自所有者的 ACK 之前不会被删除。</p>
 <p><img alt="user_to_owner_ret.png" src="https://user-images.githubusercontent.com/16999635/69164772-98181300-0abe-11ea-93a7-9ad9f757cd94.png" width="500px" /></p>
 <p>上图展示了消息流，其中实线箭头包含用户函数，虚线箭头是内置消息。请注意，从 A 到 B 的前两条消息（<code>torch.distributed.rpc.remote</code> 和 <code>torch.distributed.rpc.RRef.to_here</code>）可能以任意顺序到达 B，但最终的删除消息只有在以下条件满足时才会发送：</p>
@@ -10251,7 +10251,7 @@ rref.to_here()
 <li>Python GC 同意删除本地的 <code>UserRRef</code> 实例。这发生在 RRef 不再在作用域内且符合垃圾回收条件时。</li>
 </ul>
 <h3 id="rref_2">用户将 RRef 作为参数与所有者共享<a class="headerlink" href="#rref_2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code>import torch
 import torch.distributed.rpc as rpc
 
 # 在 worker A 和 worker B 上
@@ -10263,12 +10263,12 @@ rref = rpc.remote(&#39;B&#39;, torch.add, args=(torch.ones(2), 1))
 # 假设 rref 的 RRefId 为 100，ForkId 为 1
 rpc.rpc_async(&#39;B&#39;, func, args=(rref, ))
 </code></pre></div>
-<p>在这种情况下，A 上创建 <code>UserRRef</code> 后，A 在后续对 B 的 RPC 调用中将其作为参数使用。A 将保持 <code>UserRRef {100, 1}</code> 存活，直到收到来自 B 的确认（**G2**，不是 RPC 调用的返回值）。这是必要的，因为在所有先前消息被接收之前，A 不应发送删除消息，否则，由于我们不保证消息传递顺序，<code>OwnerRRef</code> 可能在使用前被删除。这是通过创建 RRef 的子 <code>ForkId</code>，将它们保存在一个映射中，直到收到所有者对子 <code>ForkId</code> 的确认来实现的。下图展示了消息流。</p>
+在这种情况下，A 上创建 <code>UserRRef</code> 后，A 在后续对 B 的 RPC 调用中将其作为参数使用。A 将保持 <code>UserRRef {100, 1}</code> 存活，直到收到来自 B 的确认（**G2**，不是 RPC 调用的返回值）。这是必要的，因为在所有先前消息被接收之前，A 不应发送删除消息，否则，由于我们不保证消息传递顺序，<code>OwnerRRef</code> 可能在使用前被删除。这是通过创建 RRef 的子 <code>ForkId</code>，将它们保存在一个映射中，直到收到所有者对子 <code>ForkId</code> 的确认来实现的。下图展示了消息流。</p>
 <p><img alt="user_to_owner_arg.png" src="https://user-images.githubusercontent.com/16999635/69164845-b67e0e80-0abe-11ea-93fa-d24674e75a2b.png" width="500px" /></p>
 <p>请注意，<code>UserRRef</code> 可能在 func 完成甚至开始之前就在 B 上被删除。然而这是可行的，因为在 B 发送子 <code>ForkId</code> 的 ACK 时，它已经获取了 <code>OwnerRRef</code> 实例，这将防止其过早被删除。</p>
 <h3 id="rref_3">所有者将 RRef 与用户共享<a class="headerlink" href="#rref_3" title="Permanent link">&para;</a></h3>
 <p>所有者到用户是最简单的情况，所有者可以在本地更新引用计数，并且不需要任何额外的控制消息来通知其他人。关于 <strong>G2</strong>，它与父节点立即收到来自所有者的 ACK 相同，因为父节点就是所有者。</p>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code>import torch
 import torch.distributed.rpc as RRef, rpc
 
 # 在 worker B 和 worker C 上
@@ -10280,7 +10280,7 @@ rref = RRef(&quot;data&quot;)
 # 假设 rref 的 RRefId 为 100
 dist.rpc_async(&#39;C&#39;, func, args=(rref, ))
 </code></pre></div>
-<p><img alt="owner_to_user.png" src="https://user-images.githubusercontent.com/16999635/69164921-c990de80-0abe-11ea-9250-d32ad00cf4ae.png" width="500px" /></p>
+<img alt="owner_to_user.png" src="https://user-images.githubusercontent.com/16999635/69164921-c990de80-0abe-11ea-9250-d32ad00cf4ae.png" width="500px" /></p>
 <p>上图展示了消息流。请注意，当 <code>OwnerRRef</code> 在 rpc_async 调用后退出作用域时，它不会被删除，因为内部有一个映射来保持其存活，如果存在任何已知的分叉，在本例中是 <code>UserRRef {100, 1}</code>。（**G2**）</p>
 <h3 id="rref_4">用户将 RRef 与用户共享<a class="headerlink" href="#rref_4" title="Permanent link">&para;</a></h3>
 <p>这是最复杂的情况，调用方用户（父级 <code>UserRRef</code>）、被调用方用户（子级 <code>UserRRef</code>）以及所有者都需要参与其中。</p>

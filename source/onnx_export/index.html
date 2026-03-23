@@ -6682,7 +6682,18 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当转换失败时
+        一个简单的示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 GUI 检查 ONNX 模型
       
     </span>
   </a>
@@ -6691,6 +6702,17 @@
       
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当转换失败时
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         元数据
@@ -9934,7 +9956,18 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当转换失败时
+        一个简单的示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 GUI 检查 ONNX 模型
       
     </span>
   </a>
@@ -9943,6 +9976,17 @@
       
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当转换失败时
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         元数据
@@ -10032,8 +10076,6 @@
 
 
 <h1 id="torchexport-onnx">基于 torch.export 的 ONNX 导出器<a class="headerlink" href="#torchexport-onnx" title="Permanent link">&para;</a></h1>
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
 <h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>torch.export  引擎被用来以提前编译（AOT）的方式生成一个仅表示函数中张量计算过程的追踪图。生成的追踪图（1）在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，（2）消除了所有 Python 控制流和数据结构（某些例外情况除外），并且（3）在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的所有形状约束。</p>
 <p>此外，在导出过程中，内存使用量显著减少。</p>
@@ -10044,85 +10086,79 @@
 <li><a href="https://microsoft.github.io/onnxscript">ONNX Script</a></li>
 </ul>
 <p>可以通过 <a href="https://pypi.org/project/pip/">pip</a> 安装：</p>
-<p>```{code-block} bash</p>
-<p>pip install --upgrade onnx onnxscript
-<div class="highlight"><pre><span></span><code>然后可以使用 [onnxruntime](https://onnxruntime.ai) 在各种处理器上执行模型。
+<div class="highlight"><pre><span></span><code><span class="w">  </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>onnx<span class="w"> </span>onnxscript
+</code></pre></div>
+<p>然后可以使用 <a href="https://onnxruntime.ai">onnxruntime</a> 在各种处理器上执行模型。</p>
+<h2 id="_3">一个简单的示例<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>以下演示了以简单的多层感知机（MLP）为例的导出器 API 使用：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
 
-## 一个简单的示例
+<span class="k">class</span><span class="w"> </span><span class="nc">MLPModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">fc0</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">fc_combined</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 合并所有输入</span>
 
-以下演示了以简单的多层感知机（MLP）为例的导出器 API 使用：
+  <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor_x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">input_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">input_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">      </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      需要所有输入的前向方法：</span>
+<span class="sd">      - tensor_x: 一个直接的张量输入。</span>
+<span class="sd">      - input_dict: 一个包含键 &#39;tensor_x&#39; 下张量的字典。</span>
+<span class="sd">      - input_list: 一个列表，其中第一个元素是张量。</span>
+<span class="sd">      &quot;&quot;&quot;</span>
+      <span class="c1"># 从输入中提取张量</span>
+      <span class="n">dict_tensor</span> <span class="o">=</span> <span class="n">input_dict</span><span class="p">[</span><span class="s1">&#39;tensor_x&#39;</span><span class="p">]</span>
+      <span class="n">list_tensor</span> <span class="o">=</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-```{code-block} python
-import torch
-import torch.nn as nn
+      <span class="c1"># 将所有输入合并为一个张量</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">tensor_x</span><span class="p">,</span> <span class="n">dict_tensor</span><span class="p">,</span> <span class="n">list_tensor</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-class MLPModel(nn.Module):
-  def __init__(self):
-      super().__init__()
-      self.fc0 = nn.Linear(8, 8, bias=True)
-      self.fc1 = nn.Linear(8, 4, bias=True)
-      self.fc2 = nn.Linear(4, 2, bias=True)
-      self.fc3 = nn.Linear(2, 2, bias=True)
-      self.fc_combined = nn.Linear(8 + 8 + 8, 8, bias=True)  # 合并所有输入
+      <span class="c1"># 通过各层处理合并后的张量</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_combined</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc0</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">combined_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">combined_tensor</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">output</span>
 
-  def forward(self, tensor_x: torch.Tensor, input_dict: dict, input_list: list):
-      &quot;&quot;&quot;
-      需要所有输入的前向方法：
-      - tensor_x: 一个直接的张量输入。
-      - input_dict: 一个包含键 &#39;tensor_x&#39; 下张量的字典。
-      - input_list: 一个列表，其中第一个元素是张量。
-      &quot;&quot;&quot;
-      # 从输入中提取张量
-      dict_tensor = input_dict[&#39;tensor_x&#39;]
-      list_tensor = input_list[0]
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLPModel</span><span class="p">()</span>
 
-      # 将所有输入合并为一个张量
-      combined_tensor = torch.cat([tensor_x, dict_tensor, list_tensor], dim=1)
+<span class="c1"># 示例输入</span>
+<span class="n">tensor_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">97</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">dict_input</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tensor_x&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">97</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)}</span>
+<span class="n">list_input</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="mi">97</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)]</span>
 
-      # 通过各层处理合并后的张量
-      combined_tensor = self.fc_combined(combined_tensor)
-      combined_tensor = torch.sigmoid(combined_tensor)
-      combined_tensor = self.fc0(combined_tensor)
-      combined_tensor = torch.sigmoid(combined_tensor)
-      combined_tensor = self.fc1(combined_tensor)
-      combined_tensor = torch.sigmoid(combined_tensor)
-      combined_tensor = self.fc2(combined_tensor)
-      combined_tensor = torch.sigmoid(combined_tensor)
-      output = self.fc3(combined_tensor)
-      return output
+<span class="c1"># input_names 和 output_names 用于标识 ONNX 模型的输入和输出</span>
+<span class="n">input_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tensor_input&#39;</span><span class="p">,</span> <span class="s1">&#39;tensor_x&#39;</span><span class="p">,</span> <span class="s1">&#39;list_input_index_0&#39;</span><span class="p">]</span>
+<span class="n">output_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span>
 
-model = MLPModel()
+<span class="c1"># 使用所有必需的输入导出模型</span>
+<span class="n">onnx_program</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,(</span><span class="n">tensor_input</span><span class="p">,</span> <span class="n">dict_input</span><span class="p">,</span> <span class="n">list_input</span><span class="p">),</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;batch_size&quot;</span><span class="p">},{</span><span class="s2">&quot;tensor_x&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;batch_size&quot;</span><span class="p">}},[{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;batch_size&quot;</span><span class="p">}]),</span> <span class="n">input_names</span><span class="o">=</span><span class="n">input_names</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="n">output_names</span><span class="p">,</span> <span class="n">dynamo</span><span class="o">=</span><span class="kc">True</span><span class="p">,)</span>
 
-# 示例输入
-tensor_input = torch.rand((97, 8), dtype=torch.float32)
-dict_input = {&#39;tensor_x&#39;: torch.rand((97, 8), dtype=torch.float32)}
-list_input = [torch.rand((97, 8), dtype=torch.float32)]
-
-# input_names 和 output_names 用于标识 ONNX 模型的输入和输出
-input_names = [&#39;tensor_input&#39;, &#39;tensor_x&#39;, &#39;list_input_index_0&#39;]
-output_names = [&#39;output&#39;]
-
-# 使用所有必需的输入导出模型
-onnx_program = torch.onnx.export(model,(tensor_input, dict_input, list_input), dynamic_shapes=({0: &quot;batch_size&quot;},{&quot;tensor_x&quot;: {0: &quot;batch_size&quot;}},[{0: &quot;batch_size&quot;}]), input_names=input_names, output_names=output_names, dynamo=True,)
-
-# 检查导出的 ONNX 模型是否为动态的
-assert onnx_program.model.graph.inputs[0].shape == (&quot;batch_size&quot;, 8)
-assert onnx_program.model.graph.inputs[1].shape == (&quot;batch_size&quot;, 8)
-assert onnx_program.model.graph.inputs[2].shape == (&quot;batch_size&quot;, 8)
-</code></pre></div></p>
+<span class="c1"># 检查导出的 ONNX 模型是否为动态的</span>
+<span class="k">assert</span> <span class="n">onnx_program</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;batch_size&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">onnx_program</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;batch_size&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">onnx_program</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;batch_size&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</code></pre></div>
 <p>如上代码所示，您只需要向 <code>torch.onnx.export</code> 提供模型实例及其输入。导出器将返回一个 <code>torch.onnx.ONNXProgram</code> 实例，其中包含导出的 ONNX 图以及额外信息。</p>
 <p>通过 <code>onnx_program.model_proto</code> 可用的内存中模型是一个符合 <a href="https://github.com/onnx/onnx/blob/main/docs/IR.md">ONNX IR 规范</a> 的 <code>onnx.ModelProto</code> 对象。然后可以使用 <code>torch.onnx.ONNXProgram.save</code> API 将 ONNX 模型序列化为 <a href="https://protobuf.dev/">Protobuf 文件</a>。</p>
-<p>```{code-block} python
-  onnx_program.save("mlp.onnx")
-<div class="highlight"><pre><span></span><code>## 使用 GUI 检查 ONNX 模型
-
-您可以使用 [Netron](https://netron.app/) 查看导出的模型。
-
-```{image} _static/img/onnx/onnx_dynamo_mlp_model.png
-</code></pre></div></p>
-<h2 id="_3">当转换失败时<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>  <span class="n">onnx_program</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;mlp.onnx&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="gui-onnx">使用 GUI 检查 ONNX 模型<a class="headerlink" href="#gui-onnx" title="Permanent link">&para;</a></h2>
+<p>您可以使用 <a href="https://netron.app/">Netron</a> 查看导出的模型。</p>
+<p>```{image} _static/img/onnx/onnx_dynamo_mlp_model.png</p>
+<p>```</p>
+<h2 id="_4">当转换失败时<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>应使用参数 <code>report=True</code> 第二次调用函数 <code>torch.onnx.export</code>。将生成一个 markdown 报告以帮助用户解决问题。</p>
-<h2 id="_4">元数据<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_5">元数据<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>在 ONNX 导出期间，每个 ONNX 节点都会被标注元数据，这些元数据有助于追踪其在原始 PyTorch 模型中的来源和上下文。此元数据对于调试、模型检查以及理解 PyTorch 和 ONNX 图之间的映射非常有用。</p>
 <p>以下元数据字段被添加到每个 ONNX 节点：</p>
 <ul>
@@ -10154,9 +10190,8 @@ assert onnx_program.model.graph.inputs[2].shape == (&quot;batch_size&quot;, 8)
 </ul>
 <p>创建此节点的原始代码中的堆栈跟踪（如果可用）。</p>
 <p><em>示例：</em>
-  <div class="highlight"><pre><span></span><code>File &quot;simpleadd.py&quot;, line 7, in forward
-    return torch.add(x, y)
-</code></pre></div></p>
+  <code>File "simpleadd.py", line 7, in forward
+      return torch.add(x, y)</code></p>
 <p>这些元数据字段存储在每个 ONNX 节点的 <code>metadata_props</code> 属性中，可以使用 Netron 或通过编程方式进行检查。</p>
 <p>整个 ONNX 图具有以下 <code>metadata_props</code>：</p>
 <ul>

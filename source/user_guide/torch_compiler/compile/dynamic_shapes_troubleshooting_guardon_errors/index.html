@@ -10528,15 +10528,15 @@ at::Tensor::item() const
 <p>现在这个问题不太可能导致问题，因为 <code>t.item()</code> 的返回值被记忆化了，确保如果您多次调用它，您将始终获得相同的未绑定 <code>SymInt</code>。</p>
 <h3 id="_14">过度特化问题<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
 <p>在非严格导出模式下，考虑以下代码：</p>
-<div class="highlight"><pre><span></span><code><span class="n">u0</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">u0</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="k">return</span> <span class="n">y</span><span class="p">[:</span><span class="n">u0</span><span class="p">]</span>
 </code></pre></div>
-<p>当尝试评估 <code>u0</code> 时，此代码将失败，因为当 <code>SymInt</code> 直接在 Python 切片内部使用（不使用 Dynamo）时，Python 会强制整数特化，如果它是未绑定的，则会失败。</p>
+当尝试评估 <code>u0</code> 时，此代码将失败，因为当 <code>SymInt</code> 直接在 Python 切片内部使用（不使用 Dynamo）时，Python 会强制整数特化，如果它是未绑定的，则会失败。</p>
 <p>要解决此问题，您可以重写程序以避免特化。对于上面的示例，您可以通过不使用切片来修复它：</p>
-<div class="highlight"><pre><span></span><code><span class="n">u0</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">u0</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">narrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span>
 </code></pre></div>
-<p>有关更多详细信息，请参阅相关问题 https://github.com/pytorch/pytorch/issues/111950。</p>
+有关更多详细信息，请参阅相关问题 https://github.com/pytorch/pytorch/issues/111950。</p>
 <h3 id="_15">使用长度而非偏移量<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
 <p>在处理可变序列长度时，通常会有表示序列长度或偏移量的张量。例如，给定 <code>values = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]</code>，您可能有 <code>lengths = [3, 2, 4]</code> 和 <code>offsets = [0, 3, 5, 9]</code>。虽然这些表示形式可以相互转换，但在将它们作为整数处理时（通过调用 <code>lengths.tolist()</code>），最好使用长度而不是偏移量。</p>
 <p>原因是当您在 <code>values</code> 张量上执行 <code>torch.split()</code> 时，您需要为每个子序列创建张量，例如大小为 3、2 和 4 的张量。如果您有用于大小的未绑定 <code>SymInts</code>，它们会变成 <code>u0</code>、<code>u1</code> 和 <code>u2</code>。您可以轻松地指示它们是大小类型的，然后就完成了。但是，如果您有用于偏移量的未绑定 <code>SymInts</code>，它们会变成 <code>u1 - u0</code>、<code>u2 - u1</code>、<code>u3 - u2</code>，这会使事情复杂化。这些量不能方便地标记为大小类型，从而导致潜在问题。由于使用长度或偏移量编写代码相对简单，您应该优先使用长度。</p>

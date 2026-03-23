@@ -10053,9 +10053,9 @@
 该工具依赖内核名称来决定其类别。启用<span class="w"> </span><span class="sb">``</span>TORCHINDUCTOR_UNIQUE_KERNEL_NAMES<span class="sb">``</span><span class="w"> </span>对此至关重要。
 </code></pre></div>
 2. 在输出日志中，查找以下行：</p>
-<div class="highlight"><pre><span></span><code><span class="w">   </span>**Compiled<span class="w"> </span>module<span class="w"> </span>path:
-<span class="w">   </span>/tmp/torchinductor_shunting/qz/cqz7hvhood7y3psp7fy6msjxsxyli7qiwiybizdwtjw6ffyq5wwd.py**
-</code></pre></div>
+<p><code>bash
+  **Compiled module path:
+  /tmp/torchinductor_shunting/qz/cqz7hvhood7y3psp7fy6msjxsxyli7qiwiybizdwtjw6ffyq5wwd.py**</code></p>
 <p>每个已编译模块对应一行。如果没有额外的图中断，我们会在日志中看到 2 个这样的行，一个用于前向图，一个用于反向图。</p>
 <p>对于我们的示例命令，我们分别获得前向图和反向图的以下已编译模块：</p>
 <ul>
@@ -10067,8 +10067,8 @@
 <p>现在我们可以深入分析每个已编译模块的性能。为了说明，我们选择前向图的模块。为了方便，我将其命名为 <code>fwd.py</code>。使用 <code>-p</code> 参数直接运行它：</p>
 </li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="w">   </span>**&gt;<span class="w"> </span>python<span class="w"> </span>fwd.py<span class="w"> </span>-p**
-</code></pre></div>
+<p><code>bash
+  **&gt; python fwd.py -p**</code></p>
 <p>在此 <a href="https://gist.github.com/shunting314/8243734a38b5733ea78479209c0ae893">示例 gist</a> 中查看完整的输出日志。</p>
 <p>在输出中，您可以注意到以下内容：</p>
 <ul>
@@ -10076,17 +10076,17 @@
 </ul>
 <p><strong>Chrome trace for the profile is written to /tmp/compiled_module_profile.json</strong></p>
 <p>将跟踪加载到 Chrome 中（在 chrome 浏览器中访问 chrome://tracing 并按 UI 提示加载文件）将显示如下 UI：</p>
-<p><code>{image} ../../_static/img/inductor_profiling/trace.png</code></p>
-<p>您可以放大和缩小以检查性能分析。</p>
+<p><code>{image} ../../_static/img/inductor_profiling/trace.png</code>
+   您可以放大和缩小以检查性能分析。</p>
 <ul>
 <li>我们通过如下日志行报告 GPU 时间相对于挂钟时间的百分比：</li>
 </ul>
 <p><strong>Percent of time when GPU is busy: 102.88%</strong></p>
 <p>有时您可能会看到大于 100% 的值。原因是 PyTorch 在启用性能分析时使用内核执行时间，而在禁用性能分析时使用挂钟时间。性能分析可能会稍微扭曲内核执行时间。但总体而言，这应该不是大问题。</p>
 <p>如果我们以较小的批处理大小运行像 <code>densenet121</code> 这样的模型，我们会看到 GPU 繁忙时间的百分比很低：</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="o">(</span>Forward<span class="w"> </span>graph<span class="o">)</span><span class="w"> </span>Percent<span class="w"> </span>of<span class="w"> </span><span class="nb">time</span><span class="w"> </span>when<span class="w"> </span>GPU<span class="w"> </span>is<span class="w"> </span>busy:<span class="w"> </span><span class="m">32</span>.69%
+<p><div class="highlight"><pre><span></span><code><span class="w">  </span><span class="o">(</span>Forward<span class="w"> </span>graph<span class="o">)</span><span class="w"> </span>Percent<span class="w"> </span>of<span class="w"> </span><span class="nb">time</span><span class="w"> </span>when<span class="w"> </span>GPU<span class="w"> </span>is<span class="w"> </span>busy:<span class="w"> </span><span class="m">32</span>.69%
 </code></pre></div>
-<p>这意味着模型有很多 CPU 开销。这与启用 cudagraphs 能显著提高 densenet121 性能的事实一致。</p>
+  这意味着模型有很多 CPU 开销。这与启用 cudagraphs 能显著提高 densenet121 性能的事实一致。</p>
 <ul>
 <li>
 <p>我们可以将 GPU 时间分解为不同类别的内核。在 <code>mixnet_l</code> 示例中，我们看到</p>
@@ -10102,8 +10102,8 @@
 <ul>
 <li>我们还可以放大查看特定类别的内核。例如，让我们检查 reduction 内核：</li>
 </ul>
-<p><code>{image} ../../_static/img/inductor_profiling/kernel_breakdown.png</code></p>
-<p>我们可以看到每个单独的 reduction 内核执行时间的有序表格。我们还看到一个内核被执行了多少次。这很有帮助，原因如下：</p>
+<p><code>{image} ../../_static/img/inductor_profiling/kernel_breakdown.png</code>
+  我们可以看到每个单独的 reduction 内核执行时间的有序表格。我们还看到一个内核被执行了多少次。这很有帮助，原因如下：</p>
 <ul>
 <li>如果一个内核只占用极少时间，例如 0.1%，改进它最多只能带来 0.1% 的整体增益。不值得为此花费大量精力。</li>
 <li>如果一个内核占用 2% 的时间，将其改进 2 倍将带来 1% 的整体增益，这证明了付出的努力是合理的。</li>
@@ -10122,7 +10122,6 @@
 
  ```{image} ../../_static/img/inductor_profiling/terminal_printout.png
  ```
-
 我们可以通过运行以下命令来检查 max-autotune 是否对该内核有帮助：
 
 ```bash

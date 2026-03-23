@@ -10033,9 +10033,9 @@
 </li>
 <li>
 <p>使用所需的标志运行您的程序：</p>
-<div class="highlight"><pre><span></span><code><span class="nv">TORCH_TRACE</span><span class="o">=</span>~/my_trace_log_dir<span class="w"> </span><span class="nv">INDUCTOR_PROVENANCE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>your_program.py
+<p><div class="highlight"><pre><span></span><code><span class="nv">TORCH_TRACE</span><span class="o">=</span>~/my_trace_log_dir<span class="w"> </span><span class="nv">INDUCTOR_PROVENANCE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>your_program.py
 </code></pre></div>
-<p>这将在 <code>/my_trace_log_dir</code> 中生成一个日志文件。该日志文件将被 tlparse 用来生成溯源追踪高亮器。</p>
+这将在 <code>/my_trace_log_dir</code> 中生成一个日志文件。该日志文件将被 tlparse 用来生成溯源追踪高亮器。</p>
 </li>
 <li>
 <p>使用 <code>--inductor-provenance</code> 标志对日志运行 <code>tlparse</code>。例如：</p>

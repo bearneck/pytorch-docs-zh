@@ -10013,13 +10013,13 @@
 <p>我们提供了所有头文件、库以及 CMake 配置文件所需的二进制发行版，以便依赖 PyTorch。我们称此发行版为 <em>LibTorch</em>，您可以在 <a href="https://pytorch.org/get-started/locally/">我们的网站</a> 上下载包含最新 LibTorch 发行版的 ZIP 压缩包。以下是一个依赖 LibTorch 并使用 PyTorch C++ API 附带的 <code>torch::Tensor</code> 类编写最小应用程序的小例子。</p>
 <h2 id="_1">最小示例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>第一步是通过上面的链接下载 LibTorch ZIP 压缩包。例如：</p>
-<div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
+<p><div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip
 unzip<span class="w"> </span>libtorch-shared-with-deps-latest.zip
 </code></pre></div>
-<p>请注意，上面的链接是仅支持 CPU 的 libtorch。如果您想下载支持 GPU 的 libtorch，请在 <a href="https://pytorch.org">https://pytorch.org</a> 的链接选择器中找到正确的链接。</p>
+请注意，上面的链接是仅支持 CPU 的 libtorch。如果您想下载支持 GPU 的 libtorch，请在 <a href="https://pytorch.org">https://pytorch.org</a> 的链接选择器中找到正确的链接。</p>
 <p>如果您是 Windows 开发者并且不想使用 CMake，可以跳转到 Visual Studio 扩展部分。</p>
 <p>接下来，我们可以编写一个最小的 CMake 构建配置来开发一个依赖 LibTorch 的小型应用程序。使用 LibTorch 并不强制要求 CMake，但它是推荐且受支持的构建系统，并且未来会得到良好支持。一个最基本的 [CMakeLists.txt] 文件可能如下所示：</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.18</span><span class="w"> </span><span class="s">FATAL_ERROR</span><span class="p">)</span>
+<p><div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.18</span><span class="w"> </span><span class="s">FATAL_ERROR</span><span class="p">)</span>
 <span class="nb">project</span><span class="p">(</span><span class="s">example-app</span><span class="p">)</span>
 
 <span class="nb">find_package</span><span class="p">(</span><span class="s">Torch</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
@@ -10041,8 +10041,8 @@ unzip<span class="w"> </span>libtorch-shared-with-deps-latest.zip
 <span class="w">                     </span><span class="o">$&lt;</span><span class="nv">TARGET_FILE_DIR:example-app</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="nb">endif</span><span class="w"> </span><span class="p">(</span><span class="s">MSVC</span><span class="p">)</span>
 </code></pre></div>
-<p>我们的示例实现将简单地创建一个新的 [torch::Tensor] 并打印它：</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;torch/torch.h&gt;</span>
+我们的示例实现将简单地创建一个新的 [torch::Tensor] 并打印它：</p>
+<p><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;torch/torch.h&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -10050,23 +10050,23 @@ unzip<span class="w"> </span>libtorch-shared-with-deps-latest.zip
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">tensor</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>虽然您可以包含更细粒度的头文件以仅访问 PyTorch C++ API 的部分功能，但包含 [torch/torch.h] 是包含其大部分功能的最可靠方式。</p>
+虽然您可以包含更细粒度的头文件以仅访问 PyTorch C++ API 的部分功能，但包含 [torch/torch.h] 是包含其大部分功能的最可靠方式。</p>
 <p>最后一步是构建应用程序。为此，假设我们的示例目录结构如下：</p>
-<div class="highlight"><pre><span></span><code>example-app/
+<p><div class="highlight"><pre><span></span><code>example-app/
 <span class="w">  </span>CMakeLists.txt
 <span class="w">  </span>example-app.cpp
 </code></pre></div>
-<p>我们现在可以在 <code>example-app/</code> 文件夹内运行以下命令来构建应用程序：</p>
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>build
+我们现在可以在 <code>example-app/</code> 文件夹内运行以下命令来构建应用程序：</p>
+<p><div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>build
 <span class="nb">cd</span><span class="w"> </span>build
 cmake<span class="w"> </span>-DCMAKE_PREFIX_PATH<span class="o">=</span>/absolute/path/to/libtorch<span class="w"> </span>..
 cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--config<span class="w"> </span>Release
 </code></pre></div>
-<p>其中 <code>/absolute/path/to/libtorch</code> 应该是解压后的 LibTorch 发行版的绝对（！）路径。如果 PyTorch 是通过 pip 安装的，可以使用 [torch.utils.cmake_prefix_path] 变量查询 [CMAKE_PREFIX_PATH]。在这种情况下，CMake 配置步骤将如下所示：</p>
-<div class="highlight"><pre><span></span><code>cmake<span class="w"> </span>-DCMAKE_PREFIX_PATH<span class="o">=</span><span class="sb">`</span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import torch;print(torch.utils.cmake_prefix_path)&#39;</span><span class="sb">`</span><span class="w"> </span>..
+其中 <code>/absolute/path/to/libtorch</code> 应该是解压后的 LibTorch 发行版的绝对（！）路径。如果 PyTorch 是通过 pip 安装的，可以使用 [torch.utils.cmake_prefix_path] 变量查询 [CMAKE_PREFIX_PATH]。在这种情况下，CMake 配置步骤将如下所示：</p>
+<p><div class="highlight"><pre><span></span><code>cmake<span class="w"> </span>-DCMAKE_PREFIX_PATH<span class="o">=</span><span class="sb">`</span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import torch;print(torch.utils.cmake_prefix_path)&#39;</span><span class="sb">`</span><span class="w"> </span>..
 </code></pre></div>
-<p>如果一切顺利，输出将类似于：</p>
-<div class="highlight"><pre><span></span><code>root@4b5a67132e81:/example-app#<span class="w"> </span>mkdir<span class="w"> </span>build
+如果一切顺利，输出将类似于：</p>
+<p><div class="highlight"><pre><span></span><code>root@4b5a67132e81:/example-app#<span class="w"> </span>mkdir<span class="w"> </span>build
 root@4b5a67132e81:/example-app#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
 root@4b5a67132e81:/example-app/build#<span class="w"> </span>cmake<span class="w"> </span>-DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/libtorch<span class="w"> </span>..
 --<span class="w"> </span>The<span class="w"> </span>C<span class="w"> </span>compiler<span class="w"> </span>identification<span class="w"> </span>is<span class="w"> </span>GNU<span class="w"> </span><span class="m">5</span>.4.0
@@ -10101,7 +10101,7 @@ Scanning<span class="w"> </span>dependencies<span class="w"> </span>of<span clas
 <span class="o">[</span><span class="m">100</span>%<span class="o">]</span><span class="w"> </span>Linking<span class="w"> </span>CXX<span class="w"> </span>executable<span class="w"> </span>example-app
 <span class="o">[</span><span class="m">100</span>%<span class="o">]</span><span class="w"> </span>Built<span class="w"> </span>target<span class="w"> </span>example-app
 </code></pre></div>
-<p>现在执行在 <code>build</code> 文件夹中找到的 <code>example-app</code> 二进制文件应该会愉快地打印出张量（具体输出因随机性而异）：</p>
+现在执行在 <code>build</code> 文件夹中找到的 <code>example-app</code> 二进制文件应该会愉快地打印出张量（具体输出因随机性而异）：</p>
 <div class="highlight"><pre><span></span><code>root@4b5a67132e81:/example-app/build#<span class="w"> </span>./example-app
 <span class="m">0</span>.2063<span class="w">  </span><span class="m">0</span>.6593<span class="w">  </span><span class="m">0</span>.0866
 <span class="m">0</span>.0796<span class="w">  </span><span class="m">0</span>.5841<span class="w">  </span><span class="m">0</span>.1569

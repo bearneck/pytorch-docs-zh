@@ -10109,11 +10109,11 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
-import logging
-torch._logging.set_logs(dynamo=logging.DEBUG)
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">dynamo</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 </code></pre></div>
 <h1 id="_1">被跳过的函数<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p><strong>摘要：</strong>
@@ -10123,108 +10123,108 @@ torch._logging.set_logs(dynamo=logging.DEBUG)
 <p>请注意，跳过操作仅应用于当前函数，而<strong>不</strong>应用于任何嵌套的函数调用。<code>torch.compile</code> 仍将尝试编译嵌套调用。</p>
 <!-- TODO: 修复被跳过函数的日志记录。 -->
 
-<div class="highlight"><pre><span></span><code>def inner1(x):
-    return x + 1
-def inner2(x):
-    return x + 2
-@torch.compile
-def fn(x):
-    x = inner1(x)
-    torch._dynamo.skip_frame()
-    x = inner2(x)
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">inner1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">inner1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">skip_frame</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>在上面的例子中，<code>torch.compile</code> 将追踪 <code>fn</code>（包括 <code>inner1</code>）直到遇到 <code>skip_frame</code>。然后 <code>fn</code> 被跳过并以即时执行模式运行——当 <code>inner1</code> 和 <code>inner2</code> 被调用时，它们会被编译。</p>
 <p>跳过函数可能导致优化机会丢失，因此检查您希望编译的代码是否被跳过非常重要，如果是，则需要解决跳过问题。</p>
 <h2 id="_2">循环中的图中断<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>如果图中断发生在循环中，<code>torch.compile</code> 无法恢复追踪：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    for i in range(5):
-        x = x + 1
-        if i == 3:
-            torch._dynamo.graph_break()
-    return x
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>在这个例子中，我们可以通过展开循环来避免跳过：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    def inner(i):
-        nonlocal x
-        x = x + 1
-        if i == 3:
-            torch._dynamo.graph_break()
-    inner(0)
-    inner(1)
-    inner(2)
-    inner(3)
-    inner(4)
-    return x
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">x</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="n">inner</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">inner</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">inner</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">inner</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">inner</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>通常，解决导致跳过的图中断也将解决跳过问题。</p>
 <h2 id="_3">上下文管理器中的图中断<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>另一个常见的无法恢复的图中断例子是发生在大多数上下文管理器中的图中断：</p>
-<div class="highlight"><pre><span></span><code>class CustomCtxManager:
-    def __enter__(self):
-        pass
-    def __exit__(self, exc_type, exc_value, traceback):
-        pass
-@torch.compile
-def fn(x):
-    with CustomCtxManager():
-        x = x + 1
-        torch._dynamo.graph_break()
-        return x + 1
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CustomCtxManager</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">pass</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">CustomCtxManager</span><span class="p">():</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>我们可以通过将图中断移到上下文管理器外部来避免跳过：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    with CustomCtxManager():
-        x = x + 1
-    torch._dynamo.graph_break()
-    with CustomCtxManager():
-        return x + 1
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">CustomCtxManager</span><span class="p">():</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">CustomCtxManager</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>有一些上下文管理器，Dynamo 可以在图中断后恢复追踪。其中一些可以在 <code>torch/_dynamo/variables/torch.py</code> 中的 <code>supported_ctx_manager_classes</code> 中找到。通常，任何由 <code>torch/_dynamo/variables/ctx_manager.py</code> 中的 <code>ContextWrappingVariable</code> 子类表示的上下文管理器都支持在图中断后恢复。例如：</p>
-<div class="highlight"><pre><span></span><code>import contextlib
-@torch.compile
-def fn(x):
-    with contextlib.nullcontext():
-        with torch.no_grad():
-            x = x + 1
-            torch._dynamo.graph_break()
-            return x + 1
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">nullcontext</span><span class="p">():</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <h2 id="try">Try 块中的图中断<a class="headerlink" href="#try" title="Permanent link">&para;</a></h2>
 <p>Try 块中的图中断无法恢复：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    try:
-        x = x + 1
-        torch._dynamo.graph_break()
-        return x + 1
-    except Exception as e:
-        pass
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <p>我们可以通过将图中断移到 try 块外部来避免跳过：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    try:
-        x = x + 1
-    except Exception as e:
-        pass
-    torch._dynamo.graph_break()
-    try:
-        return x + 1
-    except Exception as e:
-        pass
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 <h2 id="_4">达到重新编译限制<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>请参阅 <a href="programming_model.recompilation.changing_cache_size_limit">更改缓存大小限制</a>。</p>
@@ -10233,18 +10233,18 @@ fn(torch.randn(3))
 <h2 id="_6">处理被跳过的函数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>通常，您可以通过修复导致函数被跳过的底层图中断或错误来解决跳过问题。</p>
 <p>如果导致函数被跳过的图中断/错误难以修复，那么考虑将有问题的图中断/错误隔离在其自身的函数中，以便最小化被跳过的内容。</p>
-<div class="highlight"><pre><span></span><code>def inner1(x):
-    return x + 1
-def inner2(x):
-    return x + 2
-@torch.compile
-def fn(x):
-    x = inner1(x)
-    def problematic_code():
-        torch._dynamo.skip_frame()
-    problematic_code()
-    x = inner2(x)
-fn(torch.randn(3))
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">inner1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">inner1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">problematic_code</span><span class="p">():</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">skip_frame</span><span class="p">()</span>
+    <span class="n">problematic_code</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </code></pre></div>
 
 

@@ -10031,36 +10031,36 @@
 </code></pre></div>
 <h2 id="_1">示例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>下面是一个使用 scan 计算累积和的示例：</p>
-<div class="highlight"><pre><span></span><code>import torch
-from torch._higher_order_ops import scan
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch._higher_order_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan</span>
 
-def add(carry: torch.Tensor, x: torch.Tensor):
-    next_carry = carry + x
-    y = next_carry.clone()  # clone 以避免输出-输出别名
-    return next_carry, y
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">carry</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="n">next_carry</span> <span class="o">=</span> <span class="n">carry</span> <span class="o">+</span> <span class="n">x</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">next_carry</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>  <span class="c1"># clone 以避免输出-输出别名</span>
+    <span class="k">return</span> <span class="n">next_carry</span><span class="p">,</span> <span class="n">y</span>
 
-init = torch.zeros(1)
-xs = torch.arange(5, dtype=torch.float32)
+<span class="n">init</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
-final_carry, cumsum = scan(add, init=init, xs=xs)
-print(final_carry)
-print(cumsum)
+<span class="n">final_carry</span><span class="p">,</span> <span class="n">cumsum</span> <span class="o">=</span> <span class="n">scan</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">xs</span><span class="o">=</span><span class="n">xs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_carry</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cumsum</span><span class="p">)</span>
 </code></pre></div>
 <p>我们可以导出包含 scan 的模型，以进行进一步的转换和部署。
 此示例使用动态形状以允许可变序列长度：</p>
-<div class="highlight"><pre><span></span><code>class ScanModule(torch.nn.Module):
-    def forward(self, xs: torch.Tensor) -&gt; tuple[torch.Tensor, torch.Tensor]:
-        def combine_fn(carry, x):
-            next_carry = carry + x
-            return next_carry, next_carry.clone()
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ScanModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">combine_fn</span><span class="p">(</span><span class="n">carry</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+            <span class="n">next_carry</span> <span class="o">=</span> <span class="n">carry</span> <span class="o">+</span> <span class="n">x</span>
+            <span class="k">return</span> <span class="n">next_carry</span><span class="p">,</span> <span class="n">next_carry</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
 
-        init = torch.zeros_like(xs[0])
-        return scan(combine_fn, init=init, xs=xs)
+        <span class="n">init</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">scan</span><span class="p">(</span><span class="n">combine_fn</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">xs</span><span class="o">=</span><span class="n">xs</span><span class="p">)</span>
 
-mod = ScanModule()
-inp = torch.randn(5, 3)
-ep = torch.export.export(mod, (inp,), dynamic_shapes={&quot;xs&quot;: {0: torch.export.Dim.DYNAMIC}})
-print(ep)
+<span class="n">mod</span> <span class="o">=</span> <span class="n">ScanModule</span><span class="p">()</span>
+<span class="n">inp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="p">(</span><span class="n">inp</span><span class="p">,),</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;xs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">Dim</span><span class="o">.</span><span class="n">DYNAMIC</span><span class="p">}})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
 </code></pre></div>
 <p>请注意，组合函数成为顶级图模块的子图属性。</p>
 <h2 id="_2">限制<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>

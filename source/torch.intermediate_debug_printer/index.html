@@ -7753,17 +7753,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        示例输出
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -9883,17 +9872,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        示例输出
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -9968,12 +9946,12 @@
 <h2 id="_1">使用方法<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>调试打印器可通过环境变量进行配置。以下标志既支持在内部 fbcode buck 命令中使用，也支持在开源项目中使用。</p>
 <p>所有配置定义在此处：<a href="https://github.com/pytorch/pytorch/blob/768361e67f0eb36491d7b763ef38d7c928ebefe6/torch/_inductor/config.py#L1493-L1505">torch/_inductor/config.py</a></p>
-<div class="highlight"><pre><span></span><code>    # aot inductor 中间张量值调试打印/保存的选项
+<div class="highlight"><pre><span></span><code># aot inductor 中间张量值调试打印/保存的选项
 
-    0: 禁用调试转储
-    1: 启用保存中间张量值
-    2: 启用打印中间张量值
-    3: 仅启用打印内核名称（有助于定位有问题的内核）
+0: 禁用调试转储
+1: 启用保存中间张量值
+2: 启用打印中间张量值
+3: 仅启用打印内核名称（有助于定位有问题的内核）
 </code></pre></div>
 <ol>
 <li>
@@ -9987,45 +9965,40 @@
 </li>
 </ul>
 <p>示例命令：</p>
-<div class="highlight"><pre><span></span><code>AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT=&quot;aoti_torch_cuda_addmm_out&quot; AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=2 TORCH_LOGS=&quot;+inductor, output_code&quot; python test/inductor/test_aot_inductor.py -k test_addmm_cuda
-</code></pre></div>
-</li>
-<li>
-<p>启用<strong>仅定位</strong>有问题的内核名称：（在 CUDA IMA 调试中特别有用）</p>
-</li>
-<li>
-<p>添加标志 <code>AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=3</code>（PRINT_KERNEL_NAME_ONLY 模式），不会转储任何张量数值。</p>
-</li>
-</ol>
-<p>示例命令：</p>
-<div class="highlight"><pre><span></span><code>AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=3 TORCH_LOGS=&quot;+inductor, output_code&quot; python test/inductor/test_aot_inductor.py -k test_addmm_cuda
-</code></pre></div>
-<ol>
-<li>
-<p>启用<strong>保存</strong>中间张量值：</p>
-<ul>
-<li>当您想在独立的内核调试复现中重现错误时非常有用。保存的中间张量值可用作有问题的内核的调试输入。</li>
-<li>设置 <code>AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=1</code>（SAVE_ONLY 模式）以默认将所有支持的内核张量参数值保存到临时文件夹中的 <code>.pt</code> 文件。</li>
-<li>类似地，添加 <code>AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT={kernel_name_1, kernel_name_2,...}</code> 以选择性保存与指定内核关联的张量值。</li>
-</ul>
-</li>
-</ol>
-<p>示例命令：
-    <div class="highlight"><pre><span></span><code>AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT=&quot;triton_poi_fused_0&quot; AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=1 TORCH_LOGS=&quot;+inductor, output_code&quot; python test/inductor/test_aot_inductor.py -k test_addmm_cuda
+<p>```
+AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT="aoti_torch_cuda_addmm_out" AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=2 TORCH_LOGS="+inductor, output_code" python test/inductor/test_aot_inductor.py -k test_addmm_cuda
+<div class="highlight"><pre><span></span><code>2. 启用**仅定位**有问题的内核名称：（在 CUDA IMA 调试中特别有用）
+
+   - 添加标志 `AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=3`（PRINT_KERNEL_NAME_ONLY 模式），不会转储任何张量数值。
+
+   示例命令：
+
+   ```
+   AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=3 TORCH_LOGS=&quot;+inductor, output_code&quot; python test/inductor/test_aot_inductor.py -k test_addmm_cuda
+   ```
+
+3. 启用**保存**中间张量值：
+
+    - 当您想在独立的内核调试复现中重现错误时非常有用。保存的中间张量值可用作有问题的内核的调试输入。
+    - 设置 `AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=1`（SAVE_ONLY 模式）以默认将所有支持的内核张量参数值保存到临时文件夹中的 `.pt` 文件。
+    - 类似地，添加 `AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT={kernel_name_1, kernel_name_2,...}` 以选择性保存与指定内核关联的张量值。
+
+   示例命令：
+    ```
+AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT=&quot;triton_poi_fused_0&quot; AOT_INDUCTOR_DEBUG_INTERMEDIATE_VALUE_PRINTER=1 TORCH_LOGS=&quot;+inductor, output_code&quot; python test/inductor/test_aot_inductor.py -k test_addmm_cuda
 </code></pre></div></p>
-<div class="highlight"><pre><span></span><code>保存的张量值将以以下格式转储：`&lt;before/after_launch&gt;_&lt;kernel_name&gt;_&lt;arg_name&gt;_&lt;device&gt;.pt`
-
-转储的 `.pt` 张量可以进一步加载和使用，如下所示：
+<p>保存的张量值将以以下格式转储：<code>&lt;before/after_launch&gt;_&lt;kernel_name&gt;_&lt;arg_name&gt;_&lt;device&gt;.pt</code></p>
+<p>转储的 <code>.pt</code> 张量可以进一步加载和使用，如下所示：
 ```
-    def _load_tensor(path):
-        return torch.load(path, weights_only=True)
-    tensor = _load_tensor(&quot;../tmp/aoti_torch/before_launch_aoti_torch_cuda_addmm_out_buf1_cuda:0.pt&quot;)
-
-    # 简单地打印张量以查看完整值
-    print(tensor)
-```
-</code></pre></div>
-<h2 id="_2">示例输出<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+def _load_tensor(path):
+    return torch.load(path, weights_only=True)
+tensor = _load_tensor("../tmp/aoti_torch/before_launch_aoti_torch_cuda_addmm_out_buf1_cuda:0.pt")</p>
+<h1 id="_2">简单地打印张量以查看完整值<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
+<p>print(tensor)
+```</p>
+</li>
+</ol>
+<h2 id="_3">示例输出<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>启动前的张量统计信息：</p>
 <p><img alt="示例图片 1" src="_static/img/aoti_debug_printer/before_launch.png" /></p>
 <p>启动后的张量统计信息：</p>

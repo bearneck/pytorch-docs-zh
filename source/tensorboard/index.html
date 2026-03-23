@@ -9945,7 +9945,7 @@
 <p>在深入之前，可以在 <a href="https://www.tensorflow.org/tensorboard/">https://www.tensorflow.org/tensorboard/</a> 找到关于 TensorBoard 的更多详细信息。</p>
 <p>安装 TensorBoard 后，这些实用工具允许你将 PyTorch 模型和指标记录到一个目录中，以便在 TensorBoard UI 中进行可视化。对于 PyTorch 模型和张量以及 Caffe2 网络和 blob，都支持标量、图像、直方图、图和嵌入可视化。</p>
 <p>SummaryWriter 类是你记录数据以供 TensorBoard 使用和可视化的主要入口。例如：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.tensorboard</span><span class="w"> </span><span class="kn">import</span> <span class="n">SummaryWriter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
@@ -9966,7 +9966,7 @@
 <span class="n">writer</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">images</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
-<p>然后可以使用 TensorBoard 进行可视化，TensorBoard 应该可以通过以下方式安装和运行：:</p>
+然后可以使用 TensorBoard 进行可视化，TensorBoard 应该可以通过以下方式安装和运行：:</p>
 <blockquote>
 <p>pip install tensorboard tensorboard --logdir=runs</p>
 </blockquote>

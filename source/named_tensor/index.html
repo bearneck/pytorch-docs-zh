@@ -10212,11 +10212,11 @@
 </code></pre></div>
 <h2 id="_2">创建命名张量<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>工厂函数现在接受一个新的 <code>names</code> 参数，该参数将名称与每个维度关联起来。</p>
-<div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; torch.zeros(2, 3, names=(&#39;N&#39;, &#39;C&#39;))
+<p><div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; torch.zeros(2, 3, names=(&#39;N&#39;, &#39;C&#39;))
     tensor([[0., 0., 0.],
             [0., 0., 0.]], names=(&#39;N&#39;, &#39;C&#39;))
 </code></pre></div>
-<p>命名维度与常规张量维度一样是有序的。<code>tensor.names[i]</code> 是 <code>tensor</code> 第 <code>i</code> 维的名称。</p>
+命名维度与常规张量维度一样是有序的。<code>tensor.names[i]</code> 是 <code>tensor</code> 第 <code>i</code> 维的名称。</p>
 <p>以下工厂函数支持命名张量：</p>
 <ul>
 <li><code>torch.empty</code></li>
@@ -10229,7 +10229,7 @@
 <h2 id="_3">命名维度<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>关于张量名称的限制，请参阅 <code>Tensor.names</code>。</p>
 <p>使用 <code>Tensor.names</code> 访问张量的维度名称，并使用 <code>Tensor.rename</code> 重命名维度。</p>
-<div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; imgs = torch.randn(1, 2, 2, 3 , names=(&#39;N&#39;, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;))
+<p><div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; imgs = torch.randn(1, 2, 2, 3 , names=(&#39;N&#39;, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;))
     &gt;&gt;&gt; imgs.names
     (&#39;N&#39;, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;)
 
@@ -10237,7 +10237,7 @@
     &gt;&gt;&gt; renamed_imgs.names
     (&#39;N&#39;, &#39;C&#39;, &#39;height&#39;, &#39;width)
 </code></pre></div>
-<p>命名张量可以与未命名张量共存；命名张量是 <code>torch.Tensor</code> 的实例。未命名张量的维度名称为 <code>None</code>。命名张量并不要求所有维度都被命名。</p>
+命名张量可以与未命名张量共存；命名张量是 <code>torch.Tensor</code> 的实例。未命名张量的维度名称为 <code>None</code>。命名张量并不要求所有维度都被命名。</p>
 <div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; imgs = torch.randn(1, 2, 2, 3 , names=(None, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;))
     &gt;&gt;&gt; imgs.names
     (None, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;)
@@ -10260,26 +10260,26 @@
 </code></pre></div>
 <h3 id="_6">基本名称推断规则<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>让我们看看在没有广播的情况下，对两个一维张量进行加法运算时，<code>match</code> 和 <code>unify</code> 是如何用于名称推断的。</p>
-<div class="highlight"><pre><span></span><code>    x = torch.randn(3, names=(&#39;X&#39;,))
+<p><div class="highlight"><pre><span></span><code>    x = torch.randn(3, names=(&#39;X&#39;,))
     y = torch.randn(3)
     z = torch.randn(3, names=(&#39;Z&#39;,))
 </code></pre></div>
-<p><strong>检查名称</strong>：检查两个张量的名称是否<em>匹配</em>。</p>
+<strong>检查名称</strong>：检查两个张量的名称是否<em>匹配</em>。</p>
 <p>对于以下示例：</p>
-<div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; # x + y  # match(&#39;X&#39;, None) is True
+<p><div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; # x + y  # match(&#39;X&#39;, None) is True
     &gt;&gt;&gt; # x + z  # match(&#39;X&#39;, &#39;Z&#39;) is False
     &gt;&gt;&gt; # x + x  # match(&#39;X&#39;, &#39;X&#39;) is True
 
     &gt;&gt;&gt; x + z
     Error when attempting to broadcast dims [&#39;X&#39;] and dims [&#39;Z&#39;]: dim &#39;X&#39; and dim &#39;Z&#39; are at the same position from the right but do not match.
 </code></pre></div>
-<p><strong>传播名称</strong>：<em>unify</em> 名称以选择要传播的名称。在 <code>x + y</code> 的情况下，<code>unify('X', None) = 'X'</code>，因为 <code>'X'</code> 比 <code>None</code> 更具体。</p>
-<div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; (x + y).names
+<strong>传播名称</strong>：<em>unify</em> 名称以选择要传播的名称。在 <code>x + y</code> 的情况下，<code>unify('X', None) = 'X'</code>，因为 <code>'X'</code> 比 <code>None</code> 更具体。</p>
+<p><div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; (x + y).names
     (&#39;X&#39;,)
     &gt;&gt;&gt; (x + x).names
     (&#39;X&#39;,)
 </code></pre></div>
-<p>有关名称推断规则的完整列表，请参阅 <em>name_inference_reference-doc</em>。以下是两个常见操作，可能有助于理解：</p>
+有关名称推断规则的完整列表，请参阅 <em>name_inference_reference-doc</em>。以下是两个常见操作，可能有助于理解：</p>
 <ul>
 <li>二元算术运算：<em>unifies_names_from_inputs-doc</em></li>
 <li>矩阵乘法运算：<em>contracts_away_dims-doc</em></li>
@@ -10304,14 +10304,14 @@
 </code></pre></div>
 <h2 id="_8">操作维度<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <p>使用 <code>Tensor.align_to</code> 可以置换大量维度，而无需像 <code>Tensor.permute</code> 那样提及所有维度。</p>
-<div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; tensor = torch.randn(2, 2, 2, 2, 2, 2)
+<p><div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; tensor = torch.randn(2, 2, 2, 2, 2, 2)
     &gt;&gt;&gt; named_tensor = tensor.refine_names(&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;)
 
     # 将 F 维度（第 5 维）和 E 维度（第 4 维）移到前面，同时保持其余维度顺序不变
     &gt;&gt;&gt; tensor.permute(5, 4, 0, 1, 2, 3)
     &gt;&gt;&gt; named_tensor.align_to(&#39;F&#39;, &#39;E&#39;, ...)
 </code></pre></div>
-<p>分别使用 <code>Tensor.flatten</code> 和 <code>Tensor.unflatten</code> 来展平和展开维度。这些方法比 <code>Tensor.view</code> 和 <code>Tensor.reshape</code> 更冗长，但对于阅读代码的人来说具有更多的语义含义。</p>
+分别使用 <code>Tensor.flatten</code> 和 <code>Tensor.unflatten</code> 来展平和展开维度。这些方法比 <code>Tensor.view</code> 和 <code>Tensor.reshape</code> 更冗长，但对于阅读代码的人来说具有更多的语义含义。</p>
 <div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; imgs = torch.randn(32, 3, 128, 128)
     &gt;&gt;&gt; named_imgs = imgs.refine_names(&#39;N&#39;, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;)
 

@@ -10301,13 +10301,13 @@ PowerSGD 钩子可能与 [Apex 自动混合精度包](https://github.com/NVIDIA/
 </tbody>
 </table>
 <p>有状态的通信钩子可以作为模型检查点的一部分保存，以便支持训练器重启。为了使钩子可序列化，需要定义 <code>__setstate__</code> 和 <code>__getstate__</code> 方法。</p>
-<div class="highlight"><pre><span></span><code>`__getstate__` 应该从返回的字典中排除不可序列化的属性。
+<p><div class="highlight"><pre><span></span><code>`__getstate__` 应该从返回的字典中排除不可序列化的属性。
 {warning}
 `__setstate__` 应该正确初始化不可序列化的属性，这些属性在提供的 `state` 中被排除。
 </code></pre></div>
-<p><code>PowerSGDState</code> 已经实现了 <code>__setstate__</code> 和 <code>__getstate__</code> 方法，可以作为参考。</p>
+<code>PowerSGDState</code> 已经实现了 <code>__setstate__</code> 和 <code>__getstate__</code> 方法，可以作为参考。</p>
 <p>以下是一个保存和重新加载 PowerSGD 状态及钩子的简单端到端示例。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
@@ -10354,7 +10354,7 @@ PowerSGD 钩子可能与 [Apex 自动混合精度包](https://github.com/NVIDIA/
     <span class="n">model</span> <span class="o">=</span> <span class="n">SimpleModel</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
     <span class="n">ddp_model</span> <span class="o">=</span> <span class="n">DistributedDataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">rank</span><span class="p">])</span>
 </code></pre></div>
-<p>powersgd_hook = powerSGD.powerSGD_hook
+powersgd_hook = powerSGD.powerSGD_hook
 powersgd_state = powerSGD.PowerSGDState(process_group=None)</p>
 <p>optimizer = optim.SGD(ddp_model.parameters(), lr=0.001)
 ddp_model.register_comm_hook(powersgd_state, powersgd_hook)</p>

@@ -9897,7 +9897,7 @@
 
 <h1 id="_1">快速入门<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>要启动一个**容错**作业，请在所有节点上运行以下命令。</p>
-<div class="highlight"><pre><span></span><code>torchrun
+<p><div class="highlight"><pre><span></span><code>torchrun
 <span class="w">   </span>--nnodes<span class="o">=</span>NUM_NODES
 <span class="w">   </span>--nproc-per-node<span class="o">=</span>TRAINERS_PER_NODE
 <span class="w">   </span>--max-restarts<span class="o">=</span>NUM_ALLOWED_FAILURES
@@ -9906,7 +9906,7 @@
 <span class="w">   </span>--rdzv-endpoint<span class="o">=</span>HOST_NODE_ADDR
 <span class="w">   </span>YOUR_TRAINING_SCRIPT.py<span class="w"> </span><span class="o">(</span>--arg1<span class="w"> </span>...<span class="w"> </span>train<span class="w"> </span>script<span class="w"> </span>args...<span class="o">)</span>
 </code></pre></div>
-<p>要启动一个**弹性**作业，请在至少 <code>MIN_SIZE</code> 个节点和至多 <code>MAX_SIZE</code> 个节点上运行以下命令。</p>
+要启动一个**弹性**作业，请在至少 <code>MIN_SIZE</code> 个节点和至多 <code>MAX_SIZE</code> 个节点上运行以下命令。</p>
 <div class="highlight"><pre><span></span><code>torchrun
 <span class="w">    </span>--nnodes<span class="o">=</span>MIN_SIZE:MAX_SIZE
 <span class="w">    </span>--nproc-per-node<span class="o">=</span>TRAINERS_PER_NODE

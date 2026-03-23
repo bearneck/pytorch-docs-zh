@@ -10051,33 +10051,33 @@
 <li>使用 <code>torch.profiler.profile()</code> 上下文来分析我们感兴趣的部分</li>
 <li>使用 <code>prof.export_chrome_trace("trace.json")</code> 导出分析产物。</li>
 </ul>
-<div class="highlight"><pre><span></span><code>    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">resnet18</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">resnet18</span>
 
-    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span>      <span class="c1"># or &#39;cpu&#39;, &#39;xpu&#39;, etc.</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span>      <span class="c1"># or &#39;cpu&#39;, &#39;xpu&#39;, etc.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
-    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
 
-    <span class="n">model_c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">model_c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">fwd_bwd</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">model_c</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-        <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fwd_bwd</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model_c</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
 
-    <span class="c1"># warm up</span>
-    <span class="n">fwd_bwd</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1"># warm up</span>
+<span class="n">fwd_bwd</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
-            <span class="n">fwd_bwd</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="n">prof</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="n">fwd_bwd</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">prof</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 
-    <span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;trace.json&quot;</span><span class="p">)</span>
+<span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;trace.json&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>查看 Chrome 追踪</strong>：在 Chrome 浏览器中，打开 chrome://tracing 并加载 json 文件。使用“w”和“s”键进行放大和缩小，使用“a”和“d”键左右滚动。“?”将显示包含快捷键列表的“帮助”屏幕。</p>
 <p>```{figure} ../../_static/img/profiling_torch_compile/basic_chrome_trace.png</p>
-<div class="highlight"><pre><span></span><code>在这里，我们观察到：
+<p><div class="highlight"><pre><span></span><code>在这里，我们观察到：
 * CompiledFunction 和 CompiledFunctionBackward 事件，它们对应于 dynamo 编译的区域。
 * 顶部的 CPU 事件和底部的 GPU 事件。
 
@@ -10089,7 +10089,7 @@
 
 ```{figure}  ../../_static/img/profiling_torch_compile/ac2g.png
 </code></pre></div>
-<p>或者，使用顶部的“Flow events”下拉菜单打开<em>所有</em>流。</p>
+或者，使用顶部的“Flow events”下拉菜单打开<em>所有</em>流。</p>
 <h2 id="cuda-graph">解决 CUDA Graph 分析问题<a class="headerlink" href="#cuda-graph" title="Permanent link">&para;</a></h2>
 <p>当启用 CUDA 图时，某些 CUDA 配置（驱动程序版本低于 525.85.12 或 CUDA &lt; 12）可能会在分析工具和 CUDA 图之间遇到问题。要解决这些问题，请在程序顶部添加一个空的分析上下文：</p>
 <div class="highlight"><pre><span></span><code>    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
@@ -10102,7 +10102,7 @@
 <p>要理解为什么编译花费很长时间，可以分析首次调用 torch.compile 程序的执行情况。请注意，编译的分析追踪可能比典型分析失真更严重，因为编译工作负载可能与典型的 PyTorch 工作负载有很大不同。在某些情况下，追踪文件也可能非常大。大于 1GB 的追踪文件可能难以用 Chrome 追踪工具打开。</p>
 <p>注意：大致相同的信息也可以通过非图形格式使用 :code:<code>torch._dynamo.utils.compile_times()</code> 获得。此实用程序不会显示编译步骤何时发生，但会显示每个步骤花费的时间——并且时间不会受到任何分析开销的影响。</p>
 <p>请参见以下示例：</p>
-<div class="highlight"><pre><span></span><code>    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<p><div class="highlight"><pre><span></span><code>    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">resnet18</span>
 
     <span class="c1"># user can switch between cuda and xpu</span>
@@ -10135,7 +10135,7 @@
     <span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;trace_compile.json&quot;</span><span class="p">)</span>
 <span class="p">{</span><span class="n">figure</span><span class="p">}</span> <span class="o">../../</span><span class="n">_static</span><span class="o">/</span><span class="n">img</span><span class="o">/</span><span class="n">profiling_torch_compile</span><span class="o">/</span><span class="n">compilation_profiling</span><span class="o">.</span><span class="n">png</span>
 </code></pre></div>
-<p>注意几点：</p>
+注意几点：</p>
 <ul>
 <li>第一次调用应<em>在</em>分析期间发生，以便捕获编译过程</li>
 <li>添加预热编译以初始化任何需要延迟初始化的系统。</li>
@@ -10206,14 +10206,14 @@
 <li>GPU 端事件</li>
 </ol>
 <p>```{figure} ../../_static/img/profiling_torch_compile/kernel_launch_labeled.png</p>
-<div class="highlight"><pre><span></span><code>**Inductor 生成的 Triton 内核：**
+<p><div class="highlight"><pre><span></span><code>**Inductor 生成的 Triton 内核：**
 1. **CPU 端事件** 应显示为以 &quot;triton\_&quot; 为前缀的事件。这些事件目前信息量很少 - 只有内核名称和启动信息，但比典型的 aten 内核启动（包含输入形状、类型等）的信息要少。
 2. **内核启动** 应显示为 cuLaunchKernel 而不是 cudaLaunchKernel（cudaLaunchKernel 是 aten 算子的典型情况）
 3. **GPU 端事件** 应该出现，其名称的描述性取决于 inductor 配置中的 `unique_kernel_names`
 
 ```{figure} ../../_static/img/profiling_torch_compile/triton_kernel_launch.png
 </code></pre></div>
-<p><strong>非 Inductor 生成的 Triton 内核：</strong></p>
+<strong>非 Inductor 生成的 Triton 内核：</strong></p>
 <ol>
 <li><strong>CPU 端</strong> 事件可能不会出现在跟踪中；自动插入分析器事件的机制目前是在 Inductor 层面实现的，因此绕过 Inductor 的 Triton 内核可能不会出现在跟踪中，除非用户手动标注了它们。</li>
 <li><strong>内核启动</strong> 应显示为 cuLaunchKernel 而不是 cudaLaunchKernel（cudaLaunchKernel 是 aten 算子的典型情况）</li>

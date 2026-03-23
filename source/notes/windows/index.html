@@ -10351,7 +10351,7 @@ pip install ninja
 <p>与上一种类型相比，这种扩展有更好的支持。 然而，它仍然需要一些手动配置。首先，你应该打开 <strong>适用于 VS 2017 的 x86_x64 交叉工具命令提示符</strong>。 然后，你就可以开始编译过程了。</p>
 <h2 id="_5">安装<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <h3 id="win-32">在 win-32 频道中找不到包。<a class="headerlink" href="#win-32" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>Solving environment: failed
+<p><div class="highlight"><pre><span></span><code>Solving environment: failed
 
 PackagesNotFoundError: The following packages are not available from current channels:
 
@@ -10369,18 +10369,18 @@ Current channels:
 - https://repo.continuum.io/pkgs/msys2/win-32
 - https://repo.continuum.io/pkgs/msys2/noarch
 </code></pre></div>
-<p>PyTorch 不能在 32 位系统上运行。请使用 Windows 和 Python 的 64 位版本。</p>
+PyTorch 不能在 32 位系统上运行。请使用 Windows 和 Python 的 64 位版本。</p>
 <h3 id="_6">导入错误<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch._C</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch._C</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 <span class="ne">ImportError</span><span class="p">:</span> <span class="n">DLL</span> <span class="n">load</span> <span class="n">failed</span><span class="p">:</span> <span class="n">The</span> <span class="n">specified</span> <span class="n">module</span> <span class="n">could</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">found</span><span class="o">.</span>
 </code></pre></div>
-<p>该问题是由缺少必要文件引起的。 对于 wheel 包，由于我们没有打包一些库和 VS2017 可再发行文件，请确保你手动安装它们。 可以下载 <a href="https://aka.ms/vs/15/release/VC_redist.x64.exe">VS 2017 可再发行安装程序</a>。 你还应该注意你的 Numpy 安装。确保它 使用 MKL 而不是 OpenBLAS。你可以输入以下命令。</p>
+该问题是由缺少必要文件引起的。 对于 wheel 包，由于我们没有打包一些库和 VS2017 可再发行文件，请确保你手动安装它们。 可以下载 <a href="https://aka.ms/vs/15/release/VC_redist.x64.exe">VS 2017 可再发行安装程序</a>。 你还应该注意你的 Numpy 安装。确保它 使用 MKL 而不是 OpenBLAS。你可以输入以下命令。</p>
 <div class="highlight"><pre><span></span><code>pip install numpy mkl intel-openmp mkl_fft
 </code></pre></div>
 <h2 id="_7">使用（多进程）<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <h3 id="if">没有 if 子句保护导致的多进程错误<a class="headerlink" href="#if" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="ne">RuntimeError</span><span class="p">:</span>
+<p><div class="highlight"><pre><span></span><code><span class="ne">RuntimeError</span><span class="p">:</span>
        <span class="n">An</span> <span class="n">attempt</span> <span class="n">has</span> <span class="n">been</span> <span class="n">made</span> <span class="n">to</span> <span class="n">start</span> <span class="n">a</span> <span class="n">new</span> <span class="n">process</span> <span class="n">before</span> <span class="n">the</span>
        <span class="n">current</span> <span class="n">process</span> <span class="n">has</span> <span class="n">finished</span> <span class="n">its</span> <span class="n">bootstrapping</span> <span class="n">phase</span><span class="o">.</span>
 
@@ -10395,7 +10395,7 @@ Current channels:
    <span class="n">The</span> <span class="s2">&quot;freeze_support()&quot;</span> <span class="n">line</span> <span class="n">can</span> <span class="n">be</span> <span class="n">omitted</span> <span class="k">if</span> <span class="n">the</span> <span class="n">program</span>
    <span class="ow">is</span> <span class="ow">not</span> <span class="n">going</span> <span class="n">to</span> <span class="n">be</span> <span class="n">frozen</span> <span class="n">to</span> <span class="n">produce</span> <span class="n">an</span> <span class="n">executable</span><span class="o">.</span>
 </code></pre></div>
-<p>Windows 上 <code>multiprocessing</code> 的实现方式不同，它 使用 <code>spawn</code> 而不是 <code>fork</code>。因此，我们必须用 if 子句包装代码，以防止代码多次执行。将 你的代码重构为以下结构。</p>
+Windows 上 <code>multiprocessing</code> 的实现方式不同，它 使用 <code>spawn</code> 而不是 <code>fork</code>。因此，我们必须用 if 子句包装代码，以防止代码多次执行。将 你的代码重构为以下结构。</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
@@ -10406,11 +10406,11 @@ Current channels:
     <span class="n">main</span><span class="p">()</span>
 </code></pre></div>
 <h3 id="broken-pipe">多进程错误 \"Broken pipe\"<a class="headerlink" href="#broken-pipe" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="n">ForkingPickler</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">ForkingPickler</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 <span class="ne">BrokenPipeError</span><span class="p">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">32</span><span class="p">]</span> <span class="n">Broken</span> <span class="n">pipe</span>
 </code></pre></div>
-<p>当子进程在父进程完成发送数据之前结束时，会发生此问题。 你的代码可能有问题。你可以 通过将 <code>torch.utils.data.DataLoader</code> 的 <code>num_worker</code> 减少到零来调试你的代码，看看问题是否仍然存在。</p>
+当子进程在父进程完成发送数据之前结束时，会发生此问题。 你的代码可能有问题。你可以 通过将 <code>torch.utils.data.DataLoader</code> 的 <code>num_worker</code> 减少到零来调试你的代码，看看问题是否仍然存在。</p>
 <h3 id="driver-shut-down">多进程错误 \"driver shut down\"<a class="headerlink" href="#driver-shut-down" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>Couldn’t open shared file mapping: &lt;torch_14808_1591070686&gt;, error code: &lt;1455&gt; at torch\lib\TH\THAllocator.c:154
 

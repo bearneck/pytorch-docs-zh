@@ -10067,7 +10067,7 @@
 <h2 id="_1">模型编译<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>要使用 AOTInductor 编译模型，我们首先需要使用 <code>torch.export.export</code> 将给定的 PyTorch 模型捕获为计算图。torch.export  提供了正确性保证以及对捕获的 IR 的严格规范，AOTInductor 依赖于此。</p>
 <p>然后，我们将使用 <code>torch._inductor.aoti_compile_and_package</code> 通过 TorchInductor 编译导出的程序，并将编译后的产物保存到一个包中。该包采用 PT2 归档规范  的格式。</p>
-<div class="highlight"><pre><span></span><code>如果您的机器上启用了 CUDA 设备，并且您安装了支持 CUDA 的 PyTorch，以下代码会将模型编译为用于 CUDA 执行的共享库。否则，编译后的产物将在 CPU 上运行。为了在 CPU 推理期间获得更好的性能，建议在运行下面的 Python 脚本之前，通过设置 `export TORCHINDUCTOR_FREEZING=1` 来启用冻结。在配备 Intel® GPU 的环境中，此行为同样适用。
+<p><div class="highlight"><pre><span></span><code>如果您的机器上启用了 CUDA 设备，并且您安装了支持 CUDA 的 PyTorch，以下代码会将模型编译为用于 CUDA 执行的共享库。否则，编译后的产物将在 CPU 上运行。为了在 CPU 推理期间获得更好的性能，建议在运行下面的 Python 脚本之前，通过设置 `export TORCHINDUCTOR_FREEZING=1` 来启用冻结。在配备 Intel® GPU 的环境中，此行为同样适用。
 python
 import os
 import torch
@@ -10107,20 +10107,20 @@ with torch.no_grad():
         inductor_configs={&quot;max_autotune&quot;: True,},
     )
 </code></pre></div>
-<p>在这个示例中，<code>Dim</code> 参数用于将输入变量 "x" 的第一个维度指定为动态维度。值得注意的是，编译库的路径和名称未指定，导致共享库存储在临时目录中。为了从 C++ 端访问此路径，我们将其保存到文件中，以便稍后在 C++ 代码中检索。</p>
+在这个示例中，<code>Dim</code> 参数用于将输入变量 "x" 的第一个维度指定为动态维度。值得注意的是，编译库的路径和名称未指定，导致共享库存储在临时目录中。为了从 C++ 端访问此路径，我们将其保存到文件中，以便稍后在 C++ 代码中检索。</p>
 <h2 id="python">在 Python 中进行推理<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
 <p>有多种方法可以部署编译后的产物进行推理，其中一种方法是使用 Python。我们在 Python 中提供了一个便捷的实用程序 API <code>torch._inductor.aoti_load_package</code> 用于加载和运行产物，如下例所示：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
 <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_inductor</span><span class="o">.</span><span class="n">aoti_load_package</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;model.pt2&quot;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)))</span>
 </code></pre></div>
-<p>推理时的输入应具有与导出时输入相同的大小、数据类型和步长。</p>
+推理时的输入应具有与导出时输入相同的大小、数据类型和步长。</p>
 <h2 id="c">在 C++ 中进行推理<a class="headerlink" href="#c" title="Permanent link">&para;</a></h2>
 <p>接下来，我们使用以下示例 C++ 文件 <code>inference.cpp</code> 来加载编译后的产物，使我们能够在 C++ 环境中直接进行模型预测。</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<p><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;torch/torch.h&gt;</span>
@@ -10144,15 +10144,15 @@ with torch.no_grad():
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>为了构建 C++ 文件，您可以使用提供的 <code>CMakeLists.txt</code> 文件，该文件自动化了调用 <code>python model.py</code> 进行模型的 AOT 编译以及将 <code>inference.cpp</code> 编译成名为 <code>aoti_example</code> 的可执行二进制文件的过程。</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.18</span><span class="w"> </span><span class="s">FATAL_ERROR</span><span class="p">)</span>
+为了构建 C++ 文件，您可以使用提供的 <code>CMakeLists.txt</code> 文件，该文件自动化了调用 <code>python model.py</code> 进行模型的 AOT 编译以及将 <code>inference.cpp</code> 编译成名为 <code>aoti_example</code> 的可执行二进制文件的过程。</p>
+<p><div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.18</span><span class="w"> </span><span class="s">FATAL_ERROR</span><span class="p">)</span>
 <span class="nb">project</span><span class="p">(</span><span class="s">aoti_example</span><span class="p">)</span>
 
 <span class="nb">find_package</span><span class="p">(</span><span class="s">Torch</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
 
 <span class="nb">add_executable</span><span class="p">(</span><span class="s">aoti_example</span><span class="w"> </span><span class="s">inference.cpp</span><span class="w"> </span><span class="s">model.pt2</span><span class="p">)</span>
 </code></pre></div>
-<p>add_custom_command(
+add_custom_command(
     OUTPUT model.pt2
     COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/model.py
     DEPENDS model.py

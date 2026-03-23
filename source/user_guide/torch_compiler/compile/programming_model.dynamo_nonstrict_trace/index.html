@@ -9930,28 +9930,28 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
 </code></pre></div>
 <h1 id="torch_dynamononstrict_trace">使用 <code>torch._dynamo.nonstrict_trace</code><a class="headerlink" href="#torch_dynamononstrict_trace" title="Permanent link">&para;</a></h1>
 <p><strong>摘要：</strong>
 - 使用 <code>nonstrict_trace</code> 在 <code>torch.compile</code> 编译区域内以非严格追踪模式追踪一个函数。
   你可能希望这样做，是因为 Dynamo 图在该函数内部某处中断，而你确信该函数可以进行非严格追踪。</p>
 <p>考虑以下场景：</p>
-<div class="highlight"><pre><span></span><code>def get_magic_num():
-    # 这个显式的图中断调用旨在模拟任何类型的 Dynamo 图中断，
-    # 例如，函数是用 C 实现的，或者使用了 Dynamo 尚不支持的某些 Python 语言特性。
-    torch._dynamo.graph_break()
-    return torch.tensor([42])
-@torch.compile(fullgraph=True)
-def func(x):
-    n = get_magic_num()
-    return x + n
-try:
-    func(torch.rand(10))
-except Exception as e:
-    print(e)
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_magic_num</span><span class="p">():</span>
+    <span class="c1"># 这个显式的图中断调用旨在模拟任何类型的 Dynamo 图中断，</span>
+    <span class="c1"># 例如，函数是用 C 实现的，或者使用了 Dynamo 尚不支持的某些 Python 语言特性。</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">42</span><span class="p">])</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">get_magic_num</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">func</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div>
 <p>如果我们运行上面的代码，将会收到来自 Dynamo 的错误，因为它在用户指定了 <code>fullgraph=True</code> 的情况下遇到了图中断。</p>
 <p>在这些情况下，如果用户仍然希望保持 <code>fullgraph=True</code>，他们通常有几个选择：</p>
@@ -9974,31 +9974,31 @@ except Exception as e:
 <p>在追踪对 <code>torch._dynamo.nonstrict_trace</code> 修饰的函数的调用时，<code>torch.compile</code> 会切换到<a href="programming_model.non_strict_tracing_model">非严格追踪模式</a>，
 并且 FX 图最终将包含该函数内部发生的所有相关张量操作。</p>
 <p>对于上面的示例，我们可以使用 <code>torch._dynamo.nonstrict_trace</code> 来消除图中断：</p>
-<div class="highlight"><pre><span></span><code>@torch._dynamo.nonstrict_trace
-def get_magic_num():
-    # 这个显式的图中断调用旨在模拟任何类型的 Dynamo 图中断，
-    # 例如，函数是用 C 实现的，或者使用了 Dynamo 尚不支持的某些 Python 语言特性。
-    torch._dynamo.graph_break()
-    return torch.tensor([42])
-@torch.compile(fullgraph=True)
-def func(x):
-    n = get_magic_num()
-    return x + n
-print(func(torch.rand(10)))
-# 没有图中断，也没有错误。
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">nonstrict_trace</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_magic_num</span><span class="p">():</span>
+    <span class="c1"># 这个显式的图中断调用旨在模拟任何类型的 Dynamo 图中断，</span>
+    <span class="c1"># 例如，函数是用 C 实现的，或者使用了 Dynamo 尚不支持的某些 Python 语言特性。</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">42</span><span class="p">])</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">get_magic_num</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="c1"># 没有图中断，也没有错误。</span>
 </code></pre></div>
 <p>请注意，也可以在 <code>torch.compile</code> 编译区域内使用它：</p>
-<div class="highlight"><pre><span></span><code>def get_magic_num():
-    # 这个显式的图中断调用旨在模拟任何类型的 Dynamo 图中断，
-    # 例如，函数是用 C 实现的，或者使用了 Dynamo 尚不支持的某些 Python 语言特性。
-    torch._dynamo.graph_break()
-    return torch.tensor([42])
-@torch.compile(fullgraph=True)
-def func(x):
-    n = torch._dynamo.nonstrict_trace(get_magic_num)()
-    return x + n
-print(func(torch.rand(10)))
-# 没有图中断，也没有错误。
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_magic_num</span><span class="p">():</span>
+    <span class="c1"># 这个显式的图中断调用旨在模拟任何类型的 Dynamo 图中断，</span>
+    <span class="c1"># 例如，函数是用 C 实现的，或者使用了 Dynamo 尚不支持的某些 Python 语言特性。</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">42</span><span class="p">])</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">nonstrict_trace</span><span class="p">(</span><span class="n">get_magic_num</span><span class="p">)()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>
+<span class="c1"># 没有图中断，也没有错误。</span>
 </code></pre></div>
 
 

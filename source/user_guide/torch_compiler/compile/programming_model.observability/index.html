@@ -10035,7 +10035,7 @@ tlparse<span class="w"> </span>/tmp/tracedir<span class="w"> </span>--latest
 如果您正在为一个没有独立复现的复杂问题提交错误报告，您仍然可以通过以下方式极大地帮助 PyTorch 开发者：</p>
 <p>1) 附上在 <code>/tmp/tracedir</code> 中生成的追踪日志，或者
 2) 附上一个<strong>包含 tlparse 所有输出的 zip 文件</strong>（例如 <code>tl_out</code> 中的所有文件）。请不要只附上 index.html 文件，因为它只包含输出文件的目录，而不是真正的输出内容。</p>
-<div class="highlight"><pre><span></span><code>追踪日志包含您所有的模型代码。
+<p><div class="highlight"><pre><span></span><code>追踪日志包含您所有的模型代码。
 如果您正在处理的模型是敏感的，请不要分享追踪日志。追踪日志**不包含**权重。
 {raw} html
     &lt;style&gt;
@@ -10044,7 +10044,7 @@ tlparse<span class="w"> </span>/tmp/tracedir<span class="w"> </span>--latest
         .dark-green {background-color:#027f02;}
     &lt;/style&gt;
 </code></pre></div>
-<p><code>tlparse</code> 的输出主要面向 PyTorch 开发者，其日志格式便于在 GitHub 上上传和分享。
+<code>tlparse</code> 的输出主要面向 PyTorch 开发者，其日志格式便于在 GitHub 上上传和分享。
 然而，作为非 PyTorch 开发者，您仍然可以从中提取有用的信息。
 我们建议从报告中的内联帮助文本开始，它解释了报告的内容。
 以下是一些您可以从 <code>tlparse</code> 中获得的信息：</p>
@@ -10067,9 +10067,9 @@ tlparse<span class="w"> </span>/tmp/tracedir<span class="w"> </span>--latest
 <h2 id="torch_logs">TORCH_LOGS<a class="headerlink" href="#torch_logs" title="Permanent link">&para;</a></h2>
 <p>您可以使用 <code>TORCH_LOGS</code> 环境变量选择性地启用 <code>torch.compile</code> 堆栈的某些部分进行日志记录。
 <code>TORCH_LOGS</code> 实际上是 <code>tlparse</code> 的日志来源。<code>TORCH_LOGS</code> 环境变量的格式如下：</p>
-<div class="highlight"><pre><span></span><code><span class="nv">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;&lt;option1&gt;,&lt;option2&gt;,...&quot;</span><span class="w"> </span>python<span class="w"> </span>foo.py
+<p><div class="highlight"><pre><span></span><code><span class="nv">TORCH_LOGS</span><span class="o">=</span><span class="s2">&quot;&lt;option1&gt;,&lt;option2&gt;,...&quot;</span><span class="w"> </span>python<span class="w"> </span>foo.py
 </code></pre></div>
-<p>您也可以使用 <code>torch._logging.set_logs</code> 以编程方式设置日志选项：</p>
+您也可以使用 <code>torch._logging.set_logs</code> 以编程方式设置日志选项：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 </code></pre></div>

@@ -10434,26 +10434,27 @@
 <li>
 <p><code>STABLE_TORCH_LIBRARY</code>
     与 <code>TORCH_LIBRARY</code> 不同，分发器期望通过 <code>STABLE_TORCH_LIBRARY</code> 注册的内核是盒装的。<code>TORCH_BOX</code> 宏会自动为您处理此盒装操作：</p>
-<div class="highlight"><pre><span></span><code><span class="n">Tensor</span><span class="w"> </span><span class="nf">my_amax_vec</span><span class="p">(</span><span class="n">Tensor</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">amax</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// 使用 TORCH_BOX 自动生成盒装包装器</span>
-<span class="n">STABLE_TORCH_LIBRARY</span><span class="p">(</span><span class="n">myops</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;my_amax_vec(Tensor t) -&gt; Tensor&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">TORCH_BOX</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_amax_vec</span><span class="p">));</span>
-<span class="p">}</span>
-</code></pre></div>
-</li>
-<li>
-<p><code>torch_call_dispatcher</code>
-    此 API 允许您从 C/C++ 代码调用 PyTorch 分发器。它具有以下签名：</p>
-<div class="highlight"><pre><span></span><code><span class="n">torch_call_dispatcher</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">opName</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">overloadName</span><span class="p">,</span><span class="w"> </span><span class="n">StableIValue</span><span class="o">*</span><span class="w"> </span><span class="n">stack</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">extension_build_version</span><span class="p">);</span>
-</code></pre></div>
-<p><code>torch_call_dispatcher</code> 将调用由给定的 <code>opName</code>、<code>overloadName</code>、StableIValue 栈以及用户扩展的 <code>TORCH_ABI_VERSION</code> 定义的操作符重载。此调用将操作符的任何返回值以 StableIValue 形式填充到栈中，<code>ret0</code> 在索引 0 处，<code>ret1</code> 在索引 1 处，依此类推。</p>
-<p>我们建议不要使用此 API 调用由其他扩展注册到分发器的函数，除非调用者能够保证他们期望的签名与自定义扩展注册的签名匹配。</p>
+<p>```cpp
+Tensor my_amax_vec(Tensor t) {
+std::vector<int64_t> v = {0,1};
+return amax(t, v, false);
+}</p>
 </li>
 </ol>
+<p>// 使用 TORCH_BOX 自动生成盒装包装器
+STABLE_TORCH_LIBRARY(myops, m) {
+    m.def("my_amax_vec(Tensor t) -&gt; Tensor", TORCH_BOX(&amp;my_amax_vec));
+}
+<div class="highlight"><pre><span></span><code>2. `torch_call_dispatcher`
+    此 API 允许您从 C/C++ 代码调用 PyTorch 分发器。它具有以下签名：
+
+    ```cpp
+torch_call_dispatcher(const char* opName, const char* overloadName, StableIValue* stack, uint64_t extension_build_version);
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>`torch_call_dispatcher` 将调用由给定的 `opName`、`overloadName`、StableIValue 栈以及用户扩展的 `TORCH_ABI_VERSION` 定义的操作符重载。此调用将操作符的任何返回值以 StableIValue 形式填充到栈中，`ret0` 在索引 0 处，`ret1` 在索引 1 处，依此类推。
+
+我们建议不要使用此 API 调用由其他扩展注册到分发器的函数，除非调用者能够保证他们期望的签名与自定义扩展注册的签名匹配。
+</code></pre></div>
 <h3 id="_3">版本控制与前向/后向兼容性保证<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>我们在 <code>torch/headeronly/version.h</code> 中提供了一个 <code>TORCH_ABI_VERSION</code> 宏，其形式如下：</p>
 <div class="highlight"><pre><span></span><code>[ byte ][ byte ][ byte ][ byte ][ byte ][ byte ][ byte ][ byte ]

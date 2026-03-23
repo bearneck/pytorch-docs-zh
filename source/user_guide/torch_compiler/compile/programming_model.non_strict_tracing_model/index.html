@@ -10121,9 +10121,9 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
 </code></pre></div>
 <h1 id="_1">非严格追踪编程模型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p><strong>摘要：</strong>
@@ -10134,15 +10134,15 @@ import header_code
 <p><code>torch.compile</code> 的内部机制（<code>make_fx</code>、AOTDispatcher）使用<strong>非严格追踪</strong>。 <a href="programming_model.dynamo_nonstrict_trace"><code>torch._dynamo.nonstrict_trace</code></a> 也可以在 <code>torch.compile</code> 编译的代码中用于标记使用非严格追踪进行追踪的代码段。
 非严格追踪会运行一个 Python 函数，并利用 Python 和 PyTorch 的操作符重载能力，将执行过程中发生的张量操作记录到追踪图中。</p>
 <p><strong><code>make_fx</code></strong> 是非严格追踪的主要入口点。对于以下函数，在执行输入时只走了上面的分支，因此它捕获的图只包含该分支。</p>
-<div class="highlight"><pre><span></span><code>from torch.fx.experimental.proxy_tensor import make_fx
-def f(x):
-    if x.shape[0] &gt; 2:
-        return x ** 2 / 6
-    else:
-        return x * 3
-x = torch.randn(3)
-gm = make_fx(f, tracing_mode=&quot;fake&quot;)(x)
-gm.print_readable()
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch.fx.experimental.proxy_tensor</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_fx</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">6</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gm</span> <span class="o">=</span> <span class="n">make_fx</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tracing_mode</span><span class="o">=</span><span class="s2">&quot;fake&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">gm</span><span class="o">.</span><span class="n">print_readable</span><span class="p">()</span>
 </code></pre></div>
 <p>非严格追踪与 Dynamo（严格）追踪的不同之处在于<strong>它是不安全的</strong>，也就是说，给定一个函数，它捕获的张量操作图可能具有与原始函数不同的语义。
 给定一个 Python 函数，Dynamo 追踪会捕获一个张量操作图和剩余的字节码，当它们组合起来时，其语义与原始 Python 函数相同。</p>
@@ -10156,118 +10156,119 @@ gm.print_readable()
 </ul>
 <p>以下是一些非纯函数的示例，对于这些函数，捕获的图的行为与原始函数不同。</p>
 <h3 id="1">示例 1：无显式输入（例如访问全局张量）<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>var = torch.tensor(1)
-def function_with_global_access(y):
-    return y + var
-x = torch.tensor([0, 1, 2])
-# 为了演示目的，需要 _allow_non_fake_inputs=True 来捕获全局变量。
-gm = make_fx(
-    function_with_global_access, tracing_mode=&quot;fake&quot;, _allow_non_fake_inputs=True
-)(x)
-# 非严格追踪捕获了全局变量的值 (1.)
-print(&quot;1. 调用函数&quot;, function_with_global_access(x))
-print(&quot;1. 调用图&quot;, gm(x))
-# 然而，在更改全局变量后，捕获的图
-# 产生的结果与原始函数不同
-var = torch.tensor(2)
-print(&quot;2. 调用函数&quot;, function_with_global_access(x))
-print(&quot;2. 调用图&quot;, gm(x))
-# 要捕获一个可以包含变化的 `var` 张量的图，
-# 它必须是一个显式输入：
-def function_fixed(y, var):
-    return y + var
-var = torch.tensor(3)
-gm = make_fx(function_fixed, tracing_mode=&quot;fake&quot;)(x, var)
-print(&quot;3. 调用函数&quot;, function_fixed(x, var))
-print(&quot;3. 调用图&quot;, gm(x, var))
-var = torch.tensor(4)
-print(&quot;4. 调用函数&quot;, function_fixed(x, var))
-print(&quot;4. 调用图&quot;, gm(x, var))
+<div class="highlight"><pre><span></span><code><span class="n">var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">function_with_global_access</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="n">var</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="c1"># 为了演示目的，需要 _allow_non_fake_inputs=True 来捕获全局变量。</span>
+<span class="n">gm</span> <span class="o">=</span> <span class="n">make_fx</span><span class="p">(</span>
+    <span class="n">function_with_global_access</span><span class="p">,</span> <span class="n">tracing_mode</span><span class="o">=</span><span class="s2">&quot;fake&quot;</span><span class="p">,</span> <span class="n">_allow_non_fake_inputs</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1"># 非严格追踪捕获了全局变量的值 (1.)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. 调用函数&quot;</span><span class="p">,</span> <span class="n">function_with_global_access</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. 调用图&quot;</span><span class="p">,</span> <span class="n">gm</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="c1"># 然而，在更改全局变量后，捕获的图</span>
+<span class="c1"># 产生的结果与原始函数不同</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. 调用函数&quot;</span><span class="p">,</span> <span class="n">function_with_global_access</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. 调用图&quot;</span><span class="p">,</span> <span class="n">gm</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="c1"># 要捕获一个可以包含变化的 `var` 张量的图，</span>
+<span class="c1"># 它必须是一个显式输入：</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">function_fixed</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="n">var</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gm</span> <span class="o">=</span> <span class="n">make_fx</span><span class="p">(</span><span class="n">function_fixed</span><span class="p">,</span> <span class="n">tracing_mode</span><span class="o">=</span><span class="s2">&quot;fake&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. 调用函数&quot;</span><span class="p">,</span> <span class="n">function_fixed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">var</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. 调用图&quot;</span><span class="p">,</span> <span class="n">gm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">var</span><span class="p">))</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;4. 调用函数&quot;</span><span class="p">,</span> <span class="n">function_fixed</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">var</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;4. 调用图&quot;</span><span class="p">,</span> <span class="n">gm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">var</span><span class="p">))</span>
 </code></pre></div>
 <p>关于原因的解释，请参见 <a href="specialization-and-constants">特化与常量</a>。</p>
 <h3 id="2">示例 2：副作用（打印）<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>def function_with_side_effect(y):
-    print(y)
-x = torch.tensor([0, 1, 2])
-_ = function_with_side_effect(x)
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">function_with_side_effect</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">function_with_side_effect</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </code></pre></div>
 <p>在 Python 中运行 <code>f</code> 会打印一个张量作为副作用。</p>
-<div class="highlight"><pre><span></span><code>gm = make_fx(function_with_side_effect, tracing_mode=&quot;fake&quot;)(x)
+<div class="highlight"><pre><span></span><code><span class="n">gm</span> <span class="o">=</span> <span class="n">make_fx</span><span class="p">(</span><span class="n">function_with_side_effect</span><span class="p">,</span> <span class="n">tracing_mode</span><span class="o">=</span><span class="s2">&quot;fake&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
 </code></pre></div>
 <p>在非严格追踪期间，这个打印操作发生在图捕获过程中。</p>
-<div class="highlight"><pre><span></span><code>_ = gm(x)
+<div class="highlight"><pre><span></span><code><span class="n">_</span> <span class="o">=</span> <span class="n">gm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </code></pre></div>
 <p>该图没有存储对 <code>print</code> 语句的调用，因此执行该图不会打印任何内容。</p>
 <h3 id="3">示例 3：副作用（输入列表修改）<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>lst = []
-def function_with_input_list_mutation(lst):
-    val = lst.pop()
-    return val
-x = torch.tensor([0, 1, 2])
-y = torch.tensor([0, 1, 2])
-# 每次执行函数时，列表的大小都会缩小
-lst = [x, y]
-function_with_input_list_mutation(lst)
-print(&quot;一次调用后 len(lst)&quot;, len(lst))
-function_with_input_list_mutation(lst)
-print(&quot;两次调用后 len(lst)&quot;, len(lst))
-# 使用非严格追踪，列表的长度在图捕获期间会缩小，
-# 但在图的调用中不会。
-lst = [x, y]
-gm = make_fx(function_with_input_list_mutation, tracing_mode=&quot;fake&quot;)(lst)
-print(&quot;图捕获后 len(lst)&quot;, len(lst))
-gm(lst)
-print(&quot;一次调用图后 len(lst)&quot;, len(lst))
-gm(lst)
-print(&quot;两次调用图后 len(lst)&quot;, len(lst))
+<div class="highlight"><pre><span></span><code><span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">function_with_input_list_mutation</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">lst</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">val</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="c1"># 每次执行函数时，列表的大小都会缩小</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+<span class="n">function_with_input_list_mutation</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;一次调用后 len(lst)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>
+<span class="n">function_with_input_list_mutation</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;两次调用后 len(lst)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>
+<span class="c1"># 使用非严格追踪，列表的长度在图捕获期间会缩小，</span>
+<span class="c1"># 但在图的调用中不会。</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+<span class="n">gm</span> <span class="o">=</span> <span class="n">make_fx</span><span class="p">(</span><span class="n">function_with_input_list_mutation</span><span class="p">,</span> <span class="n">tracing_mode</span><span class="o">=</span><span class="s2">&quot;fake&quot;</span><span class="p">)(</span><span class="n">lst</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;图捕获后 len(lst)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>
+<span class="n">gm</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;一次调用图后 len(lst)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>
+<span class="n">gm</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;两次调用图后 len(lst)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>
 </code></pre></div>
 <h3 id="data_ptr">禁止直接操作 data_ptr<a class="headerlink" href="#data_ptr" title="Permanent link">&para;</a></h3>
 <p>直接操作 <code>Tensor.data_ptr</code> 是不可非严格追踪的。其背后的直觉是 PyTorch 无法判断你<em>如何</em>操作了 <code>data_ptr</code>。</p>
-<div class="highlight"><pre><span></span><code>import ctypes
-# 创建一个包含单个元素的张量
-tensor = torch.tensor([42], dtype=torch.int32)  # 为简化使用 int32
-def function_with_data_ptr(tensor):
-    # 获取数据指针
-    ptr = tensor.data_ptr()
-    # 将指针转换为 ctypes 指针
-    ctypes_ptr = ctypes.cast(ptr, ctypes.POINTER(ctypes.c_int32))
-    # 递增指针处的值
-    ctypes_ptr.contents.value += 1
-    return tensor
-try:
-    make_fx(function_with_data_ptr, tracing_mode=&quot;fake&quot;)(tensor)
-except Exception as e:
-    print(e)
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+<span class="c1"># 创建一个包含单个元素的张量</span>
+<span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">42</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>  <span class="c1"># 为简化使用 int32</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">function_with_data_ptr</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+    <span class="c1"># 获取数据指针</span>
+    <span class="n">ptr</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">data_ptr</span><span class="p">()</span>
+    <span class="c1"># 将指针转换为 ctypes 指针</span>
+    <span class="n">ctypes_ptr</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_int32</span><span class="p">))</span>
+    <span class="c1"># 递增指针处的值</span>
+    <span class="n">ctypes_ptr</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">tensor</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">make_fx</span><span class="p">(</span><span class="n">function_with_data_ptr</span><span class="p">,</span> <span class="n">tracing_mode</span><span class="o">=</span><span class="s2">&quot;fake&quot;</span><span class="p">)(</span><span class="n">tensor</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="_3">特化与常量<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>非严格追踪会捕获一个可能在某些值上特化的计算图。这意味着捕获的计算图仅对这些值有效。我们说该计算图将这些值视为<strong>常量</strong>。</p>
 <p>在非严格追踪过程中，所有非张量变量都被视为常量：</p>
-<div class="highlight"><pre><span></span><code>def f(x, y):
-    return x + y
-x = torch.tensor([0, 1, 2])
-y = 3.14
-gm = make_fx(f, tracing_mode=&quot;fake&quot;)(x, y)
-gm.print_readable()
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">3.14</span>
+<span class="n">gm</span> <span class="o">=</span> <span class="n">make_fx</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tracing_mode</span><span class="o">=</span><span class="s2">&quot;fake&quot;</span><span class="p">)(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">gm</span><span class="o">.</span><span class="n">print_readable</span><span class="p">()</span>
 </code></pre></div>
 <p>3.14 在计算图中是一个常量。</p>
 <p>非严格追踪还会对输入张量的属性进行特化：</p>
-<div class="highlight"><pre><span></span><code>def f(x):
+<p>```def f(x):
     if x.shape[0] &gt; 2:
         return x ** 2 / 6
     else:
         return x * 3
 x = torch.randn(3)
-gm = make_fx(f, tracing_mode=&quot;fake&quot;)(x)
+gm = make_fx(f, tracing_mode="fake")(x)
 gm.print_readable()
-</code></pre></div>
-<p>同时它也会对未直接传入函数的任何变量进行特化：</p>
-<div class="highlight"><pre><span></span><code>var = torch.tensor(1)
+<div class="highlight"><pre><span></span><code>同时它也会对未直接传入函数的任何变量进行特化：
+
+```python
+var = torch.tensor(1)
 def f(x):
     return x + y
 x = torch.randn(3)
 gm = make_fx(f, tracing_mode=&quot;fake&quot;)(x)
 gm.print_readable()
-</code></pre></div>
+</code></pre></div></p>
 
 
 

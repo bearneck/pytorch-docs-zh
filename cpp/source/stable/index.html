@@ -10501,12 +10501,12 @@
 <li><code>m</code> - 块中可用的 StableLibrary 变量的名称。</li>
 </ul>
 <p><strong>示例：</strong></p>
-<div class="highlight"><pre><span></span><code><span class="n">STABLE_TORCH_LIBRARY</span><span class="p">(</span><span class="n">mylib</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">STABLE_TORCH_LIBRARY</span><span class="p">(</span><span class="n">mylib</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;my_op(Tensor input, int size) -&gt; Tensor&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;another_op(Tensor a, Tensor b) -&gt; Tensor&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>最低兼容版本：PyTorch 2.9。</p>
+最低兼容版本：PyTorch 2.9。</p>
 <h3 id="stable_torch_library_implns-k-m"><code>STABLE_TORCH_LIBRARY_IMPL(ns, k, m)</code><a class="headerlink" href="#stable_torch_library_implns-k-m" title="Permanent link">&para;</a></h3>
 <p>使用稳定 ABI 为特定调度键注册算子实现。</p>
 <p>这是 <code>TORCH_LIBRARY_IMPL</code> 的稳定 ABI 等效版本。使用此宏为特定调度键（例如，CPU、CUDA）提供算子实现，同时保持跨 PyTorch 版本的二进制兼容性。</p>
@@ -10569,7 +10569,7 @@
 <p>对于 CUDA 流访问，我们目前推荐使用 ABI 稳定的 C 封装 API。在未来的版本中，将通过一个更符合人体工程学的包装器来改进这一点。</p>
 <h3 id="cuda">获取当前 CUDA 流<a class="headerlink" href="#cuda" title="Permanent link">&para;</a></h3>
 <p>要获取当前 <code>cudaStream_t</code> 以在 CUDA 内核中使用：</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;torch/csrc/inductor/aoti_torch/c/shim.h&gt;</span>
+<p><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;torch/csrc/inductor/aoti_torch/c/shim.h&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;torch/headeronly/util/shim_utils.h&gt;</span>
 
 <span class="c1">// 目前，我们依赖 ABI 稳定的 C 封装 API 来获取当前 CUDA 流。</span>
@@ -10584,7 +10584,7 @@
 <span class="c1">// 现在你可以在 CUDA 内核启动中使用 &#39;stream&#39;</span>
 <span class="n">my_kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">blocks</span><span class="p">,</span><span class="w"> </span><span class="n">threads</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">...);</span>
 </code></pre></div>
-<p>📝 <strong>注意</strong>
+📝 <strong>注意</strong>
 使用 C 封装 API 时，必须使用 <code>TORCH_ERROR_CODE_CHECK</code> 宏来正确检查错误代码并抛出适当的异常。</p>
 <h2 id="cuda_1">CUDA 错误检查宏<a class="headerlink" href="#cuda_1" title="Permanent link">&para;</a></h2>
 <p>这些宏提供了用于 CUDA 错误检查的稳定 ABI 等效功能。 它们封装了 CUDA API 调用和内核启动，使用 PyTorch 的错误格式化功能提供详细的错误信息。</p>

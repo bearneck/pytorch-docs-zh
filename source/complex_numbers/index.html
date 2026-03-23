@@ -10103,7 +10103,7 @@
 </code></pre></div>
 <h2 id="_2">创建复数张量<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>我们支持两种复数数据类型：<code>torch.cfloat</code> 和 <code>torch.cdouble</code></p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cfloat</span><span class="p">)</span>
+<p><div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cfloat</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">x</span>
 <span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.4621</span><span class="o">-</span><span class="mf">0.0303</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2438</span><span class="o">-</span><span class="mf">0.5874</span><span class="n">j</span><span class="p">],</span>
      <span class="p">[</span> <span class="mf">0.7706</span><span class="o">+</span><span class="mf">0.1421</span><span class="n">j</span><span class="p">,</span>  <span class="mf">1.2110</span><span class="o">+</span><span class="mf">0.1918</span><span class="n">j</span><span class="p">]])</span>
@@ -10111,7 +10111,7 @@
 <span class="n">复数张量的默认数据类型由默认浮点数据类型决定</span><span class="err">。</span>
 <span class="n">如果默认浮点数据类型是</span> <span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="err">`，</span><span class="n">则复数被推断为</span> <span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="err">`</span> <span class="n">数据类型</span><span class="err">，</span><span class="n">否则它们被假定为</span> <span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="err">`</span> <span class="n">数据类型</span><span class="err">。</span>
 </code></pre></div>
-<p>除了 <code>torch.linspace</code>、<code>torch.logspace</code> 和 <code>torch.arange</code> 之外的所有工厂函数都支持复数张量。</p>
+除了 <code>torch.linspace</code>、<code>torch.logspace</code> 和 <code>torch.arange</code> 之外的所有工厂函数都支持复数张量。</p>
 <h2 id="_3">从旧表示法过渡<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>当前使用形状为 <code>(..., 2)</code> 的实数张量来弥补缺乏复数张量的用户，可以使用 <code>torch.view_as_complex</code> 和 <code>torch.view_as_real</code> 轻松切换到在代码中使用复数张量。请注意，这些函数不执行任何复制，而是返回输入张量的视图。</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>

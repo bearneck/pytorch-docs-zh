@@ -10220,7 +10220,7 @@
 <ul>
 <li><code>unzip my_package.pt</code> 会将 <code>torch.package</code> 归档文件解压到磁盘，您可以在其中自由检查其内容。</li>
 </ul>
-<div class="highlight"><pre><span></span><code>$ unzip my_package.pt &amp;&amp; tree my_package
+<p><div class="highlight"><pre><span></span><code>$ unzip my_package.pt &amp;&amp; tree my_package
 my_package
 ├── .data
 │   ├── 94304870911616.storage
@@ -10236,18 +10236,14 @@ my_package
 ~ cd my_package &amp;&amp; cat torchvision/models/resnet.py
 ...
 </code></pre></div>
-<ul>
-<li>Python 的 <code>zipfile</code> 模块提供了读取和写入 ZIP 归档文件内容的标准方式。</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">zipfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFile</span>
+* Python 的 <code>zipfile</code> 模块提供了读取和写入 ZIP 归档文件内容的标准方式。</p>
+<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">zipfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFile</span>
 <span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;my_package.pt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myzip</span><span class="p">:</span>
     <span class="n">file_bytes</span> <span class="o">=</span> <span class="n">myzip</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;torchvision/models/resnet.py&quot;</span><span class="p">)</span>
     <span class="c1"># 以某种方式编辑 file_bytes</span>
     <span class="n">myzip</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="s2">&quot;torchvision/models/resnet.py&quot;</span><span class="p">,</span> <span class="n">new_file_bytes</span><span class="p">)</span>
 </code></pre></div>
-<ul>
-<li>vim 能够原生读取 ZIP 归档文件。您甚至可以编辑文件并使用 :<code>write</code> 将它们写回归档文件！</li>
-</ul>
+* vim 能够原生读取 ZIP 归档文件。您甚至可以编辑文件并使用 :<code>write</code> 将它们写回归档文件！</p>
 <div class="highlight"><pre><span></span><code># 将此添加到您的 .vimrc 以将 `*.<span class="nb">pt</span>` 文件视为 zip 文件
 <span class="k">au</span> <span class="nb">BufReadCmd</span> *.<span class="nb">pt</span> <span class="k">call</span> zip#Browse<span class="p">(</span>expand<span class="p">(</span><span class="s2">&quot;&lt;amatch&gt;&quot;</span><span class="p">))</span>
 
@@ -10256,7 +10252,7 @@ my_package
 <h4 id="file_structure-api">使用 <code>file_structure()</code> API<a class="headerlink" href="#file_structure-api" title="Permanent link">&para;</a></h4>
 <p><code>PackageImporter</code> 提供了一个 <code>file_structure()</code> 方法，该方法将返回一个可打印且可查询的 <code>Directory</code> 对象。<code>Directory</code> 对象是一个简单的目录结构，您可以用它来探索 <code>torch.package</code> 的当前内容。</p>
 <p><code>Directory</code> 对象本身可以直接打印，并将打印出文件树表示。要过滤返回的内容，请使用 glob 风格的 <code>include</code> 和 <code>exclude</code> 过滤参数。</p>
-<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">PackageExporter</span><span class="p">(</span><span class="s1">&#39;my_package.pt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pe</span><span class="p">:</span>
+<p><div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">PackageExporter</span><span class="p">(</span><span class="s1">&#39;my_package.pt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pe</span><span class="p">:</span>
     <span class="n">pe</span><span class="o">.</span><span class="n">save_pickle</span><span class="p">(</span><span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;model_1.pkl&#39;</span><span class="p">,</span> <span class="n">mod</span><span class="p">)</span>
 
 <span class="n">importer</span> <span class="o">=</span> <span class="n">PackageImporter</span><span class="p">(</span><span class="s1">&#39;my_package.pt&#39;</span><span class="p">)</span>
@@ -10264,8 +10260,8 @@ my_package
 <span class="nb">print</span><span class="p">(</span><span class="n">importer</span><span class="o">.</span><span class="n">file_structure</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;**/utils.py&quot;</span><span class="p">,</span> <span class="s2">&quot;**/*.pkl&quot;</span><span class="p">],</span> <span class="n">exclude</span><span class="o">=</span><span class="s2">&quot;**/*.storage&quot;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">importer</span><span class="o">.</span><span class="n">file_structure</span><span class="p">())</span> <span class="c1"># 将打印出所有文件</span>
 </code></pre></div>
-<p>输出：</p>
-<div class="highlight"><pre><span></span><code># 使用 glob 模式过滤：
+输出：</p>
+<p><div class="highlight"><pre><span></span><code># 使用 glob 模式过滤：
 #    include=[&quot;**/utils.py&quot;, &quot;**/*.pkl&quot;], exclude=&quot;**/*.storage&quot;
 ─── my_package.pt
     ├── models
@@ -10288,7 +10284,7 @@ my_package
             ├── resnet.py
             └── utils.py
 </code></pre></div>
-<p>您还可以使用 <code>has_file()</code> 方法查询 <code>Directory</code> 对象。</p>
+您还可以使用 <code>has_file()</code> 方法查询 <code>Directory</code> 对象。</p>
 <div class="highlight"><pre><span></span><code><span class="n">importer_file_structure</span> <span class="o">=</span> <span class="n">importer</span><span class="o">.</span><span class="n">file_structure</span><span class="p">()</span>
 <span class="n">found</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">importer_file_structure</span><span class="o">.</span><span class="n">has_file</span><span class="p">(</span><span class="s2">&quot;package_a/subpackage.py&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -10404,7 +10400,7 @@ my_package
 </code></pre></div>
 <h3 id="_8">如何在源代码中测试是否在包内执行？<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p><code>PackageImporter</code> 会为其初始化的每个模块添加属性 <code>__torch_package__</code>。您的代码可以检查此属性是否存在，以确定是否在打包的上下文中执行。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># 在 foo/bar.py 中：</span>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># 在 foo/bar.py 中：</span>
 
 <span class="k">if</span> <span class="s2">&quot;__torch_package__&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">():</span>  <span class="c1"># 如果代码是从包中加载的，则为真</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_in_package</span><span class="p">():</span>
@@ -10417,15 +10413,15 @@ my_package
 
     <span class="n">UserException</span> <span class="o">=</span> <span class="n">UnpackageableException</span>
 </code></pre></div>
-<p>现在，代码的行为将根据它是通过您的 Python 环境正常导入还是从 <code>torch.package</code> 导入而有所不同。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">foo.bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_in_package</span>
+现在，代码的行为将根据它是通过您的 Python 环境正常导入还是从 <code>torch.package</code> 导入而有所不同。</p>
+<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">foo.bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_in_package</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">is_in_package</span><span class="p">())</span>  <span class="c1"># False</span>
 
 <span class="n">loaded_module</span> <span class="o">=</span> <span class="n">PackageImporter</span><span class="p">(</span><span class="n">my_package</span><span class="p">)</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;foo.bar&quot;</span><span class="p">)</span>
 <span class="n">loaded_module</span><span class="o">.</span><span class="n">is_in_package</span><span class="p">()</span>  <span class="c1"># True</span>
 </code></pre></div>
-<p><strong>警告</strong>：通常，让代码根据是否打包而表现不同是一种不好的做法。这可能导致难以调试的问题，这些问题对您导入代码的方式很敏感。如果您的包打算被大量使用，请考虑重构您的代码，使其无论以何种方式加载都表现一致。</p>
+<strong>警告</strong>：通常，让代码根据是否打包而表现不同是一种不好的做法。这可能导致难以调试的问题，这些问题对您导入代码的方式很敏感。如果您的包打算被大量使用，请考虑重构您的代码，使其无论以何种方式加载都表现一致。</p>
 <h3 id="_9">如何将代码修补到包中？<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p><code>PackageExporter</code> 提供了 <code>save_source_string()</code> 方法，允许将任意 Python 源代码保存到您选择的模块。
 <div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">PackageExporter</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">exporter</span><span class="p">:</span>

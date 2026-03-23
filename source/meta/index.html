@@ -9954,30 +9954,30 @@
 </code></pre></div>
 <h2 id="meta_1">使用 meta 张量的惯用法<a class="headerlink" href="#meta_1" title="Permanent link">&para;</a></h2>
 <p>可以通过指定 <code>map_location='meta'</code> 将对象加载到 meta 设备上：</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;foo.pt&#39;</span><span class="p">)</span>
+<p><div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;foo.pt&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;foo.pt&#39;</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">)</span>
 <span class="n">tensor</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,))</span>
 </code></pre></div>
-<p>如果您有一些任意代码执行张量构造而没有明确指定设备，您可以使用 <code>torch.device</code> 上下文管理器覆盖它以在 meta 设备上构造：</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">):</span>
+如果您有一些任意代码执行张量构造而没有明确指定设备，您可以使用 <code>torch.device</code> 上下文管理器覆盖它以在 meta 设备上构造：</p>
+<p><div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">):</span>
 <span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
 <span class="o">...</span>
 <span class="n">tensor</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
 </code></pre></div>
-<p>这对于神经网络模块构造尤其有帮助，因为您通常无法显式传递设备进行初始化：</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">Linear</span>
+这对于神经网络模块构造尤其有帮助，因为您通常无法显式传递设备进行初始化：</p>
+<p><div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">Linear</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">):</span>
 <span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
 <span class="o">...</span>
 <span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
-<p>您不能直接将 meta 张量转换为 CPU/CUDA 张量，因为 meta 张量不存储数据，我们不知道新张量的正确数据值是什么：</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+您不能直接将 meta 张量转换为 CPU/CUDA 张量，因为 meta 张量不存储数据，我们不知道新张量的正确数据值是什么：</p>
+<p><div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;meta&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
   <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="ne">NotImplementedError</span><span class="p">:</span> <span class="n">Cannot</span> <span class="n">copy</span> <span class="n">out</span> <span class="n">of</span> <span class="n">meta</span> <span class="n">tensor</span><span class="p">;</span> <span class="n">no</span> <span class="n">data</span><span class="err">!</span>
 </code></pre></div>
-<p>使用像 <code>torch.empty_like</code> 这样的工厂函数来明确指定您希望如何填充缺失的数据。</p>
+使用像 <code>torch.empty_like</code> 这样的工厂函数来明确指定您希望如何填充缺失的数据。</p>
 <p>神经网络模块有一个便捷方法 <code>torch.nn.Module.to_empty</code>，允许您将模块移动到另一个设备，同时将所有参数保持未初始化状态。您需要手动显式地重新初始化参数：</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.modules</span><span class="w"> </span><span class="kn">import</span> <span class="n">Linear</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;meta&#39;</span><span class="p">):</span>

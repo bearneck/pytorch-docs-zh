@@ -10087,9 +10087,9 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
 </code></pre></div>
 <h1 id="dynamo">Dynamo 核心概念<a class="headerlink" href="#dynamo" title="Permanent link">&para;</a></h1>
 <p><strong>摘要：</strong></p>
@@ -10115,22 +10115,22 @@ import header_code
 <li>许多 Python 内置函数</li>
 <li>C 函数</li>
 </ul>
-<div class="highlight"><pre><span></span><code>torch._logging.set_logs(graph_breaks=True)
+<div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <p>以下是一个由于调用不支持的操作 <code>torch.save</code> 而导致图中断的示例：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def f(x):
-   y = x ** 2  / 2
-   torch.save(y, &quot;foo.pt&quot;)  # torch.save 是一个不支持的操作
-   z = y ** 3 / 6
-   return z
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+   <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>  <span class="o">/</span> <span class="mi">2</span>
+   <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;foo.pt&quot;</span><span class="p">)</span>  <span class="c1"># torch.save 是一个不支持的操作</span>
+   <span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span>
+   <span class="k">return</span> <span class="n">z</span>
 
-x = torch.randn(3)
-print(f(x))
-{code-cell}
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
 
-import os
-os.remove(&quot;foo.pt&quot;)
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;foo.pt&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><code>torch.compile(f)(x)</code> 的语义大致如下：</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compiled_f_semantics</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -10148,37 +10148,37 @@ os.remove(&quot;foo.pt&quot;)
 <h2 id="_2">守卫<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p><code>torch.compile</code> 在追踪代码时会对运行时值做出一些假设。在追踪过程中，我们会生成“守卫”，这些是对这些假设的运行时检查。在后续调用已编译函数时，会运行这些守卫以确定是否可以重用先前编译的代码。运行时检查的示例包括常量值、类型和对象 ID。</p>
 <p>以下是生成守卫的示例。<code>TENSOR_MATCH</code> 守卫检查输入的类型、设备、数据类型、形状等。</p>
-<div class="highlight"><pre><span></span><code>torch._logging.set_logs(guards=True)
-{code-cell}
-@torch.compile
-def fn(x):
-    return x + 1
+<div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">guards</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
 
-print(fn(torch.ones(3, 3)))
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
 </code></pre></div>
 <h2 id="_3">重新编译<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>如果所有先前编译代码实例的守卫检查都失败，那么 <code>torch.compile</code> 必须“重新编译”该函数，需要再次追踪原始代码。在下面的示例中，由于检查张量参数形状的守卫失败，需要重新编译。</p>
-<div class="highlight"><pre><span></span><code>torch._logging.set_logs(recompiles=True)
-{code-cell}
-@torch.compile
-def fn(x):
-    return x + 1
+<div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">recompiles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
 
-print(fn(torch.ones(3, 3)))
-print(fn(torch.ones(4, 4)))
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
 </code></pre></div>
 <h2 id="_4">动态形状<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p><code>torch.compile</code> 最初假设张量形状是静态/常量，并基于这些假设生成守卫。通过使用“动态形状”，我们可以让 <code>torch.compile</code> 生成能够接受不同形状张量输入的编译代码——避免每次形状不同时都重新编译。默认情况下，<code>torch.compile(dynamic=None)</code> 启用了自动动态形状——如果由于形状不匹配导致编译失败，会尝试使用动态形状重新编译。动态形状也可以完全启用（<code>dynamic=True</code>）或禁用（<code>dynamic=False</code>）。</p>
 <p>下面，我们启用动态形状，并注意不再需要重新编译。</p>
-<div class="highlight"><pre><span></span><code>import logging
-torch._logging.set_logs(dynamic=logging.DEBUG, recompiles=True)
-{code-cell}
-@torch.compile(dynamic=True)
-def fn(x):
-    return x + 1
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">recompiles</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
 
-print(fn(torch.ones(3, 3)))
-print(fn(torch.ones(4, 4)))
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
 </code></pre></div>
 <p>有关动态形状的更多信息，请参阅 <a href="https://docs.google.com/document/d/1GgvOe7C8_NVOMLOCwDaYV1mXXyHMXY7ExoewHqooxrs/edit?tab=t.0#heading=h.fh8zzonyw8ng">动态形状手册</a>。</p>
 

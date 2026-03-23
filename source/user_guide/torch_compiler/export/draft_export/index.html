@@ -10180,7 +10180,7 @@
 <p>如果一个自定义算子没有包含伪实现（fake implementation），目前草稿导出将使用真实张量传播（real-tensor propagation）来获取该算子的输出并继续追踪。然而，如果我们使用伪张量（fake tensors）运行导出的程序，或者重新追踪导出的模型，仍然会失败，因为仍然没有伪内核实现。</p>
 <p>为了解决这个问题，在草稿导出之后，我们将为遇到的每个自定义算子调用生成一个算子配置文件（operator profile），并将其存储在附加到导出程序的报告（report）中：<code>ep._report.op_profiles</code>。然后，用户可以使用上下文管理器 <code>torch._library.fake_profile.unsafe_generate_fake_kernels</code> 基于这些算子配置文件生成并注册一个伪实现。这样，未来的伪张量重新追踪就能正常工作。</p>
 <p>工作流程大致如下：</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<p><div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">mylib</span><span class="o">.</span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># 没有伪实现</span>
         <span class="k">return</span> <span class="n">res</span>
@@ -10200,7 +10200,7 @@
 <span class="c1"># 加载 yaml 文件</span>
 <span class="n">loaded_op_profile</span> <span class="o">=</span> <span class="n">load_op_profiles</span><span class="p">(</span><span class="s2">&quot;op_profile.yaml&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>算子配置文件是一个字典，将算子名称映射到一组描述算子输入和输出的配置文件。这些配置文件可以手动编写，保存到 yaml 文件中，并检入代码库。以下是一个 <code>mylib.foo.default</code> 的配置文件示例：</p>
+算子配置文件是一个字典，将算子名称映射到一组描述算子输入和输出的配置文件。这些配置文件可以手动编写，保存到 yaml 文件中，并检入代码库。以下是一个 <code>mylib.foo.default</code> 的配置文件示例：</p>
 <div class="highlight"><pre><span></span><code><span class="s2">&quot;mylib.foo.default&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="n">OpProfile</span><span class="p">(</span>
         <span class="n">args_profile</span><span class="o">=</span><span class="p">(</span>

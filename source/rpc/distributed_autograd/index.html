@@ -10158,7 +10158,7 @@
 <p>本文档将详细介绍分布式自动求导的设计，并深入探讨其内部实现。在继续阅读之前，请确保您已熟悉 <code>autograd-mechanics</code> 和 <code>distributed-rpc-framework</code>。</p>
 <h2 id="_2">背景<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>假设您有两个节点，并且一个非常简单的模型被划分在这两个节点上。这可以使用 <code>torch.distributed.rpc</code> 实现如下：</p>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code>import torch
 import torch.distributed.rpc as rpc
 
 def my_add(t1, t2):
@@ -10178,7 +10178,7 @@ t5 = torch.mul(t3, t4)
 # 计算损失。
 loss = t5.sum()
 </code></pre></div>
-<p>分布式自动求导的主要动机是能够在我们计算出的 <code>loss</code> 上对这样的分布式模型运行反向传播，并为所有需要梯度的张量记录相应的梯度。</p>
+分布式自动求导的主要动机是能够在我们计算出的 <code>loss</code> 上对这样的分布式模型运行反向传播，并为所有需要梯度的张量记录相应的梯度。</p>
 <h2 id="_3">前向传播期间的自动求导记录<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>PyTorch 在前向传播期间构建自动求导图，该图用于执行反向传播。更多细节请参见 <code>how-autograd-encodes-history</code>。</p>
 <p>对于分布式自动求导，我们需要在前向传播期间跟踪所有 RPC 调用，以确保反向传播正确执行。为此，我们在执行 RPC 时，将 <code>send</code> 和 <code>recv</code> 函数附加到自动求导图中。</p>
@@ -10200,17 +10200,17 @@ loss = t5.sum()
 </ol>
 <p>| </p>
 <p>从用户的角度来看，自动求导上下文的设置如下：</p>
-<div class="highlight"><pre><span></span><code>import torch.distributed.autograd as dist_autograd
+<p><div class="highlight"><pre><span></span><code>import torch.distributed.autograd as dist_autograd
 with dist_autograd.context() as context_id:
   loss = model.forward()
   dist_autograd.backward(context_id, loss)
 </code></pre></div>
-<p>需要注意的是，必须在分布式自动求导上下文管理器内调用模型的前向传播，因为需要一个有效的上下文来确保所有 <code>send</code> 和 <code>recv</code> 函数被正确存储，以便在所有参与节点上运行反向传播。</p>
+需要注意的是，必须在分布式自动求导上下文管理器内调用模型的前向传播，因为需要一个有效的上下文来确保所有 <code>send</code> 和 <code>recv</code> 函数被正确存储，以便在所有参与节点上运行反向传播。</p>
 <h2 id="_5">分布式反向传播<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>在本节中，我们将概述在分布式反向传播期间准确计算依赖关系所面临的挑战，并描述几种执行分布式反向传播的算法（及其权衡）。</p>
 <h3 id="_6">计算依赖关系<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>考虑在单台机器上运行的以下代码</p>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code>import torch
 a = torch.rand((3, 3), requires_grad=True)
 b = torch.rand((3, 3), requires_grad=True)
 c = torch.rand((3, 3), requires_grad=True)
@@ -10218,11 +10218,11 @@ d = a + b
 e = b * c
 d.sum.().backward()
 </code></pre></div>
-<p>上述代码的自动求导图将如下所示：</p>
+上述代码的自动求导图将如下所示：</p>
 <p><img alt="image" src="../_static/img/distributed_autograd/local_dependencies.png" /></p>
 <p>作为反向传播过程的第一步，autograd 引擎会计算 autograd 图中每个节点的依赖数量。这有助于 autograd 引擎了解图中节点何时可以执行。<code>add(1)</code> 和 <code>mul(0)</code> 括号中的数字表示依赖数量。如你所见，这意味着在反向传播过程中，<code>add</code> 节点需要 1 个输入，而 <code>mul</code> 节点不需要任何输入（换句话说，不需要执行）。本地 autograd 引擎通过从根节点（本例中为 <code>d</code>）开始遍历图来计算这些依赖。</p>
 <p>autograd 图中某些节点在反向传播过程中可能不会被执行，这对分布式 autograd 提出了挑战。考虑以下使用 RPC 的代码片段。</p>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code>import torch
 import torch.distributed.rpc as rpc
 
 a = torch.rand((3, 3), requires_grad=True)
@@ -10233,7 +10233,7 @@ d = rpc.rpc_sync(&quot;worker1&quot;, torch.add, args=(a, b))
 e = rpc.rpc_sync(&quot;worker1&quot;, torch.mul, args=(b, c))
 loss = d.sum()
 </code></pre></div>
-<p>上述代码对应的 autograd 图如下：</p>
+上述代码对应的 autograd 图如下：</p>
 <p><img alt="image" src="../_static/img/distributed_autograd/distributed_dependencies.png" /></p>
 <p>计算这个分布式 autograd 图的依赖关系要困难得多，并且需要一些开销（无论是计算开销还是网络通信开销）。</p>
 <p>对于性能敏感的应用，我们可以通过假设每个 <code>send</code> 和 <code>recv</code> 函数在反向传播过程中都是有效的（大多数应用不会执行未使用的 RPC）来避免大量开销。这简化了分布式 autograd 算法，并且效率更高，但代价是应用需要了解其局限性。该算法被称为 <a href="">FAST mode algorithm</a>，将在下文详细描述。</p>
@@ -10254,7 +10254,7 @@ loss = d.sum()
 </ol>
 <p>| </p>
 <p>例如，使用分布式 autograd 的完整代码如下：</p>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code>import torch
 import torch.distributed.autograd as dist_autograd
 import torch.distributed.rpc as rpc
 
@@ -10284,7 +10284,7 @@ with dist_autograd.context() as context_id:
   # 从上下文中检索梯度。
   dist_autograd.get_gradients(context_id)
 </code></pre></div>
-<p>包含依赖关系的分布式 autograd 图如下所示（为简化起见，省略了 t5.sum()）：</p>
+包含依赖关系的分布式 autograd 图如下所示（为简化起见，省略了 t5.sum()）：</p>
 <p><img alt="image" src="../_static/img/distributed_autograd/distributed_dependencies_computed.png" /></p>
 <p>应用于上述示例的 <a href="">FAST mode algorithm</a> 如下：</p>
 <ol>

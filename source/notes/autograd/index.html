@@ -10772,18 +10772,18 @@
 <p>某些运算需要在正向传播期间保存中间结果，以便执行反向传播。例如，函数 $x\mapsto x^2$ 会保存输入 $x$ 以计算梯度。</p>
 <p>在定义自定义的 Python <code>torch.autograd.Function</code> 时，您可以使用 <code>torch.autograd.function._ContextMethodMixin.save_for_backward</code> 在正向传播期间保存张量，并使用 <code>torch.autograd.function.Function.saved_tensors</code> 在反向传播期间检索它们。更多信息请参阅 <code>/notes/extending</code>。</p>
 <p>对于 PyTorch 定义的运算（例如 <code>torch.pow</code>），张量会根据需要自动保存。您可以通过查找以 <code>_saved</code> 为前缀的属性，来探索（出于教育或调试目的）某个 <code>grad_fn</code> 保存了哪些张量。</p>
-<div class="highlight"><pre><span></span><code>x = torch.randn(5, requires_grad=True)
+<p><div class="highlight"><pre><span></span><code>x = torch.randn(5, requires_grad=True)
 y = x.pow(2)
 print(x.equal(y.grad_fn._saved_self))  # True
 print(x is y.grad_fn._saved_self)  # True
 </code></pre></div>
-<p>在上面的代码中，<code>y.grad_fn._saved_self</code> 指向与 [x] 相同的 Tensor 对象。但情况并非总是如此。例如：</p>
-<div class="highlight"><pre><span></span><code>x = torch.randn(5, requires_grad=True)
+在上面的代码中，<code>y.grad_fn._saved_self</code> 指向与 [x] 相同的 Tensor 对象。但情况并非总是如此。例如：</p>
+<p><div class="highlight"><pre><span></span><code>x = torch.randn(5, requires_grad=True)
 y = x.exp()
 print(y.equal(y.grad_fn._saved_result))  # True
 print(y is y.grad_fn._saved_result)  # False
 </code></pre></div>
-<p>在底层，为了防止引用循环，PyTorch 在保存时对张量进行了 <em>打包</em>，并在读取时将其 <em>解包</em> 成不同的张量。这里，从访问 <code>y.grad_fn._saved_result</code> 得到的张量是与 <code>y</code> 不同的张量对象（但它们仍然共享相同的存储空间）。</p>
+在底层，为了防止引用循环，PyTorch 在保存时对张量进行了 <em>打包</em>，并在读取时将其 <em>解包</em> 成不同的张量。这里，从访问 <code>y.grad_fn._saved_result</code> 得到的张量是与 <code>y</code> 不同的张量对象（但它们仍然共享相同的存储空间）。</p>
 <p>一个张量是否会被打包成不同的张量对象，取决于它是否是自身 [grad_fn] 的输出，这是一个实现细节，可能会发生变化，用户不应依赖于此。</p>
 <p>您可以使用 <code>saved-tensors-hooks-doc</code> 来控制 PyTorch 如何进行打包/解包。</p>
 <h2 id="_2">不可微函数的梯度<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
@@ -10799,7 +10799,7 @@ print(y is y.grad_fn._saved_result)  # False
 <h3 id="autograd_2">Autograd 中的除零操作<a class="headerlink" href="#autograd_2" title="Permanent link">&para;</a></h3>
 <p>在 PyTorch 中执行除零操作（例如 <code>x / 0</code>）时，前向传播将遵循 IEEE-754 浮点运算规则产生 <code>inf</code> 值。虽然这些 <code>inf</code> 值可以在计算最终损失之前被屏蔽掉（例如通过索引或掩码），但 autograd 系统仍然会跟踪并微分整个计算图，包括除零运算。</p>
 <p>在反向传播过程中，这可能导致有问题的梯度表达式。例如：</p>
-<div class="highlight"><pre><span></span><code>x = torch.tensor([1., 1.], requires_grad=True)
+<p><div class="highlight"><pre><span></span><code>x = torch.tensor([1., 1.], requires_grad=True)
 div = torch.tensor([0., 1.])
 
 y = x / div          # 结果为 [inf, 1]
@@ -10808,12 +10808,12 @@ loss = y[mask].sum()
 loss.backward()
 print(x.grad)        # [nan, 1]，而不是 [0, 1]
 </code></pre></div>
-<p>在这个例子中，尽管我们只使用了掩码后的输出（排除了除以零的操作），但 autograd 仍然会通过完整的计算图计算梯度，包括除以零的操作。这导致被掩码元素的梯度为 <code>nan</code>，可能引起训练不稳定。</p>
+在这个例子中，尽管我们只使用了掩码后的输出（排除了除以零的操作），但 autograd 仍然会通过完整的计算图计算梯度，包括除以零的操作。这导致被掩码元素的梯度为 <code>nan</code>，可能引起训练不稳定。</p>
 <p>为避免此问题，有几种推荐的方法：</p>
 <ol>
 <li>在除法前进行掩码：</li>
 </ol>
-<div class="highlight"><pre><span></span><code>x = torch.tensor([1., 1.], requires_grad=True)
+<p><div class="highlight"><pre><span></span><code>x = torch.tensor([1., 1.], requires_grad=True)
 div = torch.tensor([0., 1.])
 
 mask = div != 0
@@ -10822,10 +10822,8 @@ safe[mask] = x[mask] / div[mask]
 loss = safe.sum()
 loss.backward()      # 产生安全的梯度 [0, 1]
 </code></pre></div>
-<ol>
-<li>使用 MaskedTensor（实验性 API）：</li>
-</ol>
-<div class="highlight"><pre><span></span><code>from torch.masked import as_masked_tensor
+2.  使用 MaskedTensor（实验性 API）：</p>
+<p><div class="highlight"><pre><span></span><code>from torch.masked import as_masked_tensor
 
 x = torch.tensor([1., 1.], requires_grad=True)
 div = torch.tensor([0., 1.])
@@ -10835,7 +10833,7 @@ mask = div != 0
 loss = as_masked_tensor(y, mask).sum()
 loss.backward()      # 清晰地处理“未定义”与“零”梯度
 </code></pre></div>
-<p>关键原则是防止除以零的操作被记录在计算图中，而不是事后对其结果进行掩码。这确保了 autograd 只通过有效的操作计算梯度。</p>
+关键原则是防止除以零的操作被记录在计算图中，而不是事后对其结果进行掩码。这确保了 autograd 只通过有效的操作计算梯度。</p>
 <p>在处理可能产生 <code>inf</code> 或 <code>nan</code> 值的操作时，记住这种行为很重要，因为对输出进行掩码并不能防止有问题的梯度被计算。</p>
 <h2 id="_3">局部禁用梯度计算<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>Python 提供了几种机制来局部禁用梯度计算：</p>
@@ -10905,7 +10903,7 @@ loss.backward()      # 清晰地处理“未定义”与“零”梯度
 <h2 id="autograd_4">多线程 Autograd<a class="headerlink" href="#autograd_4" title="Permanent link">&para;</a></h2>
 <p>autograd 引擎负责运行计算反向传播所需的所有反向操作。本节将描述所有细节，帮助您在多线程环境中充分利用它。（这仅适用于 PyTorch 1.6+，因为之前版本的行为不同。）</p>
 <p>用户可以使用多线程代码（例如 Hogwild 训练）训练模型，并且不会阻塞并发的反向计算，示例代码可能如下：</p>
-<div class="highlight"><pre><span></span><code># 定义在不同线程中使用的训练函数
+<p><div class="highlight"><pre><span></span><code># 定义在不同线程中使用的训练函数
 def train_fn():
     x = torch.ones(5, 5, requires_grad=True)
     # 前向传播
@@ -10914,7 +10912,7 @@ def train_fn():
     y.sum().backward()
     # 可能的优化器更新
 </code></pre></div>
-<p># 用户编写自己的线程代码来驱动 train_fn</p>
+# 用户编写自己的线程代码来驱动 train_fn</p>
 <p>:   threads = [] for _ in range(10): p = threading.Thread(target=train_fn, args=()) p.start() threads.append(p)</p>
 <div class="highlight"><pre><span></span><code>for p in threads:
 
@@ -11120,7 +11118,7 @@ z_{n+1} &amp;= x_n - (\alpha/2) * \frac{\partial L}{\partial x} + 1j * (y_n - (\
 <h2 id="_15">已保存张量的钩子<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
 <p>你可以通过定义一对 <code>pack_hook</code> / <code>unpack_hook</code> 钩子来控制 <code>已保存张量如何打包/解包 &lt;saved-tensors-doc&gt;</code>。 <code>pack_hook</code> 函数应以一个张量作为其唯一参数，但可以返回任何 Python 对象（例如另一个张量、一个元组，甚至包含文件名的字符串）。 <code>unpack_hook</code> 函数以 <code>pack_hook</code> 的输出作为其唯一参数，并应返回一个用于反向传播的张量。 <code>unpack_hook</code> 返回的张量只需要与传递给 <code>pack_hook</code> 作为输入的张量具有相同的内容。 特别是，任何与自动求导相关的元数据都可以忽略，因为它们将在解包过程中被覆盖。</p>
 <p>这种钩子对的一个示例如下：</p>
-<div class="highlight"><pre><span></span><code>class SelfDeletingTempFile():
+<p><div class="highlight"><pre><span></span><code>class SelfDeletingTempFile():
     def __init__(self):
         self.name = os.path.join(tmp_dir, str(uuid.uuid4()))
 
@@ -11135,7 +11133,7 @@ def pack_hook(tensor):
 def unpack_hook(temp_file):
     return torch.load(temp_file.name)
 </code></pre></div>
-<p>注意，<code>unpack_hook</code> 不应删除临时文件，因为它可能被多次调用：只要返回的 [SelfDeletingTempFile] 对象存在，临时文件就应该保持存在。 在上面的例子中，我们通过在不再需要时（在 [SelfDeletingTempFile] 对象被删除时）关闭临时文件来防止其泄漏。</p>
+注意，<code>unpack_hook</code> 不应删除临时文件，因为它可能被多次调用：只要返回的 [SelfDeletingTempFile] 对象存在，临时文件就应该保持存在。 在上面的例子中，我们通过在不再需要时（在 [SelfDeletingTempFile] 对象被删除时）关闭临时文件来防止其泄漏。</p>
 <blockquote>
 <p>📝 <strong>注意</strong>
 我们保证 <code>pack_hook</code> 只会被调用一次，但 <code>unpack_hook</code> 可能会根据反向传播的需要被调用多次，并且我们期望它每次返回相同的数据。</p>

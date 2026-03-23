@@ -10398,19 +10398,19 @@
 <h1 id="torchexport">torch.export<a class="headerlink" href="#torchexport" title="Permanent link">&para;</a></h1>
 <h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p><code>torch.export.export</code> 接收一个 <code>torch.nn.Module</code>，并以提前编译（AOT）的方式生成一个仅表示函数张量计算过程的追踪图。该图随后可以用不同的输入执行或进行序列化。</p>
-<div class="highlight"><pre><span></span><code>import torch
-from torch.export import export, ExportedProgram
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">export</span><span class="p">,</span> <span class="n">ExportedProgram</span>
 
-class Mod(torch.nn.Module):
-    def forward(self, x: torch.Tensor, y: torch.Tensor) -&gt; torch.Tensor:
-        a = torch.sin(x)
-        b = torch.cos(y)
-        return a + b
+<span class="k">class</span><span class="w"> </span><span class="nc">Mod</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 
-example_args = (torch.randn(10, 10), torch.randn(10, 10))
+<span class="n">example_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
-exported_program: ExportedProgram = export(Mod(), args=example_args)
-print(exported_program)
+<span class="n">exported_program</span><span class="p">:</span> <span class="n">ExportedProgram</span> <span class="o">=</span> <span class="n">export</span><span class="p">(</span><span class="n">Mod</span><span class="p">(),</span> <span class="n">args</span><span class="o">=</span><span class="n">example_args</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exported_program</span><span class="p">)</span>
 </code></pre></div>
 <p><code>torch.export</code> 生成一个简洁的中间表示（IR），并遵循以下不变性。关于 IR 的更多规范可以在 此处  找到。</p>
 <ul>
@@ -10437,34 +10437,34 @@ print(exported_program)
 <p>与 <code>torch.jit.trace</code> 相比，<code>torch.export</code> 是正确的：它可以追踪对尺寸进行整数计算的代码，并记录所有必要的边界条件，以确保特定追踪对于其他输入是有效的。</p>
 <h2 id="pytorch">导出 PyTorch 模型<a class="headerlink" href="#pytorch" title="Permanent link">&para;</a></h2>
 <p>主要入口点是通过 <code>torch.export.export</code>，它接收一个 <code>torch.nn.Module</code> 和示例输入，并将计算图捕获到一个 <code>torch.export.ExportedProgram</code> 中。示例如下：</p>
-<div class="highlight"><pre><span></span><code>import torch
-from torch.export import export, ExportedProgram
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">export</span><span class="p">,</span> <span class="n">ExportedProgram</span>
 
-# 用于演示的简单模块
-class M(torch.nn.Module):
-    def __init__(self) -&gt; None:
-        super().__init__()
-        self.conv = torch.nn.Conv2d(
-            in_channels=3, out_channels=16, kernel_size=3, padding=1
-        )
-        self.relu = torch.nn.ReLU()
-        self.maxpool = torch.nn.MaxPool2d(kernel_size=3)
+<span class="c1"># 用于演示的简单模块</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span>
+            <span class="n">in_channels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
-    def forward(self, x: torch.Tensor, *, constant=None) -&gt; torch.Tensor:
-        a = self.conv(x)
-        a.add_(constant)
-        return self.maxpool(self.relu(a))
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">constant</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 
-example_args = (torch.randn(1, 3, 256, 256),)
-example_kwargs = {&quot;constant&quot;: torch.ones(1, 16, 256, 256)}
+<span class="n">example_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),)</span>
+<span class="n">example_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;constant&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)}</span>
 
-exported_program: ExportedProgram = export(
-    M(), args=example_args, kwargs=example_kwargs
-)
-print(exported_program)
+<span class="n">exported_program</span><span class="p">:</span> <span class="n">ExportedProgram</span> <span class="o">=</span> <span class="n">export</span><span class="p">(</span>
+    <span class="n">M</span><span class="p">(),</span> <span class="n">args</span><span class="o">=</span><span class="n">example_args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">example_kwargs</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exported_program</span><span class="p">)</span>
 
-# 要运行导出的程序，我们可以使用 `module()` 方法
-print(exported_program.module()(torch.randn(1, 3, 256, 256), constant=torch.ones(1, 16, 256, 256)))
+<span class="c1"># 要运行导出的程序，我们可以使用 `module()` 方法</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exported_program</span><span class="o">.</span><span class="n">module</span><span class="p">()(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">constant</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)))</span>
 </code></pre></div>
 <p>检查 <code>ExportedProgram</code>，我们可以注意到以下几点：</p>
 <ul>
@@ -10477,71 +10477,71 @@ print(exported_program.module()(torch.randn(1, 3, 256, 256), constant=torch.ones
 <h2 id="_3">表达动态性<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>默认情况下，<code>torch.export</code> 会假设所有输入形状都是<strong>静态的</strong>来追踪程序，并将导出的程序专门化到这些维度。这样做的一个后果是，在运行时，程序将无法处理具有不同形状的输入，即使这些输入在即时执行模式下是有效的。</p>
 <p>示例：</p>
-<div class="highlight"><pre><span></span><code>import torch
-import traceback as tb
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tb</span>
 
-class M(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-        self.branch1 = torch.nn.Sequential(
-            torch.nn.Linear(64, 32), torch.nn.ReLU()
-        )
-        self.branch2 = torch.nn.Sequential(
-            torch.nn.Linear(128, 64), torch.nn.ReLU()
-        )
-        self.buffer = torch.ones(32)
+        <span class="bp">self</span><span class="o">.</span><span class="n">branch1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branch2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
 
-    def forward(self, x1, x2):
-        out1 = self.branch1(x1)
-        out2 = self.branch2(x2)
-        return (out1 + self.buffer, out2)
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+        <span class="n">out1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch1</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">out2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch2</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">out1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">,</span> <span class="n">out2</span><span class="p">)</span>
 
-example_args = (torch.randn(32, 64), torch.randn(32, 128))
+<span class="n">example_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">))</span>
 
-ep = torch.export.export(M(), example_args)
-print(ep)
+<span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="n">example_args</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
 
-example_args2 = (torch.randn(64, 64), torch.randn(64, 128))
-try:
-    ep.module()(*example_args2)  # 失败
-except Exception:
-    tb.print_exc()
+<span class="n">example_args2</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ep</span><span class="o">.</span><span class="n">module</span><span class="p">()(</span><span class="o">*</span><span class="n">example_args2</span><span class="p">)</span>  <span class="c1"># 失败</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">tb</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
 </code></pre></div>
 <p>然而，某些维度（例如批次维度）可以是动态的，并且在每次运行时变化。必须使用 <code>torch.export.Dim()</code> API 创建这些维度，并通过 <code>dynamic_shapes</code> 参数将它们传递给 <code>torch.export.export()</code> 来指定这些维度。</p>
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-class M(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-        self.branch1 = torch.nn.Sequential(
-            torch.nn.Linear(64, 32), torch.nn.ReLU()
-        )
-        self.branch2 = torch.nn.Sequential(
-            torch.nn.Linear(128, 64), torch.nn.ReLU()
-        )
-        self.buffer = torch.ones(32)
+        <span class="bp">self</span><span class="o">.</span><span class="n">branch1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branch2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
 
-    def forward(self, x1, x2):
-        out1 = self.branch1(x1)
-        out2 = self.branch2(x2)
-        return (out1 + self.buffer, out2)
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">):</span>
+        <span class="n">out1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch1</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">out2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch2</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">out1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">,</span> <span class="n">out2</span><span class="p">)</span>
 
-example_args = (torch.randn(32, 64), torch.randn(32, 128))
+<span class="n">example_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">))</span>
 
-# 创建一个动态批次大小
-batch = torch.export.Dim(&quot;batch&quot;)
-# 指定每个输入的第一个维度是该批次大小
-dynamic_shapes = {&quot;x1&quot;: {0: batch}, &quot;x2&quot;: {0: batch}}
+<span class="c1"># 创建一个动态批次大小</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">Dim</span><span class="p">(</span><span class="s2">&quot;batch&quot;</span><span class="p">)</span>
+<span class="c1"># 指定每个输入的第一个维度是该批次大小</span>
+<span class="n">dynamic_shapes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">batch</span><span class="p">},</span> <span class="s2">&quot;x2&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">batch</span><span class="p">}}</span>
 
-ep = torch.export.export(
-    M(), args=example_args, dynamic_shapes=dynamic_shapes
-)
-print(ep)
+<span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
+    <span class="n">M</span><span class="p">(),</span> <span class="n">args</span><span class="o">=</span><span class="n">example_args</span><span class="p">,</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="n">dynamic_shapes</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
 
-example_args2 = (torch.randn(64, 64), torch.randn(64, 128))
-ep.module()(*example_args2)  # 成功
+<span class="n">example_args2</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">))</span>
+<span class="n">ep</span><span class="o">.</span><span class="n">module</span><span class="p">()(</span><span class="o">*</span><span class="n">example_args2</span><span class="p">)</span>  <span class="c1"># 成功</span>
 </code></pre></div>
 <p>需要注意的一些额外事项：</p>
 <ul>
@@ -10590,58 +10590,58 @@ ep.module()(*example_args2)  # 成功
 <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="n">dynamic_shapes</span><span class="p">)</span>
 </code></pre></div>
 <p>然而，这特别复杂，因为我们需要以与输入参数相同的嵌套输入结构来指定 <code>dynamic_shapes</code> 规范。相反，指定动态形状的一种更简单的方法是使用辅助工具 <code>torch.export.ShapesCollection</code>，在这里我们无需指定每个单独输入的动态性，而是可以直接分配哪些输入维度是动态的。</p>
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-class M(torch.nn.Module):
-    def forward(self, inp):
-        x = inp[&quot;x&quot;] * 1
-        y = inp[&quot;others&quot;][0] * 2
-        z = inp[&quot;others&quot;][1] * 3
-        return x, y, z
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">inp</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">inp</span><span class="p">[</span><span class="s2">&quot;others&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">inp</span><span class="p">[</span><span class="s2">&quot;others&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
 
-tensor_x = torch.randn(3, 4, 8)
-tensor_y = torch.randn(6)
-tensor_z = torch.randn(6)
-args = {&quot;x&quot;: tensor_x, &quot;others&quot;: [tensor_y, tensor_z]}
+<span class="n">tensor_x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">tensor_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">tensor_z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">tensor_x</span><span class="p">,</span> <span class="s2">&quot;others&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tensor_y</span><span class="p">,</span> <span class="n">tensor_z</span><span class="p">]}</span>
 
-dim = torch.export.Dim(&quot;dim&quot;)
-sc = torch.export.ShapesCollection()
-sc[tensor_x] = (dim, dim + 1, 8)
-sc[tensor_y] = {0: dim * 2}
+<span class="n">dim</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">Dim</span><span class="p">(</span><span class="s2">&quot;dim&quot;</span><span class="p">)</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">ShapesCollection</span><span class="p">()</span>
+<span class="n">sc</span><span class="p">[</span><span class="n">tensor_x</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">sc</span><span class="p">[</span><span class="n">tensor_y</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">}</span>
 
-print(sc.dynamic_shapes(M(), (args,)))
-ep = torch.export.export(M(), (args,), dynamic_shapes=sc)
-print(ep)
+<span class="nb">print</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">dynamic_shapes</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="p">(</span><span class="n">args</span><span class="p">,)))</span>
+<span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="p">(</span><span class="n">args</span><span class="p">,),</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="n">sc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="additionalinputs">AdditionalInputs<a class="headerlink" href="#additionalinputs" title="Permanent link">&para;</a></h3>
 <p>如果您不知道输入有多动态，但拥有充足的测试或性能分析数据集，可以为模型提供具有代表性的输入，那么可以使用 <code>torch.export.AdditionalInputs</code> 代替 <code>dynamic_shapes</code>。您可以指定用于追踪程序的所有可能输入，<code>AdditionalInputs</code> 将根据哪些输入形状发生变化来推断哪些输入是动态的。</p>
 <p>示例：</p>
-<div class="highlight"><pre><span></span><code>import dataclasses
-import torch
-import torch.utils._pytree as pytree
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.utils._pytree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pytree</span>
 
-@dataclasses.dataclass
-class D:
-    b: bool
-    i: int
-    f: float
-    t: torch.Tensor
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">D</span><span class="p">:</span>
+    <span class="n">b</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">i</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">f</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">t</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
 
-pytree.register_dataclass(D)
+<span class="n">pytree</span><span class="o">.</span><span class="n">register_dataclass</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
 
-class M(torch.nn.Module):
-    def forward(self, d: D):
-        return d.i + d.f + d.t
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">D</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">i</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">f</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">t</span>
 
-input1 = (D(True, 3, 3.0, torch.ones(3)),)
-input2 = (D(True, 4, 3.0, torch.ones(4)),)
-ai = torch.export.AdditionalInputs()
-ai.add(input1)
-ai.add(input2)
+<span class="n">input1</span> <span class="o">=</span> <span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)),)</span>
+<span class="n">input2</span> <span class="o">=</span> <span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">)),)</span>
+<span class="n">ai</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">AdditionalInputs</span><span class="p">()</span>
+<span class="n">ai</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">input1</span><span class="p">)</span>
+<span class="n">ai</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">input2</span><span class="p">)</span>
 
-print(ai.dynamic_shapes(M(), input1))
-ep = torch.export.export(M(), input1, dynamic_shapes=ai)
-print(ep)
+<span class="nb">print</span><span class="p">(</span><span class="n">ai</span><span class="o">.</span><span class="n">dynamic_shapes</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="n">input1</span><span class="p">))</span>
+<span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="n">input1</span><span class="p">,</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="n">ai</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="_6">序列化<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>要保存 <code>ExportedProgram</code>，用户可以使用 <code>torch.export.save</code> 和 <code>torch.export.load</code> API。生成的文件是一个具有特定结构的 zip 文件。该结构的详细信息在 PT2 归档规范  中定义。</p>
@@ -10696,21 +10696,21 @@ print(ep)
 <h3 id="ir_1">训练 IR（默认）<a class="headerlink" href="#ir_1" title="Permanent link">&para;</a></h3>
 <p>默认情况下，导出生成一个<strong>训练 IR</strong>，其中包含所有 ATen 运算符，包括函数式和非函数式（突变）运算符。函数式运算符是指不包含任何输入突变或别名的运算符，而非函数式运算符可能会就地修改其输入。您可以在<a href="https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/native_functions.yaml">此处</a>找到所有 ATen 运算符的列表，并通过检查 <code>op._schema.is_mutable</code> 来检查运算符是否为函数式。</p>
 <p>此训练 IR（可能包含突变操作）专为训练场景设计，可与即时执行模式的 PyTorch Autograd 配合使用。</p>
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-class M(torch.nn.Module):
-    def __init__(self) -&gt; None:
-        super().__init__()
-        self.conv = torch.nn.Conv2d(1, 3, 1, 1)
-        self.bn = torch.nn.BatchNorm2d(3)
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.bn(x)
-        return (x,)
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span>
 
-ep_for_training = torch.export.export(M(), (torch.randn(1, 1, 3, 3),))
-print(ep_for_training.graph_module.print_readable(print_output=False))
+<span class="n">ep_for_training</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep_for_training</span><span class="o">.</span><span class="n">graph_module</span><span class="o">.</span><span class="n">print_readable</span><span class="p">(</span><span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </code></pre></div>
 <h3 id="ir-run_decompositions">推理 IR（通过 run_decompositions）<a class="headerlink" href="#ir-run_decompositions" title="Permanent link">&para;</a></h3>
 <p>要获得适用于部署的<strong>推理 IR</strong>，请使用 <code>ExportedProgram.run_decompositions</code> API。该方法会自动：
@@ -10718,70 +10718,70 @@ print(ep_for_training.graph_module.print_readable(print_output=False))
 2. 根据提供的分解表选择性地分解 ATen 算子</p>
 <p>这将生成一个纯粹功能化的图，非常适合推理场景。</p>
 <p>通过指定空分解表（<code>decomp_table={}</code>），您将仅获得功能化转换而不进行额外分解。这会生成包含约 2000 个功能化算子的推理 IR（相比之下训练 IR 包含 3000+ 个算子）。</p>
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-class M(torch.nn.Module):
-    def __init__(self) -&gt; None:
-        super().__init__()
-        self.conv = torch.nn.Conv2d(1, 3, 1, 1)
-        self.bn = torch.nn.BatchNorm2d(3)
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.bn(x)
-        return (x,)
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span>
 
-ep_for_training = torch.export.export(M(), (torch.randn(1, 1, 3, 3),))
-with torch.no_grad():
-    ep_for_inference = ep_for_training.run_decompositions(decomp_table={})
-print(ep_for_inference.graph_module.print_readable(print_output=False))
+<span class="n">ep_for_training</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),))</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">ep_for_inference</span> <span class="o">=</span> <span class="n">ep_for_training</span><span class="o">.</span><span class="n">run_decompositions</span><span class="p">(</span><span class="n">decomp_table</span><span class="o">=</span><span class="p">{})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep_for_inference</span><span class="o">.</span><span class="n">graph_module</span><span class="o">.</span><span class="n">print_readable</span><span class="p">(</span><span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </code></pre></div>
 <p>如我们所见，原先的就地操作符 <code>torch.ops.aten.add_.default</code> 现在已被替换为功能化操作符 <code>torch.ops.aten.add.default</code>。</p>
 <h3 id="aten-ir">核心 ATen IR<a class="headerlink" href="#aten-ir" title="Permanent link">&para;</a></h3>
 <p>我们可以进一步将推理 IR 降级到
 <code>Core ATen Operator Set &lt;https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_ir.html#core-aten-ir&gt;</code>__，
 该集合仅包含约 180 个算子。这是通过向 <code>run_decompositions()</code> 传递 <code>decomp_table=None</code>（使用默认分解表）实现的。这种 IR 对于希望最小化需要实现的操作符数量的后端来说是最优选择。</p>
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-class M(torch.nn.Module):
-    def __init__(self) -&gt; None:
-        super().__init__()
-        self.conv = torch.nn.Conv2d(1, 3, 1, 1)
-        self.bn = torch.nn.BatchNorm2d(3)
+<span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.bn(x)
-        return (x,)
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span>
 
-ep_for_training = torch.export.export(M(), (torch.randn(1, 1, 3, 3),))
-with torch.no_grad():
-    core_aten_ir = ep_for_training.run_decompositions(decomp_table=None)
-print(core_aten_ir.graph_module.print_readable(print_output=False))
+<span class="n">ep_for_training</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),))</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">core_aten_ir</span> <span class="o">=</span> <span class="n">ep_for_training</span><span class="o">.</span><span class="n">run_decompositions</span><span class="p">(</span><span class="n">decomp_table</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">core_aten_ir</span><span class="o">.</span><span class="n">graph_module</span><span class="o">.</span><span class="n">print_readable</span><span class="p">(</span><span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </code></pre></div>
 <p>现在我们可以看到 <code>torch.ops.aten.conv2d.default</code> 已被分解为 <code>torch.ops.aten.convolution.default</code>。这是因为 <code>convolution</code> 是一个更"核心"的算子，因为像 <code>conv1d</code> 和 <code>conv2d</code> 这样的操作可以使用同一个算子实现。</p>
 <p>我们也可以指定自定义的分解行为：</p>
-<div class="highlight"><pre><span></span><code>class M(torch.nn.Module):
-    def __init__(self) -&gt; None:
-        super().__init__()
-        self.conv = torch.nn.Conv2d(1, 3, 1, 1)
-        self.bn = torch.nn.BatchNorm2d(3)
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.bn(x)
-        return (x,)
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,)</span>
 
-ep_for_training = torch.export.export(M(), (torch.randn(1, 1, 3, 3),))
+<span class="n">ep_for_training</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">M</span><span class="p">(),</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),))</span>
 
-my_decomp_table = torch.export.default_decompositions()
+<span class="n">my_decomp_table</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">default_decompositions</span><span class="p">()</span>
 
-def my_awesome_custom_conv2d_function(x, weight, bias, stride=[1, 1], padding=[0, 0], dilation=[1, 1], groups=1):
-    return 2 * torch.ops.aten.convolution(x, weight, bias, stride, padding, dilation, False, [0, 0], groups)
+<span class="k">def</span><span class="w"> </span><span class="nf">my_awesome_custom_conv2d_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">padding</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dilation</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">aten</span><span class="o">.</span><span class="n">convolution</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">dilation</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">groups</span><span class="p">)</span>
 
-my_decomp_table[torch.ops.aten.conv2d.default] = my_awesome_custom_conv2d_function
-my_ep = ep_for_training.run_decompositions(my_decomp_table)
-print(my_ep.graph_module.print_readable(print_output=False))
+<span class="n">my_decomp_table</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">aten</span><span class="o">.</span><span class="n">conv2d</span><span class="o">.</span><span class="n">default</span><span class="p">]</span> <span class="o">=</span> <span class="n">my_awesome_custom_conv2d_function</span>
+<span class="n">my_ep</span> <span class="o">=</span> <span class="n">ep_for_training</span><span class="o">.</span><span class="n">run_decompositions</span><span class="p">(</span><span class="n">my_decomp_table</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">my_ep</span><span class="o">.</span><span class="n">graph_module</span><span class="o">.</span><span class="n">print_readable</span><span class="p">(</span><span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </code></pre></div>
 <p>请注意，<code>torch.ops.aten.conv2d.default</code> 现在不是被分解为 <code>torch.ops.aten.convolution.default</code>，而是被分解为 <code>torch.ops.aten.convolution.default</code> 和 <code>torch.ops.aten.mul.Tensor</code>，这与我们的自定义分解规则相匹配。</p>
 <h2 id="torchexport_1">torch.export 的限制<a class="headerlink" href="#torchexport_1" title="Permanent link">&para;</a></h2>

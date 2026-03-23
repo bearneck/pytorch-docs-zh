@@ -10027,25 +10027,25 @@
 </code></pre></div>
 <h2 id="_1">示例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>以下是一个使用 <code>associative_scan</code> 计算累积和的示例：</p>
-<div class="highlight"><pre><span></span><code>import torch
-from torch._higher_order_ops.associative_scan import associative_scan
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch._higher_order_ops.associative_scan</span><span class="w"> </span><span class="kn">import</span> <span class="n">associative_scan</span>
 
-def add(x: torch.Tensor, y: torch.Tensor):
-    return x + y
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 
-xs = torch.arange(1, 5, dtype=torch.float32)  # [1, 2, 3, 4]
-cumsum = associative_scan(add, xs, dim=0, combine_mode=&quot;generic&quot;)
-print(cumsum)
+<span class="n">xs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># [1, 2, 3, 4]</span>
+<span class="n">cumsum</span> <span class="o">=</span> <span class="n">associative_scan</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">combine_mode</span><span class="o">=</span><span class="s2">&quot;generic&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cumsum</span><span class="p">)</span>
 </code></pre></div>
-<p>这是一个计算累积积的示例：</p>
-<div class="highlight"><pre><span></span><code>def mul(x: torch.Tensor, y: torch.Tensor):
-    return x * y
+这是一个计算累积积的示例：</p>
+<p><div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">mul</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
 
-xs = torch.arange(1, 5, dtype=torch.float32)  # [1, 2, 3, 4]
-cumprod = associative_scan(mul, xs, dim=0, combine_mode=&quot;generic&quot;)
-print(cumprod)
+<span class="n">xs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># [1, 2, 3, 4]</span>
+<span class="n">cumprod</span> <span class="o">=</span> <span class="n">associative_scan</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">combine_mode</span><span class="o">=</span><span class="s2">&quot;generic&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cumprod</span><span class="p">)</span>
 </code></pre></div>
-<p>我们可以导出包含 associative_scan 的模型以进行进一步的转换和部署。
+我们可以导出包含 associative_scan 的模型以进行进一步的转换和部署。
 此示例使用动态形状以允许可变序列长度：</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AssociativeScanModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>

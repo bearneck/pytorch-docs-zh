@@ -10339,13 +10339,13 @@
 <h3 id="1">步骤 1<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <p>上面提到的算子  有一个共同特点：它们都是具有已定义 <code>命名空间</code> 和 <code>Schemas</code> 的内置 PyTorch 算子，并且这些算子的内置加速器（<code>CPU</code>、<code>CUDA</code> 等）已经实现。我们接下来要做的就是为新的加速器实现这些算子。</p>
 <p>以 <code>empty.memory_format</code> 算子为例，我们首先需要在 <code>native_functions.yaml</code> 中查询该算子的 <code>schema</code> 信息，其中包含详细的签名信息。然后，我们可以根据新加速器的能力来实现该算子。</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">func</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">empty.memory_format(SymInt[] size, *, ScalarType? dtype=None, Layout? layout=None, Device? device=None, bool? pin_memory=None, MemoryFormat? memory_format=None) -&gt; Tensor</span>
+<p><div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">func</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">empty.memory_format(SymInt[] size, *, ScalarType? dtype=None, Layout? layout=None, Device? device=None, bool? pin_memory=None, MemoryFormat? memory_format=None) -&gt; Tensor</span>
 <span class="nt">dispatch</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">CPU</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">empty_cpu</span>
 <span class="w">    </span><span class="nt">CUDA</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">empty_cuda</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
-<p>完成 <code>wrapper_empty_memory_format</code> 后，我们可以通过 <code>TORCH_LIBRARY_IMPL</code> 为 <code>PrivateUse1</code> 注册 <code>aten::empty.memory_format</code>。</p>
+完成 <code>wrapper_empty_memory_format</code> 后，我们可以通过 <code>TORCH_LIBRARY_IMPL</code> 为 <code>PrivateUse1</code> 注册 <code>aten::empty.memory_format</code>。</p>
 <h3 id="2">步骤 2<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
 <p>遵循 步骤 1，我们可以完成除 <code>fallback</code> 外所有算子的开发和注册。接下来，为了支持运算相关的算子（例如数学运算、卷积运算等），我们需要实现回退语义的注册。这是 PyTorch 框架提供的内置能力，可以将新加速器不支持的部分操作回退到 CPU 上执行。对于开发中的新后端，这是一种以性能为代价保证功能的极其有效的方式。</p>
 <p><code>wrapper_cpu_fallback</code> 包装了 PyTorch 提供的 <code>at::native::cpu_fallback</code> 方法，并通过 <code>TORCH_LIBRARY_IMPL</code> 在 PyTorch 中为 <code>PrivateUse1</code> 注册。后续新后端不支持的运算将自动回退到 CPU 执行，执行完毕后结果会传回新后端。</p>
@@ -10356,7 +10356,7 @@
 <p>当然，全局回退也可以结合回退黑名单使用，这是一种常见的方法，特别是当只有少数算子不支持回退时。</p>
 <h3 id="pytorch-stub">PyTorch STUB<a class="headerlink" href="#pytorch-stub" title="Permanent link">&para;</a></h3>
 <p>PyTorch 还为内置算子提供了另一种方法：<code>STUB</code>。这种方法本质上基于 步骤 1 的方法，但增加了二次调度的能力（例如，基于 CPU 特性进行调度）。</p>
-<div class="highlight"><pre><span></span><code>`STUB` 方法目前仅支持有限的算子集合。对于新的加速器设备，`STUB` 方法的优势在于以微小的性能开销为代价，显著降低了开发成本。PyTorch 目前没有明确列出可以通过 `STUB` 注册的算子集合。由于相关算子数量众多，这里仅提供支持的算子列表的查询方法。
+<p><div class="highlight"><pre><span></span><code>`STUB` 方法目前仅支持有限的算子集合。对于新的加速器设备，`STUB` 方法的优势在于以微小的性能开销为代价，显著降低了开发成本。PyTorch 目前没有明确列出可以通过 `STUB` 注册的算子集合。由于相关算子数量众多，这里仅提供支持的算子列表的查询方法。
 shell
 pushd ${TORCH_ROOT}
 
@@ -10364,8 +10364,8 @@ find aten -type f -a -name &quot;*.h&quot; | xargs -I {} grep -wl &quot;^DECLARE
 
 popd
 </code></pre></div>
-<p><code>DECLARE_DISPATCH</code> 是一个用于显式声明 <code>STUB</code> 的宏。它目前分布在 <code>aten</code> 目录中。基于此宏，你可以找到所有可以使用 <code>STUB</code> 方法集成的算子。</p>
-<div class="highlight"><pre><span></span><code>...
+<code>DECLARE_DISPATCH</code> 是一个用于显式声明 <code>STUB</code> 的宏。它目前分布在 <code>aten</code> 目录中。基于此宏，你可以找到所有可以使用 <code>STUB</code> 方法集成的算子。</p>
+<p><div class="highlight"><pre><span></span><code>...
 aten/src/ATen/native/Activation.h
 aten/src/ATen/native/FusedSGD.h
 aten/src/ATen/native/nested/NestedTensorBinaryOps.h
@@ -10377,7 +10377,7 @@ using unary_fn = void(*)(TensorIteratorBase&amp;);
 
 DECLARE_DISPATCH(unary_fn, abs_stub)
 </code></pre></div>
-<p>上面的列表包含了声明 <code>STUB</code> 算子的文件，在这里你可以清晰地看到 STUB 名称和关联的函数签名。接下来，我们将以 <code>abs_stub</code> 为例，简要介绍通过 <code>STUB</code> 支持算子的路径。</p>
+上面的列表包含了声明 <code>STUB</code> 算子的文件，在这里你可以清晰地看到 STUB 名称和关联的函数签名。接下来，我们将以 <code>abs_stub</code> 为例，简要介绍通过 <code>STUB</code> 支持算子的路径。</p>
 <p>从签名可以看出，<code>abs_stub</code> 的输入是 <code>TensorIteratorBase</code>，这是 PyTorch 提供的一个强大的辅助类，包含了所有输入和输出操作符，以及一些其他辅助方法。基于此，我们可以开发 <code>abs_kernel</code> 操作符，然后调用 <code>REGISTER_PRIVATEUSE1_DISPATCH</code> 来指定 <code>abs_stub</code> 以完成注册。</p>
 <h3 id="_6">自定义操作符<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>除了 PyTorch 内置的操作符外，自定义加速器操作符在特定场景下提升性能也非常常见。这些主要可以分为三种方法：</p>
@@ -10440,33 +10440,40 @@ _dispatch_key_set
 <li>
 <p><code>torch._C._dispatch_key_set</code>：</p>
 <p>显示当前张量的 DispatchKey，优先级从左到右递增。</p>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_dispatch_key_set</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="s1">&#39;DispatchKeySet(CUDA, ADInplaceOrView, AutogradCUDA, AutocastCUDA)&#39;</span>
-</code></pre></div>
-</li>
-<li>
-<p><code>torch._C._dispatch_dump_table</code>：</p>
-<p>查询给定操作符在不同 Dispatch Key 下的支持状态，便于定位对应的实现代码。</p>
+<p>```Python</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import torch
+a = torch.randn(3,3,device="cuda")
+torch._C._dispatch_key_set(a)
+'DispatchKeySet(CUDA, ADInplaceOrView, AutogradCUDA, AutocastCUDA)'
+<div class="highlight"><pre><span></span><code>* `torch._C._dispatch_dump_table`：
+
+    查询给定操作符在不同 Dispatch Key 下的支持状态，便于定位对应的实现代码。
+
+```Python
+&gt;&gt;&gt; import torch
+&gt;&gt;&gt; print(torch._C._dispatch_dump_table(&quot;aten::add.Tensor&quot;))
+&gt;&gt;&gt; ...
+    CPU: registered at ./build/aten/src/ATen/RegisterCPU_0.cpp:1309 [kernel]
+    CUDA: registered at ./build/aten/src/ATen/RegisterCUDA_0.cpp:2420 [kernel]
+    HIP: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    MPS: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    IPU: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    XPU: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    HPU: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    VE: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    MTIA: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    MAIA: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    PrivateUse1: registered at ./build/aten/src/ATen/RegisterCompositeExplicitAutogradNonFunctional_0.cpp:1373 [default backend kernel]
+    ...
+</code></pre></div></p>
+</blockquote>
+</blockquote>
+</blockquote>
 </li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_dispatch_dump_table</span><span class="p">(</span><span class="s2">&quot;aten::add.Tensor&quot;</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="o">...</span>
-    <span class="n">CPU</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCPU_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1309</span> <span class="p">[</span><span class="n">kernel</span><span class="p">]</span>
-    <span class="n">CUDA</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCUDA_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">2420</span> <span class="p">[</span><span class="n">kernel</span><span class="p">]</span>
-    <span class="n">HIP</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">MPS</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">IPU</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">XPU</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">HPU</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">VE</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">MTIA</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">MAIA</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="n">PrivateUse1</span><span class="p">:</span> <span class="n">registered</span> <span class="n">at</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="n">aten</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ATen</span><span class="o">/</span><span class="n">RegisterCompositeExplicitAutogradNonFunctional_0</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">1373</span> <span class="p">[</span><span class="n">default</span> <span class="n">backend</span> <span class="n">kernel</span><span class="p">]</span>
-    <span class="o">...</span>
-</code></pre></div>
 <p>你可以轻松查询 <code>aten::add.Tensor</code> 算子在其它平台上的对应实现，从而可以从源码层面追踪整个算子的调用过程。</p>
 <h3 id="_10">环境变量<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>PyTorch 还提供了一些与分发器相关的环境变量，可以帮助学习和快速定位问题。</p>
@@ -10474,16 +10481,23 @@ _dispatch_key_set
 <li>
 <p>TORCH_SHOW_DISPATCH_TRACE</p>
 <p>显示 PyTorch 执行过程中详细的内部分发键调度信息。</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">TORCH_SHOW_DISPATCH_TRACE</span><span class="o">=</span><span class="m">1</span>
-Python
-&gt;&gt;&gt;<span class="w"> </span>import<span class="w"> </span>torch
-&gt;&gt;&gt;<span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>torch.randn<span class="o">(</span><span class="m">3</span>,3<span class="o">)</span>
-<span class="w"> </span><span class="o">[</span>call<span class="o">]</span><span class="w"> </span><span class="nv">op</span><span class="o">=[</span>aten::randn<span class="o">]</span>,<span class="w"> </span><span class="nv">key</span><span class="o">=[</span>BackendSelect<span class="o">]</span>
-<span class="w">   </span><span class="o">[</span>redispatch<span class="o">]</span><span class="w"> </span><span class="nv">op</span><span class="o">=[</span>aten::randn<span class="o">]</span>,<span class="w"> </span><span class="nv">key</span><span class="o">=[</span>CPU<span class="o">]</span>
-<span class="w">     </span><span class="o">[</span>call<span class="o">]</span><span class="w"> </span><span class="nv">op</span><span class="o">=[</span>aten::empty.memory_format<span class="o">]</span>,<span class="w"> </span><span class="nv">key</span><span class="o">=[</span>BackendSelect<span class="o">]</span>
-<span class="w">       </span><span class="o">[</span>redispatch<span class="o">]</span><span class="w"> </span><span class="nv">op</span><span class="o">=[</span>aten::empty.memory_format<span class="o">]</span>,<span class="w"> </span><span class="nv">key</span><span class="o">=[</span>CPU<span class="o">]</span>
-<span class="w">     </span><span class="o">[</span>call<span class="o">]</span><span class="w"> </span><span class="nv">op</span><span class="o">=[</span>aten::normal_<span class="o">]</span>,<span class="w"> </span><span class="nv">key</span><span class="o">=[</span>CPU<span class="o">]</span>
-</code></pre></div>
+<p>```Bash
+export TORCH_SHOW_DISPATCH_TRACE=1
+Python</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import torch
+a = torch.randn(3,3)
+ [call] op=[aten::randn], key=[BackendSelect]
+   [redispatch] op=[aten::randn], key=[CPU]
+ [call] op=[aten::empty.memory_format], key=[BackendSelect]
+   [redispatch] op=[aten::empty.memory_format], key=[CPU]
+ [call] op=[aten::normal_], key=[CPU]
+```</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>你可以清晰地看到 PyTorch 内部 Python 层级算子所调用的所有底层算子：包括算子名称、调用层级以及对应的 <code>Dispatch Key</code>。</p>
 </li>
 </ul>

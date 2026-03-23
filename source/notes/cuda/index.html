@@ -10807,25 +10807,25 @@ z = x + y \# z.device 是 device(type=\&#39;cuda\&#39;, index=0)
 </blockquote>
 <h2 id="ampere-tensorfloat-32-tf32">Ampere（及更高版本）设备上的 TensorFloat-32 (TF32)<a class="headerlink" href="#ampere-tensorfloat-32-tf32" title="Permanent link">&para;</a></h2>
 <p>在 PyTorch 2.9 之后，我们提供了一套新的 API 来以更细粒度的方式控制 TF32 行为，并建议使用新的 API 以获得更好的控制。 我们可以为每个后端和每个操作符设置 float32 精度。我们还可以为特定操作符覆盖全局设置。</p>
-<div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">matmul</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;tf32&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;tf32&quot;</span>
 </code></pre></div>
-<p>对于 [cuda/cudnn]，fp32_precision 可以设置为 [ieee] 或 [tf32]。 [ieee] fp32_precision 表示我们将使用 [FP32] 作为内部计算精度。 [tf32] fp32_precision 表示我们将允许使用 [TF32] 作为内部计算精度。</p>
+对于 [cuda/cudnn]，fp32_precision 可以设置为 [ieee] 或 [tf32]。 [ieee] fp32_precision 表示我们将使用 [FP32] 作为内部计算精度。 [tf32] fp32_precision 表示我们将允许使用 [TF32] 作为内部计算精度。</p>
 <p>如果 fp32_precision 设置为 [ieee]，我们可以为特定操作符覆盖通用设置。</p>
-<div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;tf32&quot;</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;tf32&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 </code></pre></div>
-<p>如果 fp32_precision 设置为 [ieee]，我们也可以为特定后端覆盖通用设置。</p>
-<div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;tf32&quot;</span>
+如果 fp32_precision 设置为 [ieee]，我们也可以为特定后端覆盖通用设置。</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;tf32&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">fp32_precision</span> <span class="o">=</span> <span class="s2">&quot;ieee&quot;</span>
 </code></pre></div>
-<p>对于上述两种情况，`torch.backends.cudnn.conv.fp32_precision` 和 [torch.backends.cudnn.rnn.fp32_precision] 都被覆盖为 [ieee]。</p>
+对于上述两种情况，`torch.backends.cudnn.conv.fp32_precision` 和 [torch.backends.cudnn.rnn.fp32_precision] 都被覆盖为 [ieee]。</p>
 <p>我们建议使用新设置以获得更好的控制。并且我们不支持混合使用新旧设置。</p>
 <blockquote>
 <p>⚠️ <strong>警告</strong>
@@ -11150,7 +11150,7 @@ z = x + y \# z.device 是 device(type=\&#39;cuda\&#39;, index=0)
 <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">40</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>以下 <code>torch.cuda.MemPool.use_count</code> 和 <code>torch.cuda.MemPool.snapshot</code> API 可用于调试目的：</p>
-<div class="highlight"><pre><span></span><code><span class="n">pool</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">MemPool</span><span class="p">(</span><span class="n">allocator</span><span class="p">)</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">pool</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">MemPool</span><span class="p">(</span><span class="n">allocator</span><span class="p">)</span>
 
 <span class="c1"># 此时内存池的使用计数应为 1，因为 MemPool 对象持有一个引用</span>
 <span class="k">assert</span> <span class="n">pool</span><span class="o">.</span><span class="n">use_count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span>
@@ -11180,7 +11180,7 @@ z = x + y \# z.device 是 device(type=\&#39;cuda\&#39;, index=0)
     <span class="c1"># 现在内存池应有 2 个段，因为 CUDACachingAllocator 必须创建一个新的 2 MB 缓冲区来容纳 out_2</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">snapshot</span><span class="p">())</span> <span class="o">==</span> <span class="mi">2</span>
 </code></pre></div>
-<p>📝 <strong>注意</strong>
+📝 <strong>注意</strong>
 - <code>torch.cuda.MemPool</code> 持有对内存池的一个引用。当你使用 <code>torch.cuda.use_mem_pool</code> 上下文管理器时，它也会获取对内存池的另一个引用。在退出上下文管理器时，它会释放其引用。此后，理想情况下应该只有张量持有对内存池的引用。一旦张量释放了它们的引用，内存池的使用计数将为 1，这反映出只有 <code>torch.cuda.MemPool</code> 对象持有一个引用。只有在那时，当使用 <code>del</code> 调用内存池的析构函数时，内存池持有的内存才能被返还给系统。
 - <code>torch.cuda.MemPool</code> 目前不支持 CUDACachingAllocator 的 <code>expandable_segments</code> 模式。
 - <a href="">NCCL 有特定要求</a> 来使缓冲区与 NVLS 归约操作兼容。这些要求可能在动态工作负载中被破坏，例如，CUDACachingAllocator 发送给 NCCL 的缓冲区可能被拆分，从而导致未正确对齐。在这些情况下，NCCL 可以使用回退算法而不是 NVLS。

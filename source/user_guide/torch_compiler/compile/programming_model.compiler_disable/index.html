@@ -9930,50 +9930,50 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
 
-torch._logging.set_logs(graph_breaks=True, graph_code=True)
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">graph_code</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h1 id="_1">禁用和抑制错误<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>对于某些模型架构，模型中的某些部分特别难以编译——要么存在许多图中断，要么会崩溃。
 您可能希望显式禁用这些有问题的模型部分，以便可以将 <code>torch.compile</code> 应用于可正常工作的部分。您可以通过使用 <code>@torch.compiler.disable</code> 装饰器来实现这一点。
 当 <code>torch.compile</code> 尝试调用一个被禁用的函数时，它会中断图并跳过跟踪该禁用函数，在调用后恢复跟踪。默认情况下，从禁用函数进行的所有递归调用也会被禁用。
 使用 <code>recursive=False</code> 选项可以允许对递归调用进行编译。</p>
-<div class="highlight"><pre><span></span><code>def inner1(x):
-    torch._dynamo.graph_break()  # 不被跟踪
-    return x + 1  # 不被跟踪
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">inner1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>  <span class="c1"># 不被跟踪</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># 不被跟踪</span>
 
-@torch.compiler.disable
-def outer1(x):
-    x = x + 2  # 不被跟踪
-    torch._dynamo.graph_break()  # 不被跟踪
-    return inner1(x)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">disable</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">outer1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>  <span class="c1"># 不被跟踪</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>  <span class="c1"># 不被跟踪</span>
+    <span class="k">return</span> <span class="n">inner1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-@torch.compile
-def f(x):
-    x = outer1(x)
-    return x + 4  # 被跟踪
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">outer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">4</span>  <span class="c1"># 被跟踪</span>
 
-print(f(torch.ones(3)))
-{code-cell}
-def inner2(x):
-    torch._dynamo.graph_break()  # 被跟踪
-    return x + 1  # 被跟踪
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>  <span class="c1"># 被跟踪</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># 被跟踪</span>
 
-@torch.compiler.disable(recursive=False)
-def outer2(x):
-    x = x + 2  # 不被跟踪
-    torch._dynamo.graph_break()  # 不被跟踪
-    return inner2(x)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">outer2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span>  <span class="c1"># 不被跟踪</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>  <span class="c1"># 不被跟踪</span>
+    <span class="k">return</span> <span class="n">inner2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-@torch.compile
-def g(x):
-    x = outer2(x)
-    return x + 4  # 被跟踪
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">outer2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">4</span>  <span class="c1"># 被跟踪</span>
 
-print(g(torch.ones(3)))
+<span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
 </code></pre></div>
 <p>例如，可以使用 <code>torch.compiler.disable</code> 在推荐模型中禁用对稀疏架构的 <code>torch.compile</code>，因为稀疏架构难以编译。
 预处理和日志记录函数是其他通常会导致大量图中断且无法从编译中获益的函数的例子。</p>

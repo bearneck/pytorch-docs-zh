@@ -10043,9 +10043,9 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
 </code></pre></div>
 <h1 id="fullgraphtrue">使用 <code>fullgraph=True</code> 来识别并消除图中断<a class="headerlink" href="#fullgraphtrue" title="Permanent link">&para;</a></h1>
 <p>使用 <code>torch.compile(fullgraph=False)</code>（默认值）是开始使用 <code>torch.compile</code> 的好方法：它通过图中断的能力支持所有 Python 程序，并在常见情况下提供良好的性能。</p>
@@ -10062,27 +10062,27 @@ import header_code
 或向 <a href="https://github.com/pytorch/pytorch/issues">PyTorch GitHub 仓库</a> 提交问题。</p>
 <p>更多图中断示例及其解决方法可以在 <a href="programming_model.common_graph_breaks">常见图中断</a> 中找到。</p>
 <p>示例：Dynamo 不支持在被编译函数的输入 <code>list_iterator</code> 对象上调用 <code>next</code>。</p>
-<div class="highlight"><pre><span></span><code>@torch.compile(fullgraph=True)
-def f(xs):
-    a = next(xs)
-    b = next(xs)
-    return a + b
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 
-xs = [torch.tensor(1.), torch.tensor(2.)]
-try:
-    out = f(iter(xs))
-except Exception as e:
-    print(e)
+<span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.</span><span class="p">)]</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div>
 <p>相反，重写编译后的函数以接受一个列表。</p>
-<div class="highlight"><pre><span></span><code>@torch.compile(fullgraph=True)
-def f_rewritten(xs):
-    it = iter(xs)
-    a = next(it)
-    b = next(it)
-    return a + b
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f_rewritten</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 
-f_rewritten(xs)
+<span class="n">f_rewritten</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="2">策略 2：纯函数总是可以通过逃生舱口进行编译。<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
 <p><strong>总结</strong>：所有 Python 函数的空间非常庞大，因此 Dynamo 要能够无图中断地追踪每个 Python 函数是不切实际的。对于那些被认为是“纯”的、但 Dynamo 无法无图中断追踪的 Python 函数，我们提供了一些逃生舱口来尝试追踪这些函数：</p>
@@ -10106,134 +10106,134 @@ f_rewritten(xs)
 </ol>
 <p>请注意，这些逃生舱口也可以应用于非纯函数，但 <strong>我们不提供任何正确性保证</strong>。</p>
 <p>示例：如果 Dynamo 不支持某些非严格可追踪的 Python 特性或 API（例如，它使用 PyTorch 操作），<a href="programming_model.dynamo_nonstrict_trace">请使用 <code>torch._dynamo.nonstrict_trace</code> 来捕获它</a>。</p>
-<div class="highlight"><pre><span></span><code># 这是一个 Dynamo 不支持的函数（由于 graph_break() 调用）。
-def g(x):
-    y = x.sin()
-    torch._dynamo.graph_break()
-    z = y.sin()
-    return z
+<div class="highlight"><pre><span></span><code><span class="c1"># 这是一个 Dynamo 不支持的函数（由于 graph_break() 调用）。</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">z</span>
 
-@torch.compile(fullgraph=True)
-def f(x):
-    w = x.sin()
-    return g(w)
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">g</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
 
-x = torch.randn(3)
-try:
-    f(x)  # 图中断：调用了 torch._dynamo.graph_break()
-except Exception as e:
-    print(e)
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 图中断：调用了 torch._dynamo.graph_break()</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-@torch.compile(fullgraph=True)
-def f_rewritten(x):
-    w = x.sin()
-    return torch._dynamo.nonstrict_trace(g)(w)
-f_rewritten(x)  # 正常工作
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f_rewritten</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">nonstrict_trace</span><span class="p">(</span><span class="n">g</span><span class="p">)(</span><span class="n">w</span><span class="p">)</span>
+<span class="n">f_rewritten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 正常工作</span>
 </code></pre></div>
 <p>示例：使用 <a href="programming_model.custom_ops">自定义运算符</a> 创建对 <code>torch.compile</code> 不透明的函数。</p>
-<div class="highlight"><pre><span></span><code>from torch.utils.cpp_extension import load_inline
+<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.cpp_extension</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_inline</span>
 
-# 平方操作的 C++ 源代码
-cpp_source = &quot;&quot;&quot;
-torch::Tensor square_cpu(torch::Tensor input) {
-    // 检查输入是否为 CPU 张量
-    TORCH_CHECK(input.device().is_cpu(), &quot;Input must be a CPU tensor&quot;);
+<span class="c1"># 平方操作的 C++ 源代码</span>
+<span class="n">cpp_source</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">torch::Tensor square_cpu(torch::Tensor input) {</span>
+<span class="s2">    // 检查输入是否为 CPU 张量</span>
+<span class="s2">    TORCH_CHECK(input.device().is_cpu(), &quot;Input must be a CPU tensor&quot;);</span>
 
-    // 创建与输入形状和数据类型相同的输出张量
-    torch::Tensor output = torch::empty_like(input);
+<span class="s2">    // 创建与输入形状和数据类型相同的输出张量</span>
+<span class="s2">    torch::Tensor output = torch::empty_like(input);</span>
 
-    // 获取数据指针
-    float* input_data = input.data_ptr&lt;float&gt;();
-    float* output_data = output.data_ptr&lt;float&gt;();
+<span class="s2">    // 获取数据指针</span>
+<span class="s2">    float* input_data = input.data_ptr&lt;float&gt;();</span>
+<span class="s2">    float* output_data = output.data_ptr&lt;float&gt;();</span>
 
-    // 获取元素总数
-    int64_t numel = input.numel();
+<span class="s2">    // 获取元素总数</span>
+<span class="s2">    int64_t numel = input.numel();</span>
 
-```{code-cell}
-# 使用 torch.library.custom_op 定义一个新的自定义运算符。
-# 自定义运算符对于 torch.compile 是不透明的：
-# 也就是说，torch.compile 不会窥探其内部。
+<span class="s2">```python</span>
+<span class="s2"># 使用 torch.library.custom_op 定义一个新的自定义运算符。</span>
+<span class="s2"># 自定义运算符对于 torch.compile 是不透明的：</span>
+<span class="s2"># 也就是说，torch.compile 不会窥探其内部。</span>
 
-@torch.library.custom_op(&quot;mylib::square&quot;, mutates_args=())
-def square(x: torch.Tensor) -&gt; torch.Tensor:
-    return square_module.square_cpu(x)
+<span class="s2">@torch.library.custom_op(&quot;mylib::square&quot;, mutates_args=())</span>
+<span class="s2">def square(x: torch.Tensor) -&gt; torch.Tensor:</span>
+<span class="s2">    return square_module.square_cpu(x)</span>
 
-# 使用 register_fake 为运算符添加一个 ``FakeTensor`` 内核
-@square.register_fake
-def _(x):
-    return x.new_empty(x.size())
+<span class="s2"># 使用 register_fake 为运算符添加一个 ``FakeTensor`` 内核</span>
+<span class="s2">@square.register_fake</span>
+<span class="s2">def _(x):</span>
+<span class="s2">    return x.new_empty(x.size())</span>
 
-print(f(torch.randn(3, 3)))  # 无图中断
+<span class="s2">print(f(torch.randn(3, 3)))  # 无图中断</span>
 </code></pre></div>
-<p>有关用于自定义 triton 内核的 <code>triton_op</code> 的更多信息，请参阅
+有关用于自定义 triton 内核的 <code>triton_op</code> 的更多信息，请参阅
 <a href="https://docs.pytorch.org/tutorials/recipes/torch_compile_user_defined_triton_kernel_tutorial.html">用户定义的 triton 内核教程</a>。</p>
 <h2 id="_1">策略三：不编译代码<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>并非所有代码都适合编译。<code>torch.compile</code> 是一个用于张量计算的编译器；
 它无法优化诸如磁盘 IO 之类的操作。尝试重构代码，使得不支持的操作不在编译区域内被调用。</p>
-<div class="highlight"><pre><span></span><code>@torch.compile(fullgraph=True)
-def f(x):
-    y = x ** 2  / 2
-    torch.save(y, &quot;foo.pt&quot;)
-    z = y ** 3 / 6
-    return z
+<p><div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>  <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;foo.pt&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span>
+    <span class="k">return</span> <span class="n">z</span>
 
-x = torch.randn(3)
-try:
-    f(x)  # 图中断：torch.save 不被支持
-except Exception as e:
-    print(e)
-{code-cell}
-def f_rewritten(x):
-    y = g(x)
-    torch.save(y, &quot;foo.pt&quot;)
-    z = h(y)
-    return z
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># 图中断：torch.save 不被支持</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f_rewritten</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;foo.pt&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">z</span>
 
-@torch.compile(fullgraph=True)
-def g(x):
-    y = x ** 2  / 2
-    return y
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>  <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">y</span>
 
-@torch.compile(fullgraph=True)
-def h(y):
-    z = y ** 3 / 6
-    return z
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">h</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span>
+    <span class="k">return</span> <span class="n">z</span>
 
-f_rewritten(x)
-{code-cell}
+<span class="n">f_rewritten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
 
-import os
-os.remove(&quot;foo.pt&quot;)
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;foo.pt&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>如果你有一个有问题的函数，你不需要在编译下运行它，那么
+如果你有一个有问题的函数，你不需要在编译下运行它，那么
 考虑使用 <code>torch.compiler.is_compiling()</code> 来跳过这个有问题的函数。</p>
-<div class="highlight"><pre><span></span><code>@torch.compile(fullgraph=True)
-def f(x):
-    y = x ** 2  / 2
-    if not torch.compiler.is_compiling():
-        torch.save(y, &quot;foo.pt&quot;)
-    z = y ** 3 / 6
-    return z
+<p><div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>  <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">is_compiling</span><span class="p">():</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;foo.pt&quot;</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span>
+    <span class="k">return</span> <span class="n">z</span>
 
-x = torch.randn(3)
-f(x)  # torch.save 未被调用
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># torch.save 未被调用</span>
 </code></pre></div>
-<p>如果你有一个在许多地方被调用的函数，并且你允许 <code>torch.compile</code>
+如果你有一个在许多地方被调用的函数，并且你允许 <code>torch.compile</code>
 无条件地跳过它，那么你可以将其添加到 <code>torch._dynamo.config.ignore_logging_functions</code>。</p>
-<div class="highlight"><pre><span></span><code>def bad_fn(y):
-    torch.save(y, &quot;foo.pt&quot;)
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bad_fn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;foo.pt&quot;</span><span class="p">)</span>
 
-torch._dynamo.config.ignore_logging_functions.add(bad_fn)
+<span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_logging_functions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">bad_fn</span><span class="p">)</span>
 
-@torch.compile(fullgraph=True)
-def f(x):
-    y = x ** 2  / 2
-    bad_fn()
-    z = y ** 3 / 6
-    return z
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>  <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">bad_fn</span><span class="p">()</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span>
+    <span class="k">return</span> <span class="n">z</span>
 
-x = torch.randn(3)
-f(x)  # torch.save 未被调用
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># torch.save 未被调用</span>
 </code></pre></div>
 <p>请注意，可以添加到 <code>ignore_logging_functions</code> 的函数类型有一些限制。
 具体来说：

@@ -10025,63 +10025,63 @@
 </code></pre></div>
 <h2 id="_1">示例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>下面是一个使用 cond 根据输入形状进行分支的示例：</p>
-<div class="highlight"><pre><span></span><code>import torch
+<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-def true_fn(x: torch.Tensor):
-    return x.cos()
+<span class="k">def</span><span class="w"> </span><span class="nf">true_fn</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span>
 
-def false_fn(x: torch.Tensor):
-    return x.sin()
+<span class="k">def</span><span class="w"> </span><span class="nf">false_fn</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
 
-class DynamicShapeCondPredicate(torch.nn.Module):
-    &quot;&quot;&quot;
-    基于动态形状谓词使用 cond 的基本示例。
-    &quot;&quot;&quot;
+<span class="k">class</span><span class="w"> </span><span class="nc">DynamicShapeCondPredicate</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    基于动态形状谓词使用 cond 的基本示例。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    def __init__(self):
-        super().__init__()
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-    def forward(self, x: torch.Tensor) -&gt; torch.Tensor:
-        return torch.cond(x.shape[0] &gt; 4, true_fn, false_fn, (x,))
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">,</span> <span class="n">true_fn</span><span class="p">,</span> <span class="n">false_fn</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,))</span>
 
-dyn_shape_mod = DynamicShapeCondPredicate()
+<span class="n">dyn_shape_mod</span> <span class="o">=</span> <span class="n">DynamicShapeCondPredicate</span><span class="p">()</span>
 </code></pre></div>
-<p>我们可以即时运行模型，并期望结果根据输入形状而变化：</p>
-<div class="highlight"><pre><span></span><code>inp = torch.randn(3)
-inp2 = torch.randn(5)
-print(dyn_shape_mod(inp), false_fn(inp))
-print(dyn_shape_mod(inp2), true_fn(inp2))
+我们可以即时运行模型，并期望结果根据输入形状而变化：</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">inp2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dyn_shape_mod</span><span class="p">(</span><span class="n">inp</span><span class="p">),</span> <span class="n">false_fn</span><span class="p">(</span><span class="n">inp</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dyn_shape_mod</span><span class="p">(</span><span class="n">inp2</span><span class="p">),</span> <span class="n">true_fn</span><span class="p">(</span><span class="n">inp2</span><span class="p">))</span>
 </code></pre></div>
-<p>我们可以导出模型以进行进一步的转换和部署。这将得到一个如下所示的导出程序：</p>
-<div class="highlight"><pre><span></span><code>inp = torch.randn(4, 3)
-ep = torch.export.export(
-    DynamicShapeCondPredicate(),
-    (inp,),
-    dynamic_shapes={&quot;x&quot;: {0: torch.export.Dim.DYNAMIC}}
-)
-print(ep)
+我们可以导出模型以进行进一步的转换和部署。这将得到一个如下所示的导出程序：</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">inp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span>
+    <span class="n">DynamicShapeCondPredicate</span><span class="p">(),</span>
+    <span class="p">(</span><span class="n">inp</span><span class="p">,),</span>
+    <span class="n">dynamic_shapes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">Dim</span><span class="o">.</span><span class="n">DYNAMIC</span><span class="p">}}</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
 </code></pre></div>
-<p>请注意，<code>torch.cond</code> 被降级为 <code>torch.ops.higher_order.cond</code>，其谓词变为关于输入形状的符号表达式，分支函数则成为顶层图模块的两个子图属性。</p>
+请注意，<code>torch.cond</code> 被降级为 <code>torch.ops.higher_order.cond</code>，其谓词变为关于输入形状的符号表达式，分支函数则成为顶层图模块的两个子图属性。</p>
 <p>下面是另一个展示如何表达数据相关控制流的示例：</p>
-<div class="highlight"><pre><span></span><code>def true_fn(x: torch.Tensor):
-    return x.cos() + x.sin()
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">true_fn</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
 
-def false_fn(x: torch.Tensor):
-    return x.sin()
+<span class="k">def</span><span class="w"> </span><span class="nf">false_fn</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
 
-class DataDependentCondPredicate(torch.nn.Module):
-    &quot;&quot;&quot;
-    基于数据相关谓词使用 cond 的基本示例。
-    &quot;&quot;&quot;
-    def __init__(self):
-        super().__init__()
+<span class="k">class</span><span class="w"> </span><span class="nc">DataDependentCondPredicate</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    基于数据相关谓词使用 cond 的基本示例。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-    def forward(self, x: torch.Tensor) -&gt; torch.Tensor:
-        return torch.cond(x.sum() &gt; 4.0, true_fn, false_fn, (x,))
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">true_fn</span><span class="p">,</span> <span class="n">false_fn</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,))</span>
 
-inp = torch.randn(4, 3)
-ep = torch.export.export(DataDependentCondPredicate(), (inp,), dynamic_shapes={&quot;x&quot;: {0: torch.export.Dim.DYNAMIC}})
-print(ep)
+<span class="n">inp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">DataDependentCondPredicate</span><span class="p">(),</span> <span class="p">(</span><span class="n">inp</span><span class="p">,),</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">Dim</span><span class="o">.</span><span class="n">DYNAMIC</span><span class="p">}})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="torchopshigher_ordercond">torch.ops.higher_order.cond 的不变性<a class="headerlink" href="#torchopshigher_ordercond" title="Permanent link">&para;</a></h2>
 <p><code>torch.ops.higher_order.cond</code> 有几个有用的不变性：</p>

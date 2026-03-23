@@ -10043,102 +10043,102 @@
   
 
 
-<div class="highlight"><pre><span></span><code>import torch
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-import header_code
+<span class="kn">import</span><span class="w"> </span><span class="nn">header_code</span>
 
-torch._logging.set_logs(graph_breaks=True)
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h1 id="_1">常见的图中断<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>以下是一些常见的图中断及其解决方法。</p>
 <h2 id="_2">代码错误<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>你的代码可能包含错误（意味着即使没有 <code>torch.compile</code> 也无法执行）。在下面的示例中，由于多了一个参数，<code>torch.sin</code> 调用中存在拼写错误。<strong>请始终禁用 <code>torch.compile</code> 以检查代码是否能正确运行。</strong></p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    y = torch.sin(x, x)
-    return y
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
 
-try:
-    fn(torch.ones(3, 3))
-except Exception as e:
-    pass
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">pass</span>
 </code></pre></div>
 <p>Dynamo 会尽力提示图中断是否由你的代码引起。
 但有时仍然很难从日志中判断图中断是由代码错误、更复杂的图中断还是 <code>torch.compile</code> 的 bug 引起的。为了区分，我们建议尝试在不使用 <code>torch.compile</code> 的情况下运行你的代码，看看是否仍然会出现图中断报告的错误。</p>
 <p>你也可以使用 <code>torch.compiler.set_stance("force_eager")</code> 来快速禁用 <code>torch.compile</code>，而无需修改 <code>torch.compile</code> 调用：</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    y = torch.sin(x, x)
-    return y
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
 
-try:
-    with torch.compiler.set_stance(&quot;force_eager&quot;):
-        fn(torch.ones(3, 3))
-except Exception as e:
-    print(e)
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">set_stance</span><span class="p">(</span><span class="s2">&quot;force_eager&quot;</span><span class="p">):</span>
+        <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div>
 <p>有关使用 <code>set_stance</code> 进行调试的更多示例，请参阅 https://docs.pytorch.org/tutorials/recipes/torch_compiler_set_stance_tutorial.html#crashing-sooner。</p>
 <h2 id="_3">数据依赖操作<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p><code>torch.compile</code> 会在数据依赖操作上发生图中断，例如数据依赖的控制流（if 语句、涉及张量的循环）和直接访问张量数据（<code>.item</code>、<code>.data_ptr</code>）。</p>
-<div class="highlight"><pre><span></span><code>@torch.compile
-def fn(x):
-    y = x.sum()
-    if y &gt; 0:
-        return x + y.item()
-    return x - y.item()
+<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
-print(fn(torch.ones(3, 3)))
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
 </code></pre></div>
 <p>这些图中断的一般解决方法是避免执行数据依赖操作。一些具体的解决方法包括：</p>
 <ul>
 <li>如果你的控制流实际上不依赖于数据值，请考虑修改代码，使其基于常量执行控制流。</li>
 </ul>
-<div class="highlight"><pre><span></span><code># 旧代码
-x = torch.randn(3, 3)
-@torch.compile
-def fn(y):
-    if x.sum() &gt; 0:
-        return y + x
-    else:
-        return y - x
+<div class="highlight"><pre><span></span><code><span class="c1"># 旧代码</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span>
 
-print(fn(torch.ones(3, 3)))
-{code-cell}
-# 新代码
-x = torch.randn(3, 3)
-cond = (x.sum() &gt; 0).item()
-@torch.compile
-def fn(y):
-    if cond:
-        return y + x
-    else:
-        return y - x
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="c1"># 新代码</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span>
 
-print(fn(torch.ones(3, 3)))
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
 </code></pre></div>
 <ul>
 <li>使用 <em>cond</em> 等高级操作符替代数据依赖的控制流。</li>
 </ul>
-<div class="highlight"><pre><span></span><code># 旧代码
-@torch.compile
-def fn(x):
-    if x.sum() &gt; 0:
-        return x + 1
-    return x - 1
+<div class="highlight"><pre><span></span><code><span class="c1"># 旧代码</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span>
 
-print(fn(torch.ones(3, 3)))
-{code-cell}
-# 新代码
-@torch.compile
-def fn(x):
-    return torch.cond(
-        x.sum() &gt; 0,
-        lambda x: x + 1,
-        lambda x: x - 1,
-        (x,),
-    )
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="p">{</span><span class="n">code</span><span class="o">-</span><span class="n">cell</span><span class="p">}</span>
+<span class="c1"># 新代码</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">x</span><span class="p">,),</span>
+    <span class="p">)</span>
 
-print(fn(torch.ones(3, 3)))
+<span class="nb">print</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
 </code></pre></div>
 <ul>
 <li>如果你有 <code>.item()</code> 调用，可以尝试设置 <code>torch._dynamo.config.capture_scalar_outputs = True</code> 或环境变量 <code>TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1</code>。</li>

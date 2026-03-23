@@ -10420,8 +10420,8 @@ class FakeTensor:
   dtype: torch.dtype
   device: torch.device
   dim_order: List[int]  # 此字段尚不存在
-</code></pre></div></p>
-<p>FakeTensor 的 size 字段是一个整数或 SymInt 的列表。如果存在 SymInt，则意味着该张量具有动态形状。如果存在整数，则假定该张量将具有该确切的静态形状。TensorMeta 的秩（rank）永远不会是动态的。dtype 字段表示该节点输出的数据类型。在 Edge IR 中没有隐式的类型提升。FakeTensor 中没有步幅（strides）信息。</p>
+</code></pre></div>
+FakeTensor 的 size 字段是一个整数或 SymInt 的列表。如果存在 SymInt，则意味着该张量具有动态形状。如果存在整数，则假定该张量将具有该确切的静态形状。TensorMeta 的秩（rank）永远不会是动态的。dtype 字段表示该节点输出的数据类型。在 Edge IR 中没有隐式的类型提升。FakeTensor 中没有步幅（strides）信息。</p>
 <p>换句话说：</p>
 <ul>
 <li>如果 node.target 中的算子返回一个张量，那么 <code>node.meta['val']</code> 就是一个描述该张量的 FakeTensor。</li>
@@ -10436,16 +10436,16 @@ class FakeTensor:
 <li><code>max_pool2d_with_indexes</code> 返回一个 (Tensor, Tensor) 元组；因此规范也将是一个包含 2 个 FakeTensor 对象的 2 元组，第一个 TensorMeta 描述返回值的第一个元素，依此类推。</li>
 </ul>
 <p>Python 代码：</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_one</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<p><div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_one</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
   <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">aten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
-<p>图：</p>
-<div class="highlight"><pre><span></span><code>graph():
+图：</p>
+<p><div class="highlight"><pre><span></span><code>graph():
   %ph_0 : [#users=1] = placeholder[target=ph_0]
   %add_tensor : [#users=1] = call_function[target=torch.ops.aten.add.Tensor](args = (%ph_0, 1), kwargs = {})
   return [add_tensor]
 </code></pre></div>
-<p>FakeTensor：</p>
+FakeTensor：</p>
 <div class="highlight"><pre><span></span><code><span class="n">FakeTensor</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,],</span> <span class="n">device</span><span class="o">=</span><span class="n">CPU</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="pytree">可 Pytree 化的类型<a class="headerlink" href="#pytree" title="Permanent link">&para;</a></h3>

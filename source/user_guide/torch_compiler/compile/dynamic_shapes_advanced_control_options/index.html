@@ -5837,17 +5837,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        识别并修复重新编译原因
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -10022,17 +10011,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        识别并修复重新编译原因
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -10161,10 +10139,8 @@
 <ol>
 <li>在 <code>tlparse</code> 输出中，识别感兴趣帧的行号。示例：</li>
 </ol>
-<p><code>{image} ../../../_static/img/dynamic_shapes/tlparse4_pgo.png</code></p>
-<ol>
-<li>使用 <code>put_local_code_state_</code> 或 <code>put_remote_code_state_</code> 打开最新帧（例如，6/1）的 <code>local_code</code>。</li>
-</ol>
+<p><code>{image} ../../../_static/img/dynamic_shapes/tlparse4_pgo.png</code>
+2. 使用 <code>put_local_code_state_</code> 或 <code>put_remote_code_state_</code> 打开最新帧（例如，6/1）的 <code>local_code</code>。</p>
 <p>每个 <code>?</code> 表示已观察到该输入有多个值。</p>
 <p>例如，以下输出显示输入 <code>L['m']</code> 在 <code>size[0]</code> 处观察到多个大小，但其步幅始终为 1：</p>
 <p>```
@@ -10221,69 +10197,65 @@
 1. **检查重新编译原因：** 对于你认为相似的图，在 `tlparse` 输出中点击较晚图的 `recompile_reason`。确保原因是尺寸相关的，而非其他因素。例如，在下述截图中重新编译原因是尺寸相关的：
 
 ```{image} ../../../_static/img/dynamic_shapes/tlparse6_size_related_recompilations.png
-</code></pre></div></p>
-<p>而在下图中则不是，这表明动态形状无法解决此问题：</p>
+</code></pre></div>
+而在下图中则不是，这表明动态形状无法解决此问题：</p>
 <p>```{image} ../../../_static/img/dynamic_shapes/tlparse7_not_size_related_recompilations.png</p>
-<p>```</p>
-<ol>
-<li>
-<p><strong>比较 Guards 文件：</strong> 确保不存在非尺寸相关元素上的守卫，这些守卫存在于一个图中但不存在于其他图中。</p>
-</li>
-<li>
-<p><strong>早期检查自定义 Triton 内核：</strong> 检查你的模型是否调用了带有 <code>tl.constexpr</code> 参数的自定义 Triton 内核，因为这些参数总是被特化的。如果你的模型接收这些参数的不同值，这可能是重新编译的一个来源。</p>
-</li>
-</ol>
-<h2 id="_4"><strong>识别并修复重新编译原因</strong><a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<ol>
-<li>
-<p><strong>是否有应标记为动态但未标记的元素？</strong> 确定一个输入是否被标记为动态但被特化了，或者根本没有被标记为动态。你可以通过以下方式识别：</p>
-<ul>
-<li>检查 Dynamo 图 - 查找 <code>Sym(number)</code>。例如：</li>
-</ul>
-<p><code>Sym(256) vs Sym(s0)</code></p>
-<ul>
-<li>使用动态日志：</li>
-</ul>
-<p><code>["TORCH_LOGS=+dynamic"]
-  create_symbol s2 = 2 for L['self']._modules['cle ...</code></p>
-<ul>
-<li>审查 guards 文件。如果张量尺寸是动态的，它将显示为 <code>None</code>：</li>
-</ul>
-<p><code>TENSOR_MATCH:check_tensor(L['self'].x._parameters['weight']], Parameter, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU), torch.float32, device=None, requires_grad=True, size=[None, None], stride=[None, 1])</code></p>
-</li>
-<li>
-<p><strong>为何未标记为动态？</strong> 如果你确定某个元素未标记为动态，请考虑：</p>
-<ul>
-<li>检查它是否是 <code>nn</code> 模块属性、参数或字段。验证以下标志的设置：</li>
-<li><code>force_parameter_static_shapes = True</code></li>
-<li><code>force_nn_module_property_static_shapes = True</code></li>
-<li><code>allow_unspec_int_on_nn_module = False</code></li>
-<li>或者使用动态允许列表将其标记为动态，这应具有最高优先级。</li>
-</ul>
-<p><code>{tip}
-逐个标记元素可能很耗时。最初，可以翻转这些标志以识别任何阻碍性的特化，然后在过程结束时决定如何将它们标记为动态。</code></p>
-<ul>
-<li>如果你认为这可能是错误，请提交错误报告并标记为 <code>module: dynamic shapes</code> 标签。请在<a href="https://github.com/pytorch/pytorch/issues?q=sort%3Aupdated-desc+state%3Aopen+label%3A%22module%3A+dynamic+shapes%22">此列表</a>中查看已知问题列表。</li>
-</ul>
-</li>
-<li>
-<p><strong>动态元素是否被特化了？</strong> 确定它为何被特化。原因可能是用户代码（如 <code>if</code> 条件）、框架代码或对 Triton 内核的调用。要识别特化的原因：</p>
-<ul>
-<li><strong>使用 tlparse：</strong> 检查 <code>compilation_metrics</code> 中的特化部分，该部分将指示发生了什么特化以及发生时的用户和框架堆栈。示例：</li>
-</ul>
-<p><code>{image} ../../../_static/img/dynamic_shapes/tlparse8_compilation_metrics.png</code></p>
-<p>上面的日志表明 <code>s0</code> 被特化为 <code>33</code>，原因如下代码：</p>
-<p><code>`if self.x ==33` at example4.py line 16.</code></p>
-<ul>
-<li><strong>+Dynamic 日志：</strong> 传递 <code>["TORCH_LOGS=+dynamic"]</code>。查找第一个特化，因为一旦变量被特化，所有依赖变量也会被特化。</li>
-</ul>
+<p><div class="highlight"><pre><span></span><code>2. **比较 Guards 文件：** 确保不存在非尺寸相关元素上的守卫，这些守卫存在于一个图中但不存在于其他图中。
+
+3. **早期检查自定义 Triton 内核：** 检查你的模型是否调用了带有 `tl.constexpr` 参数的自定义 Triton 内核，因为这些参数总是被特化的。如果你的模型接收这些参数的不同值，这可能是重新编译的一个来源。
+
+## **识别并修复重新编译原因**
+
+1. **是否有应标记为动态但未标记的元素？** 确定一个输入是否被标记为动态但被特化了，或者根本没有被标记为动态。你可以通过以下方式识别：
+
+    * 检查 Dynamo 图 - 查找 `Sym(number)`。例如：
+
+      ```
+      Sym(256) vs Sym(s0)
+      ```
+* 使用动态日志：
+
+  ```
+      [&quot;TORCH_LOGS=+dynamic&quot;]
+      create_symbol s2 = 2 for L[&#39;self&#39;]._modules[&#39;cle ...
+      ```
+* 审查 guards 文件。如果张量尺寸是动态的，它将显示为 `None`：
+
+  ```
+      TENSOR_MATCH:check_tensor(L[&#39;self&#39;].x._parameters[&#39;weight&#39;]], Parameter, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU), torch.float32, device=None, requires_grad=True, size=[None, None], stride=[None, 1])
+      ```
+2. **为何未标记为动态？** 如果你确定某个元素未标记为动态，请考虑：
+
+    * 检查它是否是 `nn` 模块属性、参数或字段。验证以下标志的设置：
+      * `force_parameter_static_shapes = True`
+      * `force_nn_module_property_static_shapes = True`
+      * `allow_unspec_int_on_nn_module = False`
+      * 或者使用动态允许列表将其标记为动态，这应具有最高优先级。
+
+    ```{tip}
+    逐个标记元素可能很耗时。最初，可以翻转这些标志以识别任何阻碍性的特化，然后在过程结束时决定如何将它们标记为动态。
+    ```
+    * 如果你认为这可能是错误，请提交错误报告并标记为 `module: dynamic shapes` 标签。请在[此列表](https://github.com/pytorch/pytorch/issues?q=sort%3Aupdated-desc+state%3Aopen+label%3A%22module%3A+dynamic+shapes%22)中查看已知问题列表。
+
+3. **动态元素是否被特化了？** 确定它为何被特化。原因可能是用户代码（如 `if` 条件）、框架代码或对 Triton 内核的调用。要识别特化的原因：
+
+    * **使用 tlparse：** 检查 `compilation_metrics` 中的特化部分，该部分将指示发生了什么特化以及发生时的用户和框架堆栈。示例：
+
+    ```{image} ../../../_static/img/dynamic_shapes/tlparse8_compilation_metrics.png
+    ```
+上面的日志表明 `s0` 被特化为 `33`，原因如下代码：
+</code></pre></div>
+    <code>if self.x ==33</code> at example4.py line 16.
+    <code>``
+* **+Dynamic 日志：** 传递</code>["TORCH_LOGS=+dynamic"]`。查找第一个特化，因为一旦变量被特化，所有依赖变量也会被特化。</p>
 <p>示例日志：</p>
-<p><code>torch/fx/experimental/symbolic_shapes.py:6557] [0/2] eval Eq(s0, 33) [guard added] if self.x ==33:  # example4.py:16 in forward (_dynamo/variables/tensor.py:1242 in evaluate_expr), for more info run with TORCHDYNAMO_EXTENDED_DEBUG_GUARD_ADDED="Eq(s0, 33)"
-V0228 12:04:24.190000 2990033 torch/fx/experimental/symbolic_shapes.py:6000] [0/2] _update_var_to_range s0 = VR[33, 33] (update)</code></p>
-<p>上面的日志表明 <code>s0</code> 被特化为 <code>33</code>，原因如下代码：
-<code>if self.x ==33. At example4.py like 16.</code></p>
-</li>
-</ol>
+<p><div class="highlight"><pre><span></span><code>    torch/fx/experimental/symbolic_shapes.py:6557] [0/2] eval Eq(s0, 33) [guard added] if self.x ==33:  # example4.py:16 in forward (_dynamo/variables/tensor.py:1242 in evaluate_expr), for more info run with TORCHDYNAMO_EXTENDED_DEBUG_GUARD_ADDED=&quot;Eq(s0, 33)&quot;
+    V0228 12:04:24.190000 2990033 torch/fx/experimental/symbolic_shapes.py:6000] [0/2] _update_var_to_range s0 = VR[33, 33] (update)
+    ```
+上面的日志表明 `s0` 被特化为 `33`，原因如下代码：
+</code></pre></div>
+    if self.x ==33. At example4.py like 16.
+    ```</p>
 
 
 

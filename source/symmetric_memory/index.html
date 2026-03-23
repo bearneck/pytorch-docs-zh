@@ -10195,24 +10195,24 @@
 <p><code>requires_nvshmem</code> 装饰器用于指示该内核需要 NVSHMEM 设备库作为外部依赖项。当 Triton 编译内核时，装饰器将在系统路径中搜索 NVSHMEM 设备库。如果可用，Triton 将包含必要的设备汇编代码以使用 NVSHMEM 函数。</p>
 <h2 id="_4">使用内存池<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>内存池允许 PyTorch SymmMem 缓存已进行会合的内存分配，从而在创建新张量时节省时间。为方便起见，PyTorch SymmMem 添加了一个 <code>get_mem_pool</code> API 来返回一个对称内存池。用户可以将返回的 MemPool 与 <code>torch.cuda.use_mem_pool</code> 上下文管理器一起使用。在下面的示例中，张量 <code>x</code> 将从对称内存中创建：</p>
-<div class="highlight"><pre><span></span><code>    <span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed._symmetric_memory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">symm_mem</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch.distributed._symmetric_memory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">symm_mem</span>
 
-    <span class="n">mempool</span> <span class="o">=</span> <span class="n">symm_mem</span><span class="o">.</span><span class="n">get_mem_pool</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">mempool</span> <span class="o">=</span> <span class="n">symm_mem</span><span class="o">.</span><span class="n">get_mem_pool</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">use_mem_pool</span><span class="p">(</span><span class="n">mempool</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">use_mem_pool</span><span class="p">(</span><span class="n">mempool</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
 
-    <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">symm_mem</span><span class="o">.</span><span class="n">one_shot_all_reduce</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">group_name</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">symm_mem</span><span class="o">.</span><span class="n">one_shot_all_reduce</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="n">group_name</span><span class="p">)</span>
 </code></pre></div>
 <p>类似地，您可以将计算操作放在 MemPool 上下文中，结果张量也将从对称内存中创建。</p>
-<div class="highlight"><pre><span></span><code>    <span class="n">dim</span> <span class="o">=</span> <span class="mi">1024</span>
-    <span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">dim</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
 
-    <span class="n">mempool</span> <span class="o">=</span> <span class="n">symm_mem</span><span class="o">.</span><span class="n">get_mem_pool</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">use_mem_pool</span><span class="p">(</span><span class="n">mempool</span><span class="p">):</span>
-        <span class="c1"># y 将位于对称内存中</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">mempool</span> <span class="o">=</span> <span class="n">symm_mem</span><span class="o">.</span><span class="n">get_mem_pool</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">use_mem_pool</span><span class="p">(</span><span class="n">mempool</span><span class="p">):</span>
+    <span class="c1"># y 将位于对称内存中</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
 </code></pre></div>
 <p>截至 torch 2.11，<code>CUDA</code> 和 <code>NVSHMEM</code> 后端支持 MemPool。<code>NCCL</code> 后端的 MemPool 支持正在进行中。</p>
 <h2 id="_5">复制引擎集合通信<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>

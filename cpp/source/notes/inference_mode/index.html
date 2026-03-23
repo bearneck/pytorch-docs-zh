@@ -9984,20 +9984,20 @@
 <ol>
 <li>尝试在仅推理模式下运行工作负载的用户（例如加载预训练的 JIT 模型并在 C++ 运行时中运行推理）应该添加 <code>c10::InferenceMode guard</code> 来保护所有张量上的操作（包括模型加载）。请参见下面的推理工作负载示例：</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="n">c10</span><span class="o">::</span><span class="n">InferenceMode</span><span class="w"> </span><span class="n">guard</span><span class="p">;</span>
+<p><div class="highlight"><pre><span></span><code><span class="n">c10</span><span class="o">::</span><span class="n">InferenceMode</span><span class="w"> </span><span class="n">guard</span><span class="p">;</span>
 <span class="n">model</span><span class="p">.</span><span class="n">load_jit</span><span class="p">(</span><span class="n">saved_model</span><span class="p">);</span>
 <span class="k">auto</span><span class="w"> </span><span class="n">inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">preprocess_tensors</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
 <span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inputs</span><span class="p">);</span>
 <span class="k">auto</span><span class="w"> </span><span class="n">outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">postprocess_tensors</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
 </code></pre></div>
-<p>注意 <code>c10::InferenceMode</code> 提供了 <code>AutoNonVariableTypeMode</code> 的直接替代品，保留了 <code>AutoNonVariableTypeMode</code> 的性能特性。但它们也有一些不同之处，用户应额外注意：</p>
+注意 <code>c10::InferenceMode</code> 提供了 <code>AutoNonVariableTypeMode</code> 的直接替代品，保留了 <code>AutoNonVariableTypeMode</code> 的性能特性。但它们也有一些不同之处，用户应额外注意：</p>
 <blockquote>
 <ul>
 <li>两个守卫都影响张量执行过程以跳过与推理无关的工作，但 <code>InferenceMode</code> 还影响张量创建，而 <code>AutoNonVariableTypeMode</code> 不影响。换句话说，在 <code>InferenceMode</code> 内部创建的张量被标记为推理张量，以便在退出 <code>InferenceMode</code> 后可以应用某些限制。</li>
 <li><code>InferenceMode</code> 的启用/禁用状态可以嵌套，而 <code>AutoNonVariableTypeMode</code> 只允许启用状态。</li>
 </ul>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<p><div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="n">InferenceMode</span><span class="w"> </span><span class="nf">guard</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
 <span class="w">  </span><span class="c1">// InferenceMode 开启</span>
 <span class="w">  </span><span class="p">{</span>
@@ -10008,9 +10008,7 @@
 <span class="p">}</span>
 <span class="c1">// InferenceMode 关闭</span>
 </code></pre></div>
-<ol>
-<li>尝试实现自定义内核并希望在 <code>Autograd</code> 分发键下重新分发的用户应该使用 <code>AutoDispatchBelowADInplaceOrView</code> 代替。注意 <code>AutoDispatchBelowADInplaceOrView</code> 只是 <code>AutoNonVariableTypeMode</code> 的新名称，因为它更好地解释了守卫的功能。我们正在弃用 <code>AutoNonVariableTypeMode</code>，它将在 1.10 版本中移除。请参见 <code>pytorch/vision</code> 中的自定义内核 <code>ROIAlignFunction</code> 示例：</li>
-</ol>
+2.  尝试实现自定义内核并希望在 <code>Autograd</code> 分发键下重新分发的用户应该使用 <code>AutoDispatchBelowADInplaceOrView</code> 代替。注意 <code>AutoDispatchBelowADInplaceOrView</code> 只是 <code>AutoNonVariableTypeMode</code> 的新名称，因为它更好地解释了守卫的功能。我们正在弃用 <code>AutoNonVariableTypeMode</code>，它将在 1.10 版本中移除。请参见 <code>pytorch/vision</code> 中的自定义内核 <code>ROIAlignFunction</code> 示例：</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ROIAlignFunction</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">torch</span><span class="o">::</span><span class="n">autograd</span><span class="o">::</span><span class="n">Function</span><span class="o">&lt;</span><span class="n">ROIAlignFunction</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w"> </span><span class="k">public</span><span class="o">:</span>
 <span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="n">torch</span><span class="o">::</span><span class="n">autograd</span><span class="o">::</span><span class="n">variable_list</span><span class="w"> </span><span class="n">forward</span><span class="p">(</span>
