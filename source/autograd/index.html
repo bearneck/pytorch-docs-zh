@@ -1030,10 +1030,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hiddenfunction" class="md-nav__link">
+  <a href="#function" class="md-nav__link">
     <span class="md-ellipsis">
       
-        {hidden}Function
+        Function
       
     </span>
   </a>
@@ -1052,7 +1052,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function" class="md-nav__link">
+  <a href="#function_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         自定义 Function 工具
@@ -10126,10 +10126,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hiddenfunction" class="md-nav__link">
+  <a href="#function" class="md-nav__link">
     <span class="md-ellipsis">
       
-        {hidden}Function
+        Function
       
     </span>
   </a>
@@ -10148,7 +10148,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function" class="md-nav__link">
+  <a href="#function_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         自定义 Function 工具
@@ -10363,13 +10363,93 @@
 </tbody>
 </table>
 <h2 id="_2">局部禁用梯度计算<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.no_grad</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.enable_grad</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.grad_mode.set_grad_enabled</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.is_grad_enabled</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.autograd.grad_mode.inference_mode</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.is_inference_mode_enabled</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_3">默认梯度布局<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <h2 id="_4">手动梯度布局<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <h2 id="_5">张量的原地操作<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <h2 id="_6">原地正确性检查<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <h2 id="variable">Variable（已弃用）<a class="headerlink" href="#variable" title="Permanent link">&para;</a></h2>
 <h2 id="_7">张量自动微分函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<h2 id="hiddenfunction">{hidden}<code>Function</code><a class="headerlink" href="#hiddenfunction" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.Tensor.grad</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.requires_grad</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.is_leaf</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.backward</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.detach</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.detach_</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.register_hook</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.register_post_accumulate_grad_hook</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.Tensor.retain_grad</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="function">Function<a class="headerlink" href="#function" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -10427,7 +10507,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="function">自定义 Function 工具<a class="headerlink" href="#function" title="Permanent link">&para;</a></h2>
+<h2 id="function_1">自定义 Function 工具<a class="headerlink" href="#function_1" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
