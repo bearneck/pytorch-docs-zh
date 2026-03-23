@@ -1,18 +1,21 @@
-# 错误传播
+.. _elastic_errors-api:
+
+错误传播
+==================
 
 
-torch.distributed.elastic.multiprocessing.errors
-
-## 方法与类
+> 模块：`torch.distributed.elastic.multiprocessing.errors`
 
 
-torch.distributed.elastic.multiprocessing.errors.record
+| API | 说明 |
+|-----|------|
+| `torch.distributed.elastic.multiprocessing.errors.record` | — |
+
+**类**
 
 
-ChildFailedError
-
-
-ErrorHandler
-
-
-ProcessFailure
+| 类 | 说明 |
+|-----|------|
+| `torch.distributed.elastic.multiprocessing.errors.ChildFailedError` | — |
+| `torch.distributed.elastic.multiprocessing.errors.ErrorHandler` | — |
+| `torch.distributed.elastic.multiprocessing.errors.ProcessFailure` | — |

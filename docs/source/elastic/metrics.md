@@ -1,29 +1,22 @@
-# 指标
+.. _metrics-api:
+
+.. automodule:: torch.distributed.elastic.metrics
 
 
-torch.distributed.elastic.metrics
-
-## 指标处理器
+> 模块：`torch.distributed.elastic.metrics.api`
 
 
-以下是 torchelastic 内置的指标处理器。
+| API | 说明 |
+|-----|------|
+| `torch.distributed.elastic.metrics.configure` | — |
+| `torch.distributed.elastic.metrics.prof` | — |
+| `torch.distributed.elastic.metrics.put_metric` | — |
+
+**类**
 
 
-MetricHandler
-
-
-ConsoleMetricHandler
-
-
-NullMetricHandler
-
-## 方法
-
-
-torch.distributed.elastic.metrics.configure
-
-
-torch.distributed.elastic.metrics.prof
-
-
-torch.distributed.elastic.metrics.put_metric
+| 类 | 说明 |
+|-----|------|
+| `torch.distributed.elastic.metrics.api.MetricHandler` | — |
+| `torch.distributed.elastic.metrics.api.ConsoleMetricHandler` | — |
+| `torch.distributed.elastic.metrics.api.NullMetricHandler` | — |

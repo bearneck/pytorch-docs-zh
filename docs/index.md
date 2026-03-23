@@ -14,12 +14,3 @@
 | [量化与优化](source/quantization.md) | 模型量化、性能分析 |
 | [部署与导出](source/onnx.md) | ONNX、TorchScript、FX |
 | [C++ API](cpp/source/index.md) | LibTorch C++ 前端 |
-
-## 📖 关于本文档
-
-- 原始文档：[pytorch/pytorch](https://github.com/pytorch/pytorch/tree/main/docs)
-- 翻译仓库：[bearneck/pytorch-docs-zh](https://github.com/bearneck/pytorch-docs-zh)
-- 翻译引擎：DeepSeek AI
-- 共翻译：**259 个文件**，全部转为标准 Markdown
-
-> **注意**：代码块、API 名称、参数名均保留原文，仅描述性文字翻译为中文。

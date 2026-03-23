@@ -1,10 +1,19 @@
-```{role} hidden
-
-```
-
 # torch.signal
 
 
-`torch.signal` 模块，仿照 SciPy 的 [signal](https://docs.scipy.org/doc/scipy/reference/signal.html) 模块设计。
-
 ## torch.signal.windows
+
+
+| API | 说明 |
+|-----|------|
+| `torch.signal.windows.bartlett` | — |
+| `torch.signal.windows.blackman` | — |
+| `torch.signal.windows.cosine` | — |
+| `torch.signal.windows.exponential` | — |
+| `torch.signal.windows.gaussian` | — |
+| `torch.signal.windows.general_cosine` | — |
+| `torch.signal.windows.general_hamming` | — |
+| `torch.signal.windows.hamming` | — |
+| `torch.signal.windows.hann` | — |
+| `torch.signal.windows.kaiser` | — |
+| `torch.signal.windows.nuttall` | — |

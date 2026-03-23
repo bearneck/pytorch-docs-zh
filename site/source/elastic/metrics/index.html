@@ -79,11 +79,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#_1" class="md-skip">
-          跳转至
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -3632,26 +3627,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    指标
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -3669,49 +3644,6 @@
   
 
       </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="本页目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      本页目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        指标处理器
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        方法
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -9869,38 +9801,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      本页目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        指标处理器
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        方法
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -9986,17 +9886,58 @@
   
 
 
-<h1 id="_1">指标<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>torch.distributed.elastic.metrics</p>
-<h2 id="_2">指标处理器<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>以下是 torchelastic 内置的指标处理器。</p>
-<p>MetricHandler</p>
-<p>ConsoleMetricHandler</p>
-<p>NullMetricHandler</p>
-<h2 id="_3">方法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>torch.distributed.elastic.metrics.configure</p>
-<p>torch.distributed.elastic.metrics.prof</p>
-<p>torch.distributed.elastic.metrics.put_metric</p>
+  <h1>指标</h1>
+
+<p>.. _metrics-api:</p>
+<p>.. automodule:: torch.distributed.elastic.metrics</p>
+<blockquote>
+<p>模块：<code>torch.distributed.elastic.metrics.api</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.metrics.configure</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.metrics.prof</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.metrics.put_metric</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.elastic.metrics.api.MetricHandler</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.metrics.api.ConsoleMetricHandler</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.elastic.metrics.api.NullMetricHandler</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 
