@@ -9941,13 +9941,66 @@
 
 
 <h1 id="torchmonitor">torch.monitor<a class="headerlink" href="#torchmonitor" title="Permanent link">&para;</a></h1>
-<div class="highlight"><pre><span></span><code>此模块为原型版本，其接口和功能可能在未来的 PyTorch 版本中未经警告即发生更改。
-</code></pre></div>
-<p><code>torch.monitor</code> 提供了一个接口，用于记录来自 PyTorch 的事件和计数器。</p>
 <p>统计接口设计用于跟踪高级别指标，这些指标会定期记录输出，用于监控系统性能。由于统计信息会以特定窗口大小进行聚合，您可以在关键循环中记录它们，而对性能的影响最小。</p>
 <p>对于更不频繁的事件或值，例如损失、准确率、使用情况跟踪，可以直接使用事件接口。</p>
-<p>可以注册事件处理程序来处理事件并将其传递到外部事件接收器。</p>
 <h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.monitor.log_event</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.monitor.register_event_handler</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.monitor.unregister_event_handler</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>类</strong></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.monitor.Aggregation</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.monitor.Stat</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.monitor.data_value_t</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.monitor.Event</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.monitor.EventHandlerHandle</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.monitor.TensorboardEventHandler</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 

@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#role-hidden" class="md-skip">
+        <a href="#join" class="md-skip">
           跳转至
         </a>
       
@@ -2908,24 +2908,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    分布式 Join
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -2943,58 +2927,6 @@
   
 
       </a>
-      
-        
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="本页目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      本页目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#role-hidden" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ```{role} hidden
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#class-hidden-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        class: hidden-section
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#join" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        通用 Join 上下文管理器
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -9876,47 +9808,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      本页目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#role-hidden" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ```{role} hidden
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#class-hidden-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        class: hidden-section
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#join" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        通用 Join 上下文管理器
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -9984,11 +9877,30 @@
   
 
 
-<h2 id="role-hidden">```{role} hidden<a class="headerlink" href="#role-hidden" title="Permanent link">&para;</a></h2>
-<h2 id="class-hidden-section">class: hidden-section<a class="headerlink" href="#class-hidden-section" title="Permanent link">&para;</a></h2>
-<p>```</p>
 <h1 id="join">通用 Join 上下文管理器<a class="headerlink" href="#join" title="Permanent link">&para;</a></h1>
-<p>通用 Join 上下文管理器旨在促进不均匀输入下的分布式训练。本页概述了相关类的 API：<code>Join</code>、<code>Joinable</code> 和 <code>JoinHook</code>。如需教程，请参阅<a href="https://pytorch.org/tutorials/advanced/generic_join.html">使用 Join 上下文管理器进行不均匀输入的分布式训练</a>。</p>
+<p>通用 Join 上下文管理器旨在促进不均匀输入下的分布式训练。本页概述了相关类的 API：{class}<code>Join</code>、{class}<code>Joinable</code> 和 {class}<code>JoinHook</code>。如需教程，请参阅<a href="https://pytorch.org/tutorials/advanced/generic_join.html">使用 Join 上下文管理器进行不均匀输入的分布式训练</a>。</p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.distributed.algorithms.Join</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.algorithms.Joinable</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>torch.distributed.algorithms.JoinHook</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 
 
 
