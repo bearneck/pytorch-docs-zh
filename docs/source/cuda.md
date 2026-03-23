@@ -1,210 +1,32 @@
 # torch.cuda
 
-```{eval-rst}
-.. automodule:: torch.cuda
-```
-
-```{eval-rst}
-.. currentmodule:: torch.cuda
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    StreamContext
-    can_device_access_peer
-    check_error
-    current_blas_handle
-    current_device
-    current_stream
-    cudart
-    default_stream
-    device
-    device_count
-    device_memory_used
-    device_of
-    get_arch_list
-    get_device_capability
-    get_device_name
-    get_device_properties
-    get_gencode_flags
-    get_stream_from_external
-    get_sync_debug_mode
-    init
-    ipc_collect
-    is_available
-    is_bf16_supported
-    is_initialized
-    is_tf32_supported
-    memory_usage
-    set_device
-    set_stream
-    set_sync_debug_mode
-    stream
-    synchronize
-    utilization
-    temperature
-    power_draw
-    clock_rate
-    AcceleratorError
-    OutOfMemoryError
-```
 
 ## 随机数生成器
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    get_rng_state
-    get_rng_state_all
-    set_rng_state
-    set_rng_state_all
-    manual_seed
-    manual_seed_all
-    seed
-    seed_all
-    initial_seed
-
-```
 
 ## 通信集合操作
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    comm.broadcast
-    comm.broadcast_coalesced
-    comm.reduce_add
-    comm.reduce_add_coalesced
-    comm.scatter
-    comm.gather
-```
 
 ## 流和事件
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    Stream
-    ExternalStream
-    Event
-```
 
 ## 图（测试版）
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    is_current_stream_capturing
-    graph_pool_handle
-    CUDAGraph
-    graph
-    make_graphed_callables
-```
-
-(cuda-memory-management-api)=
-
-```{eval-rst}
-.. automodule:: torch.cuda.memory
-```
-
-```{eval-rst}
-.. currentmodule:: torch.cuda.memory
-```
 
 ## 内存管理
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-     empty_cache
-     get_per_process_memory_fraction
-     list_gpu_processes
-     mem_get_info
-     memory_stats
-     memory_stats_as_nested_dict
-     reset_accumulated_memory_stats
-     host_memory_stats
-     host_memory_stats_as_nested_dict
-     reset_accumulated_host_memory_stats
-     memory_summary
-     memory_snapshot
-     memory_allocated
-     max_memory_allocated
-     reset_max_memory_allocated
-     memory_reserved
-     max_memory_reserved
-     set_per_process_memory_fraction
-     memory_cached
-     max_memory_cached
-     reset_max_memory_cached
-     reset_peak_memory_stats
-     reset_peak_host_memory_stats
-     caching_allocator_alloc
-     caching_allocator_delete
-     get_allocator_backend
-     CUDAPluggableAllocator
-     change_current_allocator
-     MemPool
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    caching_allocator_enable
-```
-
-```{eval-rst}
-.. currentmodule:: torch.cuda
-```
-
-```{eval-rst}
-.. autoclass:: torch.cuda.use_mem_pool
-```
 
 ## NVIDIA 工具扩展 (NVTX)
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    nvtx.mark
-    nvtx.range_push
-    nvtx.range_pop
-    nvtx.range
-```
 
 ## Jiterator（测试版）
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    jiterator._create_jit_fn
-    jiterator._create_multi_output_jit_fn
-```
 
 ## 可调操作
 
 某些操作可以使用多个库或多种技术来实现。例如，对于 CUDA 或 ROCm，GEMM 可以分别使用 cublas/cublasLt 库或 hipblas/hipblasLt 库来实现。如何知道哪种实现最快并应该被选择？这就是可调操作（TunableOp）提供的功能。某些运算符已使用多种策略作为可调运算符实现。在运行时，所有策略都会被分析，最快的策略将被选择用于所有后续操作。
 
-有关如何使用它的信息，请参阅 {doc}`文档 <cuda.tunable>`。
+有关如何使用它的信息，请参阅 `文档 <cuda.tunable>`。
 
 ```{toctree}
 :hidden: true
@@ -215,7 +37,7 @@ cuda.tunable
 ## 流消毒器（原型）
 
 CUDA 消毒器是一个用于检测 PyTorch 中流之间同步错误的原型工具。
-有关如何使用它的信息，请参阅 {doc}`文档 <cuda._sanitizer>`。
+有关如何使用它的信息，请参阅 `文档 <cuda._sanitizer>`。
 
 ```{toctree}
 :hidden: true
@@ -229,22 +51,8 @@ cuda._sanitizer
 
 这些 API 可以在 CUDA 版本大于或等于 12.6 时使用。为了使用这些 API，必须确保系统已根据 [GPUDirect 存储文档](https://docs.nvidia.com/gpudirect-storage/troubleshooting-guide/contents.html) 进行了适当配置以使用 GPUDirect 存储。
 
-有关如何使用这些 API 的示例，请参阅 {class}`~torch.cuda.gds.GdsFile` 的文档。
+有关如何使用这些 API 的示例，请参阅 `~torch.cuda.gds.GdsFile` 的文档。
 
-```{eval-rst}
-.. currentmodule:: torch.cuda.gds
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    gds_register_buffer
-    gds_deregister_buffer
-    GdsFile
-
-```
 
 ## 绿色上下文（实验性）
 
@@ -252,62 +60,15 @@ cuda._sanitizer
 
 这些 API 可以在 CUDA 版本大于或等于 12.8 的 PyTorch 中使用。
 
-有关如何使用这些 API 的示例，请参阅 {class}`~torch.cuda.green_contexts.GreenContext` 的文档。
-
-```{eval-rst}
-.. currentmodule:: torch.cuda.green_contexts
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    GreenContext
-```
+有关如何使用这些 API 的示例，请参阅 `~torch.cuda.green_contexts.GreenContext` 的文档。
 
 
 % 此模块需要记录。暂时添加在此处
 
 % 用于跟踪目的
 
-```{eval-rst}
-.. py:module:: torch.cuda.comm
-```
-
-```{eval-rst}
-.. py:module:: torch.cuda.gds
-```
-
-```{eval-rst}
-.. py:module:: torch.cuda.green_contexts
-```
-
-```{eval-rst}
-.. py:module:: torch.cuda.jiterator
-```
-
-```{eval-rst}
-.. py:module:: torch.cuda.nccl```
 
 .. autofunction:: torch.cuda.nccl.is_available
 ```
 
-```{eval-rst}
-.. py:module:: torch.cuda.nvtx
-```
 
-```{eval-rst}
-.. py:module:: torch.cuda.profiler
-```
-
-```{eval-rst}
-.. py:module:: torch.cuda.sparse
-```
-
-```{eval-rst}
-.. toctree::
-    :hidden:
-
-    cuda.aliases.md
-```

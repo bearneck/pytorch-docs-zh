@@ -8,7 +8,6 @@ mystnb:
   merge_streams: True
 ---
 
-(higher_order_ops)=
 
 # 控制流运算符
 

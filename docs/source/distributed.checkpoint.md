@@ -1,7 +1,4 @@
-```{eval-rst}
-.. role:: hidden
-    :class: hidden-section
-```
+
 
 # 分布式检查点 - torch.distributed.checkpoint
 
@@ -21,148 +18,23 @@ DCP 在几个重要方面与 `torch.save` 和 `torch.load` 不同：
 - [TorchTitan 检查点文档](https://github.com/pytorch/torchtitan/blob/main/docs/checkpoint.md)
 - [TorchTitan DCP 实现](https://github.com/pytorch/torchtitan/blob/main/torchtitan/components/checkpoint.py)
 
-```{eval-rst}
-.. automodule:: torch.distributed.checkpoint
-```
-
-```{eval-rst}
-.. currentmodule:: torch.distributed.checkpoint.state_dict_saver
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.state_dict_saver.AsyncCheckpointerType
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.state_dict_saver.AsyncSaveResponse
-  :members:
-```
-
-```{eval-rst}
-.. autofunction::  save
-```
-
-```{eval-rst}
-.. autofunction::  async_save
-```
-
-```{eval-rst}
-.. autofunction::  save_state_dict
-```
-
-```{eval-rst}
-.. currentmodule:: torch.distributed.checkpoint.state_dict_loader
-```
-
-```{eval-rst}
-.. autofunction::  load
-```
-
-```{eval-rst}
-.. autofunction::  load_state_dict
-```
 
 以下模块对于异步检查点（`torch.distributed.checkpoint.async_save`）使用的暂存机制进行额外自定义也很有用：
 
-```{eval-rst}
-.. automodule:: torch.distributed.checkpoint.staging
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.staging.AsyncStager
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.staging.DefaultStager
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.staging.StagingOptions
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.staging.BlockingAsyncStager
-  :members:
-```
 
 除了上述入口点，如下所述的 `Stateful` 对象在保存/加载期间提供了额外的自定义功能。
 
-```{eval-rst}
-.. automodule:: torch.distributed.checkpoint.stateful
-   :noindex:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.stateful.Stateful
-  :members:
-```
 
 这个[示例](https://github.com/pytorch/pytorch/blob/main/torch/distributed/checkpoint/examples/fsdp_checkpoint_example.py)展示了如何使用 PyTorch 分布式检查点来保存一个 FSDP 模型。
 
 以下类型定义了检查点期间使用的 IO 接口：
 
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.StorageReader
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.StorageWriter
-  :members:
-```
 
 以下类型定义了检查点期间使用的规划器接口：
 
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.LoadPlanner
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.LoadPlan
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.ReadItem
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.SavePlanner
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.SavePlan
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.planner.WriteItem
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.planner.BytesIOWriteData
-  :members:
-```
 
 我们提供了一个基于文件系统的存储层：
 
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.FileSystemReader
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.FileSystemWriter
-  :members:
-```
 
 我们还提供了其他存储层，包括与 HuggingFace safetensors 交互的存储层：
 
@@ -177,16 +49,6 @@ DCP 在几个重要方面与 `torch.save` 和 `torch.load` 不同：
 
 我们提供了 `LoadPlanner` 和 `SavePlanner` 的默认实现，可以处理所有 torch.distributed 结构，如 FSDP、DDP、ShardedTensor 和 DistributedTensor。
 
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.DefaultSavePlanner
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.DefaultLoadPlanner
-  :members:
-
-```
 
 由于历史设计决策，即使原始未并行化的模型相同，`FSDP` 和 `DDP` 的状态字典也可能具有不同的键或完全限定名称（例如，layer1.weight）。此外，`FSDP` 提供了各种类型的模型状态字典，例如完整状态字典和分片状态字典。另外，优化器状态字典使用参数 ID 而不是完全限定名称来标识参数，这在使用并行化（例如流水线并行）时可能会引起问题。
 
@@ -200,71 +62,13 @@ DCP 在几个重要方面与 `torch.save` 和 `torch.load` 不同：
 
 请注意，此功能是实验性的，API 签名将来可能会更改。
 
-```{eval-rst}
-.. autofunction:: torch.distributed.checkpoint.state_dict.get_state_dict
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.checkpoint.state_dict.get_model_state_dict
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.checkpoint.state_dict.get_optimizer_state_dict
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.checkpoint.state_dict.set_state_dict
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.checkpoint.state_dict.set_model_state_dict
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.checkpoint.state_dict.set_optimizer_state_dict
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.state_dict.StateDictOptions
-   :members:
-```
 
 对于习惯于使用和共享 `torch.save` 格式模型的用户，提供了以下方法，用于在格式之间进行转换的离线实用程序。
 
-```{eval-rst}
-.. automodule:: torch.distributed.checkpoint.format_utils
-```
-
-```{eval-rst}
-.. currentmodule:: torch.distributed.checkpoint.format_utils
-```
-
-```{eval-rst}
-.. autofunction:: dcp_to_torch_save
-```
-
-```{eval-rst}
-.. autofunction:: torch_save_to_dcp
-```
 
 以下类也可用于从 torch.save 格式在线加载模型并进行重分片。
 
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.format_utils.BroadcastingTorchSaveReader
-   :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.checkpoint.format_utils.DynamicMetaLoadPlanner
-   :members:
-```
 
 以下实验性接口旨在提高生产环境中的可观测性：
 
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.logger
-```
 
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.logging_handlers
-```

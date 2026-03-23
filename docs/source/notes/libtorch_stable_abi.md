@@ -191,7 +191,7 @@ STABLE_TORCH_LIBRARY_IMPL(myops, CompositeExplicitAutograd, m) {
     a. 当调用基于栈的 API 时，必须向调用栈提供拥有所有权的引用，并从返回的栈中窃取引用。
     b. 当注册函数以通过栈调用时，必须从参数栈中窃取引用，并将新的引用推入栈中。
 
-(stack-based-apis)=
+
 ### 基于栈的 API
 
 上述内容在两个地方相关：

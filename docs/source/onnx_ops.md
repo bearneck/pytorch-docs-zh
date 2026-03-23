@@ -1,18 +1,11 @@
 # torch.onnx.ops
 
-```{eval-rst}
-.. automodule:: torch.onnx.ops
-```
 
 ## 符号运算符
 
 这些运算符可用于在 FX 计算图中符号化地创建任何 ONNX 算子。
 这些运算符不执行实际计算。建议在 ``if torch.onnx.is_in_onnx_export`` 代码块内使用它们。
 
-```{eval-rst}
-.. autofunction:: torch.onnx.ops.symbolic
-.. autofunction:: torch.onnx.ops.symbolic_multi_out
-```
 
 ## ONNX 运算符
 
@@ -89,14 +82,10 @@ class GraphModule(torch.nn.Module):
         return (rotary_embedding,)
 ```
 
-```{eval-rst}
-.. autofunction:: torch.onnx.ops.rotary_embedding
-.. autofunction:: torch.onnx.ops.attention
-```
 
 ## ONNX 到 ATen 的分解表
 
-您可以使用 {func}`torch.onnx.ops.aten_decompositions` 来获取一个分解表，将上述定义的 ONNX 运算符分解为 ATen 运算符。
+您可以使用 `torch.onnx.ops.aten_decompositions` 来获取一个分解表，将上述定义的 ONNX 运算符分解为 ATen 运算符。
 
 ```py
 class Model(torch.nn.Module):
@@ -120,6 +109,3 @@ ep = torch.export.export(
 ep_decomposed = ep.run_decompositions(torch.onnx.ops.aten_decompositions())
 ```
 
-```{eval-rst}
-.. autofunction:: torch.onnx.ops.aten_decompositions
-```

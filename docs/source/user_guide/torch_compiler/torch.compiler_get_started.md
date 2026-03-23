@@ -1,15 +1,15 @@
-(torch_compiler_get_started)=
 
 # 入门指南
 
-在阅读本节之前，请确保已阅读 {ref}`torch.compiler_overview`
+在阅读本节之前，请确保已阅读 `torch.compiler_overview`
 
 让我们从一个简单的 `torch.compile` 示例开始，该示例演示了如何将 `torch.compile` 用于推理。这个示例展示了 `torch.cos()` 和 `torch.sin()` 功能，它们是逐点运算符的示例，因为它们对向量进行逐元素操作。此示例可能不会显示出显著的性能提升，但应有助于您直观地理解如何在您自己的程序中使用 `torch.compile`。
 
-:::{note}
-要运行此脚本，您的机器上至少需要有一个 GPU。
-如果您没有 GPU，可以移除下面代码片段中的 `.to(device="cuda:0")` 代码，它将在 CPU 上运行。您也可以将设备设置为 `xpu:0` 以在 Intel® GPU 上运行。
-:::
+
+> 📝 **注意**
+> 要运行此脚本，您的机器上至少需要有一个 GPU。
+> 如果您没有 GPU，可以移除下面代码片段中的 `.to(device="cuda:0")` 代码，它将在 CPU 上运行。您也可以将设备设置为 `xpu:0` 以在 Intel® GPU 上运行。
+
 
 ```python
 import torch
@@ -44,9 +44,10 @@ def triton_(in_ptr0, out_ptr0, xnumel, XBLOCK : tl.constexpr):
    tl.store(out_ptr0 + (x0 + tl.zeros([XBLOCK], tl.int32)), tmp2, xmask)
 ```
 
-:::{note}
-上面的代码片段是一个示例。根据您的硬件，您可能会看到生成不同的代码。
-:::
+
+> 📝 **注意**
+> 上面的代码片段是一个示例。根据您的硬件，您可能会看到生成不同的代码。
+
 
 您可以验证 `cos` 和 `sin` 确实发生了融合，因为 `cos` 和 `sin` 操作发生在单个 Triton 内核内，并且临时变量保存在访问速度非常快的寄存器中。
 
@@ -98,5 +99,5 @@ opt_model(torch.randn(64,3,7,7))
 在本节中，我们回顾了几个推理示例，并对 torch.compile 的工作原理有了基本的了解。以下是您接下来可以查看的内容：
 
 - [torch.compile 训练教程](https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html)
-- {ref}`torch.compiler_api`
-- {ref}`torchdynamo_fine_grain_tracing`
+- `torch.compiler_api`
+- `torchdynamo_fine_grain_tracing`

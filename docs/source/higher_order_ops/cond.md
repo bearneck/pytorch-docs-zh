@@ -8,7 +8,6 @@ mystnb:
   merge_streams: True
 ---
 
-(cond)=
 
 # 控制流 - Cond
 
@@ -130,6 +129,3 @@ print(ep)
 
 ## API 参考
 
-```{eval-rst}
-.. autofunction:: torch._higher_order_ops.cond.cond
-```

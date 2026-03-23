@@ -1,4 +1,3 @@
-(torch.compiler_overview)=
 
 # torch.compiler
 
@@ -14,24 +13,25 @@
 
 为了更好地理解 `torch.compile` 在您代码上的追踪行为，或了解更多关于 `torch.compile` 内部原理的信息，请参阅 [`torch.compile` 编程模型](compile/programming_model.md)。
 
-:::{note}
-在某些情况下，本文档中可能会交替使用 `torch.compile`、TorchDynamo、`torch.compiler` 这些术语。
-:::
 
-:::{warning}
-`torch.compile` 可能不支持最近发布的 Python 主要版本。
+> 📝 **注意**
+> 在某些情况下，本文档中可能会交替使用 `torch.compile`、TorchDynamo、`torch.compiler` 这些术语。
 
-如果您尝试在不支持的 Python 环境中使用 `@torch.compile`，可能会遇到类似以下的错误：
 
-```
-RuntimeError: torch.compile is not supported on Python 3.xx.0+
+> ⚠️ **警告**
+> `torch.compile` 可能不支持最近发布的 Python 主要版本。
+>
+> 如果您尝试在不支持的 Python 环境中使用 `@torch.compile`，可能会遇到类似以下的错误：
+>
+> ```
+> RuntimeError: torch.compile is not supported on Python 3.xx.0+
+>
+> ```
+>
+> 请确保您当前的 Python 版本在 PyTorch 为 `torch.compile` 支持的范围内。
+>
+> 如果您在过新的 Python 版本上安装了 PyTorch，则需要切换到较早的 Python 版本才能使用 `torch.compile`。
 
-```
-
-请确保您当前的 Python 版本在 PyTorch 为 `torch.compile` 支持的范围内。
-
-如果您在过新的 Python 版本上安装了 PyTorch，则需要切换到较早的 Python 版本才能使用 `torch.compile`。
-:::
 
 如上所述，为了更快地运行您的工作流，通过 TorchDynamo 实现的 `torch.compile` 需要一个后端，将捕获的计算图转换为快速的机器码。不同的后端可以带来不同的优化效果。默认的后端称为 TorchInductor，也称为 *inductor*。TorchDynamo 有一个由我们的合作伙伴开发的受支持后端列表，可以通过运行 `torch.compiler.list_backends()` 来查看，每个后端都有其可选的依赖项。
 
@@ -39,41 +39,8 @@ RuntimeError: torch.compile is not supported on Python 3.xx.0+
 
 **训练和推理后端**
 
-```{eval-rst}
-.. list-table::
-   :widths: 50 50
-   :header-rows: 1
-
-   * - 后端
-     - 描述
-   * - ``torch.compile(m, backend="inductor")``
-     - 使用 TorchInductor 后端。`了解更多 <https://dev-discuss.pytorch.org/t/torchinductor-a-pytorch-native-compiler-with-define-by-run-ir-and-symbolic-shapes/747>`__
-   * - ``torch.compile(m, backend="cudagraphs")``
-     - 使用 AOT Autograd 的 CUDA 图。`了解更多 <https://github.com/pytorch/torchdynamo/pull/757>`__
-   * - ``torch.compile(m, backend="ipex")``
-     - 在 CPU 上使用 IPEX。`了解更多 <https://github.com/intel/intel-extension-for-pytorch>`__
-```
 
 **仅推理后端**
-
-```{eval-rst}
-.. list-table::
-   :widths: 50 50
-   :header-rows: 1
-
-   * - 后端
-     - 描述
-   * - ``torch.compile(m, backend="tensorrt")``
-     - 使用 Torch-TensorRT 进行推理优化。需要在调用脚本中 ``import torch_tensorrt`` 以注册后端。`了解更多 <https://github.com/pytorch/TensorRT>`__
-   * - ``torch.compile(m, backend="ipex")``
-     - 在 CPU 上使用 IPEX 进行推理。`了解更多 <https://github.com/intel/intel-extension-for-pytorch>`__
-   * - ``torch.compile(m, backend="tvm")``
-     - 使用 Apache TVM 进行推理优化。`了解更多 <https://tvm.apache.org/>`__
-   * - ``torch.compile(m, backend="openvino")``
-     - 使用 OpenVINO 进行推理优化。`了解更多 <https://docs.openvino.ai/torchcompile>`__
-```
-
-
 
 
 ```{toctree}

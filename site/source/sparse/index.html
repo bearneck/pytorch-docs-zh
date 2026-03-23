@@ -1,0 +1,9369 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="PyTorch 官方文档中文翻译版，由 DeepSeek AI 自动翻译">
+      
+      
+        <meta name="author" content="PyTorch 中文社区">
+      
+      
+        <link rel="canonical" href="https://bearneck.github.io/pytorch-docs-zh/source/sparse/">
+      
+      
+        <link rel="prev" href="../signal/">
+      
+      
+        <link rel="next" href="../nested/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>稀疏张量 - PyTorch 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config",""),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sparse-docs" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="PyTorch 中文文档" class="md-header__button md-logo" aria-label="PyTorch 中文文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyTorch 中文文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              稀疏张量
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange"  aria-label="切换到暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="orange"  aria-label="切换到亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/bearneck/pytorch-docs-zh" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pytorch-docs-zh
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  🏠 首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../pytorch-api/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📦 核心 API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../fft/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🔢 数学计算
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../cuda/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚡ 硬件加速
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../distributed/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 分布式训练
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../user_guide/torch_compiler/advanced/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ⚙️ torch.compile
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../quantization/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📉 量化与优化
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../onnx/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🚀 部署与导出
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../hub/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🛠️ 工具函数
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../torch_environment_variables/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🔧 环境变量
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../notes/amp_examples/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📝 Notes 注记
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../user_guide/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📖 用户指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../community/build_ci_governance/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  👥 社区
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cpp/source/frontend/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🔩 C++ API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PyTorch 中文文档" class="md-nav__button md-logo" aria-label="PyTorch 中文文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PyTorch 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bearneck/pytorch-docs-zh" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pytorch-docs-zh
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏠 首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📦 核心 API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📦 核心 API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pytorch-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PyTorch API 总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch 核心
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量 (Tensor)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensor_attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量属性
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensor_view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量视图
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autograd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自动求导 (autograd)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    神经网络 (nn)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nn.functional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nn.functional
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nn.attention/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    注意力机制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optim/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    优化器 (optim)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optim.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    优化器别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据加载 (data)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    存储 (storage)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../size/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.Size
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    类型信息
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔢 数学计算
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔢 数学计算
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速傅里叶变换 (fft)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linalg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    线性代数 (linalg)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    特殊数学函数
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    信号处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    稀疏张量
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    稀疏张量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="本页目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      本页目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为何以及何时使用稀疏性
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运算符概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-semi-structured-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏半结构化张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏半结构化张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建稀疏半结构化张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏半结构化张量操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nnlinear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用半结构化稀疏加速 nn.Linear
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-coo-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 COO 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 COO 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-hybrid-coo-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏混合 COO 张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-uncoalesced-coo-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        未合并的稀疏 COO 张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用稀疏 COO 张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-compressed-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏压缩张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏压缩张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sparse-csr-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 CSR 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 CSR 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSR 张量的构建
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csr_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSR 张量操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-csc-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 CSC 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 CSC 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSC 张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-bsr-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 BSR 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 BSR 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bsr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BSR 张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-bsc-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 BSC 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 BSC 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bsc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BSC 张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理稀疏压缩张量的工具
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="处理稀疏压缩张量的工具">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏压缩张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-ops-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支持的操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="支持的操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        线性代数操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        张量方法与稀疏
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#torch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        专用于稀疏张量的 Torch 函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其他函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保零一元函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nested/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    嵌套张量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概率分布
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../complex_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    复数支持
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../random/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    随机数生成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dlpack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DLPack 互操作
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⚡ 硬件加速
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ⚡ 硬件加速
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuda.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA 别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuda.tunable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA 可调优
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuda._sanitizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA Sanitizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuda_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA 环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPS (Apple Silicon)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mps_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPS 环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xpu.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    XPU 别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../amp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自动混合精度 (AMP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../accelerator/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    加速器
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_12" id="__nav_4_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    加速器
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accelerator/amp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AMP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accelerator/autoload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自动加载
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accelerator/device/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设备
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accelerator/guard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accelerator/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    钩子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accelerator/operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../accelerator/profiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🌐 分布式训练
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🌐 分布式训练
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式训练 (distributed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed._dist2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    distributed._dist2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.algorithms.join/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式 Join
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.checkpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式检查点
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.elastic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    弹性训练
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.fsdp.fully_shard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FSDP 全分片
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.optim/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式优化器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.pipelining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    流水线并行
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式张量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributed.tensor.parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量并行
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ddp_comm_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDP 通信钩子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../symmetric_memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对称内存
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_13" id="__nav_5_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RPC 框架
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RPC 框架
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RPC 框架
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    弹性训练
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ⚙️ torch.compile
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ⚙️ torch.compile
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级用法
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/api_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    核心概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/export/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Export 导出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    性能优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler.config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.compile 总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_aot_inductor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_aot_inductor_debugging_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_aot_inductor_minifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_backward/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_cudagraph_trees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_custom_backends/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_dynamic_shapes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_dynamo_deepdive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_dynamo_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_fake_tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_fine_grain_apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_get_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_inductor_profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_inductor_provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_ir/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_nn_module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_performance_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_profiling_torch_compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_transformations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/torch.compiler_troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/troubleshooting_faqs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    故障排除 FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_30" id="__nav_6_30_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编程模型 (compile)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    编程模型 (compile)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_advanced_control_options/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Advanced Control Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_backed_unbacked/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Backed Unbacked
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_beyond_the_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Beyond The Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_debugging_tlparse_torch_logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Debugging Tlparse Torch Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_troubleshooting_guardon_errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Troubleshooting Guardon Errors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/dynamic_shapes_zero_one_specialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic Shapes Zero One Specialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.common_graph_breaks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.compiler_disable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.custom_ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.dynamo_core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.dynamo_nonstrict_trace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.error_on_graph_break/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.fullgraph_false/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.fullgraph_true/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.graph_breaks_index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.nested_graph_breaks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.non_strict_tracing_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.recompilation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.reporting_issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.skipped_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/compile/programming_model.where_to_apply_compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6_31" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_31" id="__nav_6_31_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Export 导出
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_31_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_31">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Export 导出
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/export/api_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/export/draft_export/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Draft Export
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/export/ir_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ir Spec
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/export/joint_with_descriptors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Joint With Descriptors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/export/programming_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/torch_compiler/export/pt2_archive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pt2 Archive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📉 量化与优化
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📉 量化与优化
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    量化 (quantization)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantization-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    量化支持
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantization-support.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    量化别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    性能分析器 (profiler)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../benchmark_utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基准测试工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tensorboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TensorBoard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 部署与导出
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🚀 部署与导出
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onnx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONNX 导出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onnx_ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONNX 算子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onnx_testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONNX 测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onnx_verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ONNX 验证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FX 图变换
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../package/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.package
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.compile API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp_extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ 扩展
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpp_index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ API 索引
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ 工具函数
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛠️ 工具函数
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.hub 模型仓库
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multiprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    多进程 (multiprocessing)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../futures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    异步 Future
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checkpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型检查点
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    监控工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    测试工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    工具函数 (utils)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.overrides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.overrides
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch 别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch_cuda_memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA 内存管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概率分布
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../higher_order_ops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高阶算子
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9_12" id="__nav_9_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    高阶算子
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../higher_order_ops/associative_scan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    关联扫描
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../higher_order_ops/cond/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    条件控制流
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../higher_order_ops/map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../higher_order_ops/scan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    scan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../higher_order_ops/while_loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    while_loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔧 环境变量
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔧 环境变量
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PyTorch 环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cuda_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA 环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch_nccl_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NCCL 环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mps_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPS 环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debugging_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    调试环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../miscellaneous_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    其他环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../threading_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    线程环境变量
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cudnn_persistent_rnn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cuDNN 持久化 RNN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cudnn_rnn_determinism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cuDNN RNN 确定性
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📝 Notes 注记
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📝 Notes 注记
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/amp_examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Amp Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/autograd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自动求导机制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/broadcasting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    广播机制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/cpu_threading_torchscript_inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CPU 线程与 TorchScript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/cuda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDA 语义
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/custom_operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Operators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/ddp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分布式数据并行
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/extending.func/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/extending/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    扩展 PyTorch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题 (FAQ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/get_start_xpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Start Xpu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/gradcheck/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    梯度检验
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/hip/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hip
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/large_scale_deployments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    大规模部署
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/libtorch_stable_abi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Libtorch Stable Abi
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/local_tensor_tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Tensor Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/mkldnn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mkldnn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/mps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPS 后端
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/multiprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    多进程最佳实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/numerical_accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Numerical Accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/out/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Out
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/randomness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    随机性
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/serialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Serialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notes/windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows 支持
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../user_guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📖 用户指南
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_12" id="__nav_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📖 用户指南
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_guide/pytorch_main_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PyTorch 主要组件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../community/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    👥 社区
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_13" id="__nav_13_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    👥 社区
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../community/build_ci_governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CI 构建治理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../community/contribution_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    贡献指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../community/design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设计理念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../community/governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    治理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../community/persons_of_interest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    核心人员
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cpp/source/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔩 C++ API
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_14" id="__nav_14_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔩 C++ API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ 前端
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/installing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装 LibTorch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LibTorch 库
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/stable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    稳定 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_14_6" id="__nav_14_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_14_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C++ Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C++ FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/inference_mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    推理模式
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/maybe_owned/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MaybeOwned
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/tensor_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/tensor_creation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量创建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/tensor_cuda_stream/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量 CUDA 流
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/tensor_indexing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    张量索引
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/source/notes/versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    版本管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="本页目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      本页目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为何以及何时使用稀疏性
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运算符概述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-semi-structured-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏半结构化张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏半结构化张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建稀疏半结构化张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏半结构化张量操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nnlinear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用半结构化稀疏加速 nn.Linear
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-coo-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 COO 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 COO 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-hybrid-coo-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏混合 COO 张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-uncoalesced-coo-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        未合并的稀疏 COO 张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用稀疏 COO 张量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-compressed-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏压缩张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏压缩张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sparse-csr-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 CSR 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 CSR 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSR 张量的构建
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csr_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSR 张量操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-csc-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 CSC 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 CSC 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSC 张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-bsr-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 BSR 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 BSR 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bsr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BSR 张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-bsc-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏 BSC 张量
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="稀疏 BSC 张量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bsc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BSC 张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理稀疏压缩张量的工具
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="处理稀疏压缩张量的工具">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        稀疏压缩张量的构造
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sparse-ops-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        支持的操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="支持的操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        线性代数操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        张量方法与稀疏
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#torch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        专用于稀疏张量的 Torch 函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其他函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保零一元函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<p>automodule
+torch.sparse</p>
+<p>currentmodule
+torch</p>
+<h1 id="sparse-docs">torch.sparse<a class="headerlink" href="#sparse-docs" title="Permanent link">&para;</a></h1>
+<p>warning
+ title
+Warning</p>
+<p>PyTorch 的稀疏张量 API 目前处于测试阶段，可能在近期发生变更。 我们非常欢迎通过 GitHub issue 提交功能请求、错误报告和一般性建议。</p>
+<h2 id="_1">为何以及何时使用稀疏性<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>默认情况下，PyTorch 将 <code class="interpreted-text" role="class">torch.Tensor</code> 的元素连续存储在物理内存中。这为需要快速访问元素的各种数组处理算法提供了高效的实现。</p>
+<p>然而，一些用户可能决定使用 <em>元素大部分为零值</em> 的张量来表示数据，例如图邻接矩阵、剪枝后的权重或点云。我们认识到这些是重要的应用场景，并旨在通过稀疏存储格式为这些用例提供性能优化。</p>
+<p>多年来，人们开发了各种稀疏存储格式，如 COO、CSR/CSC、半结构化、LIL 等。虽然它们在具体布局上有所不同，但都通过高效表示零值元素来压缩数据。我们将未压缩的值称为 <em>指定</em> 元素，以区别于 <em>未指定</em> 的压缩元素。</p>
+<p>通过压缩重复的零，稀疏存储格式旨在节省各种 CPU 和 GPU 上的内存和计算资源。特别是对于高稀疏度或高度结构化的稀疏性，这可能会带来显著的性能影响。因此，稀疏存储格式可以被视为一种性能优化手段。</p>
+<p>与许多其他性能优化手段一样，稀疏存储格式并不总是有利的。当为您的用例尝试稀疏格式时，您可能会发现执行时间反而增加了。</p>
+<p>如果您在分析时期望看到性能的显著提升，但实际测量结果却是性能下降，我们非常鼓励您提交一个 GitHub issue。这有助于我们优先实现高效的内核和更广泛的性能优化。</p>
+<p>我们使得尝试不同的稀疏布局以及它们之间的转换变得容易，而不会对哪种最适合您的特定应用做出主观判断。</p>
+<h2 id="_2">功能概述<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>我们希望通过为每种布局提供转换例程，使得从给定的稠密张量构造稀疏张量变得简单直接。</p>
+<p>在下一个示例中，我们将一个具有默认稠密（跨步）布局的 2D 张量转换为由 COO 内存布局支持的 2D 张量。在这种情况下，只存储非零元素的值和索引。</p>
+<blockquote>
+<p>&gt;&gt;&gt; a = torch.tensor([[0, 2.], [3, 0]]) &gt;&gt;&gt; a.to_sparse() tensor(indices=tensor([[0, 1], [1, 0]]), values=tensor([2., 3.]), size=(2, 2), nnz=2, layout=torch.sparse_coo)</p>
+</blockquote>
+<p>PyTorch 目前支持 <code class="interpreted-text" role="ref">COO&lt;sparse-coo-docs&gt;</code>、<code class="interpreted-text" role="ref">CSR&lt;sparse-csr-docs&gt;</code>、<code class="interpreted-text" role="ref">CSC&lt;sparse-csc-docs&gt;</code>、<code class="interpreted-text" role="ref">BSR&lt;sparse-bsr-docs&gt;</code> 和 <code class="interpreted-text" role="ref">BSC&lt;sparse-bsc-docs&gt;</code>。</p>
+<p>我们还提供了一个支持 <code class="interpreted-text" role="ref">半结构化稀疏性&lt;sparse-semi-structured-docs&gt;</code> 的原型实现。更多详情请参阅参考文献。</p>
+<p>请注意，我们提供了这些格式的轻微泛化。</p>
+<p>批处理：GPU 等设备需要批处理以获得最佳性能，因此我们支持批处理维度。</p>
+<p>我们目前提供了一个非常简单的批处理版本，其中稀疏格式的每个组件本身都是批处理的。这也要求每个批次条目具有相同数量的指定元素。在此示例中，我们从 3D 稠密张量构造一个 3D（批处理）CSR 张量。</p>
+<blockquote>
+<p>&gt;&gt;&gt; t = torch.tensor([[[1., 0], [2., 3.]], [[4., 0], [5., 6.]]]) &gt;&gt;&gt; t.dim() 3 &gt;&gt;&gt; t.to_sparse_csr() tensor(crow_indices=tensor([[0, 1, 3], [0, 1, 3]]), col_indices=tensor([[0, 0, 1], [0, 0, 1]]), values=tensor([[1., 2., 3.], [4., 5., 6.]]), size=(2, 2, 2), nnz=3, layout=torch.sparse_csr)</p>
+</blockquote>
+<p>稠密维度：另一方面，某些数据（如图嵌入）可能更适合被视为向量的稀疏集合，而不是标量。</p>
+<p>在此示例中，我们从 3D 跨步张量创建一个具有 2 个稀疏维度和 1 个稠密维度的 3D 混合 COO 张量。如果 3D 跨步张量中的整行都为零，则不会存储该行。但是，如果该行中的任何值非零，则会完整存储该行。这减少了索引的数量，因为我们需要每行一个索引，而不是每个元素一个索引。但它也增加了值的存储量。因为只有 <em>完全</em> 为零的行可以被省略，而任何非零值元素的存在都会导致整行被存储。</p>
+<blockquote>
+<p>&gt;&gt;&gt; t = torch.tensor([[[0., 0], [1., 2.]], [[0., 0], [3., 4.]]]) &gt;&gt;&gt; t.to_sparse(sparse_dim=2) tensor(indices=tensor([[0, 1], [1, 1]]), values=tensor([[1., 2.], [3., 4.]]), size=(2, 2, 2), nnz=2, layout=torch.sparse_coo)</p>
+</blockquote>
+<h2 id="_3">运算符概述<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>从根本上说，对具有稀疏存储格式的张量进行的操作与对具有跨步（或其他）存储格式的张量进行的操作行为相同。存储的特殊性，即数据的物理布局，会影响操作的性能，但不应该影响其语义。</p>
+<p>我们正在积极增加对稀疏张量的运算符覆盖。用户目前不应期望获得与稠密张量相同级别的支持。有关列表，请参阅我们的 <code class="interpreted-text" role="ref">运算符&lt;sparse-ops-docs&gt;</code> 文档。</p>
+<blockquote>
+<p>&gt;&gt;&gt; b = torch.tensor([[0, 0, 1, 2, 3, 0], [4, 5, 0, 6, 0, 0]]) &gt;&gt;&gt; b_s = b.to_sparse_csr() &gt;&gt;&gt; b_s.cos() Traceback (most recent call last): File \"\&lt;stdin&gt;\", line 1, in \&lt;module&gt; RuntimeError: unsupported tensor layout: SparseCsr &gt;&gt;&gt; b_s.sin() tensor(crow_indices=tensor([0, 3, 6]), col_indices=tensor([2, 3, 4, 0, 1, 3]), values=tensor([ 0.8415, 0.9093, 0.1411, -0.7568, -0.9589, -0.2794]), size=(2, 6), nnz=6, layout=torch.sparse_csr)</p>
+</blockquote>
+<p>如上例所示，我们不支持诸如 [cos]{.title-ref} 这类非零保留的一元运算符。非零保留一元运算的输出将无法像输入那样充分利用稀疏存储格式的优势，并可能导致内存的灾难性增长。我们建议用户先显式转换为稠密张量，然后再执行运算。</p>
+<blockquote>
+<p>&gt;&gt;&gt; b_s.to_dense().cos() tensor([[ 1.0000, -0.4161], [-0.9900, 1.0000]])</p>
+</blockquote>
+<p>我们了解到，一些用户希望在 [cos]{.title-ref} 这类运算中忽略压缩的零值，而不是保留运算的精确语义。为此，我们可以参考 [torch.masked]{.title-ref} 及其 [MaskedTensor]{.title-ref}，它同样由稀疏存储格式和内核支持并提供动力。</p>
+<p>还需注意，目前用户无法选择输出布局。例如，将稀疏张量与常规的跨步张量相加会得到一个跨步张量。一些用户可能更希望结果保持稀疏布局，因为他们知道结果仍然足够稀疏。</p>
+<blockquote>
+<p>&gt;&gt;&gt; a + b.to_sparse() tensor([[0., 3.], [3., 0.]])</p>
+</blockquote>
+<p>我们认识到，能够高效生成不同输出布局的内核访问可能非常有用。后续操作可能会因接收到特定布局而显著受益。我们正在开发一个用于控制结果布局的 API，并认识到这是一个重要的功能，可以为任何给定模型规划更优的执行路径。</p>
+<h2 id="sparse-semi-structured-docs">稀疏半结构化张量<a class="headerlink" href="#sparse-semi-structured-docs" title="Permanent link">&para;</a></h2>
+<p>warning
+ title
+Warning</p>
+<p>稀疏半结构化张量目前是一个原型功能，可能会发生变化。如果您发现错误或有反馈意见，请随时提交问题。</p>
+<p>半结构化稀疏是一种稀疏数据布局，最初由 NVIDIA 的 Ampere 架构引入。它也被称为**细粒度结构化稀疏**或**2:4 结构化稀疏**。</p>
+<p>这种稀疏布局存储每 [2n]{.title-ref} 个元素中的 [n]{.title-ref} 个元素，其中 [n]{.title-ref} 由张量数据类型（dtype）的宽度决定。最常用的 dtype 是 float16，其中 [n=2]{.title-ref}，因此称为"2:4 结构化稀疏"。</p>
+<p>半结构化稀疏在 <a href="https://developer.nvidia.com/blog/exploiting-ampere-structured-sparsity-with-cusparselt">这篇 NVIDIA 博客文章</a> 中有更详细的解释。</p>
+<p>在 PyTorch 中，半结构化稀疏通过张量子类实现。通过子类化，我们可以重写 <code>__torch_dispatch__</code>，从而在执行矩阵乘法时使用更快的稀疏内核。我们还可以在子类中以压缩形式存储张量，以减少内存开销。</p>
+<p>在这种压缩形式中，稀疏张量仅存储*指定的*元素和一些编码掩码的元数据。</p>
+<p>note
+ title
+Note</p>
+<p>半结构化稀疏张量的指定元素和元数据掩码一起存储在一个单一的扁平压缩张量中。它们彼此附加以形成连续的内存块。</p>
+<p>压缩张量 = [ 原始张量的指定元素 | 元数据掩码 ]</p>
+<p>对于大小为 [(r, c)]{.title-ref} 的原始张量，我们期望前 [m * k // 2]{.title-ref} 个元素是保留的元素，张量的其余部分是元数据。</p>
+<p>为了使用户更容易查看指定元素和掩码，可以使用 <code>.indices()</code> 和 <code>.values()</code> 分别访问掩码和指定元素。</p>
+<ul>
+<li><code>.values()</code> 返回指定元素，存储在一个大小为 [(r, c//2)]{.title-ref} 的张量中，且与稠密矩阵具有相同的 dtype。</li>
+<li><code>.indices()</code> 返回元数据掩码，存储在一个大小为 [(r, c//2)]{.title-ref} 的张量中。如果 dtype 是 torch.float16 或 torch.bfloat16，则元素类型为 <code>torch.int16</code>；如果 dtype 是 torch.int8，则元素类型为 <code>torch.int32</code>。</li>
+</ul>
+<p>对于 2:4 稀疏张量，元数据开销很小------每个指定元素仅需 2 比特。</p>
+<p>note
+ title
+Note</p>
+<p>需要注意的是，<code>torch.float32</code> 仅支持 1:2 稀疏度。因此，它不遵循上述相同的公式。</p>
+<p>这里，我们分解如何计算 2:4 稀疏张量的压缩比（稠密大小 / 稀疏大小）。</p>
+<p>设 [(r, c) = tensor.shape]{.title-ref} 且 [e = bitwidth(tensor.dtype)]{.title-ref}，因此对于 <code>torch.float16</code> 和 <code>torch.bfloat16</code>，`e = 16`；对于 <code>torch.int8</code>，`e = 8`。</p>
+<p>$$\begin{aligned}
+M_{dense} = r \times c \times e \
+M_{sparse} = M_{specified} + M_{metadata} = r \times \frac{c}{2} \times e + r \times \frac{c}{2} \times 2 = \frac{rce}{2} + rc =rce(\frac{1}{2} +\frac{1}{e})
+\end{aligned}$$</p>
+<p>使用这些计算，我们可以确定原始稠密表示和新稀疏表示的总内存占用。</p>
+<p>这为我们提供了一个简单的压缩比公式，该公式仅依赖于张量数据类型的比特宽度。</p>
+<p>$$C = \frac{M_{sparse}}{M_{dense}} =  \frac{1}{2} + \frac{1}{e}$$</p>
+<p>使用此公式，我们发现对于 <code>torch.float16</code> 或 <code>torch.bfloat16</code>，压缩比为 56.25%；对于 <code>torch.int8</code>，压缩比为 62.5%。</p>
+<h3 id="_4">构建稀疏半结构化张量<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>您可以通过简单地使用 <code>torch.to_sparse_semi_structured</code> 函数将稠密张量转换为稀疏半结构化张量。</p>
+<p>还需注意，我们仅支持 CUDA 张量，因为半结构化稀疏的硬件兼容性仅限于 NVIDIA GPU。</p>
+<p>以下是半结构化稀疏支持的数据类型。请注意，每种数据类型都有其自身的形状约束和压缩因子。</p>
+<hr />
+<p>PyTorch dtype      形状约束                                        压缩因子   稀疏模式</p>
+<hr />
+<p><code>torch.float16</code>    张量必须是 2D 且 (r, c) 都必须是 64 的正倍数    9/16       2:4</p>
+<p><code>torch.bfloat16</code>   张量必须是 2D 且 (r, c) 都必须是 64 的正倍数    9/16       2:4</p>
+<p><code>torch.int8</code>       张量必须是 2D 且 (r, c) 都必须是 128 的正倍数   10/16      2:4</p>
+<hr />
+<p>要构建一个半结构化稀疏张量，首先需要创建一个符合 2:4（或半结构化）稀疏格式的常规稠密张量。 为此，我们平铺一个小的 1x4 条带以创建一个 16x16 的 float16 稠密张量。 之后，我们可以调用 <code>to_sparse_semi_structured</code> 函数来压缩它以加速推理。</p>
+<blockquote>
+<p>&gt;&gt;&gt; from torch.sparse import to_sparse_semi_structured &gt;&gt;&gt; A = torch.Tensor([0, 0, 1, 1]).tile((128, 32)).half().cuda() tensor([[0., 0., 1., ..., 0., 1., 1.], [0., 0., 1., ..., 0., 1., 1.], [0., 0., 1., ..., 0., 1., 1.], ..., [0., 0., 1., ..., 0., 1., 1.], [0., 0., 1., ..., 0., 1., 1.], [0., 0., 1., ..., 0., 1., 1.]], device=\'cuda:0\', dtype=torch.float16) &gt;&gt;&gt; A_sparse = to_sparse_semi_structured(A) SparseSemiStructuredTensor(shape=torch.Size([128, 128]), transposed=False, values=tensor([[1., 1., 1., ..., 1., 1., 1.], [1., 1., 1., ..., 1., 1., 1.], [1., 1., 1., ..., 1., 1., 1.], ..., [1., 1., 1., ..., 1., 1., 1.], [1., 1., 1., ..., 1., 1., 1.], [1., 1., 1., ..., 1., 1., 1.]], device=\'cuda:0\', dtype=torch.float16), metadata=tensor([[-4370, -4370, -4370, ..., -4370, -4370, -4370], [-4370, -4370, -4370, ..., -4370, -4370, -4370], [-4370, -4370, -4370, ..., -4370, -4370, -4370], ..., [-4370, -4370, -4370, ..., -4370, -4370, -4370], [-4370, -4370, -4370, ..., -4370, -4370, -4370], [-4370, -4370, -4370, ..., -4370, -4370, -4370]], device=\'cuda:0\', dtype=torch.int16))</p>
+</blockquote>
+<h3 id="_5">稀疏半结构化张量操作<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>目前，半结构化稀疏张量支持以下操作：</p>
+<ul>
+<li>torch.addmm(bias, dense, sparse.t())</li>
+<li>torch.mm(dense, sparse)</li>
+<li>torch.mm(sparse, dense)</li>
+<li>aten.linear.default(dense, sparse, bias)</li>
+<li>aten.t.default(sparse)</li>
+<li>aten.t.detach(sparse)</li>
+</ul>
+<p>要使用这些操作，只需在张量具有半结构化稀疏格式的零元素后，传递 <code>to_sparse_semi_structured(tensor)</code> 的输出，而不是直接使用 <code>tensor</code>，如下所示：</p>
+<blockquote>
+<p>&gt;&gt;&gt; a = torch.Tensor([0, 0, 1, 1]).tile((64, 16)).half().cuda() &gt;&gt;&gt; b = torch.rand(64, 64).half().cuda() &gt;&gt;&gt; c = torch.mm(a, b) &gt;&gt;&gt; a_sparse = to_sparse_semi_structured(a) &gt;&gt;&gt; torch.allclose(c, torch.mm(a_sparse, b)) True</p>
+</blockquote>
+<h3 id="nnlinear">使用半结构化稀疏加速 nn.Linear<a class="headerlink" href="#nnlinear" title="Permanent link">&para;</a></h3>
+<p>如果权重已经是半结构化稀疏的，只需几行代码就可以加速模型中的线性层：</p>
+<blockquote>
+<p>&gt;&gt;&gt; input = torch.rand(64, 64).half().cuda() &gt;&gt;&gt; mask = torch.Tensor([0, 0, 1, 1]).tile((64, 16)).cuda().bool() &gt;&gt;&gt; linear = nn.Linear(64, 64).half().cuda() &gt;&gt;&gt; linear.weight = nn.Parameter(to_sparse_semi_structured(linear.weight.masked_fill(\~mask, 0)))</p>
+</blockquote>
+<h2 id="sparse-coo-docs">稀疏 COO 张量<a class="headerlink" href="#sparse-coo-docs" title="Permanent link">&para;</a></h2>
+<p>PyTorch 实现了所谓的坐标格式（Coordinate format），或 COO 格式，作为实现稀疏张量的存储格式之一。在 COO 格式中，指定的元素以元素索引元组和对应值的形式存储。具体来说，</p>
+<blockquote>
+<ul>
+<li>指定元素的索引收集在大小为 <code>(ndim, nse)</code>、元素类型为 <code>torch.int64</code> 的 <code>indices</code> 张量中，</li>
+<li>对应的值收集在大小为 <code>(nse,)</code>、元素类型为任意整数或浮点数的 <code>values</code> 张量中，</li>
+</ul>
+</blockquote>
+<p>其中 <code>ndim</code> 是张量的维度，<code>nse</code> 是指定元素的数量。</p>
+<p>note
+ title
+Note</p>
+<p>稀疏 COO 张量的内存消耗至少为 <code>(ndim * 8 + &lt;元素类型字节大小&gt;) * nse</code> 字节（加上存储其他张量数据的常量开销）。</p>
+<p>跨步张量的内存消耗至少为 <code>product(&lt;张量形状&gt;) * &lt;元素类型字节大小&gt;</code>。</p>
+<p>例如，一个包含 100,000 个非零 32 位浮点数的 10,000 x 10,000 张量，在使用 COO 张量布局时，内存消耗至少为 <code>(2 * 8 + 4) * 100 000 = 2 000 000</code> 字节；而在使用默认的跨步张量布局时，内存消耗至少为 <code>10 000 * 10 000 * 4 = 400 000 000</code> 字节。请注意，使用 COO 存储格式可以节省 200 倍的内存。</p>
+<h3 id="_6">构造<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>可以通过向函数 <code class="interpreted-text" role="func">torch.sparse_coo_tensor</code> 提供索引和值两个张量，以及稀疏张量的大小（当无法从索引和值张量推断时）来构造稀疏 COO 张量。</p>
+<p>假设我们想定义一个稀疏张量，在位置 (0, 2) 处有元素 3，在位置 (1, 0) 处有元素 4，在位置 (1, 2) 处有元素 5。未指定的元素假定具有相同的值，即填充值，默认为零。那么我们可以这样写：</p>
+<blockquote>
+<p>&gt;&gt;&gt; i = [[0, 1, 1], [2, 0, 2]] &gt;&gt;&gt; v = [3, 4, 5] &gt;&gt;&gt; s = torch.sparse_coo_tensor(i, v, (2, 3)) &gt;&gt;&gt; s tensor(indices=tensor([[0, 1, 1], [2, 0, 2]]), values=tensor([3, 4, 5]), size=(2, 3), nnz=3, layout=torch.sparse_coo) &gt;&gt;&gt; s.to_dense() tensor([[0, 0, 3], [4, 0, 5]])</p>
+</blockquote>
+<p>请注意，输入 <code>i</code> 不是索引元组的列表。如果你想以这种方式编写索引，应该在将它们传递给稀疏构造函数之前进行转置：</p>
+<blockquote>
+<p>&gt;&gt;&gt; i = [[0, 2], [1, 0], [1, 2]] &gt;&gt;&gt; v = [3, 4, 5 ] &gt;&gt;&gt; s = torch.sparse_coo_tensor(list(zip(*i)), v, (2, 3)) &gt;&gt;&gt; # 或者另一种等效的公式来得到 s &gt;&gt;&gt; s = torch.sparse_coo_tensor(torch.tensor(i).t(), v, (2, 3)) &gt;&gt;&gt; torch.sparse_coo_tensor(i.t(), v, torch.Size([2,3])).to_dense() tensor([[0, 0, 3], [4, 0, 5]])</p>
+</blockquote>
+<p>可以通过仅指定其大小来构造一个空的稀疏 COO 张量：</p>
+<p>&gt;&gt;&gt; torch.sparse_coo_tensor(size=(2, 3))</p>
+<p>:   </p>
+<div class="highlight"><pre><span></span><code>tensor(indices=tensor(\[\], size=(2, 0)),
+
+:   values=tensor(\[\], size=(0,)), size=(2, 3), nnz=0, layout=torch.sparse_coo)
+</code></pre></div>
+<h3 id="sparse-hybrid-coo-docs">稀疏混合 COO 张量<a class="headerlink" href="#sparse-hybrid-coo-docs" title="Permanent link">&para;</a></h3>
+<p>PyTorch 实现了对具有标量值的稀疏张量的扩展，使其支持具有（连续）张量值的稀疏张量。这类张量被称为混合张量。</p>
+<p>PyTorch 混合 COO 张量扩展了稀疏 COO 张量，允许 <code>values</code> 张量是一个多维张量，因此我们有：</p>
+<blockquote>
+<ul>
+<li>指定元素的索引收集在大小为 <code>(sparse_dims, nse)</code>、元素类型为 <code>torch.int64</code> 的 <code>indices</code> 张量中，</li>
+<li>对应的（张量）值收集在大小为 <code>(nse, dense_dims)</code>、元素类型为任意整数或浮点数的 <code>values</code> 张量中。</li>
+</ul>
+</blockquote>
+<p>note
+ title
+Note</p>
+<p>我们使用 (M + K) 维张量来表示一个 N 维稀疏混合张量，其中 M 和 K 分别是稀疏维度和稠密维度的数量，满足 M + K == N。</p>
+<p>假设我们想创建一个 (2 + 1) 维张量，其中位置 (0, 2) 处的条目为 [3, 4]，位置 (1, 0) 处的条目为 [5, 6]，位置 (1, 2) 处的条目为 [7, 8]。我们可以这样写：</p>
+<blockquote>
+<p>&gt;&gt;&gt; i = [[0, 1, 1],</p>
+<p>:   [2, 0, 2]]</p>
+<p>&gt;&gt;&gt; v = [[3, 4], [5, 6], [7, 8]] &gt;&gt;&gt; s = torch.sparse_coo_tensor(i, v, (2, 3, 2)) &gt;&gt;&gt; s tensor(indices=tensor([[0, 1, 1], [2, 0, 2]]), values=tensor([[3, 4], [5, 6], [7, 8]]), size=(2, 3, 2), nnz=3, layout=torch.sparse_coo)</p>
+<p>&gt;&gt;&gt; s.to_dense() tensor([[[0, 0], [0, 0], [3, 4]], [[5, 6], [0, 0], [7, 8]]])</p>
+</blockquote>
+<p>一般来说，如果 <code>s</code> 是一个稀疏 COO 张量，且 <code>M = s.sparse_dim()</code>，<code>K = s.dense_dim()</code>，那么我们有如下不变式：</p>
+<blockquote>
+<ul>
+<li><code>M + K == len(s.shape) == s.ndim</code> - 张量的维度是稀疏维度和稠密维度的总和，</li>
+<li><code>s.indices().shape == (M, nse)</code> - 稀疏索引被显式存储，</li>
+<li><code>s.values().shape == (nse,) + s.shape[M : M + K]</code> - 混合张量的值是 K 维张量，</li>
+<li><code>s.values().layout == torch.strided</code> - 值以步幅张量的形式存储。</li>
+</ul>
+</blockquote>
+<p>note
+ title
+Note</p>
+<p>稠密维度总是跟在稀疏维度之后，也就是说，不支持混合稀疏维度和稠密维度。</p>
+<p>note
+ title
+Note</p>
+<p>为了确保构造的稀疏张量具有一致的索引、值和大小，可以通过 <code>check_invariants=True</code> 关键字参数在每个张量创建时启用不变式检查，或者全局使用 <code class="interpreted-text" role="class">torch.sparse.check_sparse_tensor_invariants</code> 上下文管理器实例。默认情况下，稀疏张量不变式检查是禁用的。</p>
+<h3 id="sparse-uncoalesced-coo-docs">未合并的稀疏 COO 张量<a class="headerlink" href="#sparse-uncoalesced-coo-docs" title="Permanent link">&para;</a></h3>
+<p>PyTorch 稀疏 COO 张量格式允许稀疏*未合并*张量，其中索引中可能存在重复的坐标；在这种情况下，解释是该索引处的值是所有重复值条目的总和。例如，可以为同一个索引 <code>1</code> 指定多个值 <code>3</code> 和 <code>4</code>，从而得到一个一维未合并张量：</p>
+<blockquote>
+<p>&gt;&gt;&gt; i = [[1, 1]] &gt;&gt;&gt; v = [3, 4] &gt;&gt;&gt; s=torch.sparse_coo_tensor(i, v, (3,)) &gt;&gt;&gt; s tensor(indices=tensor([[1, 1]]), values=tensor( [3, 4]), size=(3,), nnz=2, layout=torch.sparse_coo)</p>
+</blockquote>
+<p>而合并过程将使用求和将多值元素累积为单个值：</p>
+<blockquote>
+<p>&gt;&gt;&gt; s.coalesce() tensor(indices=tensor([[1]]), values=tensor([7]), size=(3,), nnz=1, layout=torch.sparse_coo)</p>
+</blockquote>
+<p>通常，<code class="interpreted-text" role="meth">torch.Tensor.coalesce</code> 方法的输出是一个具有以下属性的稀疏张量：</p>
+<ul>
+<li>指定张量元素的索引是唯一的，</li>
+<li>索引按字典序排序，</li>
+<li><code class="interpreted-text" role="meth">torch.Tensor.is_coalesced()</code> 返回 <code>True</code>。</li>
+</ul>
+<p>note
+ title
+Note</p>
+<p>在大多数情况下，您不需要关心稀疏张量是否已合并，因为大多数操作在给定稀疏合并或未合并张量时的工作方式相同。</p>
+<p>然而，有些操作在未合并张量上可以实现得更高效，而有些则在合并张量上更高效。</p>
+<p>例如，稀疏 COO 张量的加法是通过简单连接索引张量和值张量来实现的：</p>
+<blockquote>
+<p>&gt;&gt;&gt; a = torch.sparse_coo_tensor([[1, 1]], [5, 6], (2,)) &gt;&gt;&gt; b = torch.sparse_coo_tensor([[0, 0]], [7, 8], (2,)) &gt;&gt;&gt; a + b tensor(indices=tensor([[0, 0, 1, 1]]), values=tensor([7, 8, 5, 6]), size=(2,), nnz=4, layout=torch.sparse_coo)</p>
+</blockquote>
+<p>如果您重复执行可能产生重复条目的操作（例如 <code class="interpreted-text" role="func">torch.Tensor.add</code>），您应该偶尔合并您的稀疏张量，以防止它们变得过大。</p>
+<p>另一方面，索引的字典序排序对于实现涉及许多元素选择操作的算法可能是有利的，例如切片或矩阵乘积。</p>
+<h3 id="coo">使用稀疏 COO 张量<a class="headerlink" href="#coo" title="Permanent link">&para;</a></h3>
+<p>让我们考虑以下示例：</p>
+<blockquote>
+<p>&gt;&gt;&gt; i = [[0, 1, 1],</p>
+<p>:   [2, 0, 2]]</p>
+<p>&gt;&gt;&gt; v = [[3, 4], [5, 6], [7, 8]] &gt;&gt;&gt; s = torch.sparse_coo_tensor(i, v, (2, 3, 2))</p>
+</blockquote>
+<p>如上所述，稀疏 COO 张量是一个 <code class="interpreted-text" role="class">torch.Tensor</code> 实例区分开来，可以使用 } 实例，为了将其与使用其他布局的 [Tensor]{.title-ref<code class="interpreted-text" role="attr">torch.Tensor.is_sparse</code> 或 <code class="interpreted-text" role="attr">torch.Tensor.layout</code> 属性：</p>
+<blockquote>
+<p>&gt;&gt;&gt; isinstance(s, torch.Tensor) True &gt;&gt;&gt; s.is_sparse True &gt;&gt;&gt; s.layout == torch.sparse_coo True</p>
+</blockquote>
+<p>稀疏维度和稠密维度的数量可以分别使用方法 <code class="interpreted-text" role="meth">torch.Tensor.sparse_dim</code> 和 <code class="interpreted-text" role="meth">torch.Tensor.dense_dim</code> 获取。例如：</p>
+<blockquote>
+<p>&gt;&gt;&gt; s.sparse_dim(), s.dense_dim() (2, 1)</p>
+</blockquote>
+<p>如果 <code>s</code> 是一个稀疏 COO 张量，那么可以使用 <code class="interpreted-text" role="meth">torch.Tensor.indices()</code> 和 <code class="interpreted-text" role="meth">torch.Tensor.values()</code> 方法获取其 COO 格式数据。</p>
+<p>note
+ title
+Note</p>
+<p>目前，只有当张量实例是合并状态时才能获取 COO 格式数据：</p>
+<blockquote>
+<p>&gt;&gt;&gt; s.indices() RuntimeError: Cannot get indices on an uncoalesced tensor, please call .coalesce() first</p>
+</blockquote>
+<p>要获取未合并张量的 COO 格式数据，请使用 <code class="interpreted-text" role="func">torch.Tensor._values()</code> 和 <code class="interpreted-text" role="func">torch.Tensor._indices()</code>：</p>
+<blockquote>
+<p>&gt;&gt;&gt; s._indices() tensor([[0, 1, 1], [2, 0, 2]])</p>
+</blockquote>
+<p>warning
+ title
+Warning</p>
+<p>调用 <code class="interpreted-text" role="meth">torch.Tensor._values()</code> 将返回一个*分离的*张量。 要跟踪梯度，必须改用 <code class="interpreted-text" role="meth">torch.Tensor.coalesce().values()</code>。</p>
+<p>构造一个新的稀疏 COO 张量会产生一个未合并的张量：</p>
+<blockquote>
+<p>&gt;&gt;&gt; s.is_coalesced() False</p>
+</blockquote>
+<p>但可以使用 <code class="interpreted-text" role="meth">torch.Tensor.coalesce</code> 方法构造稀疏 COO 张量的合并副本：</p>
+<blockquote>
+<p>&gt;&gt;&gt; s2 = s.coalesce() &gt;&gt;&gt; s2.indices() tensor([[0, 1, 1], [2, 0, 2]])</p>
+</blockquote>
+<p>在处理未合并的稀疏 COO 张量时，必须考虑未合并数据的可加性：相同索引的值是求和的项，其计算结果给出相应张量元素的值。例如，稀疏未合并张量的标量乘法可以通过将所有未合并的值乘以标量来实现，因为 <code>c * (a + b) == c * a + c * b</code> 成立。然而，任何非线性操作，例如平方根，不能通过对未合并数据应用该操作来实现，因为 <code>sqrt(a + b) == sqrt(a) + sqrt(b)</code> 通常不成立。</p>
+<p>稀疏 COO 张量的切片（步长为正）仅支持稠密维度。索引同时支持稀疏维度和稠密维度：</p>
+<blockquote>
+<p>&gt;&gt;&gt; s[1] tensor(indices=tensor([[0, 2]]), values=tensor([[5, 6], [7, 8]]), size=(3, 2), nnz=2, layout=torch.sparse_coo) &gt;&gt;&gt; s[1, 0, 1] tensor(6) &gt;&gt;&gt; s[1, 0, 1:] tensor([6])</p>
+</blockquote>
+<p>在 PyTorch 中，稀疏张量的填充值不能显式指定，通常假定为零。但是，存在一些操作可能以不同方式解释填充值。例如，<code class="interpreted-text" role="func">torch.sparse.softmax</code> 在假设填充值为负无穷大的情况下计算 softmax。</p>
+<h2 id="sparse-compressed-docs">稀疏压缩张量<a class="headerlink" href="#sparse-compressed-docs" title="Permanent link">&para;</a></h2>
+<p>稀疏压缩张量代表一类稀疏张量，其共同特点是使用一种编码压缩特定维度的索引，这种编码使得稀疏压缩张量的线性代数内核能够进行某些优化。这种编码基于 <a href="https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)">压缩稀疏行 (CSR)</a> 格式，PyTorch 稀疏压缩张量在此基础上扩展，支持稀疏张量批次、允许多维张量值，并以稠密块的形式存储稀疏张量值。</p>
+<p>note
+ title
+Note</p>
+<p>我们使用 (B + M + K) 维张量来表示一个 N 维稀疏压缩混合张量，其中 B、M 和 K 分别是批次维度、稀疏维度和稠密维度的数量，满足 <code>B + M + K == N</code>。稀疏压缩张量的稀疏维度数始终为二，即 <code>M == 2</code>。</p>
+<p>note
+ title
+Note</p>
+<p>如果满足以下不变量，我们说一个索引张量 <code>compressed_indices</code> 使用了 CSR 编码：</p>
+<ul>
+<li><code>compressed_indices</code> 是一个连续的跨步 32 位或 64 位整数张量</li>
+<li><code>compressed_indices</code> 的形状是 <code>(*batchsize, compressed_dim_size + 1)</code>，其中 <code>compressed_dim_size</code> 是压缩维度的数量（例如行或列）</li>
+<li><code>compressed_indices[..., 0] == 0</code>，其中 <code>...</code> 表示批次索引</li>
+<li><code>compressed_indices[..., compressed_dim_size] == nse</code>，其中 <code>nse</code> 是指定元素的数量</li>
+<li>对于 <code>i=1, ..., compressed_dim_size</code>，满足 <code>0 &lt;= compressed_indices[..., i] - compressed_indices[..., i - 1] &lt;= plain_dim_size</code>，其中 <code>plain_dim_size</code> 是普通维度的数量（与压缩维度正交，例如列或行）。</li>
+</ul>
+<p>为确保构造的稀疏张量具有一致的索引、值和大小，可以通过 <code>check_invariants=True</code> 关键字参数在每个张量创建时启用不变量检查，或全局使用 <code class="interpreted-text" role="class">torch.sparse.check_sparse_tensor_invariants</code> 上下文管理器实例。默认情况下，稀疏张量不变量检查是禁用的。</p>
+<p>note
+ title
+Note</p>
+<p>将稀疏压缩布局推广到 N 维张量时，关于指定元素数量的计算可能会引起一些混淆。当稀疏压缩张量包含批次维度时，指定元素的数量将对应于每个批次中此类元素的数量。当稀疏压缩张量具有稠密维度时，所考虑的元素现在变为 K 维数组。同样，对于块稀疏压缩布局，二维块被视为被指定的元素。以一个三维块稀疏张量为例，它有一个长度为 <code>b</code> 的批次维度和一个形状为 <code>p, q</code> 的块。如果该张量有 <code>n</code> 个指定元素，那么实际上我们每个批次指定了 <code>n</code> 个块。该张量的 <code>values</code> 形状将为 <code>(b, n, p, q)</code>。这种对指定元素数量的解释源于所有稀疏压缩布局都是从二维矩阵压缩派生而来的。批次维度被视为稀疏矩阵的堆叠，稠密维度将元素的意义从简单的标量值更改为具有自身维度的数组。</p>
+<h3 id="sparse-csr-docs">稀疏 CSR 张量<a class="headerlink" href="#sparse-csr-docs" title="Permanent link">&para;</a></h3>
+<p>CSR 格式相对于 COO 格式的主要优势在于能更好地利用存储，并且计算操作（如使用 MKL 和 MAGMA 后端的稀疏矩阵-向量乘法）速度更快。</p>
+<p>在最简单的情况下，一个 (0 + 2 + 0) 维的稀疏 CSR 张量由三个一维张量组成：<code>crow_indices</code>、<code>col_indices</code> 和 <code>values</code>：</p>
+<blockquote>
+<ul>
+<li><code>crow_indices</code> 张量包含压缩的行索引。这是一个大小为 <code>nrows + 1</code>（行数加 1）的一维张量。<code>crow_indices</code> 的最后一个元素是指定元素的数量 <code>nse</code>。该张量根据给定行的起始位置编码 <code>values</code> 和 <code>col_indices</code> 中的索引。张量中每个连续数字减去前一个数字表示给定行中的元素数量。</li>
+<li><code>col_indices</code> 张量包含每个元素的列索引。这是一个大小为 <code>nse</code> 的一维张量。</li>
+<li><code>values</code> 张量包含 CSR 张量元素的值。这是一个大小为 <code>nse</code> 的一维张量。</li>
+</ul>
+</blockquote>
+<p>note
+ title
+Note</p>
+<p>索引张量 <code>crow_indices</code> 和 <code>col_indices</code> 的元素类型应为 <code>torch.int64</code>（默认）或 <code>torch.int32</code>。如果要使用启用 MKL 的矩阵运算，请使用 <code>torch.int32</code>。这是因为 PyTorch 默认链接的是 MKL LP64，它使用 32 位整数索引。</p>
+<p>在一般情况下，(B + 2 + K) 维的稀疏 CSR 张量由两个 (B + 1) 维的索引张量 <code>crow_indices</code> 和 <code>col_indices</code>，以及一个 (1 + K) 维的 <code>values</code> 张量组成，满足：</p>
+<blockquote>
+<ul>
+<li><code>crow_indices.shape == (*batchsize, nrows + 1)</code></li>
+<li><code>col_indices.shape == (*batchsize, nse)</code></li>
+<li><code>values.shape == (nse, *densesize)</code></li>
+</ul>
+</blockquote>
+<p>而稀疏 CSR 张量的形状为 <code>(*batchsize, nrows, ncols, *densesize)</code>，其中 <code>len(batchsize) == B</code> 且 <code>len(densesize) == K</code>。</p>
+<p>note
+ title
+Note</p>
+<p>稀疏 CSR 张量的批次是相互依赖的：所有批次中指定元素的数量必须相同。这个有些人为的约束允许高效存储不同 CSR 批次的索引。</p>
+<p>note
+ title
+Note</p>
+<p>稀疏维度和稠密维度的数量可以使用 <code class="interpreted-text" role="meth">torch.Tensor.sparse_dim</code> 和 <code class="interpreted-text" role="meth">torch.Tensor.dense_dim</code> 方法获取。批次维度可以从张量形状计算得出：<code>batchsize = tensor.shape[:-tensor.sparse_dim() - tensor.dense_dim()]</code>。</p>
+<p>note
+ title
+Note</p>
+<p>稀疏 CSR 张量的内存消耗至少为 <code>(nrows * 8 + (8 + &lt;元素类型大小（字节）&gt; * prod(densesize)) * nse) * prod(batchsize)</code> 字节（加上存储其他张量数据的常量开销）。</p>
+<p>使用 <code class="interpreted-text" role="ref">稀疏 COO 格式介绍中的注释&lt;sparse-coo-docs&gt;</code> 的相同示例数据，一个包含 100,000 个非零 32 位浮点数的 10,000 x 10,000 张量在使用 CSR 张量布局时，内存消耗至少为 <code>(10000 * 8 + (8 + 4 * 1) * 100 000) * 1 = 1 280 000</code> 字节。请注意，与使用 COO 和 strided 格式相比，使用 CSR 存储格式分别节省了 1.6 倍和 310 倍的内存。</p>
+<h4 id="csr">CSR 张量的构建<a class="headerlink" href="#csr" title="Permanent link">&para;</a></h4>
+<p>稀疏 CSR 张量可以直接使用 <code class="interpreted-text" role="func">torch.sparse_csr_tensor</code> 函数构建。用户必须分别提供行索引、列索引和值张量，其中行索引必须使用 CSR 压缩编码指定。<code>size</code> 参数是可选的，如果未提供，将从 <code>crow_indices</code> 和 <code>col_indices</code> 推导得出。</p>
+<blockquote>
+<p>&gt;&gt;&gt; crow_indices = torch.tensor([0, 2, 4]) &gt;&gt;&gt; col_indices = torch.tensor([0, 1, 0, 1]) &gt;&gt;&gt; values = torch.tensor([1, 2, 3, 4]) &gt;&gt;&gt; csr = torch.sparse_csr_tensor(crow_indices, col_indices, values, dtype=torch.float64) &gt;&gt;&gt; csr tensor(crow_indices=tensor([0, 2, 4]), col_indices=tensor([0, 1, 0, 1]), values=tensor([1., 2., 3., 4.]), size=(2, 2), nnz=4, dtype=torch.float64) &gt;&gt;&gt; csr.to_dense() tensor([[1., 2.], [3., 4.]], dtype=torch.float64)</p>
+</blockquote>
+<p>note
+ title
+Note</p>
+<p>推导出的 <code>size</code> 中稀疏维度的值是根据 <code>crow_indices</code> 的大小和 <code>col_indices</code> 中的最大索引值计算的。如果所需的列数大于推导出的 <code>size</code> 中的列数，则必须显式指定 <code>size</code> 参数。</p>
+<p>从 strided 或稀疏 COO 张量构建二维稀疏 CSR 张量的最简单方法是使用 <code class="interpreted-text" role="meth">torch.Tensor.to_sparse_csr</code> 方法。(strided) 张量中的任何零值都将被解释为稀疏张量中的缺失值：</p>
+<p>&gt;&gt;&gt; a = torch.tensor([[0, 0, 1, 0], [1, 2, 0, 0], [0, 0, 0, 0]], dtype=torch.float64)</p>
+<p>:   &gt;&gt;&gt; sp = a.to_sparse_csr() &gt;&gt;&gt; sp tensor(crow_indices=tensor([0, 1, 3, 3]), col_indices=tensor([2, 0, 1]), values=tensor([1., 1., 2.]), size=(3, 4), nnz=3, dtype=torch.float64)</p>
+<h4 id="csr_1">CSR 张量操作<a class="headerlink" href="#csr_1" title="Permanent link">&para;</a></h4>
+<p>稀疏矩阵-向量乘法可以通过 <code class="interpreted-text" role="meth">tensor.matmul</code> 方法执行。这是目前 CSR 张量唯一支持的数学运算。</p>
+<blockquote>
+<p>&gt;&gt;&gt; vec = torch.randn(4, 1, dtype=torch.float64) &gt;&gt;&gt; sp.matmul(vec) tensor([[0.9078], [1.3180], [0.0000]], dtype=torch.float64)</p>
+</blockquote>
+<h3 id="sparse-csc-docs">稀疏 CSC 张量<a class="headerlink" href="#sparse-csc-docs" title="Permanent link">&para;</a></h3>
+<p>稀疏 CSC（压缩稀疏列）张量格式实现了 CSC 格式，用于存储二维张量，并扩展支持批量的稀疏 CSC 张量以及值为多维张量的情况。</p>
+<p>note
+ title
+Note</p>
+<p>当转置涉及交换稀疏维度时，稀疏 CSC 张量本质上是稀疏 CSR 张量的转置。</p>
+<p>与 <code class="interpreted-text" role="ref">稀疏 CSR 张量 &lt;sparse-csr-docs&gt;</code> 类似，稀疏 CSC 张量由三个张量组成：<code>ccol_indices</code>、<code>row_indices</code> 和 <code>values</code>：</p>
+<blockquote>
+<ul>
+<li><code>ccol_indices</code> 张量包含压缩的列索引。这是一个形状为 <code>(*batchsize, ncols + 1)</code> 的 (B + 1) 维张量。 最后一个元素是指定元素的数量 <code>nse</code>。该张量根据给定列开始的位置编码 <code>values</code> 和 <code>row_indices</code> 中的索引。 张量中每个连续数字减去其前一个数字表示给定列中的元素数量。</li>
+<li><code>row_indices</code> 张量包含每个元素的行索引。这是一个形状为 <code>(*batchsize, nse)</code> 的 (B + 1) 维张量。</li>
+<li><code>values</code> 张量包含 CSC 张量元素的值。这是一个形状为 <code>(nse, *densesize)</code> 的 (1 + K) 维张量。</li>
+</ul>
+</blockquote>
+<h4 id="csc">CSC 张量的构造<a class="headerlink" href="#csc" title="Permanent link">&para;</a></h4>
+<p>稀疏 CSC 张量可以直接使用 <code class="interpreted-text" role="func">torch.sparse_csc_tensor</code> 函数构造。用户必须分别提供行索引、列索引和值张量，其中列索引必须使用 CSR 压缩编码指定。<code>size</code> 参数是可选的，如果未提供，将从 <code>row_indices</code> 和 <code>ccol_indices</code> 张量推断。</p>
+<blockquote>
+<p>&gt;&gt;&gt; ccol_indices = torch.tensor([0, 2, 4]) &gt;&gt;&gt; row_indices = torch.tensor([0, 1, 0, 1]) &gt;&gt;&gt; values = torch.tensor([1, 2, 3, 4]) &gt;&gt;&gt; csc = torch.sparse_csc_tensor(ccol_indices, row_indices, values, dtype=torch.float64) &gt;&gt;&gt; csc tensor(ccol_indices=tensor([0, 2, 4]), row_indices=tensor([0, 1, 0, 1]), values=tensor([1., 2., 3., 4.]), size=(2, 2), nnz=4, dtype=torch.float64, layout=torch.sparse_csc) &gt;&gt;&gt; csc.to_dense() tensor([[1., 3.], [2., 4.]], dtype=torch.float64)</p>
+</blockquote>
+<p>note
+ title
+Note</p>
+<p>稀疏 CSC 张量构造函数的压缩列索引参数位于行索引参数之前。</p>
+<p>(0 + 2 + 0) 维的稀疏 CSC 张量可以使用 <code class="interpreted-text" role="meth">torch.Tensor.to_sparse_csc</code> 方法从任何二维张量构造。(跨步) 张量中的任何零值将被解释为稀疏张量中的缺失值：</p>
+<blockquote>
+<p>&gt;&gt;&gt; a = torch.tensor([[0, 0, 1, 0], [1, 2, 0, 0], [0, 0, 0, 0]], dtype=torch.float64) &gt;&gt;&gt; sp = a.to_sparse_csc() &gt;&gt;&gt; sp tensor(ccol_indices=tensor([0, 1, 2, 3, 3]), row_indices=tensor([1, 1, 0]), values=tensor([1., 2., 1.]), size=(3, 4), nnz=3, dtype=torch.float64, layout=torch.sparse_csc)</p>
+</blockquote>
+<h3 id="sparse-bsr-docs">稀疏 BSR 张量<a class="headerlink" href="#sparse-bsr-docs" title="Permanent link">&para;</a></h3>
+<p>稀疏 BSR（块压缩稀疏行）张量格式实现了 BSR 格式，用于存储二维张量，并扩展支持批量的稀疏 BSR 张量以及值为多维张量块的情况。</p>
+<p>稀疏 BSR 张量由三个张量组成：<code>crow_indices</code>、<code>col_indices</code> 和 <code>values</code>：</p>
+<blockquote>
+<ul>
+<li><code>crow_indices</code> 张量包含压缩的行索引。这是一个形状为 <code>(*batchsize, nrowblocks + 1)</code> 的 (B + 1) 维张量。 最后一个元素是指定块的数量 <code>nse</code>。该张量根据给定列块开始的位置编码 <code>values</code> 和 <code>col_indices</code> 中的索引。 张量中每个连续数字减去其前一个数字表示给定行中的块数量。</li>
+<li><code>col_indices</code> 张量包含每个元素的列块索引。这是一个形状为 <code>(*batchsize, nse)</code> 的 (B + 1) 维张量。</li>
+<li><code>values</code> 张量包含收集到二维块中的稀疏 BSR 张量元素的值。这是一个形状为 <code>(nse, nrowblocks, ncolblocks, *densesize)</code> 的 (1 + 2 + K) 维张量。</li>
+</ul>
+</blockquote>
+<h4 id="bsr">BSR 张量的构造<a class="headerlink" href="#bsr" title="Permanent link">&para;</a></h4>
+<p>稀疏 BSR 张量可以直接使用 <code class="interpreted-text" role="func">torch.sparse_bsr_tensor</code> 函数构造。用户必须分别提供行块索引、列块索引和值张量，其中行块索引必须使用 CSR 压缩编码指定。 <code>size</code> 参数是可选的，如果未提供，将从 <code>crow_indices</code> 和 <code>col_indices</code> 张量推断。</p>
+<p>&gt;&gt;&gt; crow_indices = torch.tensor([0, 2, 4])</p>
+<p>:   &gt;&gt;&gt; col_indices = torch.tensor([0, 1, 0, 1]) &gt;&gt;&gt; values = torch.tensor([[[0, 1, 2], [6, 7, 8]], ... [[3, 4, 5], [9, 10, 11]], ... [[12, 13, 14], [18, 19, 20]], ... [[15, 16, 17], [21, 22, 23]]]) &gt;&gt;&gt; bsr = torch.sparse_bsr_tensor(crow_indices, col_indices, values, dtype=torch.float64) &gt;&gt;&gt; bsr tensor(crow_indices=tensor([0, 2, 4]), col_indices=tensor([0, 1, 0, 1]), values=tensor([[[ 0., 1., 2.], [ 6., 7., 8.]], [[ 3., 4., 5.], [ 9., 10., 11.]], [[12., 13., 14.], [18., 19., 20.]], [[15., 16., 17.], [21., 22., 23.]]]), size=(4, 6), nnz=4, dtype=torch.float64, layout=torch.sparse_bsr) &gt;&gt;&gt; bsr.to_dense() tensor([[ 0., 1., 2., 3., 4., 5.], [ 6., 7., 8., 9., 10., 11.], [12., 13., 14., 15., 16., 17.], [18., 19., 20., 21., 22., 23.]], dtype=torch.float64)</p>
+<p>(0 + 2 + 0) 维的稀疏 BSR 张量可以通过使用 <code class="interpreted-text" role="meth">torch.Tensor.to_sparse_bsr</code> 方法从任意二维张量构造，该方法还需要指定值块的大小：</p>
+<blockquote>
+<p>&gt;&gt;&gt; dense = torch.tensor([[0, 1, 2, 3, 4, 5], ... [6, 7, 8, 9, 10, 11], ... [12, 13, 14, 15, 16, 17], ... [18, 19, 20, 21, 22, 23]]) &gt;&gt;&gt; bsr = dense.to_sparse_bsr(blocksize=(2, 3)) &gt;&gt;&gt; bsr tensor(crow_indices=tensor([0, 2, 4]), col_indices=tensor([0, 1, 0, 1]), values=tensor([[[ 0, 1, 2], [ 6, 7, 8]], [[ 3, 4, 5], [ 9, 10, 11]], [[12, 13, 14], [18, 19, 20]], [[15, 16, 17], [21, 22, 23]]]), size=(4, 6), nnz=4, layout=torch.sparse_bsr)</p>
+</blockquote>
+<h3 id="sparse-bsc-docs">稀疏 BSC 张量<a class="headerlink" href="#sparse-bsc-docs" title="Permanent link">&para;</a></h3>
+<p>稀疏 BSC（块压缩稀疏列）张量格式实现了 BSC 格式，用于存储二维张量，并扩展支持批处理的稀疏 BSC 张量以及值为多维张量块的情况。</p>
+<p>一个稀疏 BSC 张量由三个张量组成：<code>ccol_indices</code>、<code>row_indices</code> 和 <code>values</code>：</p>
+<blockquote>
+<ul>
+<li><code>ccol_indices</code> 张量包含压缩的列索引。这是一个 (B + 1) 维张量，形状为 <code>(*batchsize, ncolblocks + 1)</code>。最后一个元素是指定块的数量 <code>nse</code>。该张量根据给定行块的起始位置编码 <code>values</code> 和 <code>row_indices</code> 中的索引。张量中每个连续数字减去前一个数字表示给定列中的块数。</li>
+<li><code>row_indices</code> 张量包含每个元素的行块索引。这是一个 (B + 1) 维张量，形状为 <code>(*batchsize, nse)</code>。</li>
+<li><code>values</code> 张量包含收集到二维块中的稀疏 BSC 张量元素的值。这是一个 (1 + 2 + K) 维张量，形状为 <code>(nse, nrowblocks, ncolblocks, *densesize)</code>。</li>
+</ul>
+</blockquote>
+<h4 id="bsc">BSC 张量的构造<a class="headerlink" href="#bsc" title="Permanent link">&para;</a></h4>
+<p>稀疏 BSC 张量可以直接使用 <code class="interpreted-text" role="func">torch.sparse_bsc_tensor</code> 函数构造。用户必须分别提供行和列块索引以及值张量，其中列块索引必须使用 CSR 压缩编码指定。 <code>size</code> 参数是可选的，如果未提供，将从 <code>ccol_indices</code> 和 <code>row_indices</code> 张量推导得出。</p>
+<blockquote>
+<p>&gt;&gt;&gt; ccol_indices = torch.tensor([0, 2, 4]) &gt;&gt;&gt; row_indices = torch.tensor([0, 1, 0, 1]) &gt;&gt;&gt; values = torch.tensor([[[0, 1, 2], [6, 7, 8]], ... [[3, 4, 5], [9, 10, 11]], ... [[12, 13, 14], [18, 19, 20]], ... [[15, 16, 17], [21, 22, 23]]]) &gt;&gt;&gt; bsc = torch.sparse_bsc_tensor(ccol_indices, row_indices, values, dtype=torch.float64) &gt;&gt;&gt; bsc tensor(ccol_indices=tensor([0, 2, 4]), row_indices=tensor([0, 1, 0, 1]), values=tensor([[[ 0., 1., 2.], [ 6., 7., 8.]], [[ 3., 4., 5.], [ 9., 10., 11.]], [[12., 13., 14.], [18., 19., 20.]], [[15., 16., 17.], [21., 22., 23.]]]), size=(4, 6), nnz=4, dtype=torch.float64, layout=torch.sparse_bsc)</p>
+</blockquote>
+<h3 id="_7">处理稀疏压缩张量的工具<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>所有稀疏压缩张量------CSR、CSC、BSR 和 BSC 张量------在概念上非常相似，因为它们的索引数据分为两部分：使用 CSR 编码的所谓压缩索引，以及正交于压缩索引的所谓普通索引。这使得这些张量上的各种工具可以共享相同的实现，这些实现通过张量布局进行参数化。</p>
+<h4 id="_8">稀疏压缩张量的构造<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p>稀疏 CSR、CSC、BSR 和 CSC 张量可以通过使用 <code class="interpreted-text" role="func">torch.sparse_compressed_tensor</code> 函数构造，该函数具有与上述构造函数 <code class="interpreted-text" role="func">torch.sparse_csr_tensor</code>、<code class="interpreted-text" role="func">torch.sparse_csc_tensor</code>、<code class="interpreted-text" role="func">torch.sparse_bsr_tensor</code> 和 <code class="interpreted-text" role="func">torch.sparse_bsc_tensor</code> 相同的接口，但需要一个额外的必需参数 <code>layout</code>。以下示例通过向 <code class="interpreted-text" role="func">torch.sparse_compressed_tensor</code> 函数指定相应的布局参数，说明了使用相同输入数据构造 CSR 和 CSC 张量的方法：</p>
+<blockquote>
+<p>&gt;&gt;&gt; compressed_indices = torch.tensor([0, 2, 4]) &gt;&gt;&gt; plain_indices = torch.tensor([0, 1, 0, 1]) &gt;&gt;&gt; values = torch.tensor([1, 2, 3, 4]) &gt;&gt;&gt; csr = torch.sparse_compressed_tensor(compressed_indices, plain_indices, values, layout=torch.sparse_csr) &gt;&gt;&gt; csr tensor(crow_indices=tensor([0, 2, 4]), col_indices=tensor([0, 1, 0, 1]), values=tensor([1, 2, 3, 4]), size=(2, 2), nnz=4, layout=torch.sparse_csr) &gt;&gt;&gt; csc = torch.sparse_compressed_tensor(compressed_indices, plain_indices, values, layout=torch.sparse_csc) &gt;&gt;&gt; csc tensor(ccol_indices=tensor([0, 2, 4]), row_indices=tensor([0, 1, 0, 1]), values=tensor([1, 2, 3, 4]), size=(2, 2), nnz=4, layout=torch.sparse_csc) &gt;&gt;&gt; (csr.transpose(0, 1).to_dense() == csc.to_dense()).all() tensor(True)</p>
+</blockquote>
+<h2 id="sparse-ops-docs">支持的操作<a class="headerlink" href="#sparse-ops-docs" title="Permanent link">&para;</a></h2>
+<h3 id="_9">线性代数操作<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>下表总结了稀疏矩阵上支持的线性代数操作，其中操作数的布局可能不同。这里 <code>T[layout]</code> 表示具有给定布局的张量。类似地， <code>M[layout]</code> 表示矩阵（2-D PyTorch 张量），而 <code>V[layout]</code> 表示向量（1-D PyTorch 张量）。此外，<code>f</code> 表示一个 标量（浮点数或 0-D PyTorch 张量），<code>*</code> 是逐元素 乘法，<code>@</code> 是矩阵乘法。</p>
+<hr />
+<p>PyTorch 操作                                            支持稀疏梯度?   布局签名</p>
+<hr />
+<p><code class="interpreted-text" role="func">torch.mv</code>               否              <code>M[sparse_coo] @ V[strided] -&gt; V[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.mv</code>               否              <code>M[sparse_csr] @ V[strided] -&gt; V[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.matmul</code>           否              <code>M[sparse_coo] @ M[strided] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.matmul</code>           否              <code>M[sparse_csr] @ M[strided] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.matmul</code>           否              <code>M[SparseSemiStructured] @ M[strided] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.matmul</code>           否              <code>M[strided] @ M[SparseSemiStructured] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.mm</code>               否              <code>M[sparse_coo] @ M[strided] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.mm</code>               否              <code>M[SparseSemiStructured] @ M[strided] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.mm</code>               否              <code>M[strided] @ M[SparseSemiStructured] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.sparse.mm</code>        是              <code>M[sparse_coo] @ M[strided] -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.smm</code>              否              <code>M[sparse_coo] @ M[strided] -&gt; M[sparse_coo]</code></p>
+<p><code class="interpreted-text" role="func">torch.hspmm</code>            否              <code>M[sparse_coo] @ M[strided] -&gt; M[hybrid sparse_coo]</code></p>
+<p><code class="interpreted-text" role="func">torch.bmm</code>              否              <code>T[sparse_coo] @ T[strided] -&gt; T[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.addmm</code>            否              <code>f * M[strided] + f * (M[sparse_coo] @ M[strided]) -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.addmm</code>            否              <code>f * M[strided] + f * (M[SparseSemiStructured] @ M[strided]) -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.addmm</code>            否              <code>f * M[strided] + f * (M[strided] @ M[SparseSemiStructured]) -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.sparse.addmm</code>     是              <code>f * M[strided] + f * (M[sparse_coo] @ M[strided]) -&gt; M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.sparse.spsolve</code>   否              <code>SOLVE(M[sparse_csr], V[strided]) -&gt; V[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.sspaddmm</code>         否              <code>f * M[sparse_coo] + f * (M[sparse_coo] @ M[strided]) -&gt; M[sparse_coo]</code></p>
+<p><code class="interpreted-text" role="func">torch.lobpcg</code>           否              <code>GENEIG(M[sparse_coo]) -&gt; M[strided], M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.pca_lowrank</code>      是              <code>PCA(M[sparse_coo]) -&gt; M[strided], M[strided], M[strided]</code></p>
+<p><code class="interpreted-text" role="func">torch.svd_lowrank</code>      是              <code>SVD(M[sparse_coo]) -&gt; M[strided], M[strided], M[strided]</code></p>
+<hr />
+<p>其中\"支持稀疏梯度?\"列表示 PyTorch 操作是否支持 对稀疏矩阵参数的向后传播。除 <code class="interpreted-text" role="func">torch.smm</code> 外，所有 PyTorch 操作 都支持对 strided 矩阵参数的向后传播。</p>
+<p>note
+ title
+Note</p>
+<p>目前，PyTorch 不支持布局签名为 <code>M[strided] @ M[sparse_coo]</code> 的 矩阵乘法。然而， 应用程序仍然可以使用矩阵关系 <code>D @ S == (S.t() @ D.t()).t()</code> 来计算此操作。</p>
+<h3 id="_10">张量方法与稀疏<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>以下 Tensor 方法与稀疏张量相关：</p>
+<p>{.autosummary toctree="generated" nosignatures=""}
+Tensor.is_sparse Tensor.is_sparse_csr Tensor.dense_dim Tensor.sparse_dim Tensor.sparse_mask Tensor.to_sparse Tensor.to_sparse_coo Tensor.to_sparse_csr Tensor.to_sparse_csc Tensor.to_sparse_bsr Tensor.to_sparse_bsc Tensor.to_dense Tensor.values</p>
+<p>以下 Tensor 方法特定于稀疏 COO 张量：</p>
+<p>{.autosummary toctree="generated" nosignatures=""}
+Tensor.coalesce <a href="">Tensor.sparse_resize</a> <a href="">Tensor.sparse_resize_and_clear</a> Tensor.is_coalesced Tensor.indices</p>
+<p>以下方法特定于 <code class="interpreted-text" role="ref">稀疏 CSR 张量 &lt;sparse-csr-docs&gt;</code> 和 <code class="interpreted-text" role="ref">稀疏 BSR 张量 &lt;sparse-bsr-docs&gt;</code>：</p>
+<p>{.autosummary toctree="generated" nosignatures=""}
+Tensor.crow_indices Tensor.col_indices</p>
+<p>以下方法特定于 <code class="interpreted-text" role="ref">稀疏 CSC 张量 &lt;sparse-csc-docs&gt;</code> 和 <code class="interpreted-text" role="ref">稀疏 BSC 张量 &lt;sparse-bsc-docs&gt;</code>：</p>
+<p>{.autosummary toctree="generated" nosignatures=""}
+Tensor.row_indices Tensor.ccol_indices</p>
+<p>以下 Tensor 方法支持稀疏 COO 张量：</p>
+<p><code class="interpreted-text" role="meth">~torch.Tensor.add</code> <code class="interpreted-text" role="meth">~torch.Tensor.add_</code> <code class="interpreted-text" role="meth">~torch.Tensor.addmm</code> <code class="interpreted-text" role="meth">~torch.Tensor.addmm_</code> <code class="interpreted-text" role="meth">~torch.Tensor.any</code> <code class="interpreted-text" role="meth">~torch.Tensor.asin</code> <code class="interpreted-text" role="meth">~torch.Tensor.asin_</code> <code class="interpreted-text" role="meth">~torch.Tensor.arcsin</code> <code class="interpreted-text" role="meth">~torch.Tensor.arcsin_</code> <code class="interpreted-text" role="meth">~torch.Tensor.bmm</code> <code class="interpreted-text" role="meth">~torch.Tensor.clone</code> <code class="interpreted-text" role="meth">~torch.Tensor.deg2rad</code> <code class="interpreted-text" role="meth">~torch.Tensor.deg2rad_</code> <code class="interpreted-text" role="meth">~torch.Tensor.detach</code> <code class="interpreted-text" role="meth">~torch.Tensor.detach_</code> <code class="interpreted-text" role="meth">~torch.Tensor.dim</code> <code class="interpreted-text" role="meth">~torch.Tensor.div</code> <code class="interpreted-text" role="meth">~torch.Tensor.div_</code> <code class="interpreted-text" role="meth">~torch.Tensor.floor_divide</code> <code class="interpreted-text" role="meth">~torch.Tensor.floor_divide_</code> <code class="interpreted-text" role="meth">~torch.Tensor.get_device</code> <code class="interpreted-text" role="meth">~torch.Tensor.index_select</code> <code class="interpreted-text" role="meth">~torch.Tensor.isnan</code> <code class="interpreted-text" role="meth">~torch.Tensor.log1p</code> <code class="interpreted-text" role="meth">~torch.Tensor.log1p_</code> <code class="interpreted-text" role="meth">~torch.Tensor.mm</code> <code class="interpreted-text" role="meth">~torch.Tensor.mul</code> <code class="interpreted-text" role="meth">~torch.Tensor.mul_</code> <code class="interpreted-text" role="meth">~torch.Tensor.mv</code> <code class="interpreted-text" role="meth">~torch.Tensor.narrow_copy</code> <code class="interpreted-text" role="meth">~torch.Tensor.neg</code> <code class="interpreted-text" role="meth">~torch.Tensor.neg_</code> <code class="interpreted-text" role="meth">~torch.Tensor.negative</code> <code class="interpreted-text" role="meth">~torch.Tensor.negative_</code> <code class="interpreted-text" role="meth">~torch.Tensor.numel</code> <code class="interpreted-text" role="meth">~torch.Tensor.rad2deg</code> <code class="interpreted-text" role="meth">~torch.Tensor.rad2deg_</code> <code class="interpreted-text" role="meth">~torch.Tensor.resize_as_</code> <code class="interpreted-text" role="meth">~torch.Tensor.size</code> <code class="interpreted-text" role="meth">~torch.Tensor.pow</code> <code class="interpreted-text" role="meth">~torch.Tensor.sqrt</code> <code class="interpreted-text" role="meth">~torch.Tensor.square</code> <code class="interpreted-text" role="meth">~torch.Tensor.smm</code> <code class="interpreted-text" role="meth">~torch.Tensor.sspaddmm</code> <code class="interpreted-text" role="meth">~torch.Tensor.sub</code> <code class="interpreted-text" role="meth">~torch.Tensor.sub_</code> <code class="interpreted-text" role="meth">~torch.Tensor.t</code> <code class="interpreted-text" role="meth">~torch.Tensor.t_</code> <code class="interpreted-text" role="meth">~torch.Tensor.transpose</code> <code class="interpreted-text" role="meth">~torch.Tensor.transpose_</code> <code class="interpreted-text" role="meth">~torch.Tensor.zero_</code></p>
+<h3 id="torch">专用于稀疏张量的 Torch 函数<a class="headerlink" href="#torch" title="Permanent link">&para;</a></h3>
+<p>{.autosummary toctree="generated" nosignatures=""}
+sparse_coo_tensor sparse_csr_tensor sparse_csc_tensor sparse_bsr_tensor sparse_bsc_tensor sparse_compressed_tensor sparse.sum sparse.addmm sparse.sampled_addmm sparse.mm sspaddmm hspmm smm sparse.softmax sparse.spsolve sparse.log_softmax sparse.spdiags</p>
+<h3 id="_11">其他函数<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>以下 <code class="interpreted-text" role="mod">torch</code> 函数支持稀疏张量：</p>
+<p><code class="interpreted-text" role="func">~torch.cat</code> <code class="interpreted-text" role="func">~torch.dstack</code> <code class="interpreted-text" role="func">~torch.empty</code> <code class="interpreted-text" role="func">~torch.empty_like</code> <code class="interpreted-text" role="func">~torch.hstack</code> <code class="interpreted-text" role="func">~torch.index_select</code> <code class="interpreted-text" role="func">~torch.is_complex</code> <code class="interpreted-text" role="func">~torch.is_floating_point</code> <code class="interpreted-text" role="func">~torch.is_nonzero</code> <code class="interpreted-text" role="func">~torch.is_same_size</code> <code class="interpreted-text" role="func">~torch.is_signed</code> <code class="interpreted-text" role="func">~torch.is_tensor</code> <code class="interpreted-text" role="func">~torch.lobpcg</code> <code class="interpreted-text" role="func">~torch.mm</code> <code class="interpreted-text" role="func">~torch.native_norm</code> <code class="interpreted-text" role="func">~torch.pca_lowrank</code> <code class="interpreted-text" role="func">~torch.select</code> <code class="interpreted-text" role="func">~torch.stack</code> <code class="interpreted-text" role="func">~torch.svd_lowrank</code> <code class="interpreted-text" role="func">~torch.unsqueeze</code> <code class="interpreted-text" role="func">~torch.vstack</code> <code class="interpreted-text" role="func">~torch.zeros</code> <code class="interpreted-text" role="func">~torch.zeros_like</code></p>
+<p>要管理检查稀疏张量不变量，请参阅：</p>
+<p>{.autosummary toctree="generated" nosignatures=""}
+sparse.check_sparse_tensor_invariants</p>
+<p>要将稀疏张量与 <code class="interpreted-text" role="func">~torch.autograd.gradcheck</code> 函数一起使用， 请参阅：</p>
+<p>{.autosummary toctree="generated" nosignatures=""}
+sparse.as_sparse_gradcheck</p>
+<h3 id="_12">保零一元函数<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>我们的目标是支持所有"保零一元函数"：将零映射为零的单参数函数。</p>
+<p>如果您发现我们缺少您需要的保零一元函数， 我们鼓励您为此功能请求创建一个问题。 与往常一样，请在创建问题之前先尝试使用搜索功能。</p>
+<p>以下运算符目前支持稀疏 COO/CSR/CSC/BSR/CSR 张量输入。</p>
+<p><code class="interpreted-text" role="func">~torch.abs</code> <code class="interpreted-text" role="func">~torch.asin</code> <code class="interpreted-text" role="func">~torch.asinh</code> <code class="interpreted-text" role="func">~torch.atan</code> <code class="interpreted-text" role="func">~torch.atanh</code> <code class="interpreted-text" role="func">~torch.ceil</code> <code class="interpreted-text" role="func">~torch.conj_physical</code> <code class="interpreted-text" role="func">~torch.floor</code> <code class="interpreted-text" role="func">~torch.log1p</code> <code class="interpreted-text" role="func">~torch.neg</code> <code class="interpreted-text" role="func">~torch.round</code> <code class="interpreted-text" role="func">~torch.sin</code> <code class="interpreted-text" role="func">~torch.sinh</code> <code class="interpreted-text" role="func">~torch.sign</code> <code class="interpreted-text" role="func">~torch.sgn</code> <code class="interpreted-text" role="func">~torch.signbit</code> <code class="interpreted-text" role="func">~torch.tan</code> <code class="interpreted-text" role="func">~torch.tanh</code> <code class="interpreted-text" role="func">~torch.trunc</code> <code class="interpreted-text" role="func">~torch.expm1</code> <code class="interpreted-text" role="func">~torch.sqrt</code> <code class="interpreted-text" role="func">~torch.angle</code> <code class="interpreted-text" role="func">~torch.isinf</code> <code class="interpreted-text" role="func">~torch.isposinf</code> <code class="interpreted-text" role="func">~torch.isneginf</code> <code class="interpreted-text" role="func">~torch.isnan</code> <code class="interpreted-text" role="func">~torch.erf</code> <code class="interpreted-text" role="func">~torch.erfinv</code></p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../signal/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 信号处理">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                信号处理
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../nested/" class="md-footer__link md-footer__link--next" aria-label="下一页: 嵌套张量">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                嵌套张量
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/bearneck/pytorch-docs-zh" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pytorch.org/docs/" target="_blank" rel="noopener" title="pytorch.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

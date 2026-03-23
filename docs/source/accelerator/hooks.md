@@ -42,13 +42,6 @@
 
 我们以 `getDefaultGenerator` 为例：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/runtime/OpenRegHooks.h
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG HOOK EXAMPLES
-    :end-before: LITERALINCLUDE END: OPENREG HOOK EXAMPLES
-    :linenos:
-```
 
 在此实现中：
 
@@ -77,13 +70,6 @@ torch.openreg.manual_seed(42)
 
 Python API 层负责管理设备选择并调用 C++ 扩展（定义于 [`torch_openreg/openreg/random.py`][random.py]）：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/torch_openreg/openreg/random.py
-    :language: python
-    :start-after: LITERALINCLUDE START: OPENREG MANUAL SEED
-    :end-before: LITERALINCLUDE END: OPENREG MANUAL SEED
-    :linenos:
-```
 
 `manual_seed` 函数获取当前设备索引，调用 `torch_openreg._C._get_default_generator(idx)` 以获取设备特定的生成器，并设置其种子。
 
@@ -91,23 +77,6 @@ Python API 层负责管理设备选择并调用 C++ 扩展（定义于 [`torch_o
 
 C++ 扩展向 Python 暴露了 `_getDefaultGenerator`，它桥接到 PyTorch 核心：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/torch_openreg/csrc/Module.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG GET DEFAULT GENERATOR
-    :end-before: LITERALINCLUDE END: OPENREG GET DEFAULT GENERATOR
-    :linenos:
-    :emphasize-lines: 10-11
-```
-
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/torch_openreg/csrc/Module.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG MODULE METHODS
-    :end-before: LITERALINCLUDE END: OPENREG MODULE METHODS
-    :linenos:
-    :emphasize-lines: 3
-```
 
 此函数从 Python 解包设备索引，创建一个 `PrivateUse1` 设备对象，并调用 `at::globalContext().defaultGenerator()`。随后 PyTorch 的上下文会分发到已注册的钩子。
 
@@ -115,36 +84,14 @@ C++ 扩展向 Python 暴露了 `_getDefaultGenerator`，它桥接到 PyTorch 核
 
 PyTorch 的 `Context` 类将调用分发到相应的加速器钩子（[`aten/src/ATen/Context.h`][Context.h]）：
 
-```{eval-rst}
-.. literalinclude:: ../../../aten/src/ATen/Context.h
-    :language: c++
-    :lines: 60-103
-    :linenos:
-    :emphasize-lines: 8-9, 24-25
-```
 
 这种分层架构使 PyTorch 保持设备无关性，同时将硬件特定的操作委托给加速器实现。钩子在模块加载时一次性注册：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/runtime/OpenRegHooks.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG HOOK REGISTER
-    :end-before: LITERALINCLUDE END: OPENREG HOOK REGISTER
-    :linenos:
-    :emphasize-lines: 4
-```
 
 ### 第五层：加速器钩子
 
 钩子接口提供了 PyTorch 用于委托给设备特定实现的抽象层：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/runtime/OpenRegHooks.h
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG HOOK EXAMPLES
-    :end-before: LITERALINCLUDE END: OPENREG HOOK EXAMPLES
-    :linenos:
-```
 
 `getDefaultGenerator` 钩子方法重写了基础接口并委托给 `getDefaultOpenRegGenerator`，后者管理实际的生成器实例。
 
@@ -152,13 +99,6 @@ PyTorch 的 `Context` 类将调用分发到相应的加速器钩子（[`aten/src
 
 设备特定实现管理每个设备的生成器实例：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/runtime/OpenRegGenerator.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG GET DEFAULT GENERATOR IMPL
-    :end-before: LITERALINCLUDE END: OPENREG GET DEFAULT GENERATOR IMPL
-    :linenos:
-```
 
 此函数维护一个生成器的静态向量（每个设备一个），在首次访问时初始化它们，验证设备索引，并返回相应的生成器实例。
 

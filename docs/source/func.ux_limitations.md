@@ -1,8 +1,5 @@
-```{eval-rst}
-.. currentmodule:: torch.func
-```
 
-(ux-limitations)=
+
 
 # 用户体验限制
 
@@ -46,7 +43,7 @@ grad_x, intermediate = grad(f, has_aux=True)(x)
 
 ## torch.autograd API
 
-如果你尝试在由 {func}`vmap` 或 torch.func 的自动微分变换（{func}`vjp`、{func}`jvp`、{func}`jacrev`、{func}`jacfwd`）转换的函数内部使用 `torch.autograd` API（如 `torch.autograd.grad` 或 `torch.autograd.backward`），变换可能无法对其进行转换。如果无法转换，你将收到错误信息。
+如果你尝试在由 `vmap` 或 torch.func 的自动微分变换（`vjp`、`jvp`、`jacrev`、`jacfwd`）转换的函数内部使用 `torch.autograd` API（如 `torch.autograd.grad` 或 `torch.autograd.backward`），变换可能无法对其进行转换。如果无法转换，你将收到错误信息。
 
 这是 PyTorch 自动微分支持实现方式的一个基本设计限制，也是我们设计 torch.func 库的原因。请改用 torch.func 中对应的 `torch.autograd` API：
 - `torch.autograd.grad`、`Tensor.backward` -> `torch.func.vjp` 或 `torch.func.grad`
@@ -56,10 +53,11 @@ grad_x, intermediate = grad(f, has_aux=True)(x)
 
 ## vmap 限制
 
-:::{note}
-{func}`vmap` 是我们限制最严格的变换。
-与梯度相关的变换（{func}`grad`、{func}`vjp`、{func}`jvp`）没有这些限制。{func}`jacfwd`（以及使用 {func}`jacfwd` 实现的 {func}`hessian`）是 {func}`vmap` 和 {func}`jvp` 的组合，因此也具有这些限制。
-:::
+
+> 📝 **注意**
+> `vmap` 是我们限制最严格的变换。
+> 与梯度相关的变换（`grad`、`vjp`、`jvp`）没有这些限制。`jacfwd`（以及使用 `jacfwd` 实现的 `hessian`）是 `vmap` 和 `jvp` 的组合，因此也具有这些限制。
+
 
 `vmap(func)` 是一个变换，它返回一个函数，该函数将 `func` 映射到每个输入张量的某个新维度上。vmap 的心理模型类似于运行 for 循环：对于纯函数（即没有副作用的情况），`vmap(f)(x)` 等价于：
 
@@ -69,7 +67,7 @@ torch.stack([f(x_i) for x_i in x.unbind(0)])
 
 ### 修改：Python 数据结构的任意修改
 
-存在副作用时，{func}`vmap` 不再表现得像在运行 for 循环。例如，以下函数：
+存在副作用时，`vmap` 不再表现得像在运行 for 循环。例如，以下函数：
 
 ```python
 def f(x, list):
@@ -85,13 +83,13 @@ result = vmap(f, in_dims=(0, None))(x, lst)
 
 只会打印一次 "hello!" 并从 `lst` 中弹出一个元素。
 
-{func}`vmap` 只执行一次 `f`，因此所有副作用只发生一次。
+`vmap` 只执行一次 `f`，因此所有副作用只发生一次。
 
 这是 vmap 实现方式的结果。torch.func 有一个特殊的内部 BatchedTensor 类。`vmap(f)(*inputs)` 获取所有张量输入，将它们转换为 BatchedTensors，并调用 `f(*batched_tensor_inputs)`。BatchedTensor 重写了 PyTorch API，为每个 PyTorch 操作符产生批处理（即向量化）行为。
 
 ### 修改：原地 PyTorch 操作
 
-你可能因为收到关于 vmap 不兼容的原地操作错误而来到这里。如果 {func}`vmap` 遇到不支持的 PyTorch 原地操作，它将引发错误；否则会成功。不支持的操作是那些会导致将更多元素的张量写入到元素较少的张量的操作。以下是一个可能发生这种情况的示例：
+你可能因为收到关于 vmap 不兼容的原地操作错误而来到这里。如果 `vmap` 遇到不支持的 PyTorch 原地操作，它将引发错误；否则会成功。不支持的操作是那些会导致将更多元素的张量写入到元素较少的张量的操作。以下是一个可能发生这种情况的示例：
 
 ```python
 def f(x, y):
@@ -107,7 +105,7 @@ vmap(f, in_dims=(None, 0))(x, y)
 
 `x` 是一个有一个元素的张量，`y` 是一个有三个元素的张量。`x + y` 有三个元素（由于广播），但尝试将三个元素写回 `x`（它只有一个元素）会引发错误，因为尝试将三个元素写入只有一个元素的张量。
 
-如果被写入的张量在 {func}`~torch.vmap` 下被批处理（即它正在被 vmap 处理），则没有问题。
+如果被写入的张量在 `~torch.vmap` 下被批处理（即它正在被 vmap 处理），则没有问题。
 
 ```python
 def f(x, y):
@@ -125,8 +123,8 @@ assert torch.allclose(x, expected)
 
 一个常见的解决方法是使用对应的 "new\_\*" 方法替换工厂函数的调用。例如：
 
-- 将 {func}`torch.zeros` 替换为 {meth}`Tensor.new_zeros`
-- 将 {func}`torch.empty` 替换为 {meth}`Tensor.new_empty`
+- 将 `torch.zeros` 替换为 `Tensor.new_zeros`
+- 将 `torch.empty` 替换为 `Tensor.new_empty`
 
 要理解为什么这有帮助，请考虑以下示例。
 
@@ -143,7 +141,7 @@ vecs = torch.tensor([[0., 1, 2], [3., 4, 5]])
 vmap(diag_embed)(vecs)
 ```
 
-在 {func}`~torch.vmap` 内部，`result` 是一个形状为 [3, 3] 的张量。
+在 `~torch.vmap` 内部，`result` 是一个形状为 [3, 3] 的张量。
 然而，尽管 `vec` 看起来形状是 [3]，但实际上 `vec` 的底层形状是 [2, 3]。
 无法将 `vec` 复制到形状为 [3] 的 `result.diagonal()` 中，因为它的元素数量过多。
 
@@ -158,11 +156,11 @@ vecs = torch.tensor([[0., 1, 2], [3., 4, 5]])
 vmap(diag_embed)(vecs)
 ```
 
-将 {func}`torch.zeros` 替换为 {meth}`Tensor.new_zeros` 后，`result` 的底层张量形状变为 [2, 3, 3]，因此现在可以将底层形状为 [2, 3] 的 `vec` 复制到 `result.diagonal()` 中。
+将 `torch.zeros` 替换为 `Tensor.new_zeros` 后，`result` 的底层张量形状变为 [2, 3, 3]，因此现在可以将底层形状为 [2, 3] 的 `vec` 复制到 `result.diagonal()` 中。
 
 ### 修改：PyTorch 操作中的 out= 参数
 
-{func}`vmap` 不支持 PyTorch 操作中的 `out=` 关键字参数。
+`vmap` 不支持 PyTorch 操作中的 `out=` 关键字参数。
 如果在代码中遇到此参数，它将优雅地报错。
 
 这不是一个根本性的限制；理论上我们未来可以支持此功能，但目前选择暂不支持。
@@ -256,14 +254,14 @@ x = torch.ones(3)
 result = vmap(add_noise, randomness="same")(x)  # 我们得到相同的值，重复 3 次
 ```
 
-:::{warning}
-我们的系统只能确定 PyTorch 操作符的随机性行为，无法控制其他库（如 numpy）的行为。这与 JAX 解决方案的局限性类似。
-:::
 
-:::{note}
-使用任一支持的随机性类型进行多次 vmap 调用不会产生相同的结果。与标准 PyTorch 一样，用户可以通过在 vmap 外部使用 `torch.manual_seed()` 或使用生成器来实现随机性可复现性。
-:::
+> ⚠️ **警告**
+> 我们的系统只能确定 PyTorch 操作符的随机性行为，无法控制其他库（如 numpy）的行为。这与 JAX 解决方案的局限性类似。
 
-:::{note}
-最后，我们的随机性与 JAX 不同，因为我们没有使用无状态 PRNG，部分原因是 PyTorch 不完全支持无状态 PRNG。相反，我们引入了一个标志系统，以允许我们所见的最常见的随机性形式。如果您的用例不符合这些随机性形式，请提交问题。
-:::
+
+> 📝 **注意**
+> 使用任一支持的随机性类型进行多次 vmap 调用不会产生相同的结果。与标准 PyTorch 一样，用户可以通过在 vmap 外部使用 `torch.manual_seed()` 或使用生成器来实现随机性可复现性。
+
+
+> 📝 **注意**
+> 最后，我们的随机性与 JAX 不同，因为我们没有使用无状态 PRNG，部分原因是 PyTorch 不完全支持无状态 PRNG。相反，我们引入了一个标志系统，以允许我们所见的最常见的随机性形式。如果您的用例不符合这些随机性形式，请提交问题。

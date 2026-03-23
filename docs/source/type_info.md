@@ -1,22 +1,17 @@
-```{eval-rst}
-.. currentmodule:: torch
-```
 
-(type-info-doc)=
+
+
 # 类型信息
 
-一个 {class}`torch.dtype` 的数值属性可以通过 {class}`torch.finfo` 或 {class}`torch.iinfo` 来访问。
+一个 `torch.dtype` 的数值属性可以通过 `torch.finfo` 或 `torch.iinfo` 来访问。
 
-(finfo-doc)=
+
 ## torch.finfo
 
-```{eval-rst}
-.. class:: torch.finfo
-```
 
-{class}`torch.finfo` 是一个表示浮点型 {class}`torch.dtype`（例如 ``torch.float32``、``torch.float64``、``torch.float16`` 和 ``torch.bfloat16``）数值属性的对象。这类似于 [numpy.finfo](https://numpy.org/doc/stable/reference/generated/numpy.finfo.html)。
+`torch.finfo` 是一个表示浮点型 `torch.dtype`（例如 ``torch.float32``、``torch.float64``、``torch.float16`` 和 ``torch.bfloat16``）数值属性的对象。这类似于 [numpy.finfo](https://numpy.org/doc/stable/reference/generated/numpy.finfo.html)。
 
-一个 {class}`torch.finfo` 提供以下属性：
+一个 `torch.finfo` 提供以下属性：
 
 | 名称              | 类型   | 描述                                                                                 |
 | :---------------- | :----- | :----------------------------------------------------------------------------------- |
@@ -29,23 +24,20 @@
 | resolution        | float  | 该类型的近似十进制分辨率，即 ``10**-precision``。                                    |
 
 ```{note}
-  {class}`torch.finfo` 的构造函数可以在不提供参数的情况下调用，此时会为 PyTorch 的默认 dtype（由 {func}`torch.get_default_dtype` 返回）创建该类。
+  `torch.finfo` 的构造函数可以在不提供参数的情况下调用，此时会为 PyTorch 的默认 dtype（由 `torch.get_default_dtype` 返回）创建该类。
 ```
 
 ```{note}
   `smallest_normal` 返回最小的*规格化*数，但存在更小的次规格化数。更多信息请参见 https://en.wikipedia.org/wiki/Denormal_number。
 ```
 
-(iinfo-doc)=
+
 ## torch.iinfo
 
-```{eval-rst}
-.. class:: torch.iinfo
-```
 
-{class}`torch.iinfo` 是一个表示整型 {class}`torch.dtype`（例如 ``torch.uint8``、``torch.int8``、``torch.int16``、``torch.int32`` 和 ``torch.int64``）数值属性的对象。这类似于 [numpy.iinfo](https://numpy.org/doc/stable/reference/generated/numpy.iinfo.html)。
+`torch.iinfo` 是一个表示整型 `torch.dtype`（例如 ``torch.uint8``、``torch.int8``、``torch.int16``、``torch.int32`` 和 ``torch.int64``）数值属性的对象。这类似于 [numpy.iinfo](https://numpy.org/doc/stable/reference/generated/numpy.iinfo.html)。
 
-一个 {class}`torch.iinfo` 提供以下属性：
+一个 `torch.iinfo` 提供以下属性：
 
 | 名称 | 类型 | 描述                              |
 | :--- | :--- | :-------------------------------- |

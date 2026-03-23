@@ -1,9 +1,5 @@
 # 基于 torch.export 的 ONNX 导出器
 
-```{eval-rst}
-.. automodule:: torch.onnx
-  :noindex:
-```
 
 ```{contents}
 :local:
@@ -12,7 +8,7 @@
 
 ## 概述
 
-{ref}`torch.export <torch.export>` 引擎被用来以提前编译（AOT）的方式生成一个仅表示函数中张量计算过程的追踪图。生成的追踪图（1）在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，（2）消除了所有 Python 控制流和数据结构（某些例外情况除外），并且（3）在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的所有形状约束。
+`torch.export <torch.export>` 引擎被用来以提前编译（AOT）的方式生成一个仅表示函数中张量计算过程的追踪图。生成的追踪图（1）在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，（2）消除了所有 Python 控制流和数据结构（某些例外情况除外），并且（3）在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的所有形状约束。
 
 此外，在导出过程中，内存使用量显著减少。
 
@@ -95,9 +91,9 @@ assert onnx_program.model.graph.inputs[1].shape == ("batch_size", 8)
 assert onnx_program.model.graph.inputs[2].shape == ("batch_size", 8)
 ```
 
-如上代码所示，您只需要向 {func}`torch.onnx.export` 提供模型实例及其输入。导出器将返回一个 {class}`torch.onnx.ONNXProgram` 实例，其中包含导出的 ONNX 图以及额外信息。
+如上代码所示，您只需要向 `torch.onnx.export` 提供模型实例及其输入。导出器将返回一个 `torch.onnx.ONNXProgram` 实例，其中包含导出的 ONNX 图以及额外信息。
 
-通过 ``onnx_program.model_proto`` 可用的内存中模型是一个符合 [ONNX IR 规范](https://github.com/onnx/onnx/blob/main/docs/IR.md) 的 ``onnx.ModelProto`` 对象。然后可以使用 {meth}`torch.onnx.ONNXProgram.save` API 将 ONNX 模型序列化为 [Protobuf 文件](https://protobuf.dev/)。
+通过 ``onnx_program.model_proto`` 可用的内存中模型是一个符合 [ONNX IR 规范](https://github.com/onnx/onnx/blob/main/docs/IR.md) 的 ``onnx.ModelProto`` 对象。然后可以使用 `torch.onnx.ONNXProgram.save` API 将 ONNX 模型序列化为 [Protobuf 文件](https://protobuf.dev/)。
 
 ```{code-block} python
   onnx_program.save("mlp.onnx")
@@ -115,7 +111,7 @@ assert onnx_program.model.graph.inputs[2].shape == ("batch_size", 8)
 
 ## 当转换失败时
 
-应使用参数 ``report=True`` 第二次调用函数 {func}`torch.onnx.export`。将生成一个 markdown 报告以帮助用户解决问题。
+应使用参数 ``report=True`` 第二次调用函数 `torch.onnx.export`。将生成一个 markdown 报告以帮助用户解决问题。
 
 ## 元数据
 
@@ -169,7 +165,7 @@ assert onnx_program.model.graph.inputs[2].shape == ("batch_size", 8)
 
   此属性包含原始 PyTorch ExportedProgram 中 `graph_signature` 的字符串表示形式。图签名描述了模型输入和输出的结构以及它们如何映射到 ONNX 图。输入被定义为 `InputSpec` 对象，其中包括输入的种类（例如，参数为 `InputKind.PARAMETER`，用户定义的输入为 `InputKind.USER_INPUT`）、参数名称、目标（可以是模型中的特定节点）以及输入是否是持久性的。输出被定义为 `OutputSpec` 对象，指定输出的种类（例如，`OutputKind.USER_OUTPUT`）和参数名称。
 
-  要了解更多关于图签名的信息，请参阅 {doc}`torch.export <user_guide/torch_compiler/export>` 获取更多信息。
+  要了解更多关于图签名的信息，请参阅 `torch.export <user_guide/torch_compiler/export>` 获取更多信息。
 
 - **pkg.torch.export.ExportedProgram.range_constraints**
 
@@ -178,7 +174,7 @@ assert onnx_program.model.graph.inputs[2].shape == ("batch_size", 8)
   *示例：*
   `s0: VR[2, int_oo]`，表示输入张量的大小必须至少为 2。
 
-  要了解更多关于范围约束的信息，请参阅 {doc}`torch.export <user_guide/torch_compiler/export>` 获取更多信息。
+  要了解更多关于范围约束的信息，请参阅 `torch.export <user_guide/torch_compiler/export>` 获取更多信息。
 
 ONNX 图中的每个输入值可能具有以下元数据属性：
 
@@ -228,15 +224,3 @@ ONNX 图中的每个输出值可能具有以下元数据属性：
 
 ## API 参考
 
-```{eval-rst}
-.. autofunction:: torch.onnx.export
-.. autoclass:: torch.onnx.ONNXProgram
-    :members:
-.. autoclass:: torch.onnx.ExportableModule
-    :members:
-.. autofunction:: torch.onnx.is_in_onnx_export
-.. autoclass:: torch.onnx.OnnxExporterError
-    :members:
-.. autoclass:: torch.onnx.InputObserver
-    :members:
-```

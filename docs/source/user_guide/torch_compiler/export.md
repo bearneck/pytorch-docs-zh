@@ -8,13 +8,12 @@ mystnb:
   merge_streams: True
 ---
 
-(torch.export)=
 
 # torch.export
 
 ## 概述
 
-{func}`torch.export.export` 接收一个 {class}`torch.nn.Module`，并以提前编译（AOT）的方式生成一个仅表示函数张量计算过程的追踪图。该图随后可以用不同的输入执行或进行序列化。
+`torch.export.export` 接收一个 `torch.nn.Module`，并以提前编译（AOT）的方式生成一个仅表示函数张量计算过程的追踪图。该图随后可以用不同的输入执行或进行序列化。
 
 ```{code-cell}
 import torch
@@ -32,7 +31,7 @@ exported_program: ExportedProgram = export(Mod(), args=example_args)
 print(exported_program)
 ```
 
-`torch.export` 生成一个简洁的中间表示（IR），并遵循以下不变性。关于 IR 的更多规范可以在 {ref}`此处 <export.ir_spec>` 找到。
+`torch.export` 生成一个简洁的中间表示（IR），并遵循以下不变性。关于 IR 的更多规范可以在 `此处 <export.ir_spec>` 找到。
 
 - **正确性**：它保证是原始程序的一个正确表示，并保持原始程序相同的调用约定。
 - **规范化**：图中不包含 Python 语义。原始程序中的子模块被内联，形成一个完全扁平化的计算图。
@@ -47,21 +46,21 @@ print(exported_program)
 
 ### 现有框架
 
-{func}`torch.compile` 也使用与 `torch.export` 相同的 PT2 技术栈，但略有不同：
+`torch.compile` 也使用与 `torch.export` 相同的 PT2 技术栈，但略有不同：
 
-- **JIT 与 AOT**：{func}`torch.compile` 是一个 JIT 编译器，其目的不是用于在部署环境之外生成编译产物。
-- **部分与完整图捕获**：当 {func}`torch.compile` 遇到模型中不可追踪的部分时，它会“图中断”并回退到在即时 Python 运行时中运行程序。相比之下，`torch.export` 旨在获取 PyTorch 模型的完整图表示，因此当遇到不可追踪的内容时会报错。由于 `torch.export` 生成一个与任何 Python 特性或运行时分离的完整图，因此该图可以保存、加载并在不同的环境和语言中运行。
-- **可用性权衡**：由于 {func}`torch.compile` 在遇到不可追踪的内容时能够回退到 Python 运行时，因此它灵活得多。而 `torch.export` 则需要用户提供更多信息或重写代码以使其可追踪。
+- **JIT 与 AOT**：`torch.compile` 是一个 JIT 编译器，其目的不是用于在部署环境之外生成编译产物。
+- **部分与完整图捕获**：当 `torch.compile` 遇到模型中不可追踪的部分时，它会“图中断”并回退到在即时 Python 运行时中运行程序。相比之下，`torch.export` 旨在获取 PyTorch 模型的完整图表示，因此当遇到不可追踪的内容时会报错。由于 `torch.export` 生成一个与任何 Python 特性或运行时分离的完整图，因此该图可以保存、加载并在不同的环境和语言中运行。
+- **可用性权衡**：由于 `torch.compile` 在遇到不可追踪的内容时能够回退到 Python 运行时，因此它灵活得多。而 `torch.export` 则需要用户提供更多信息或重写代码以使其可追踪。
 
-与 {func}`torch.fx.symbolic_trace` 相比，`torch.export` 使用 TorchDynamo 进行追踪，后者在 Python 字节码级别操作，使其能够追踪任意 Python 结构，不受 Python 操作符重载支持的限制。此外，`torch.export` 对张量元数据进行细粒度跟踪，因此对张量形状等条件的判断不会导致追踪失败。总的来说，`torch.export` 预期能在更多用户程序上工作，并生成更低级别的图（在 `torch.ops.aten` 操作符级别）。请注意，用户仍然可以在 `torch.export` 之前使用 {func}`torch.fx.symbolic_trace` 作为预处理步骤。
+与 `torch.fx.symbolic_trace` 相比，`torch.export` 使用 TorchDynamo 进行追踪，后者在 Python 字节码级别操作，使其能够追踪任意 Python 结构，不受 Python 操作符重载支持的限制。此外，`torch.export` 对张量元数据进行细粒度跟踪，因此对张量形状等条件的判断不会导致追踪失败。总的来说，`torch.export` 预期能在更多用户程序上工作，并生成更低级别的图（在 `torch.ops.aten` 操作符级别）。请注意，用户仍然可以在 `torch.export` 之前使用 `torch.fx.symbolic_trace` 作为预处理步骤。
 
-与 {func}`torch.jit.script` 相比，`torch.export` 不捕获 Python 控制流或数据结构，除非使用显式的 {ref}`控制流操作符 <higher_order_ops>`，但由于其对 Python 字节码的全面覆盖，它支持更多的 Python 语言特性。生成的图更简单，除了显式的控制流操作符外，只有直线控制流。
+与 `torch.jit.script` 相比，`torch.export` 不捕获 Python 控制流或数据结构，除非使用显式的 `控制流操作符 <higher_order_ops>`，但由于其对 Python 字节码的全面覆盖，它支持更多的 Python 语言特性。生成的图更简单，除了显式的控制流操作符外，只有直线控制流。
 
-与 {func}`torch.jit.trace` 相比，`torch.export` 是正确的：它可以追踪对尺寸进行整数计算的代码，并记录所有必要的边界条件，以确保特定追踪对于其他输入是有效的。
+与 `torch.jit.trace` 相比，`torch.export` 是正确的：它可以追踪对尺寸进行整数计算的代码，并记录所有必要的边界条件，以确保特定追踪对于其他输入是有效的。
 
 ## 导出 PyTorch 模型
 
-主要入口点是通过 {func}`torch.export.export`，它接收一个 {class}`torch.nn.Module` 和示例输入，并将计算图捕获到一个 {class}`torch.export.ExportedProgram` 中。示例如下：
+主要入口点是通过 `torch.export.export`，它接收一个 `torch.nn.Module` 和示例输入，并将计算图捕获到一个 `torch.export.ExportedProgram` 中。示例如下：
 
 ```{code-cell}
 import torch
@@ -96,10 +95,10 @@ print(exported_program.module()(torch.randn(1, 3, 256, 256), constant=torch.ones
 
 检查 `ExportedProgram`，我们可以注意到以下几点：
 
-- {class}`torch.fx.Graph` 包含原始程序的计算图，并附带原始代码记录以便于调试。
+- `torch.fx.Graph` 包含原始程序的计算图，并附带原始代码记录以便于调试。
 - 图中仅包含 [此处](https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/native_functions.yaml) 找到的 `torch.ops.aten` 运算符和自定义运算符。
-- 参数（卷积的权重和偏置）被提升为图的输入，因此图中不存在 `get_attr` 节点，而这类节点先前存在于 {func}`torch.fx.symbolic_trace` 的结果中。
-- {class}`torch.export.ExportGraphSignature` 对输入和输出签名进行建模，并指定哪些输入是参数。
+- 参数（卷积的权重和偏置）被提升为图的输入，因此图中不存在 `get_attr` 节点，而这类节点先前存在于 `torch.fx.symbolic_trace` 的结果中。
+- `torch.export.ExportGraphSignature` 对输入和输出签名进行建模，并指定哪些输入是参数。
 - 图中每个节点产生的张量的最终形状和数据类型会被记录。例如，`conv2d` 节点将产生一个数据类型为 `torch.float32`、形状为 (1, 16, 256, 256) 的张量。
 
 ## 表达动态性
@@ -141,7 +140,7 @@ except Exception:
     tb.print_exc()
 ```
 
-然而，某些维度（例如批次维度）可以是动态的，并且在每次运行时变化。必须使用 {func}`torch.export.Dim()` API 创建这些维度，并通过 `dynamic_shapes` 参数将它们传递给 {func}`torch.export.export()` 来指定这些维度。
+然而，某些维度（例如批次维度）可以是动态的，并且在每次运行时变化。必须使用 `torch.export.Dim()` API 创建这些维度，并通过 `dynamic_shapes` 参数将它们传递给 `torch.export.export()` 来指定这些维度。
 
 ```{code-cell}
 import torch
@@ -181,7 +180,7 @@ ep.module()(*example_args2)  # 成功
 
 需要注意的一些额外事项：
 
-- 通过 {func}`torch.export.Dim` API 和 `dynamic_shapes` 参数，我们指定了每个输入的第一个维度是动态的。查看输入 `x1` 和 `x2`，它们具有符号形状 `(s0, 64)` 和 `(s0, 128)`，而不是我们作为示例输入传入的形状为 `(32, 64)` 和 `(32, 128)` 的张量。`s0` 是一个符号，表示该维度可以取一系列值。
+- 通过 `torch.export.Dim` API 和 `dynamic_shapes` 参数，我们指定了每个输入的第一个维度是动态的。查看输入 `x1` 和 `x2`，它们具有符号形状 `(s0, 64)` 和 `(s0, 128)`，而不是我们作为示例输入传入的形状为 `(32, 64)` 和 `(32, 128)` 的张量。`s0` 是一个符号，表示该维度可以取一系列值。
 - `exported_program.range_constraints` 描述了图中出现的每个符号的取值范围。在本例中，我们看到 `s0` 的范围是 [0, int_oo]。由于此处难以解释的技术原因，它们被假定不为 0 或 1。这不是一个错误，也不一定意味着导出的程序无法处理维度 0 或 1。有关此主题的深入讨论，请参阅 [0/1 专门化问题](https://docs.google.com/document/d/16VPOa3d-Liikf48teAOmxLc92rgvJdfosIy-yoT38Io/edit?fbclid=IwAR3HNwmmexcitV0pbZm_x1a4ykdXZ9th_eJWK-3hBtVgKnrkmemz6Pm5jRQ#heading=h.ez923tomjvyk)。
 
 在示例中，我们使用 `Dim("batch")` 创建了一个动态维度。这是指定动态性最明确的方式。我们也可以使用 `Dim.DYNAMIC` 和 `Dim.AUTO` 来指定动态性。我们将在下一节中介绍这两种方法。
@@ -247,7 +246,7 @@ dynamic_shapes = {"x": {0: dim, 1: dim + 1}, "others": [{0: dim * 2}, None]}
 torch.export(..., args, dynamic_shapes=dynamic_shapes)
 ```
 
-然而，这特别复杂，因为我们需要以与输入参数相同的嵌套输入结构来指定 `dynamic_shapes` 规范。相反，指定动态形状的一种更简单的方法是使用辅助工具 {class}`torch.export.ShapesCollection`，在这里我们无需指定每个单独输入的动态性，而是可以直接分配哪些输入维度是动态的。
+然而，这特别复杂，因为我们需要以与输入参数相同的嵌套输入结构来指定 `dynamic_shapes` 规范。相反，指定动态形状的一种更简单的方法是使用辅助工具 `torch.export.ShapesCollection`，在这里我们无需指定每个单独输入的动态性，而是可以直接分配哪些输入维度是动态的。
 
 ```{code-cell}
 import torch
@@ -276,7 +275,7 @@ print(ep)
 
 ### AdditionalInputs
 
-如果您不知道输入有多动态，但拥有充足的测试或性能分析数据集，可以为模型提供具有代表性的输入，那么可以使用 {class}`torch.export.AdditionalInputs` 代替 `dynamic_shapes`。您可以指定用于追踪程序的所有可能输入，`AdditionalInputs` 将根据哪些输入形状发生变化来推断哪些输入是动态的。
+如果您不知道输入有多动态，但拥有充足的测试或性能分析数据集，可以为模型提供具有代表性的输入，那么可以使用 `torch.export.AdditionalInputs` 代替 `dynamic_shapes`。您可以指定用于追踪程序的所有可能输入，`AdditionalInputs` 将根据哪些输入形状发生变化来推断哪些输入是动态的。
 
 示例：
 
@@ -311,7 +310,7 @@ print(ep)
 
 ## 序列化
 
-要保存 `ExportedProgram`，用户可以使用 {func}`torch.export.save` 和 {func}`torch.export.load` API。生成的文件是一个具有特定结构的 zip 文件。该结构的详细信息在 {ref}`PT2 归档规范 <export.pt2_archive>` 中定义。
+要保存 `ExportedProgram`，用户可以使用 `torch.export.save` 和 `torch.export.load` API。生成的文件是一个具有特定结构的 zip 文件。该结构的详细信息在 `PT2 归档规范 <export.pt2_archive>` 中定义。
 
 示例：
 
@@ -328,7 +327,6 @@ torch.export.save(exported_program, 'exported_program.pt2')
 saved_exported_program = torch.export.load('exported_program.pt2')
 ```
 
-(training-export)=
 
 ## 导出 IR：训练与推理
 
@@ -366,7 +364,7 @@ print(ep_for_training.graph_module.print_readable(print_output=False))
 
 ### 推理 IR（通过 run_decompositions）
 
-要获得适用于部署的**推理 IR**，请使用 {func}`ExportedProgram.run_decompositions` API。该方法会自动：
+要获得适用于部署的**推理 IR**，请使用 `ExportedProgram.run_decompositions` API。该方法会自动：
 1. 功能化图（移除所有突变操作并转换为等效功能化版本）
 2. 根据提供的分解表选择性地分解 ATen 算子
 
@@ -452,25 +450,23 @@ print(my_ep.graph_module.print_readable(print_output=False))
 
 请注意，`torch.ops.aten.conv2d.default` 现在不是被分解为 `torch.ops.aten.convolution.default`，而是被分解为 `torch.ops.aten.convolution.default` 和 `torch.ops.aten.mul.Tensor`，这与我们的自定义分解规则相匹配。
 
-(limitations-of-torch-export)=
 
 ## torch.export 的限制
 
 由于 `torch.export` 是从 PyTorch 程序捕获计算图的一次性过程，它最终可能会遇到程序中无法追踪的部分，因为几乎不可能支持追踪所有 PyTorch 和 Python 特性。在 `torch.compile` 的情况下，不支持的操作会导致"图中断"，不支持的操作将通过默认的 Python 求值运行。相比之下，`torch.export` 将要求用户提供额外信息或重写部分代码以使其可追踪。
 
-{ref}`Draft-export <export.draft_export>` 是一个很好的资源，列出了追踪程序时会遇到的图中断，以及解决这些错误的额外调试信息。
+`Draft-export <export.draft_export>` 是一个很好的资源，列出了追踪程序时会遇到的图中断，以及解决这些错误的额外调试信息。
 
-{ref}`ExportDB <torch.export_db>` 也是一个很好的资源，用于了解支持和不受支持的程序类型，以及重写程序使其可追踪的方法。
+`ExportDB <torch.export_db>` 也是一个很好的资源，用于了解支持和不受支持的程序类型，以及重写程序使其可追踪的方法。
 
 ### TorchDynamo 不支持
 
-当使用 `torch.export` 并设置 `strict=True` 时，这将使用 TorchDynamo 在 Python 字节码级别评估程序以追踪成图。与之前的追踪框架相比，使程序可追踪所需的改写会显著减少，但仍会有一些 Python 特性不受支持。解决这些图中断的一个选项是通过将 `strict` 标志更改为 `strict=False` 来使用 {ref}`非严格导出 <non-strict-export>`。
+当使用 `torch.export` 并设置 `strict=True` 时，这将使用 TorchDynamo 在 Python 字节码级别评估程序以追踪成图。与之前的追踪框架相比，使程序可追踪所需的改写会显著减少，但仍会有一些 Python 特性不受支持。解决这些图中断的一个选项是通过将 `strict` 标志更改为 `strict=False` 来使用 `非严格导出 <non-strict-export>`。
 
-(data-shape-dependent-control-flow)=
 
 ### 数据/形状依赖的控制流
 
-当未对形状进行特化时，数据依赖的控制流（例如 `if x.shape[0] > 2`）也可能遇到图中断，因为追踪编译器无法在不生成组合爆炸路径数量的代码的情况下处理此类情况。在这种情况下，用户需要使用特殊的控制流运算符重写代码。目前，我们支持 {ref}`高阶运算符 <higher_order_ops>` 来表达条件、映射、扫描和循环等控制流模式。
+当未对形状进行特化时，数据依赖的控制流（例如 `if x.shape[0] > 2`）也可能遇到图中断，因为追踪编译器无法在不生成组合爆炸路径数量的代码的情况下处理此类情况。在这种情况下，用户需要使用特殊的控制流运算符重写代码。目前，我们支持 `高阶运算符 <higher_order_ops>` 来表达条件、映射、扫描和循环等控制流模式。
 
 你也可以参考这个
 [教程](https://docs.pytorch.org/tutorials/intermediate/torch_export_tutorial.html#data-dependent-errors)

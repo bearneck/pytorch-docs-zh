@@ -67,18 +67,18 @@ nav:
 - 🏠 首页: index.md
 - 📦 核心 API:
   - PyTorch API 总览: source/pytorch-api.md
-  - torch 核心: source/torch.rst
-  - 张量 (Tensor): source/tensors.rst
-  - 张量属性: source/tensor_attributes.rst
-  - 张量视图: source/tensor_view.rst
+  - torch 核心: source/torch.md
+  - 张量 (Tensor): source/tensors.md
+  - 张量属性: source/tensor_attributes.md
+  - 张量视图: source/tensor_view.md
   - 自动求导 (autograd): source/autograd.md
-  - 神经网络 (nn): source/nn.rst
-  - nn.functional: source/nn.functional.rst
-  - 注意力机制: source/nn.attention.rst
+  - 神经网络 (nn): source/nn.md
+  - nn.functional: source/nn.functional.md
+  - 注意力机制: source/nn.attention.md
   - 优化器 (optim): source/optim.md
   - 优化器别名: source/optim.aliases.md
   - 数据加载 (data): source/data.md
-  - 存储 (storage): source/storage.rst
+  - 存储 (storage): source/storage.md
   - torch.Size: source/size.md
   - 类型信息: source/type_info.md
 - 🔢 数学计算:
@@ -86,7 +86,7 @@ nav:
   - 线性代数 (linalg): source/linalg.md
   - 特殊数学函数: source/special.md
   - 信号处理: source/signal.md
-  - 稀疏张量: source/sparse.rst
+  - 稀疏张量: source/sparse.md
   - 嵌套张量: source/nested.md
   - 概率分布: source/distributions.md
   - 复数支持: source/complex_numbers.md
@@ -96,9 +96,9 @@ nav:
   - CUDA: source/cuda.md
   - CUDA 别名: source/cuda.aliases.md
   - CUDA 可调优: source/cuda.tunable.md
-  - CUDA Sanitizer: source/cuda._sanitizer.rst
-  - CUDA 环境变量: source/cuda_environment_variables.rst
-  - CPU: source/cpu.rst
+  - CUDA Sanitizer: source/cuda._sanitizer.md
+  - CUDA 环境变量: source/cuda_environment_variables.md
+  - CPU: source/cpu.md
   - MPS (Apple Silicon): source/mps.md
   - MPS 环境变量: source/mps_environment_variables.md
   - XPU: source/xpu.md
@@ -128,25 +128,7 @@ nav:
   - 对称内存: source/symmetric_memory.md
   - RPC 框架:
     - RPC 框架: source/rpc.md
-    - 分布式自动求导: source/rpc/distributed_autograd.rst
-    - RRef 远程引用: source/rpc/rref.rst
-  - 弹性训练:
-    - 弹性代理: source/elastic/agent.rst
-    - 控制平面: source/elastic/control_plane.rst
-    - 自定义: source/elastic/customization.rst
-    - 错误处理: source/elastic/errors.rst
-    - 事件: source/elastic/events.rst
-    - 示例: source/elastic/examples.rst
-    - Kubernetes: source/elastic/kubernetes.rst
-    - 指标: source/elastic/metrics.rst
-    - 多进程: source/elastic/multiprocessing.rst
-    - NUMA: source/elastic/numa.rst
-    - 快速入门: source/elastic/quickstart.rst
-    - 会合机制: source/elastic/rendezvous.rst
-    - 运行: source/elastic/run.rst
-    - 子进程处理: source/elastic/subprocess_handler.rst
-    - 计时器: source/elastic/timer.rst
-    - 训练脚本: source/elastic/train_script.rst
+  - 弹性训练: []
 - ⚙️ torch.compile:
   - 高级用法: source/user_guide/torch_compiler/advanced.md
   - API 参考: source/user_guide/torch_compiler/api_reference.md
@@ -169,6 +151,7 @@ nav:
   - Torch: source/user_guide/torch_compiler/torch.compiler_fine_grain_apis.md
   - Torch: source/user_guide/torch_compiler/torch.compiler_get_started.md
   - Torch: source/user_guide/torch_compiler/torch.compiler_inductor_profiling.md
+  - Torch: source/user_guide/torch_compiler/torch.compiler_inductor_provenance.md
   - Torch: source/user_guide/torch_compiler/torch.compiler_ir.md
   - Torch: source/user_guide/torch_compiler/torch.compiler_nn_module.md
   - Torch: source/user_guide/torch_compiler/torch.compiler_performance_dashboard.md
@@ -176,7 +159,6 @@ nav:
   - Torch: source/user_guide/torch_compiler/torch.compiler_transformations.md
   - Torch: source/user_guide/torch_compiler/torch.compiler_troubleshooting.md
   - 故障排除 FAQ: source/user_guide/torch_compiler/troubleshooting_faqs.md
-  - Torch: source/user_guide/torch_compiler/torch.compiler_inductor_provenance.rst
   - 编程模型 (compile):
     - Dynamic Shapes Advanced Control Options: source/user_guide/torch_compiler/compile/dynamic_shapes_advanced_control_options.md
     - Dynamic Shapes Backed Unbacked: source/user_guide/torch_compiler/compile/dynamic_shapes_backed_unbacked.md
@@ -211,12 +193,12 @@ nav:
     - Programming Model: source/user_guide/torch_compiler/export/programming_model.md
     - Pt2 Archive: source/user_guide/torch_compiler/export/pt2_archive.md
 - 📉 量化与优化:
-  - 量化 (quantization): source/quantization.rst
+  - 量化 (quantization): source/quantization.md
   - 量化支持: source/quantization-support.md
   - 量化别名: source/quantization-support.aliases.md
   - 性能分析器 (profiler): source/profiler.md
   - 基准测试工具: source/benchmark_utils.md
-  - TensorBoard: source/tensorboard.rst
+  - TensorBoard: source/tensorboard.md
 - 🚀 部署与导出:
   - ONNX 导出: source/onnx.md
   - ONNX 算子: source/onnx_ops.md
@@ -225,8 +207,8 @@ nav:
   - FX 图变换: source/fx.md
   - torch.package: source/package.md
   - torch.compile API: source/torch.compiler_api.md
-  - C++ 扩展: source/cpp_extension.rst
-  - C++ API 索引: source/cpp_index.rst
+  - C++ 扩展: source/cpp_extension.md
+  - C++ API 索引: source/cpp_index.md
 - 🛠️ 工具函数:
   - torch.hub 模型仓库: source/hub.md
   - 多进程 (multiprocessing): source/multiprocessing.md
@@ -248,62 +230,62 @@ nav:
     - while_loop: source/higher_order_ops/while_loop.md
 - 🔧 环境变量:
   - PyTorch 环境变量: source/torch_environment_variables.md
-  - CUDA 环境变量: source/cuda_environment_variables.rst
+  - CUDA 环境变量: source/cuda_environment_variables.md
   - NCCL 环境变量: source/torch_nccl_environment_variables.md
   - MPS 环境变量: source/mps_environment_variables.md
   - 调试环境变量: source/debugging_environment_variables.md
   - 其他环境变量: source/miscellaneous_environment_variables.md
   - 线程环境变量: source/threading_environment_variables.md
-  - cuDNN 持久化 RNN: source/cudnn_persistent_rnn.rst
-  - cuDNN RNN 确定性: source/cudnn_rnn_determinism.rst
+  - cuDNN 持久化 RNN: source/cudnn_persistent_rnn.md
+  - cuDNN RNN 确定性: source/cudnn_rnn_determinism.md
 - 📝 Notes 注记:
+  - Amp Examples: source/notes/amp_examples.md
+  - 自动求导机制: source/notes/autograd.md
+  - 广播机制: source/notes/broadcasting.md
+  - CPU 线程与 TorchScript: source/notes/cpu_threading_torchscript_inference.md
+  - CUDA 语义: source/notes/cuda.md
+  - Custom Operators: source/notes/custom_operators.md
+  - 分布式数据并行: source/notes/ddp.md
+  - Extending: source/notes/extending.func.md
+  - 扩展 PyTorch: source/notes/extending.md
+  - 常见问题 (FAQ): source/notes/faq.md
+  - Get Start Xpu: source/notes/get_start_xpu.md
+  - 梯度检验: source/notes/gradcheck.md
+  - Hip: source/notes/hip.md
+  - 大规模部署: source/notes/large_scale_deployments.md
   - Libtorch Stable Abi: source/notes/libtorch_stable_abi.md
-  - Amp Examples: source/notes/amp_examples.rst
-  - 自动求导机制: source/notes/autograd.rst
-  - 广播机制: source/notes/broadcasting.rst
-  - CPU 线程与 TorchScript: source/notes/cpu_threading_torchscript_inference.rst
-  - CUDA 语义: source/notes/cuda.rst
-  - Custom Operators: source/notes/custom_operators.rst
-  - 分布式数据并行: source/notes/ddp.rst
-  - Extending: source/notes/extending.func.rst
-  - 扩展 PyTorch: source/notes/extending.rst
-  - 常见问题 (FAQ): source/notes/faq.rst
-  - Get Start Xpu: source/notes/get_start_xpu.rst
-  - 梯度检验: source/notes/gradcheck.rst
-  - Hip: source/notes/hip.rst
-  - 大规模部署: source/notes/large_scale_deployments.rst
-  - Local Tensor Tutorial: source/notes/local_tensor_tutorial.rst
-  - Mkldnn: source/notes/mkldnn.rst
-  - Modules: source/notes/modules.rst
-  - MPS 后端: source/notes/mps.rst
-  - 多进程最佳实践: source/notes/multiprocessing.rst
-  - Numerical Accuracy: source/notes/numerical_accuracy.rst
-  - Out: source/notes/out.rst
-  - 随机性: source/notes/randomness.rst
-  - Serialization: source/notes/serialization.rst
-  - Windows 支持: source/notes/windows.rst
+  - Local Tensor Tutorial: source/notes/local_tensor_tutorial.md
+  - Mkldnn: source/notes/mkldnn.md
+  - Modules: source/notes/modules.md
+  - MPS 后端: source/notes/mps.md
+  - 多进程最佳实践: source/notes/multiprocessing.md
+  - Numerical Accuracy: source/notes/numerical_accuracy.md
+  - Out: source/notes/out.md
+  - 随机性: source/notes/randomness.md
+  - Serialization: source/notes/serialization.md
+  - Windows 支持: source/notes/windows.md
 - 📖 用户指南:
   - 用户指南总览: source/user_guide/index.md
   - PyTorch 主要组件: source/user_guide/pytorch_main_components.md
 - 👥 社区:
-  - CI 构建治理: source/community/build_ci_governance.rst
-  - 贡献指南: source/community/contribution_guide.rst
-  - 设计理念: source/community/design.rst
-  - 治理: source/community/governance.rst
-  - 社区总览: source/community/index.rst
-  - 核心人员: source/community/persons_of_interest.rst
+  - CI 构建治理: source/community/build_ci_governance.md
+  - 贡献指南: source/community/contribution_guide.md
+  - 设计理念: source/community/design.md
+  - 治理: source/community/governance.md
+  - 社区总览: source/community/index.md
+  - 核心人员: source/community/persons_of_interest.md
 - 🔩 C++ API:
-  - C++ 前端: cpp/source/frontend.rst
-  - C++ 总览: cpp/source/index.rst
-  - 安装 LibTorch: cpp/source/installing.rst
-  - LibTorch 库: cpp/source/library.rst
-  - 稳定 API: cpp/source/stable.rst
+  - C++ 前端: cpp/source/frontend.md
+  - C++ 总览: cpp/source/index.md
+  - 安装 LibTorch: cpp/source/installing.md
+  - LibTorch 库: cpp/source/library.md
+  - 稳定 API: cpp/source/stable.md
   - C++ Notes:
-    - C++ FAQ: cpp/source/notes/faq.rst
-    - 推理模式: cpp/source/notes/inference_mode.rst
-    - MaybeOwned: cpp/source/notes/maybe_owned.rst
-    - 张量基础: cpp/source/notes/tensor_basics.rst
-    - 张量创建: cpp/source/notes/tensor_creation.rst
-    - 张量 CUDA 流: cpp/source/notes/tensor_cuda_stream.rst
-    - 张量索引: cpp/source/notes/tensor_indexing.rst
-    - 版本管理: cpp/source/notes/versioning.rst
+    - C++ FAQ: cpp/source/notes/faq.md
+    - 推理模式: cpp/source/notes/inference_mode.md
+    - MaybeOwned: cpp/source/notes/maybe_owned.md
+    - 张量基础: cpp/source/notes/tensor_basics.md
+    - 张量创建: cpp/source/notes/tensor_creation.md
+    - 张量 CUDA 流: cpp/source/notes/tensor_cuda_stream.md
+    - 张量索引: cpp/source/notes/tensor_indexing.md
+    - 版本管理: cpp/source/notes/versioning.md

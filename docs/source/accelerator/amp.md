@@ -41,13 +41,6 @@ PyTorch 为上述每种类型转换策略定义了一个通用的操作符列表
 
 实现 `get_amp_supported_dtype` 方法，以返回新加速器在 AMP 上下文中支持的数据类型。
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/torch_openreg/openreg/amp/__init__.py
-    :language: python
-    :start-after: LITERALINCLUDE START: AMP GET_SUPPORTED_DTYPE
-    :end-before: LITERALINCLUDE END: AMP GET_SUPPORTED_DTYPE
-    :linenos:
-```
 
 ### C++ 集成
 
@@ -56,17 +49,3 @@ PyTorch 为上述每种类型转换策略定义了一个通用的操作符列表
 - 注册一个后备处理程序，使未处理的操作回退到其正常实现。
 - 使用 `KERNEL_PRIVATEUSEONE` 辅助宏在 `AutocastPrivateUse1` 下注册特定的 aten 内核，该宏将操作映射到所需的精度实现（使用枚举 `at::autocast::CastPolicy`）
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/amp/autocast_mode.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: AMP FALLTHROUTH
-    :end-before: LITERALINCLUDE END: AMP FALLTHROUTH
-    :linenos:
-
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/amp/autocast_mode.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: AMP IMPL
-    :end-before: LITERALINCLUDE END: AMP IMPL
-    :emphasize-lines: 3,6,8-10
-    :linenos:
-```

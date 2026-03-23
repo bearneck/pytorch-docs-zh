@@ -13,51 +13,5 @@
 可以注册事件处理程序来处理事件并将其传递到外部事件接收器。
 
 ## API 参考
-```{eval-rst}
-.. automodule:: torch.monitor
-```
 
-```{eval-rst}
-.. autoclass:: torch.monitor.Aggregation
-    :members:
-```
 
-```{eval-rst}
-.. autoclass:: torch.monitor.Stat
-    :members:
-    :special-members: __init__
-```
-
-```{eval-rst}
-.. autoclass:: torch.monitor.data_value_t
-    :members:
-```
-
-```{eval-rst}
-.. autoclass:: torch.monitor.Event
-    :members:
-    :special-members: __init__
-```
-
-```{eval-rst}
-.. autoclass:: torch.monitor.EventHandlerHandle
-    :members:
-```
-
-```{eval-rst}
-.. autofunction:: torch.monitor.log_event
-```
-
-```{eval-rst}
-.. autofunction:: torch.monitor.register_event_handler
-```
-
-```{eval-rst}
-.. autofunction:: torch.monitor.unregister_event_handler
-```
-
-```{eval-rst}
-.. autoclass:: torch.monitor.TensorboardEventHandler
-    :members:
-    :special-members: __init__
-```

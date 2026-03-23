@@ -1,4 +1,3 @@
-(threading_environment_variables)=
 
 # 线程环境变量
 

@@ -1,17 +1,9 @@
-```{eval-rst}
-.. currentmodule:: torch.fx
-```
+
 
 
 # torch.fx
 
 ## 概述
-```{eval-rst}
-.. automodule:: torch.fx
-```
-
-
-(Writing Transformations)=
 
 
 ## 编写变换
@@ -38,11 +30,11 @@ def transform(m: nn.Module,
     return torch.fx.GraphModule(m, graph)
 ```
 
-你的变换将接收一个 {class}`torch.nn.Module`，从中获取一个 {class}`Graph`，进行一些修改，然后返回一个新的 {class}`torch.nn.Module`。你应该将 FX 变换返回的 {class}`torch.nn.Module` 视为与常规 {class}`torch.nn.Module` 完全相同——你可以将其传递给另一个 FX 变换，也可以运行它。确保 FX 变换的输入和输出是 {class}`torch.nn.Module` 将保证可组合性。
+你的变换将接收一个 `torch.nn.Module`，从中获取一个 `Graph`，进行一些修改，然后返回一个新的 `torch.nn.Module`。你应该将 FX 变换返回的 `torch.nn.Module` 视为与常规 `torch.nn.Module` 完全相同——你可以将其传递给另一个 FX 变换，也可以运行它。确保 FX 变换的输入和输出是 `torch.nn.Module` 将保证可组合性。
 
 ```{note}
 
-也可以修改现有的 {class}`GraphModule` 而不是创建一个新的，如下所示：
+也可以修改现有的 `GraphModule` 而不是创建一个新的，如下所示：
 
 ```python
 import torch
@@ -60,19 +52,19 @@ def transform(m : nn.Module) -> nn.Module:
     return gm
 ```
 
-注意，你必须调用 {meth}`GraphModule.recompile` 以使 `GraphModule` 上生成的 `forward()` 方法与修改后的 {class}`Graph` 保持同步。
+注意，你必须调用 `GraphModule.recompile` 以使 `GraphModule` 上生成的 `forward()` 方法与修改后的 `Graph` 保持同步。
 
-既然你已经传入了一个已被追踪为 {class}`Graph` 的 {class}`torch.nn.Module`，现在有两种主要方法可以构建一个新的 {class}`Graph`。
+既然你已经传入了一个已被追踪为 `Graph` 的 `torch.nn.Module`，现在有两种主要方法可以构建一个新的 `Graph`。
 
 ### Graph 快速入门
 
-关于图语义的完整介绍可以在 {class}`Graph` 文档中找到，但我们将在此介绍基础知识。{class}`Graph` 是一种表示 {class}`GraphModule` 上方法的数据结构。这需要的信息是：
+关于图语义的完整介绍可以在 `Graph` 文档中找到，但我们将在此介绍基础知识。`Graph` 是一种表示 `GraphModule` 上方法的数据结构。这需要的信息是：
 
 - 方法的输入是什么？
 - 方法内部运行哪些操作？
 - 方法的输出（即返回值）是什么？
 
-这三个概念都用 {class}`Node` 实例表示。让我们通过一个简短的示例来理解其含义：
+这三个概念都用 `Node` 实例表示。让我们通过一个简短的示例来理解其含义：
 
 ```python
 
@@ -95,7 +87,7 @@ gm = torch.fx.symbolic_trace(m)
 gm.graph.print_tabular()
 ```
 
-这里我们定义了一个用于演示的模块 `MyModule`，实例化它，进行符号追踪，然后调用 {meth}`Graph.print_tabular` 方法打印出此 {class}`Graph` 节点的表格：
+这里我们定义了一个用于演示的模块 `MyModule`，实例化它，进行符号追踪，然后调用 `Graph.print_tabular` 方法打印出此 `Graph` 节点的表格：
 
 | opcode | name | target | args | kwargs |
 |--------|------|--------|------|--------|
@@ -111,16 +103,16 @@ gm.graph.print_tabular()
 我们可以使用这些信息来回答上面提出的问题。
 
 - 方法的输入是什么？在 FX 中，方法输入通过特殊的 `placeholder` 节点指定。在本例中，我们有一个 `target` 为 `x` 的 `placeholder` 节点，这意味着我们有一个名为 x 的（非 self）参数。
-- 方法内部的操作是什么？`get_attr`、`call_function`、`call_module` 和 `call_method` 节点表示方法中的操作。所有这些节点的完整语义可以在 {class}`Node` 文档中找到。
-- 方法的返回值是什么？{class}`Graph` 中的返回值由特殊的 `output` 节点指定。
+- 方法内部的操作是什么？`get_attr`、`call_function`、`call_module` 和 `call_method` 节点表示方法中的操作。所有这些节点的完整语义可以在 `Node` 文档中找到。
+- 方法的返回值是什么？`Graph` 中的返回值由特殊的 `output` 节点指定。
 
-既然我们现在了解了代码在 FX 中表示的基础知识，现在可以探索如何编辑 {class}`Graph`。
+既然我们现在了解了代码在 FX 中表示的基础知识，现在可以探索如何编辑 `Graph`。
 
 ### 图操作
 
 #### 直接图操作
 
-构建这个新 {class}`Graph` 的一种方法是直接操作旧的 Graph。为此，我们可以简单地获取从符号追踪得到的 {class}`Graph` 并修改它。例如，假设我们希望将 {func}`torch.add` 调用替换为 {func}`torch.mul` 调用。
+构建这个新 `Graph` 的一种方法是直接操作旧的 Graph。为此，我们可以简单地获取从符号追踪得到的 `Graph` 并修改它。例如，假设我们希望将 `torch.add` 调用替换为 `torch.mul` 调用。
 
 ```python
 
@@ -148,7 +140,7 @@ def transform(m: torch.nn.Module,
     return fx.GraphModule(m, graph)
 ```
 
-我们还可以进行更复杂的 {class}`Graph` 重写，例如删除或追加节点。为了辅助这些转换，FX 提供了一些用于变换图的实用函数，可以在 {class}`Graph` 文档中找到。下面是一个使用这些 API 来追加一个 {func}`torch.relu` 调用的示例。
+我们还可以进行更复杂的 `Graph` 重写，例如删除或追加节点。为了辅助这些转换，FX 提供了一些用于变换图的实用函数，可以在 `Graph` 文档中找到。下面是一个使用这些 API 来追加一个 `torch.relu` 调用的示例。
 
 ```python
 # 指定插入点。在此作用域内添加到 Graph 的任何节点都将在 `node` 之后插入
@@ -166,7 +158,7 @@ with traced.graph.inserting_after(node):
 
 #### 使用 replace_pattern() 进行子图重写
 
-FX 在直接图操作之上还提供了另一层自动化。{func}`replace_pattern` API 本质上是一个用于编辑 {class}`Graph` 的“查找/替换”工具。它允许您指定一个 `pattern` 和一个 `replacement` 函数，然后它会追踪这些函数，在 `pattern` 图中找到该组操作的实例，并用 `replacement` 图的副本替换这些实例。这有助于极大地自动化繁琐的图操作代码，随着转换变得更加复杂，这些代码可能会变得难以管理。
+FX 在直接图操作之上还提供了另一层自动化。`replace_pattern` API 本质上是一个用于编辑 `Graph` 的“查找/替换”工具。它允许您指定一个 `pattern` 和一个 `replacement` 函数，然后它会追踪这些函数，在 `pattern` 图中找到该组操作的实例，并用 `replacement` 图的副本替换这些实例。这有助于极大地自动化繁琐的图操作代码，随着转换变得更加复杂，这些代码可能会变得难以管理。
 
 #### 图操作示例
 
@@ -178,9 +170,9 @@ FX 在直接图操作之上还提供了另一层自动化。{func}`replace_patte
 
 ### Proxy/重新追踪
 
-另一种操作 {class}`Graph` 的方法是重用符号追踪中使用的 {class}`Proxy` 机制。例如，假设我们想编写一个将 PyTorch 函数分解为更小操作的转换。它将把每个 `F.relu(x)` 调用转换为 `(x > 0) * x`。一种可能的方法是执行必要的图重写，在 `F.relu` 之后插入比较和乘法操作，然后清理原始的 `F.relu`。但是，我们可以通过使用 {class}`Proxy` 对象自动将操作记录到 {class}`Graph` 中来自动化这个过程。
+另一种操作 `Graph` 的方法是重用符号追踪中使用的 `Proxy` 机制。例如，假设我们想编写一个将 PyTorch 函数分解为更小操作的转换。它将把每个 `F.relu(x)` 调用转换为 `(x > 0) * x`。一种可能的方法是执行必要的图重写，在 `F.relu` 之后插入比较和乘法操作，然后清理原始的 `F.relu`。但是，我们可以通过使用 `Proxy` 对象自动将操作记录到 `Graph` 中来自动化这个过程。
 
-要使用此方法，我们将要插入的操作编写为常规的 PyTorch 代码，并使用 {class}`Proxy` 对象作为参数调用该代码。这些 {class}`Proxy` 对象将捕获对它们执行的操作，并将其追加到 {class}`Graph` 中。
+要使用此方法，我们将要插入的操作编写为常规的 PyTorch 代码，并使用 `Proxy` 对象作为参数调用该代码。这些 `Proxy` 对象将捕获对它们执行的操作，并将其追加到 `Graph` 中。
 
 ```python
 # 请注意，这个分解规则可以像常规 Python 代码一样阅读
@@ -223,13 +215,13 @@ def decompose(model: torch.nn.Module,
     return fx.GraphModule(model, new_graph)
 ```
 
-除了避免显式的图操作之外，使用 {class}`Proxy` 还允许您将重写规则指定为原生 Python 代码。对于需要大量重写规则的转换（例如 vmap 或 grad），这通常可以提高规则的可读性和可维护性。请注意，在调用 {class}`Proxy` 时，我们还传递了一个指向底层变量 `graph` 的追踪器。这样做是为了确保如果图中的操作是 n 元的（例如 add 是二元运算符），对 {class}`Proxy` 的调用不会创建多个图追踪器实例，否则可能导致意外的运行时错误。我们推荐这种使用 {class}`Proxy` 的方法，尤其是在不能安全地假设底层运算符是一元的情况下。
+除了避免显式的图操作之外，使用 `Proxy` 还允许您将重写规则指定为原生 Python 代码。对于需要大量重写规则的转换（例如 vmap 或 grad），这通常可以提高规则的可读性和可维护性。请注意，在调用 `Proxy` 时，我们还传递了一个指向底层变量 `graph` 的追踪器。这样做是为了确保如果图中的操作是 n 元的（例如 add 是二元运算符），对 `Proxy` 的调用不会创建多个图追踪器实例，否则可能导致意外的运行时错误。我们推荐这种使用 `Proxy` 的方法，尤其是在不能安全地假设底层运算符是一元的情况下。
 
-一个使用 {class}`Proxy` 进行 {class}`Graph` 操作的实际示例可以在[这里](https://github.com/pytorch/examples/blob/master/fx/proxy_based_graph_creation.py)找到。
+一个使用 `Proxy` 进行 `Graph` 操作的实际示例可以在[这里](https://github.com/pytorch/examples/blob/master/fx/proxy_based_graph_creation.py)找到。
 
 ### 解释器模式
 
-FX 中一个有用的代码组织模式是循环遍历 {class}`Graph` 中的所有 {class}`Node` 并执行它们。这可以用于多种用途，包括运行时分析流经图的值，或通过使用 {class}`Proxy` 重新跟踪来转换代码。例如，假设我们想要运行一个 {class}`GraphModule`，并在运行时记录节点上看到的 {class}`torch.Tensor` 形状和 dtype 属性。这可能如下所示：
+FX 中一个有用的代码组织模式是循环遍历 `Graph` 中的所有 `Node` 并执行它们。这可以用于多种用途，包括运行时分析流经图的值，或通过使用 `Proxy` 重新跟踪来转换代码。例如，假设我们想要运行一个 `GraphModule`，并在运行时记录节点上看到的 `torch.Tensor` 形状和 dtype 属性。这可能如下所示：
 
 ```python
 
@@ -294,9 +286,9 @@ class ShapeProp:
         return load_arg(self.graph.result)
 ```
 
-如你所见，一个完整的 FX 解释器并不复杂，但非常有用。为了简化这种模式的使用，我们提供了 {class}`Interpreter` 类，它封装了上述逻辑，使得解释器执行的某些方面可以通过方法重写来覆盖。
+如你所见，一个完整的 FX 解释器并不复杂，但非常有用。为了简化这种模式的使用，我们提供了 `Interpreter` 类，它封装了上述逻辑，使得解释器执行的某些方面可以通过方法重写来覆盖。
 
-除了执行操作，我们还可以通过向解释器提供 {class}`Proxy` 值来生成一个新的 `Graph`。类似地，我们提供了 {class}`Transformer` 类来封装这种模式。{class}`Transformer` 的行为类似于 {class}`Interpreter`，但你不是调用 `run` 方法从模块获取具体的输出值，而是调用 {meth}`Transformer.transform` 方法来返回一个新的 {class}`GraphModule`，该模块已受到你作为重写方法安装的任何转换规则的影响。
+除了执行操作，我们还可以通过向解释器提供 `Proxy` 值来生成一个新的 `Graph`。类似地，我们提供了 `Transformer` 类来封装这种模式。`Transformer` 的行为类似于 `Interpreter`，但你不是调用 `run` 方法从模块获取具体的输出值，而是调用 `Transformer.transform` 方法来返回一个新的 `GraphModule`，该模块已受到你作为重写方法安装的任何转换规则的影响。
 
 #### 解释器模式示例
 
@@ -310,7 +302,7 @@ class ShapeProp:
 
 在编写转换的过程中，我们的代码常常不会完全正确。在这种情况下，我们可能需要进行一些调试。关键是要逆向工作：首先，检查调用生成模块的结果，以证明或反驳正确性。然后，检查并调试生成的代码。接着，调试导致生成代码的转换过程。
 
-如果你不熟悉调试器，请参阅辅助章节 {ref}`Available-Debuggers`。
+如果你不熟悉调试器，请参阅辅助章节 `Available-Debuggers`。
 
 ### 转换编写中的常见陷阱
 
@@ -318,7 +310,7 @@ class ShapeProp:
 
 ### 检查模块的正确性
 
-由于大多数深度学习模块的输出由浮点型 {class}`torch.Tensor` 实例组成，检查两个 {class}`torch.nn.Module` 的结果之间的等价性并不像进行简单的相等性检查那样直接。为了说明这一点，我们使用一个例子：
+由于大多数深度学习模块的输出由浮点型 `torch.Tensor` 实例组成，检查两个 `torch.nn.Module` 的结果之间的等价性并不像进行简单的相等性检查那样直接。为了说明这一点，我们使用一个例子：
 
 ```python
 
@@ -347,7 +339,7 @@ RuntimeError: Boolean value of Tensor with more than one value is ambiguous
 """
 ```
 
-这里，我们尝试使用 `==` 相等运算符来检查两个深度学习模型的值是否相等。然而，这并不明确，既因为该运算符返回的是张量而非布尔值，也因为浮点数值的比较应使用误差容限（或 epsilon）来考虑浮点运算的非交换性（更多细节请参见[此处](https://floating-point-gui.de/errors/comparison/)）。我们可以改用 {func}`torch.allclose`，它会根据相对和绝对容限阈值给出近似比较：
+这里，我们尝试使用 `==` 相等运算符来检查两个深度学习模型的值是否相等。然而，这并不明确，既因为该运算符返回的是张量而非布尔值，也因为浮点数值的比较应使用误差容限（或 epsilon）来考虑浮点运算的非交换性（更多细节请参见[此处](https://floating-point-gui.de/errors/comparison/)）。我们可以改用 `torch.allclose`，它会根据相对和绝对容限阈值给出近似比较：
 
 ```python
 assert torch.allclose(resnet18(input_image), transformed_resnet18(input_image))
@@ -356,10 +348,10 @@ assert torch.allclose(resnet18(input_image), transformed_resnet18(input_image))
 
 ### 调试生成的代码
 
-由于 FX 在 {class}`GraphModule` 上生成 `forward()` 函数，使用传统的调试技术如 `print` 语句或 `pdb` 就不那么直接了。幸运的是，我们有几种技术可以用来调试生成的代码。
+由于 FX 在 `GraphModule` 上生成 `forward()` 函数，使用传统的调试技术如 `print` 语句或 `pdb` 就不那么直接了。幸运的是，我们有几种技术可以用来调试生成的代码。
 
 #### 使用 `pdb`
-调用 `pdb` 进入运行中的程序。尽管表示 {class}`Graph` 的代码不在任何源文件中，但当执行前向传播时，我们仍然可以使用 `pdb` 手动进入它。
+调用 `pdb` 进入运行中的程序。尽管表示 `Graph` 的代码不在任何源文件中，但当执行前向传播时，我们仍然可以使用 `pdb` 手动进入它。
 
 ```python
 
@@ -385,7 +377,6 @@ import pdb; pdb.set_trace()
 
 my_module_transformed(input_value)
 ```
-(打印生成的代码)=
 
 #### 打印生成的代码
 如果你想多次运行相同的代码，那么使用 `pdb` 逐步执行到正确的代码可能会有点繁琐。在这种情况下，一种方法是简单地将生成的 `forward` 传递代码复制粘贴到你的代码中，然后在那里进行检查。
@@ -420,7 +411,7 @@ pre_trace = M()
 post_trace = SubclassM()
 ```
 #### 使用 `GraphModule` 中的 `to_folder` 函数
-{meth}`GraphModule.to_folder` 是 `GraphModule` 中的一个方法，允许你将生成的 FX 代码转储到一个文件夹中。尽管如 {ref}`打印生成的代码` 中所示，将前向传递代码复制到代码中通常就足够了，但使用 `to_folder` 可能更容易检查模块和参数。
+`GraphModule.to_folder` 是 `GraphModule` 中的一个方法，允许你将生成的 FX 代码转储到一个文件夹中。尽管如 `打印生成的代码` 中所示，将前向传递代码复制到代码中通常就足够了，但使用 `to_folder` 可能更容易检查模块和参数。
 
 ```python
 
@@ -433,7 +424,7 @@ y = Bar()
 
 ### 调试转换过程
 
-既然我们已经确定某个转换正在生成错误的代码，那么是时候调试转换本身了。首先，我们将查阅文档中的 {ref}`符号追踪的限制` 部分。一旦我们确认追踪按预期工作，目标就变成了找出在 `GraphModule` 转换过程中出了什么问题。{ref}`编写转换` 中可能有一个快速的答案，但如果没有，有几种方法可以检查我们追踪的模块：
+既然我们已经确定某个转换正在生成错误的代码，那么是时候调试转换本身了。首先，我们将查阅文档中的 `符号追踪的限制` 部分。一旦我们确认追踪按预期工作，目标就变成了找出在 `GraphModule` 转换过程中出了什么问题。`编写转换` 中可能有一个快速的答案，但如果没有，有几种方法可以检查我们追踪的模块：
 
 ```python
 
@@ -507,7 +498,6 @@ print(transformed)
 
 我们也可以通过编辑 `print_tabular` 方法来打印 Graph 中节点的不同属性。（例如，我们可能希望查看节点的 `input_nodes` 和 `users`。）
 
-(Available-Debuggers)=
 
 ### 可用的调试器
 
@@ -515,11 +505,10 @@ print(transformed)
 
 像 PyCharm 或 VSCode 这样的 IDE 通常内置了调试器。在 IDE 中，可以选择：a) 通过在 IDE 中打开终端窗口（例如 VSCode 中的 View → Terminal）使用 `pdb`；或者 b) 使用内置调试器（通常是 `pdb` 的图形化包装器）。
 
-(Limitations of Symbolic Tracing)=
 
 ## 符号跟踪的局限性
 
-FX 使用**符号跟踪**（也称为[符号执行](https://en.wikipedia.org/wiki/Symbolic_execution)）系统，以可变换/可分析的形式捕获程序的语义。该系统是**跟踪**的，因为它执行程序（实际上是 {class}`torch.nn.Module` 或函数）来记录操作。它是**符号**的，因为在此执行期间流经程序的数据不是真实数据，而是符号（FX 术语中的 {class}`Proxy`）。
+FX 使用**符号跟踪**（也称为[符号执行](https://en.wikipedia.org/wiki/Symbolic_execution)）系统，以可变换/可分析的形式捕获程序的语义。该系统是**跟踪**的，因为它执行程序（实际上是 `torch.nn.Module` 或函数）来记录操作。它是**符号**的，因为在此执行期间流经程序的数据不是真实数据，而是符号（FX 术语中的 `Proxy`）。
 
 尽管符号跟踪适用于大多数神经网络代码，但它有一些局限性。
 
@@ -611,7 +600,7 @@ fx.symbolic_trace(f) # 失败！
 
 fx.symbolic_trace(f, concrete_args={'flag': True})
 ```
-对于真正的动态控制流，包含此代码的程序部分可以追踪为对方法（参见 {ref}`自定义追踪`）或函数（参见 {func}`wrap`）的调用，而不是直接追踪其内部代码。
+对于真正的动态控制流，包含此代码的程序部分可以追踪为对方法（参见 `自定义追踪`）或函数（参见 `wrap`）的调用，而不是直接追踪其内部代码。
 
 ### 非 `torch` 函数
 
@@ -642,7 +631,7 @@ traced = torch.fx.symbolic_trace(normalize)
 RuntimeError: 'len' is not supported in symbolic tracing by default. If you want this call to be recorded, please call torch.fx.wrap('len') at module scope
 """
 ```
-错误信息告诉我们内置函数 `len` 不受支持。我们可以使用 {func}`wrap` API 使此类函数在追踪中被记录为直接调用：
+错误信息告诉我们内置函数 `len` 不受支持。我们可以使用 `wrap` API 使此类函数在追踪中被记录为直接调用：
 
 ```python
 
@@ -661,11 +650,10 @@ def forward(self, x):
     return truediv
 """
 ```
-(自定义追踪)=
 
 ### 使用 `Tracer` 类自定义追踪
 
-{class}`Tracer` 类是 `symbolic_trace` 实现的基础。可以通过子类化 Tracer 来自定义追踪行为，如下所示：
+`Tracer` 类是 `symbolic_trace` 实现的基础。可以通过子类化 Tracer 来自定义追踪行为，如下所示：
 
 ```python
 
@@ -720,7 +708,7 @@ def forward(self, x):
     return neg_1
 """
 ```
-叶模块的集合可以通过重写 {meth}`Tracer.is_leaf_module` 来自定义。
+叶模块的集合可以通过重写 `Tracer.is_leaf_module` 来自定义。
 
 ### 杂项
 
@@ -809,189 +797,19 @@ def forward(self, x):
   - 由于这种差异，请考虑将与 `training` 标志动态交互的模块标记为叶子模块。
 
 ## API 参考
-```{eval-rst}
-.. autofunction:: torch.fx.symbolic_trace
-```
-```{eval-rst}
-.. autofunction:: torch.fx.wrap
-```
-```{eval-rst}
-.. autoclass:: torch.fx.GraphModule
-  :members:
 
-  .. automethod:: __init__
-```
-```{eval-rst}
-.. autoclass:: torch.fx.Graph
-  :members:
-
-  .. automethod:: __init__
-```
-```{eval-rst}
-.. autoclass:: torch.fx.Node
-  :members:
-```
-```{eval-rst}
-.. autoclass:: torch.fx.Tracer
-  :members:
-  :inherited-members:
-```
-```{eval-rst}
-.. autoclass:: torch.fx.Proxy
-```
-```{eval-rst}
-.. autoclass:: torch.fx.Interpreter
-  :members:
-```
-```{eval-rst}
-.. autoclass:: torch.fx.Transformer
-  :members:
-```
-```{eval-rst}
-.. autofunction:: torch.fx.replace_pattern
-```
-```{eval-rst}
-.. autofunction:: torch.fx.traceback.annotate
-```
-```{eval-rst}
-.. autofunction:: torch.fx.passes.tools_common.stable_topological_sort
-```
 
 ## torch.fx.annotate
 
-```{eval-rst}
-.. automodule:: torch.fx.annotate
-```
-
-```{eval-rst}
-.. currentmodule:: torch.fx.annotate
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    annotate
-```
 
 ## torch.fx.node
 
-```{eval-rst}
-.. automodule:: torch.fx.node
-```
-
-```{eval-rst}
-.. currentmodule:: torch.fx.node
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    has_side_effect
-    map_aggregate
-    map_arg
-```
 
 ## torch.fx.operator_schemas
 
-```{eval-rst}
-.. automodule:: torch.fx.operator_schemas
-```
-
-```{eval-rst}
-.. currentmodule:: torch.fx.operator_schemas
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    check_for_mutable_operation
-    create_type_hint
-    type_matches
-```
 
 ## torch.fx.traceback
 
-```{eval-rst}
-.. automodule:: torch.fx.traceback
-```
-
-```{eval-rst}
-.. currentmodule:: torch.fx.traceback
-```
-
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    annotate_fn
-```
 
 <!-- experimental 和 passes 子模块缺少文档。 -->
 <!-- 在此处添加以覆盖，但这不会为渲染的文档添加任何内容。 -->
-```{eval-rst}
-.. py:module:: torch.fx.passes
-.. py:module:: torch.fx.passes.infra
-.. py:module:: torch.fx.passes.backends
-.. py:module:: torch.fx.passes.utils
-.. py:module:: torch.fx.passes.tests
-.. py:module:: torch.fx.experimental
-.. py:module:: torch.fx.experimental.unification
-.. py:module:: torch.fx.experimental.unification.multipledispatch
-.. py:module:: torch.fx.experimental.migrate_gradual_types
-.. py:module:: torch.fx.passes.dialect
-.. py:module:: torch.fx.passes.dialect.common
-.. py:module:: torch.fx.config
-.. py:module:: torch.fx.experimental.const_fold
-.. py:module:: torch.fx.experimental.migrate_gradual_types.operation
-.. py:module:: torch.fx.experimental.migrate_gradual_types.util
-.. py:module:: torch.fx.experimental.migrate_gradual_types.z3_types
-.. py:module:: torch.fx.experimental.normalize
-.. py:module:: torch.fx.experimental.partitioner_utils
-.. py:module:: torch.fx.experimental.refinement_types
-.. py:module:: torch.fx.experimental.rewriter
-.. py:module:: torch.fx.experimental.schema_type_annotation
-.. py:module:: torch.fx.experimental.unification.dispatch
-.. py:module:: torch.fx.graph
-.. py:module:: torch.fx.graph_module
-.. py:module:: torch.fx.immutable_collections
-.. py:module:: torch.fx.interpreter
-.. py:module:: torch.fx.passes.annotate_getitem_nodes
-.. py:module:: torch.fx.passes.backends.cudagraphs
-.. py:module:: torch.fx.passes.dialect.common.cse_pass
-.. py:module:: torch.fx.passes.fake_tensor_prop
-.. py:module:: torch.fx.passes.graph_drawer
-.. py:module:: torch.fx.passes.graph_manipulation
-.. py:module:: torch.fx.passes.graph_transform_observer
-.. py:module:: torch.fx.passes.infra.partitioner
-.. py:module:: torch.fx.passes.infra.pass_base
-.. py:module:: torch.fx.passes.infra.pass_manager
-.. py:module:: torch.fx.passes.net_min_base
-.. py:module:: torch.fx.passes.operator_support
-.. py:module:: torch.fx.passes.param_fetch
-.. py:module:: torch.fx.passes.pass_manager
-.. py:module:: torch.fx.passes.regional_inductor
-.. py:module:: torch.fx.passes.reinplace
-.. py:module:: torch.fx.passes.runtime_assert
-.. py:module:: torch.fx.passes.shape_prop
-.. py:module:: torch.fx.passes.split_module
-.. py:module:: torch.fx.passes.split_utils
-.. autofunction:: torch.fx.passes.split_utils.move_non_tensor_nodes_on_boundary
-.. py:module:: torch.fx.passes.splitter_base
-.. py:module:: torch.fx.passes.tests.test_pass_manager
-.. py:module:: torch.fx.passes.tools_common
-.. py:module:: torch.fx.passes.utils.common
-.. py:module:: torch.fx.passes.utils.fuser_utils
-.. py:module:: torch.fx.passes.utils.matcher_utils
-.. py:module:: torch.fx.passes.utils.matcher_with_name_node_map_utils
-.. py:module:: torch.fx.passes.utils.source_matcher_utils
-.. py:module:: torch.fx.proxy
-.. py:module:: torch.fx.subgraph_rewriter
-.. py:module:: torch.fx.tensor_type
-```

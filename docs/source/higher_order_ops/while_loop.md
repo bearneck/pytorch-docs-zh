@@ -8,7 +8,6 @@ mystnb:
   merge_streams: True
 ---
 
-(while_loop)=
 
 # 控制流 - While 循环
 
@@ -87,6 +86,3 @@ print(ep)
 
 ## API 参考
 
-```{eval-rst}
-.. autofunction:: torch._higher_order_ops.while_loop.while_loop
-```

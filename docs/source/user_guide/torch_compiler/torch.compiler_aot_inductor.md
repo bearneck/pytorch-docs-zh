@@ -1,4 +1,3 @@
-(torch.compiler_aot_inductor)=
 
 # AOTInductor: Torch.Export 模型的提前编译
 
@@ -8,9 +7,9 @@ AOTInductor 是 [TorchInductor](https://dev-discuss.pytorch.org/t/torchinductor-
 
 ## 模型编译
 
-要使用 AOTInductor 编译模型，我们首先需要使用 {func}`torch.export.export` 将给定的 PyTorch 模型捕获为计算图。{ref}`torch.export <torch.export>` 提供了正确性保证以及对捕获的 IR 的严格规范，AOTInductor 依赖于此。
+要使用 AOTInductor 编译模型，我们首先需要使用 `torch.export.export` 将给定的 PyTorch 模型捕获为计算图。`torch.export <torch.export>` 提供了正确性保证以及对捕获的 IR 的严格规范，AOTInductor 依赖于此。
 
-然后，我们将使用 {func}`torch._inductor.aoti_compile_and_package` 通过 TorchInductor 编译导出的程序，并将编译后的产物保存到一个包中。该包采用 {ref}`PT2 归档规范 <export.pt2_archive>` 的格式。
+然后，我们将使用 `torch._inductor.aoti_compile_and_package` 通过 TorchInductor 编译导出的程序，并将编译后的产物保存到一个包中。该包采用 `PT2 归档规范 <export.pt2_archive>` 的格式。
 
 ```{note}
 如果您的机器上启用了 CUDA 设备，并且您安装了支持 CUDA 的 PyTorch，以下代码会将模型编译为用于 CUDA 执行的共享库。否则，编译后的产物将在 CPU 上运行。为了在 CPU 推理期间获得更好的性能，建议在运行下面的 Python 脚本之前，通过设置 `export TORCHINDUCTOR_FREEZING=1` 来启用冻结。在配备 Intel® GPU 的环境中，此行为同样适用。
@@ -60,7 +59,7 @@ with torch.no_grad():
 
 ## 在 Python 中进行推理
 
-有多种方法可以部署编译后的产物进行推理，其中一种方法是使用 Python。我们在 Python 中提供了一个便捷的实用程序 API {func}`torch._inductor.aoti_load_package` 用于加载和运行产物，如下例所示：
+有多种方法可以部署编译后的产物进行推理，其中一种方法是使用 Python。我们在 Python 中提供了一个便捷的实用程序 API `torch._inductor.aoti_load_package` 用于加载和运行产物，如下例所示：
 
 ```python
 import os
@@ -177,7 +176,3 @@ torch.compiler_aot_inductor_debugging_guide
 
 ## API 参考
 
-```{eval-rst}
-.. autofunction:: torch._inductor.aoti_compile_and_package
-.. autofunction:: torch._inductor.aoti_load_package
-```

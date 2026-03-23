@@ -1,4 +1,4 @@
-(torch_environment_variables)=
+
 # Torch 环境变量
 
 PyTorch 利用环境变量来调整影响其运行时行为的各种设置。
@@ -12,16 +12,3 @@ PyTorch 利用环境变量来调整影响其运行时行为的各种设置。
 请注意，虽然本文档涵盖了与 PyTorch 及其相关库相关的广泛环境变量，但并非详尽无遗。
 如果您发现本文档中缺少任何内容、存在错误或有改进之处，请通过提交问题或创建拉取请求告知我们。
 
-```{eval-rst}
-.. toctree::
-   :maxdepth: 1
-
-   threading_environment_variables
-   cuda_environment_variables
-   mps_environment_variables
-   debugging_environment_variables
-   miscellaneous_environment_variables
-   logging
-   torch_nccl_environment_variables
-
-```

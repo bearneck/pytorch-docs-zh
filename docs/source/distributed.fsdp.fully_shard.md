@@ -81,46 +81,7 @@ RS 流:                     |[RS(c)]  [ RS(b)|     RS(a,d)   ]
 - FSDP2 提供了用于手动控制预取和集体调度的 API，允许高级用户进行更多自定义。详情请参见下文 `FSDPModule` 的方法。
 - FSDP2 简化了部分 API 接口：例如，FSDP2 不直接支持完整状态字典。相反，用户可以使用 `DTensor` API（如 `DTensor.full_tensor()`）或使用更高级的 API（如 [PyTorch 分布式检查点](https://pytorch.org/docs/stable/distributed.checkpoint.html) 的分布式状态字典 API）自行将包含 `DTensor` 的分片状态字典重新分片为完整状态字典。此外，一些其他参数已被移除；详情请参见[此处](https://github.com/pytorch/torchtitan/blob/main/docs/fsdp.md)。
 
-```{eval-rst}
-.. currentmodule:: torch.distributed.fsdp
-```
 
 前端 API 是 `fully_shard`，可以在 `module` 上调用：
 
-```{eval-rst}
-.. autofunction:: fully_shard
-```
 
-```{eval-rst}
-.. autoclass:: FSDPModule
-    :members:
-    :member-order: bysource
-```
-
-```{eval-rst}
-.. autoclass:: UnshardHandle
-    :members:
-```
-
-```{eval-rst}
-.. autofunction:: register_fsdp_forward_method
-```
-
-```{eval-rst}
-.. autoclass:: MixedPrecisionPolicy
-    :members:
-```
-
-```{eval-rst}
-.. autoclass:: OffloadPolicy
-    :members:
-```
-
-```{eval-rst}
-.. autoclass:: CPUOffloadPolicy
-    :members:
-```
-
-```{eval-rst}
-.. autofunction:: share_comm_ctx
-```

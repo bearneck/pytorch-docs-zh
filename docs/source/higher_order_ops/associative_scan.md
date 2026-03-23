@@ -8,7 +8,6 @@ mystnb:
   merge_streams: True
 ---
 
-(associative_scan)=
 
 # 控制流 - 关联扫描
 
@@ -129,6 +128,3 @@ Graph signature:
 
 ## API 参考
 
-```{eval-rst}
-.. autofunction:: torch._higher_order_ops.associative_scan.associative_scan
-```

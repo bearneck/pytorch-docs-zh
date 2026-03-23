@@ -8,7 +8,6 @@ mystnb:
   merge_streams: True
 ---
 
-(scan)=
 
 # 控制流 - Scan
 
@@ -94,6 +93,3 @@ print(ep)
 
 ## API 参考
 
-```{eval-rst}
-.. autofunction:: torch._higher_order_ops.scan.scan
-```

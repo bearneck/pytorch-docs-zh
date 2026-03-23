@@ -1,12 +1,9 @@
-```{eval-rst}
-.. currentmodule:: torch
-```
 
-(name_inference_reference-doc)=
+
 
 # 命名张量操作覆盖范围
 
-请先阅读 {ref}`named_tensors-doc` 以了解命名张量的介绍。
+请先阅读 `named_tensors-doc` 以了解命名张量的介绍。
 
 本文档是关于*名称推断*的参考，该过程定义了命名张量如何：
 
@@ -17,15 +14,10 @@
 
 如果您在此处未找到列出的操作，但它对您的用例有帮助，请[搜索是否已有相关 issue 被提交](https://github.com/pytorch/pytorch/issues?q=is%3Aopen+is%3Aissue+label%3A%22module%3A+named+tensor%22)，如果没有，请[提交一个](https://github.com/pytorch/pytorch/issues/new/choose)。
 
-:::{warning}
-命名张量 API 是实验性的，可能会发生变化。
-:::
 
-```{eval-rst}
-.. csv-table:: 支持的操作
-   :header: API, 名称推断规则
-   :widths: 20, 20
-```
+> ⚠️ **警告**
+> 命名张量 API 是实验性的，可能会发生变化。
+
 
 ":meth:`Tensor.abs`, :func:`torch.abs`",:ref:`keeps_input_names-doc`
    :meth:`Tensor.abs_`,:ref:`keeps_input_names-doc`
@@ -247,7 +239,6 @@
 
 ```
 
-(keeps_input_names-doc)=
 
 ## 保持输入名称
 
@@ -262,16 +253,15 @@
 ('N', 'C')
 ```
 
-(removes_dimensions-doc)=
 
 ## 移除维度
 
-所有像 {meth}`~Tensor.sum` 这样的归约操作通过归约指定维度来移除维度。其他操作如 {meth}`~Tensor.select` 和 {meth}`~Tensor.squeeze` 也会移除维度。
+所有像 `~Tensor.sum` 这样的归约操作通过归约指定维度来移除维度。其他操作如 `~Tensor.select` 和 `~Tensor.squeeze` 也会移除维度。
 
 凡是能传递整数维度索引给操作符的地方，也可以传递维度名称。接受维度索引列表的函数也可以接受维度名称列表。
 
-- 名称检查：如果 {attr}`dim` 或 {attr}`dims` 作为名称列表传入，检查这些名称是否存在于 {attr}`self` 中。
-- 名称传播：如果输入张量中由 {attr}`dim` 或 {attr}`dims` 指定的维度在输出张量中不存在，那么这些维度对应的名称不会出现在 `output.names` 中。
+- 名称检查：如果 `dim` 或 `dims` 作为名称列表传入，检查这些名称是否存在于 `self` 中。
+- 名称传播：如果输入张量中由 `dim` 或 `dims` 指定的维度在输出张量中不存在，那么这些维度对应的名称不会出现在 `output.names` 中。
 
 ```
 >>> x = torch.randn(1, 3, 3, 3, names=('N', 'C', 'H', 'W'))
@@ -288,11 +278,10 @@
 ('N', 'C', 'H', 'W')
 ```
 
-(unifies_names_from_inputs-doc)=
 
 ## 统一输入的名称
 
-所有二元算术运算遵循此规则。进行广播的操作仍然从右到左按位置广播，以保持与未命名张量的兼容性。要按名称执行显式广播，请使用 {meth}`Tensor.align_as`。
+所有二元算术运算遵循此规则。进行广播的操作仍然从右到左按位置广播，以保持与未命名张量的兼容性。要按名称执行显式广播，请使用 `Tensor.align_as`。
 
 - 名称检查：所有名称必须从右到左按位置匹配。即，在 `tensor + other` 中，对于所有 `i` 在 `(-min(tensor.dim(), other.dim()) + 1, -1]` 范围内，`match(tensor.names[i], other.names[i])` 必须为真。
 - 名称检查：此外，所有命名维度必须从右到左对齐。在匹配过程中，如果我们将一个命名维度 `A` 与一个未命名维度 `None` 匹配，那么 `A` 不得出现在包含未命名维度的张量中。
@@ -313,8 +302,8 @@
 
 - `match(tensor.names[-1], other.names[-1])` 为 `True`
 - `match(tensor.names[-2], tensor.names[-2])` 为 `True`
-- 因为我们将 {attr}`tensor` 中的 `None` 与 `'C'` 匹配，检查确保 `'C'` 不存在于 {attr}`tensor` 中（确实不存在）。
-- 检查确保 `'N'` 不存在于 {attr}`other` 中（确实不存在）。
+- 因为我们将 `tensor` 中的 `None` 与 `'C'` 匹配，检查确保 `'C'` 不存在于 `tensor` 中（确实不存在）。
+- 检查确保 `'N'` 不存在于 `other` 中（确实不存在）。
 
 最后，输出名称通过 `[unify('N', None), unify(None, 'C')] = ['N', 'C']` 计算得出。
 
@@ -338,19 +327,18 @@ RuntimeError: 尝试广播 dims ['N', 'C'] 和 dims ['N'] 时出错：维度 'C'
 RuntimeError: 尝试广播 dims ['N'] 和 dims ['N', None] 时维度未对齐：维度 'N' 在两个列表中从右到左出现的位置不同。
 ```
 
-:::{note}
-在最后两个示例中，都可以通过名称对齐张量然后执行加法。使用 {meth}`Tensor.align_as` 按名称对齐张量，或使用 {meth}`Tensor.align_to` 将张量对齐到自定义的维度顺序。
-:::
 
-(permutes_dimensions-doc)=
+> 📝 **注意**
+> 在最后两个示例中，都可以通过名称对齐张量然后执行加法。使用 `Tensor.align_as` 按名称对齐张量，或使用 `Tensor.align_to` 将张量对齐到自定义的维度顺序。
+
 
 ## 置换维度
 
-一些操作，如 {meth}`Tensor.t()`，会置换维度的顺序。维度名称附加在各个维度上，因此它们也会被置换。
+一些操作，如 `Tensor.t()`，会置换维度的顺序。维度名称附加在各个维度上，因此它们也会被置换。
 
-如果操作符接受位置索引 {attr}`dim`，它也可以接受维度名称作为 {attr}`dim`。
+如果操作符接受位置索引 `dim`，它也可以接受维度名称作为 `dim`。
 
-- 名称检查：如果 {attr}`dim` 作为名称传入，检查它是否存在于张量中。
+- 名称检查：如果 `dim` 作为名称传入，检查它是否存在于张量中。
 - 名称传播：以与正在置换的维度相同的方式置换维度名称。
 
 ```
@@ -359,11 +347,10 @@ RuntimeError: 尝试广播 dims ['N'] 和 dims ['N', None] 时维度未对齐：
 ('C', 'N')
 ```
 
-(contracts_away_dims-doc)=
 
 ## 收缩维度
 
-矩阵乘法函数遵循此规则的某种变体。让我们先看 {func}`torch.mm`，然后推广到批量矩阵乘法的规则。
+矩阵乘法函数遵循此规则的某种变体。让我们先看 `torch.mm`，然后推广到批量矩阵乘法的规则。
 
 对于 `torch.mm(tensor, other)`：
 
@@ -379,7 +366,7 @@ RuntimeError: 尝试广播 dims ['N'] 和 dims ['N', None] 时维度未对齐：
 
 本质上，矩阵乘法在两个维度上执行点积，将它们收缩。当两个张量进行矩阵乘法时，收缩的维度会消失，不会出现在输出张量中。
 
-{func}`torch.mv`、{func}`torch.dot` 的工作方式类似：名称推断不检查输入名称，并移除参与点积的维度：
+`torch.mv`、`torch.dot` 的工作方式类似：名称推断不检查输入名称，并移除参与点积的维度：
 
 ```
 >>> x = torch.randn(3, 3, names=('N', 'D'))
@@ -391,7 +378,7 @@ RuntimeError: 尝试广播 dims ['N'] 和 dims ['N', None] 时维度未对齐：
 现在，让我们看看 `torch.matmul(tensor, other)`。假设 `tensor.dim() >= 2` 且 `other.dim() >= 2`。
 
 - 检查名称：检查输入的批次维度是否对齐且可广播。
-  关于输入对齐的含义，请参阅 {ref}`unifies_names_from_inputs-doc`。
+  关于输入对齐的含义，请参阅 `unifies_names_from_inputs-doc`。
 - 传播名称：结果名称通过统一批次维度并移除收缩维度获得：
   `unify(tensor.names[:-2], other.names[:-2]) + (tensor.names[-2], other.names[-1])`。
 
@@ -406,13 +393,12 @@ RuntimeError: 尝试广播 dims ['N'] 和 dims ['N', None] 时维度未对齐：
 ('A', 'B', 'C', 'F')
 ```
 
-最后，许多矩阵乘法函数都有融合了 `add` 的版本，例如 {func}`addmm` 和 {func}`addmv`。这些函数被视为组合了 {func}`mm` 的名称推断和 {func}`add` 的名称推断。
+最后，许多矩阵乘法函数都有融合了 `add` 的版本，例如 `addmm` 和 `addmv`。这些函数被视为组合了 `mm` 的名称推断和 `add` 的名称推断。
 
-(factory-doc)=
 
 ## 工厂函数
 
-工厂函数现在接受一个新的 {attr}`names` 参数，该参数为每个维度关联一个名称。
+工厂函数现在接受一个新的 `names` 参数，该参数为每个维度关联一个名称。
 
 ```
 >>> torch.zeros(2, 3, names=('N', 'C'))
@@ -420,7 +406,6 @@ tensor([[0., 0., 0.],
         [0., 0., 0.]], names=('N', 'C'))
 ```
 
-(out_function_semantics-doc)=
 
 ## out 函数和原地操作变体
 

@@ -1,4 +1,3 @@
-(torch.compiler_troubleshooting)=
 
 # torch.compile 故障排除
 
@@ -167,7 +166,6 @@ produce_guards
 
 ## 日志记录工具
 
-(tlparse-torch-trace)=
 
 ### tlparse / TORCH_TRACE
 
@@ -199,13 +197,6 @@ tlparse /tmp/tracedir
     </style>
 ```
 
-```{eval-rst}
-.. role:: red
-
-.. role:: green
-
-.. role:: dark-green
-```
 
 `tlparse` 的输出主要面向 PyTorch 开发人员，其日志格式易于在 GitHub 上上传和共享。
 然而，作为非 PyTorch 开发人员，你仍然可以从中提取有用的信息。
@@ -226,7 +217,6 @@ tlparse /tmp/tracedir
     例如，你可以查看生成的高级 FX 图或生成的 Triton 代码。
 -   特定帧是否有相关信息？你可以在 `compilation_metrics` 中找到这些信息。
 
-(torch-logs)=
 
 ### TORCH_LOGS
 
@@ -252,7 +242,7 @@ torch._logging.set_logs(graph_breaks=True)
 ...
 ```
 
-更多 `TORCH_LOGS` 选项请参阅 {ref}`troubleshooting-torch-logs-options`。
+更多 `TORCH_LOGS` 选项请参阅 `troubleshooting-torch-logs-options`。
 完整选项列表请查看 [torch.\_logging](https://pytorch.org/docs/stable/logging.html)
 和 [torch.\_logging.set_logs](https://pytorch.org/docs/stable/generated/torch._logging.set_logs.html#torch._logging.set_logs)。
 
@@ -725,9 +715,10 @@ sched = torch.optim.lr_scheduler.ExponentialLR(opt, torch.tensor(0.9))
    多个环境设置步骤，或需要特定系统库版本而要求使用 Docker 镜像。
    设置越复杂，我们重建环境的难度就越大。
 
-   :::{note}
-       Docker 简化了设置，但使环境变更复杂化，因此它并非完美解决方案，不过必要时我们会使用它。
-   :::
+   
+> 📝 **注意**
+> Docker 简化了设置，但使环境变更复杂化，因此它并非完美解决方案，不过必要时我们会使用它。
+
 
 在某种程度上正交的是，可以在单个进程中运行的可复现示例优于
 需要多进程训练的可复现示例（但再次强调，如果您只有多进程复现示例，我们也会接受！）。
@@ -928,7 +919,6 @@ y = FakeTensor(..., size=(3, 3))
 (Pdb) ctx.print_graph()
 
 
-
 def forward(self, L_x_: "f32[3, 3]"):
     l_x_ = L_x_
 
@@ -971,60 +961,11 @@ AOTAutograd 日志输出主要用于查看 Inductor 的输入是什么。
 
 % TODO
 
-(troubleshooting-torch-logs-options)=
 
 ### TORCH_LOGS 选项摘要
 
 以下是有用的 `TORCH_LOGS` 选项摘要：
 
-```{eval-rst}
-.. list-table::
-    :widths: 25 50
-    :header-rows: 1
-
-    * - 选项
-      - 描述
-    * - +all
-      - 输出所有 ``torch.compile`` 组件的调试日志
-    * - +dynamo
-      - 输出 TorchDynamo 的调试日志
-    * - +aot
-      - 输出 AOTAutograd 的调试日志
-    * - +inductor
-      - 输出 TorchInductor 的调试日志
-    * - dynamic
-      - 输出动态形状的日志
-    * - graph_code
-      - 输出 Dynamo 生成的 FX 图的 Python 代码
-    * - graph_sizes
-      - 输出 Dynamo 生成的 FX 图的张量大小
-    * - trace_bytecode
-      - 输出 Dynamo 正在追踪的字节码指令以及 Dynamo 正在跟踪的符号解释器堆栈
-    * - trace_source
-      - 输出 Dynamo 当前正在追踪的原始源代码行
-    * - bytecode
-      - 输出 Dynamo 生成的字节码
-    * - guards
-      - 输出生成的守卫
-    * - recompiles
-      - 输出重新编译原因（仅输出第一个失败的守卫检查）
-    * - recompiles_verbose
-      - 输出重新编译发生时所有失败的守卫检查
-    * - aot_graphs
-      - 输出 AOTAutograd 生成的图
-    * - aot_joint_graphs
-      - 输出 AOTAutograd 生成的联合前向-反向图
-    * - output_code
-      - 输出 Inductor 生成的代码
-    * - kernel_code
-      - 按内核输出 Inductor 生成的代码
-    * - schedule
-      - 输出 Inductor 调度日志
-    * - perf_hints
-      - 输出 Inductor 性能提示日志
-    * - fusion
-      - 输出 Inductor 融合日志
-```
 
 有关完整选项列表，请参阅 [torch.\_logging](https://pytorch.org/docs/stable/logging.html)
 和 [torch.\_logging.set_logs](https://pytorch.org/docs/stable/generated/torch._logging.set_logs.html#torch._logging.set_logs)。

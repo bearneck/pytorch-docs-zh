@@ -207,7 +207,6 @@ import os
 os.remove("foo.pt")
 ```
 
-(programming_model.fullgraph_true.skipping_functions)=
 
 如果你有一个有问题的函数，你不需要在编译下运行它，那么
 考虑使用 `torch.compiler.is_compiling()` 来跳过这个有问题的函数。

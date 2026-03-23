@@ -1,10 +1,9 @@
-(export.ir_spec)=
 
 # torch.export IR 规范
 
 Export IR 是一种面向编译器的中间表示（IR），它与 [MLIR](https://mlir.llvm.org/) 和 TorchScript 有相似之处。它专门设计用于表达 PyTorch 程序的语义。Export IR 主要以精简的操作列表来表示计算，对动态性（如控制流）的支持有限。
 
-要创建 Export IR 图，可以使用一个前端，通过追踪特化机制来可靠地捕获 PyTorch 程序。生成的 Export IR 随后可以由后端进行优化和执行。目前可以通过 {func}`torch.export.export` 来实现。
+要创建 Export IR 图，可以使用一个前端，通过追踪特化机制来可靠地捕获 PyTorch 程序。生成的 Export IR 随后可以由后端进行优化和执行。目前可以通过 `torch.export.export` 来实现。
 
 本文档将涵盖的关键概念包括：
 
@@ -17,22 +16,22 @@ Export IR 是一种面向编译器的中间表示（IR），它与 [MLIR](https:
 
 ## 前提假设
 
-本文档假设读者对 PyTorch 有足够的了解，特别是熟悉 {class}`torch.fx` 及其相关工具。因此，对于 {class}`torch.fx` 文档和论文中已存在的内容，本文将不再赘述。
+本文档假设读者对 PyTorch 有足够的了解，特别是熟悉 `torch.fx` 及其相关工具。因此，对于 `torch.fx` 文档和论文中已存在的内容，本文将不再赘述。
 
 ## 什么是 Export IR
 
-Export IR 是 PyTorch 程序的基于图的中间表示（IR）。Export IR 是在 {class}`torch.fx.Graph` 之上实现的。换句话说，**所有 Export IR 图也都是有效的 FX 图**，并且如果使用标准的 FX 语义进行解释，Export IR 可以被可靠地解释。这意味着导出的图可以通过标准的 FX 代码生成转换为有效的 Python 程序。
+Export IR 是 PyTorch 程序的基于图的中间表示（IR）。Export IR 是在 `torch.fx.Graph` 之上实现的。换句话说，**所有 Export IR 图也都是有效的 FX 图**，并且如果使用标准的 FX 语义进行解释，Export IR 可以被可靠地解释。这意味着导出的图可以通过标准的 FX 代码生成转换为有效的 Python 程序。
 
 本文档将主要侧重于强调 Export IR 在严格性方面与 FX 的不同之处，而跳过与 FX 相似的部分。
 
 ## ExportedProgram
 
-顶层的 Export IR 结构是 {class}`torch.export.ExportedProgram` 类。它将 PyTorch 模型（通常是 {class}`torch.nn.Module`）的计算图与此模型消费的参数或权重捆绑在一起。
+顶层的 Export IR 结构是 `torch.export.ExportedProgram` 类。它将 PyTorch 模型（通常是 `torch.nn.Module`）的计算图与此模型消费的参数或权重捆绑在一起。
 
-{class}`torch.export.ExportedProgram` 类的一些重要属性包括：
+`torch.export.ExportedProgram` 类的一些重要属性包括：
 
-- `graph_module` ({class}`torch.fx.GraphModule`)：包含 PyTorch 模型扁平化计算图的数据结构。可以通过 `ExportedProgram.graph` 直接访问该图。
-- `graph_signature` ({class}`torch.export.ExportGraphSignature`)：图签名，用于指定图中使用和修改的参数和缓冲区名称。参数和缓冲区不是作为图的属性存储，而是被提升为图的输入。`graph_signature` 用于跟踪这些参数和缓冲区的附加信息。
+- `graph_module` (`torch.fx.GraphModule`)：包含 PyTorch 模型扁平化计算图的数据结构。可以通过 `ExportedProgram.graph` 直接访问该图。
+- `graph_signature` (`torch.export.ExportGraphSignature`)：图签名，用于指定图中使用和修改的参数和缓冲区名称。参数和缓冲区不是作为图的属性存储，而是被提升为图的输入。`graph_signature` 用于跟踪这些参数和缓冲区的附加信息。
 - `state_dict` (`Dict[str, Union[torch.Tensor, torch.nn.Parameter]]`)：包含参数和缓冲区的数据结构。
 - `range_constraints` (`Dict[sympy.Symbol, RangeConstraint]`)：对于导出时具有数据依赖行为的程序，每个节点上的元数据将包含符号形状（看起来像 `s0`、`i0`）。此属性将符号形状映射到它们的下限/上限范围。
 
@@ -47,7 +46,7 @@ class Graph:
   nodes: List[Node]
 ```
 
-实际上，Export IR 的图是作为 {class}`torch.fx.Graph` Python 类实现的。
+实际上，Export IR 的图是作为 `torch.fx.Graph` Python 类实现的。
 
 一个 Export IR 图包含以下节点（节点将在下一节中详细描述）：
 
@@ -88,7 +87,7 @@ graph():
 
 ## Node
 
-Node 代表一个特定的计算或操作，在 Python 中使用 {class}`torch.fx.Node` 类表示。节点之间的边通过 Node 类的 `args` 属性表示为对其他节点的直接引用。使用相同的 FX 机制，我们可以表示计算图通常需要的以下操作，例如运算符调用、占位符（即输入）、条件语句和循环。
+Node 代表一个特定的计算或操作，在 Python 中使用 `torch.fx.Node` 类表示。节点之间的边通过 Node 类的 `args` 属性表示为对其他节点的直接引用。使用相同的 FX 机制，我们可以表示计算图通常需要的以下操作，例如运算符调用、占位符（即输入）、条件语句和循环。
 
 Node 具有以下模式：
 
@@ -121,7 +120,7 @@ class Node:
   `<call_function>`、`<placeholder>`、
   `<get_attr>` 或 `<output>`。
 - **&lt;target&gt;** 是节点的目标，即 `node.target`。此字段的含义取决于 `op_name`。
-- **args1, … args 4…** 是 `node.args` 元组中列出的内容。如果列表中的值是 {class}`torch.fx.Node`，则会特别用前缀 **%** 表示。
+- **args1, … args 4…** 是 `node.args` 元组中列出的内容。如果列表中的值是 `torch.fx.Node`，则会特别用前缀 **%** 表示。
 
 例如，调用加法运算符将显示为：
 
@@ -178,13 +177,13 @@ return [add]
 
 - `node.meta["val"]` 描述运行操作的输出。它可以是 `<symint>`、`<FakeTensor>`、`List[Union[FakeTensor, SymInt]]` 或 `None` 类型。
 
-- `node.meta["nn_module_stack"]` 描述节点来源的 {class}`torch.nn.Module` 的“堆栈跟踪”（如果它来自 {class}`torch.nn.Module` 调用）。例如，如果包含 `addmm` 操作的节点是从 {class}`torch.nn.Sequential` 模块内的 {class}`torch.nn.Linear` 模块调用的，则 `nn_module_stack` 将类似于：
+- `node.meta["nn_module_stack"]` 描述节点来源的 `torch.nn.Module` 的“堆栈跟踪”（如果它来自 `torch.nn.Module` 调用）。例如，如果包含 `addmm` 操作的节点是从 `torch.nn.Sequential` 模块内的 `torch.nn.Linear` 模块调用的，则 `nn_module_stack` 将类似于：
 
   ```
   {'self_linear': ('self.linear', <class 'torch.nn.Linear'>), 'self_sequential': ('self.sequential', <class 'torch.nn.Sequential'>)}
   ```
 
-- `node.meta["source_fn_stack"]` 包含此节点在分解之前被调用的 torch 函数或叶子 {class}`torch.nn.Module` 类。例如，来自 {class}`torch.nn.Linear` 模块调用的包含 `addmm` 操作的节点将在其 `source_fn` 中包含 {class}`torch.nn.Linear`，而来自 {class}`torch.nn.functional.Linear` 模块调用的包含 `addmm` 操作的节点将在其 `source_fn` 中包含 {class}`torch.nn.functional.Linear`。
+- `node.meta["source_fn_stack"]` 包含此节点在分解之前被调用的 torch 函数或叶子 `torch.nn.Module` 类。例如，来自 `torch.nn.Linear` 模块调用的包含 `addmm` 操作的节点将在其 `source_fn` 中包含 `torch.nn.Linear`，而来自 `torch.nn.functional.Linear` 模块调用的包含 `addmm` 操作的节点将在其 `source_fn` 中包含 `torch.nn.functional.Linear`。
 
 ### placeholder
 
@@ -214,7 +213,7 @@ return [add]
 output[](args = (%something, …))
 ```
 
-这与 {class}`torch.fx` 中的语义完全相同。`args` 表示要返回的节点。
+这与 `torch.fx` 中的语义完全相同。`args` 表示要返回的节点。
 
 **元数据**
 
@@ -222,7 +221,7 @@ output[](args = (%something, …))
 
 ### get_attr
 
-`get_attr` 节点表示从封装的 {class}`torch.fx.GraphModule` 中读取子模块。与来自 {func}`torch.fx.symbolic_trace` 的普通 FX 图不同，在普通 FX 图中，`get_attr` 节点用于从顶级 {class}`torch.fx.GraphModule` 读取属性和缓冲区等属性，而参数和缓冲区是作为输入传递给图形模块的，并存储在顶级 {class}`torch.export.ExportedProgram` 中。
+`get_attr` 节点表示从封装的 `torch.fx.GraphModule` 中读取子模块。与来自 `torch.fx.symbolic_trace` 的普通 FX 图不同，在普通 FX 图中，`get_attr` 节点用于从顶级 `torch.fx.GraphModule` 读取属性和缓冲区等属性，而参数和缓冲区是作为输入传递给图形模块的，并存储在顶级 `torch.export.ExportedProgram` 中。
 
 **在 FX 中的表示**
 
@@ -326,54 +325,6 @@ FakeTensor(dtype=torch.int, size=[2,], device=CPU)
 
 以下类型被定义为**叶子类型**：
 
-```{eval-rst}
-.. list-table::
-   :widths: 50 50
-   :header-rows: 1
-
-   * - 类型
-     - 定义
-   * - Tensor
-     - :class:`torch.Tensor`
-   * - Scalar
-     - Python 中的任何数值类型，包括整数类型、浮点类型和零维张量。
-   * - int
-     - Python int（在 C++ 中绑定为 int64_t）
-   * - float
-     - Python float（在 C++ 中绑定为 double）
-   * - bool
-     - Python bool
-   * - str
-     - Python 字符串
-   * - ScalarType
-     - :class:`torch.dtype`
-   * - Layout
-     - :class:`torch.layout`
-   * - MemoryFormat
-     - :class:`torch.memory_format`
-   * - Device
-     - :class:`torch.device`
-```
 
 以下类型被定义为**容器类型**：
 
-```{eval-rst}
-.. list-table::
-   :widths: 50 50
-   :header-rows: 1
-
-   * - 类型
-     - 定义
-   * - Tuple
-     - Python tuple
-   * - List
-     - Python list
-   * - Dict
-     - 键为 Scalar 的 Python dict
-   * - NamedTuple
-     - Python namedtuple
-   * - Dataclass
-     - 必须通过 `register_dataclass <https://github.com/pytorch/pytorch/blob/901aa85b58e8f490631ce1db44e6555869a31893/torch/export/__init__.py#L693>`__ 注册
-   * - Custom class
-     - 任何使用 `_register_pytree_node <https://github.com/pytorch/pytorch/blob/901aa85b58e8f490631ce1db44e6555869a31893/torch/utils/_pytree.py#L72>`__ 定义的自定义类
-```

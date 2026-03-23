@@ -1,13 +1,11 @@
-```{eval-rst}
-.. role:: hidden
-    :class: hidden-section
-```
+
 
 # PyTorch 对称内存
 
-:::{note}
-`torch.distributed._symmetric_memory` 目前处于 alpha 状态，正在开发中。API 可能会发生变化。
-:::
+
+> 📝 **注意**
+> `torch.distributed._symmetric_memory` 目前处于 alpha 状态，正在开发中。API 可能会发生变化。
+
 
 ## 为什么需要对称内存？
 
@@ -181,13 +179,13 @@ def my_put_kernel(
 
 截至 torch 2.11，`CUDA` 和 `NVSHMEM` 后端支持 MemPool。`NCCL` 后端的 MemPool 支持正在进行中。
 
-(copy-engine-collectives)=
 
 ## 复制引擎集合通信
 
-:::{note}
-复制引擎集合通信需要 NCCL 2.28 或更高版本，以及支持点对点（P2P）访问的 GPU。
-:::
+
+> 📝 **注意**
+> 复制引擎集合通信需要 NCCL 2.28 或更高版本，以及支持点对点（P2P）访问的 GPU。
+
 
 复制引擎（CE）集合通信是 NCCL 集合操作的一种优化，它将数据移动卸载到 GPU 的复制引擎（DMA 引擎），而不是使用 CUDA 流式多处理器（SM）。这释放了 SM 用于计算工作，从而在分布式训练期间实现更好的通信与计算重叠。
 
@@ -198,7 +196,7 @@ def my_put_kernel(
 3. 使用对称内存分配张量
 4. 通过会合将张量注册到对称内存
 
-设置完成后，像 {func}`all_gather_into_tensor` 和 {func}`all_to_all_single` 这样的标准集合函数在操作对称内存张量时将自动使用复制引擎。
+设置完成后，像 `all_gather_into_tensor` 和 `all_to_all_single` 这样的标准集合函数在操作对称内存张量时将自动使用复制引擎。
 
 **示例**
 
@@ -243,11 +241,10 @@ work.wait()
 
 - NCCL 版本 2.28 或更高
 - GPU 必须启用点对点（P2P）访问
-- 张量必须使用 {func}`torch.distributed._symmetric_memory` 分配并进行 rendezvous 操作
+- 张量必须使用 `torch.distributed._symmetric_memory` 分配并进行 rendezvous 操作
 - NCCL 进程组必须配置为 `NCCL_CTA_POLICY_ZERO` 或设置环境变量 `NCCL_CTA_POLICY` 为 2
 - 截至 NCCL 2.28，CE 集体操作无法在默认流中运行，因此需要使用 `async_op=True` 标志来激活 `ProcessGroupNCCL` 的内部流，或自行创建侧流
 
-(higher-precision-reduction)=
 
 ## 高精度规约
 
@@ -275,191 +272,17 @@ symm_mem.rendezvous(inp, group_name)
 dist.all_reduce(inp)
 ```
 
-:::{note}
-当使用对称内存张量时，NCCL 会透明地启用此高精度累加。除了上述对称张量创建和 rendezvous 操作外，无需额外配置。目前这仅适用于支持域内的 ``reduce_scatter`` 和 ``all_reduce`` 操作；其他集体操作（例如 ``all_gather``）和节点间通信不受影响。
-:::
+
+> 📝 **注意**
+> 当使用对称内存张量时，NCCL 会透明地启用此高精度累加。除了上述对称张量创建和 rendezvous 操作外，无需额外配置。目前这仅适用于支持域内的 ``reduce_scatter`` 和 ``all_reduce`` 操作；其他集体操作（例如 ``all_gather``）和节点间通信不受影响。
+
 
 ## API 参考
 
-```{eval-rst}
-.. currentmodule:: torch.distributed._symmetric_memory
-```
-
-```{eval-rst}
-.. autofunction:: empty
-```
-
-```{eval-rst}
-.. autofunction:: rendezvous
-```
-
-```{eval-rst}
-.. autofunction:: is_nvshmem_available
-```
-
-```{eval-rst}
-.. autofunction:: set_backend
-```
-
-```{eval-rst}
-.. autofunction:: get_backend
-```
-
-```{eval-rst}
-.. autofunction:: get_mem_pool
-```
 
 ## 操作参考
-:::{note}
-以下操作位于 `torch.ops.symm_mem` 命名空间中。您可以通过 `torch.ops.symm_mem.<op_name>` 直接调用它们。
-:::
 
-```{eval-rst}
-.. currentmodule:: torch.ops.symm_mem
-```
-
-```{eval-rst}
-.. py:function:: multimem_all_reduce_(input: Tensor, reduce_op: str, group_name: str) -> Tensor
-
-    对输入张量执行 multimem 全规约操作。此操作需要硬件支持 multimem 操作。在 NVIDIA GPU 上，需要 NVLink SHARP。
-
-    :param Tensor input: 要执行全规约的输入张量。必须是对称的。
-    :param str reduce_op: 要执行的规约操作。目前仅支持 "sum"。
-    :param str group_name: 要执行全规约的组名。
+> 📝 **注意**
+> 以下操作位于 `torch.ops.symm_mem` 命名空间中。您可以通过 `torch.ops.symm_mem.<op_name>` 直接调用它们。
 
 
-.. py:function:: multimem_all_gather_out(input: Tensor, group_name: str, out: Tensor) -> Tensor
-
-    对输入张量执行 multimem 全收集操作。此操作需要硬件支持 multimem 操作。在 NVIDIA GPU 上，需要 NVLink SHARP。
-
-    :param Tensor input: 要执行全收集的输入张量。
-    :param str group_name: 要执行全收集的组名。
-    :param Tensor out: 用于存储全收集操作结果的输出张量。必须是对称的。
-
-
-.. py:function:: one_shot_all_reduce(input: Tensor, reduce_op: str, group_name: str) -> Tensor
-
-    对输入张量执行单次全规约操作。
-
-    :param Tensor input: 要执行全规约的输入张量。必须是对称的。
-    :param str reduce_op: 要执行的规约操作。目前仅支持 "sum"。
-    :param str group_name: 要执行全规约的组名。
-
-
-.. py:function:: one_shot_all_reduce_out(input: Tensor, reduce_op: str, group_name: str, out: Tensor) -> Tensor
-
-    基于输入张量执行单次全规约操作，并将结果写入输出张量。
-
-    :param Tensor input: 要执行全规约的输入张量。必须是对称的。
-    :param str reduce_op: 要执行的规约操作。目前仅支持 "sum"。
-    :param str group_name: 要执行全规约的组名。
-    :param Tensor out: 用于存储全规约操作结果的输出张量。可以是常规张量。
-
-
-.. py:function:: two_shot_all_reduce_(input: Tensor, reduce_op: str, group_name: str) -> Tensor
-
-    对输入张量执行两次全规约操作。
-
-    :param Tensor input: 要执行全规约的输入张量。必须是对称的。
-    :param str reduce_op: 要执行的规约操作。目前仅支持 "sum"。
-    :param str group_name: 要执行全规约的组名。
-
-.. py:function:: all_to_all_vdev(input: Tensor, out: Tensor, in_splits: Tensor, out_splits_offsets: Tensor, group_name: str) -> None
-
-    使用 NVSHMEM 执行 all-to-all-v 操作，切分信息由设备提供。
-
-    :param Tensor input: 要执行 all-to-all 操作的输入张量。必须是对称的。
-    :param Tensor out: 用于存储 all-to-all 操作结果的输出张量。必须是对称的。
-    :param Tensor in_splits: 包含要发送给每个对等体的数据切分的张量。必须是对称的。大小必须为 (group_size,)。切分单位是第一个维度中的元素数量。
-    :param Tensor out_splits_offsets: 包含从每个对等体接收的数据的切分和偏移量的张量。必须是对称的。大小必须为 (2, group_size)。行依次为：输出切分和输出偏移量。
-    :param str group_name: 要执行 all-to-all 操作的组名。
-
-
-.. py:function:: all_to_all_vdev_2d(input: Tensor, out: Tensor, in_splits: Tensor, out_splits_offsets: Tensor, group_name: str, [major_align: int = None]) -> None
-
-    使用 NVSHMEM 执行二维 all-to-all-v 操作，切分信息由设备提供。在专家混合模型中，此操作可用于分发令牌。
-
-    :param Tensor input: 要执行 all-to-all 操作的输入张量。必须是对称的。
-    :param Tensor out: 用于存储 all-to-all 操作结果的输出张量。必须是对称的。
-    :param Tensor in_splits: 包含要发送给每个专家的数据切分的张量。必须是对称的。大小必须为 (group_size * ne,)，其中 ne 是每个秩的专家数量。切分单位是第一个维度中的元素数量。
-    :param Tensor out_splits_offsets: 包含从每个对等体接收的数据的切分和偏移量的张量。必须是对称的。大小必须为 (2, group_size * ne)。行依次为：输出切分和输出偏移量。
-    :param str group_name: 要执行 all-to-all 操作的组名。
-    :param int major_align: 每个专家输出块主维度的可选对齐方式。如果未提供，则假定对齐为 1。任何对齐调整都会反映在输出偏移量中。
-
-    二维 AllToAllv 混洗操作如下图所示：
-    (world_size = 2, ne = 2, 专家总数 = 4)::
-
-      源: |       秩 0       |       秩 1       |
-          | c0 | c1 | c2 | c3 | d0 | d1 | d2 | d3 |
-
-      目标: |       秩 0       |       秩 1       |
-           | c0 | d0 | c1 | d1 | c2 | d2 | c3 | d3 |
-
-    其中每个 `c_i` / `d_i` 是 `input` 张量的切片，目标专家为 `i`，长度由输入切分指示。也就是说，二维 AllToAllv 混洗实现了从输入时的秩主序到输出时的专家主序的转置。
-
-    如果 `major_align` 不为 1，则 c1、c2、c3 的输出偏移量将向上对齐到此值。例如，如果 c0 长度为 5，d0 长度为 7（总计 12），并且 `major_align` 设置为 16，则 c1 的输出偏移量将为 16。c2 和 c3 同理。此值对次要维度（即 d0、d1、d2 和 d3）的偏移量没有影响。
-    注意：由于 cutlass 不支持空桶，如果对齐长度为 0，我们将其设置为 `major_align`。参见 https://github.com/pytorch/pytorch/issues/152668。
-
-
-.. py:function:: all_to_all_vdev_2d_offset(Tensor input, Tensor out, Tensor in_splits_offsets, Tensor out_splits_offsets, str group_name) -> None
-
-    执行二维 AllToAllv 混洗操作，输入切分和偏移信息由设备提供。输入偏移量不需要是输入切分的精确前缀和，即允许在切分块之间存在填充。但是，填充不会被传输到对等秩。
-
-    在专家混合模型中，此操作可用于合并由并行秩上的专家处理过的令牌。此操作可视为 `all_to_all_vdev_2d` 操作（将令牌混洗给专家）的“反向”操作。
-
-    :param Tensor input: 要执行 all-to-all 操作的输入张量。必须是对称的。
-    :param Tensor out: 用于存储 all-to-all 操作结果的输出张量。必须是对称的。
-    :param Tensor in_splits_offsets: 包含要发送给每个专家的数据的切分和偏移量的张量。必须是对称的。大小必须为 (2, group_size * ne)，其中 `ne` 是专家数量。行依次为：输入切分和输入偏移量。切分单位是第一个维度中的元素数量。
-    :param Tensor out_splits_offsets: 包含从每个对等体接收的数据的切分和偏移量的张量。必须是对称的。大小必须为 (2, group_size * ne)。行依次为：输出切分和输出偏移量。
-    :param str group_name: 要执行 all-to-all 操作的组名。
-
-
-.. py:function:: tile_reduce(in_tile: Tensor, out_tile: Tensor, root: int, group_name: str, [reduce_op: str = 'sum']) -> None
-
-    将二维切片从组内所有秩归约到指定的根秩。
-
-    :param Tensor in_tile: 要归约的输入二维张量。必须是对称分配的。
-    :param Tensor out_tile: 包含归约结果的输出二维张量。必须是对称的，并且与 `in_tile` 具有相同的形状、数据类型和设备。
-    :param int root: 指定组中将接收归约结果的进程的秩。
-    :param str group_name: 要在其中执行归约操作的对称内存进程组的名称。
-    :param str reduce_op: 要执行的归约操作。目前仅支持 ``"sum"``。默认为 ``"sum"``。
-
-    此函数归约来自组内所有成员的 `in_tile` 张量，并将结果写入根秩的 `out_tile` 中。所有秩都必须参与，并提供相同的 `group_name` 和张量形状。
-
-    示例::
-
->>> # doctest: +SKIP
->>> # 对张量的右下象限进行归约
->>> tile_size = full_size // 2
->>> full_inp = symm_mem.empty(full_size, full_size)
->>> full_out = symm_mem.empty(full_size, full_size)
->>> s = slice(tile_size, 2 * tile_size)
->>> in_tile = full_inp[s, s]
->>> out_tile = full_out[s, s]
->>> torch.ops.symm_mem.tile_reduce(in_tile, out_tile, root=0, group_name)
-
-
-.. py:function:: multi_root_tile_reduce(in_tiles: list[Tensor], out_tile: Tensor, roots: list[int], group_name: str, [reduce_op: str = 'sum']) -> None
-
-    并发执行多个分块归约操作，每个分块归约到一个独立的根节点。
-
-    : param list[Tensor] in_tiles: 输入张量列表。
-    : param Tensor out_tile: 用于存放归约后分块的输出张量。
-    : param list[int] roots: 根节点排名列表，每个排名按相同顺序对应 `in_tiles` 中的一个输入分块。一个排名不能多次作为根节点。
-    : param str group_name: 用于集合操作的组名。
-    : param str reduce_op: 要执行的归约操作。目前仅支持 "sum"。
-
-    示例::
-
-        >>> # doctest: +SKIP
-        >>> # 将张量的四个象限分别归约到不同的根节点
-        >>> tile_size = full_size // 2
-        >>> full_inp = symm_mem.empty(full_size, full_size)
-        >>> s0 = slice(0, tile_size)
-        >>> s1 = slice(tile_size, 2 * tile_size)
-        >>> in_tiles = [ full_inp[s0, s0], full_inp[s0, s1], full_inp[s1, s0], full_inp[s1, s1] ]
-        >>> out_tile = symm_mem.empty(tile_size, tile_size)
-        >>> roots = [0, 1, 2, 3]
-        >>> torch.ops.symm_mem.multi_root_tile_reduce(in_tiles, out_tile, roots, group_name)
-
-```

@@ -1,21 +1,11 @@
-```{eval-rst}
-.. role:: hidden
-    :class: hidden-section
-```
+
 
 # 分布式通信包 - torch.distributed
 
-:::{note}
-关于分布式训练相关功能的简要介绍，请参阅 [PyTorch 分布式概述](https://pytorch.org/tutorials/beginner/dist_overview.html)。
-:::
 
-```{eval-rst}
-.. automodule:: torch.distributed
-```
+> 📝 **注意**
+> 关于分布式训练相关功能的简要介绍，请参阅 [PyTorch 分布式概述](https://pytorch.org/tutorials/beginner/dist_overview.html)。
 
-```{eval-rst}
-.. currentmodule:: torch.distributed
-```
 
 ## 后端
 
@@ -23,49 +13,21 @@
 
 MPI 仅在用于构建 PyTorch 的实现支持 CUDA 时才支持 CUDA。
 
-```{eval-rst}
-+----------------+-----------+-----------+-----------+-----------+
-| Backend        | ``gloo``  | ``mpi``   | ``nccl``  | ``xccl``  |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| Device         | CPU | GPU | CPU | GPU | CPU | GPU | CPU | GPU |
-+================+=====+=====+=====+=====+=====+=====+=====+=====+
-| send           | ✓   | ✘   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| recv           | ✓   | ✘   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| broadcast      | ✓   | ✓   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| all_reduce     | ✓   | ✓   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| reduce         | ✓   | ✓   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| all_gather     | ✓   | ✓   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| gather         | ✓   | ✓   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| scatter        | ✓   | ✓   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| reduce_scatter | ✓   | ✓   | ✘   | ✘   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| all_to_all     | ✘   | ✘   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-| barrier        | ✓   | ✘   | ✓   | ?   | ✘   | ✓   | ✘   | ✓   |
-+----------------+-----+-----+-----+-----+-----+-----+-----+-----+
-```
 
 ### PyTorch 自带的后端
 
 PyTorch 分布式包支持 Linux（稳定版）、macOS（稳定版）和 Windows（原型版）。
 在 Linux 上，默认情况下 Gloo 和 NCCL 后端会被构建并包含在 PyTorch 分布式包中（NCCL 仅在构建时使用 CUDA 的情况下包含）。MPI 是一个可选后端，只有在从源代码构建 PyTorch 时才能包含。（例如，在安装了 MPI 的主机上构建 PyTorch。）
 
-:::{note}
-从 PyTorch v1.8 开始，Windows 支持除 NCCL 之外的所有集体通信后端。如果 {func}`init_process_group` 的 `init_method` 参数指向一个文件，它必须遵循以下模式：
 
-- 本地文件系统：`init_method="file:///d:/tmp/some_file"`
-- 共享文件系统：`init_method="file://////{machine_name}/{share_folder_name}/some_file"`
+> 📝 **注意**
+> 从 PyTorch v1.8 开始，Windows 支持除 NCCL 之外的所有集体通信后端。如果 `init_process_group` 的 `init_method` 参数指向一个文件，它必须遵循以下模式：
+>
+> - 本地文件系统：`init_method="file:///d:/tmp/some_file"`
+> - 共享文件系统：`init_method="file://////{machine_name}/{share_folder_name}/some_file"`
+>
+> 与 Linux 平台相同，您可以通过设置环境变量 MASTER_ADDR 和 MASTER_PORT 来启用 TcpStore。
 
-与 Linux 平台相同，您可以通过设置环境变量 MASTER_ADDR 和 MASTER_PORT 来启用 TcpStore。
-:::
 
 ### 应该使用哪个后端？
 
@@ -116,74 +78,24 @@ PyTorch 分布式包支持 Linux（稳定版）、macOS（稳定版）和 Window
 
 您甚至可以使用 `torch.distributed.ProcessGroupNCCL.NCCLConfig` 和 `torch.distributed.ProcessGroupNCCL.Options` 进一步调优 NCCL 通信器。在解释器中使用 `help` 了解更多信息（例如 `help(torch.distributed.ProcessGroupNCCL.NCCLConfig)`）。
 
-(distributed-basics)=
 
 ## 基础
 
-`torch.distributed` 包为运行在一台或多台机器上的多个计算节点之间的多进程并行提供了 PyTorch 支持和通信原语。类 {func}`torch.nn.parallel.DistributedDataParallel` 基于此功能构建，作为任何 PyTorch 模型的包装器，提供同步分布式训练。这与 {doc}`multiprocessing` 和 {func}`torch.nn.DataParallel` 提供的并行类型不同，因为它支持多个网络连接的机器，并且用户必须为每个进程显式启动主训练脚本的单独副本。
+`torch.distributed` 包为运行在一台或多台机器上的多个计算节点之间的多进程并行提供了 PyTorch 支持和通信原语。类 `torch.nn.parallel.DistributedDataParallel` 基于此功能构建，作为任何 PyTorch 模型的包装器，提供同步分布式训练。这与 `multiprocessing` 和 `torch.nn.DataParallel` 提供的并行类型不同，因为它支持多个网络连接的机器，并且用户必须为每个进程显式启动主训练脚本的单独副本。
 
-在单机同步的情况下，`torch.distributed` 或 {func}`torch.nn.parallel.DistributedDataParallel` 包装器相对于其他数据并行方法（包括 {func}`torch.nn.DataParallel`）可能仍然具有优势：
+在单机同步的情况下，`torch.distributed` 或 `torch.nn.parallel.DistributedDataParallel` 包装器相对于其他数据并行方法（包括 `torch.nn.DataParallel`）可能仍然具有优势：
 
 - 每个进程维护自己的优化器，并在每次迭代中执行完整的优化步骤。虽然这看起来是冗余的，因为梯度已经在进程间收集并平均，因此对每个进程都是相同的，但这意味着不需要参数广播步骤，减少了在节点之间传输张量的时间。
 - 每个进程包含一个独立的 Python 解释器，消除了从单个 Python 进程驱动多个执行线程、模型副本或 GPU 所带来的额外解释器开销和 "GIL 抖动"。这对于大量使用 Python 运行时的模型尤其重要，包括具有循环层或许多小组件的模型。
 
 ## 初始化
 
-在调用任何其他方法之前，需要使用 {func}`torch.distributed.init_process_group` 或 {func}`torch.distributed.device_mesh.init_device_mesh` 函数初始化该包。两者都会阻塞直到所有进程加入。
+在调用任何其他方法之前，需要使用 `torch.distributed.init_process_group` 或 `torch.distributed.device_mesh.init_device_mesh` 函数初始化该包。两者都会阻塞直到所有进程加入。
 
-:::{warning}
-初始化不是线程安全的。进程组的创建应在单个线程中执行，以防止跨不同秩的 'UUID' 分配不一致，并防止初始化期间的竞争条件导致挂起。
-:::
 
-```{eval-rst}
-.. autofunction:: is_available
-```
+> ⚠️ **警告**
+> 初始化不是线程安全的。进程组的创建应在单个线程中执行，以防止跨不同秩的 'UUID' 分配不一致，并防止初始化期间的竞争条件导致挂起。
 
-```{eval-rst}
-.. autofunction:: init_process_group
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.device_mesh.init_device_mesh
-```
-
-```{eval-rst}
-.. autofunction:: is_initialized
-```
-
-```{eval-rst}
-.. autofunction:: is_mpi_available
-```
-
-```{eval-rst}
-.. autofunction:: is_nccl_available
-```
-
-```{eval-rst}
-.. autofunction:: is_gloo_available
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.distributed_c10d.is_xccl_available
-.. autofunction:: torch.distributed.distributed_c10d.batch_isend_irecv
-.. autofunction:: torch.distributed.distributed_c10d.destroy_process_group
-.. autofunction:: torch.distributed.distributed_c10d.is_backend_available
-.. autofunction:: torch.distributed.distributed_c10d.irecv
-.. autofunction:: torch.distributed.distributed_c10d.is_gloo_available
-.. autofunction:: torch.distributed.distributed_c10d.is_initialized
-.. autofunction:: torch.distributed.distributed_c10d.is_mpi_available
-.. autofunction:: torch.distributed.distributed_c10d.is_nccl_available
-.. autofunction:: torch.distributed.distributed_c10d.is_torchelastic_launched
-.. autofunction:: torch.distributed.distributed_c10d.is_ucc_available
-```
-
-```{eval-rst}
-.. autofunction:: is_torchelastic_launched
-```
-
-```{eval-rst}
-.. autofunction:: get_default_backend_for_device
-```
 
 ______________________________________________________________________
 
@@ -205,17 +117,18 @@ dist.init_process_group(backend, init_method='tcp://10.1.1.20:23456',
 
 ### 共享文件系统初始化
 
-另一种初始化方法利用一个在组内所有机器上都可见的共享文件系统，以及期望的 `world_size`。URL 应以 `file://` 开头，并指向共享文件系统上一个不存在的文件（位于现有目录中）。文件系统初始化会在文件不存在时自动创建该文件，但不会删除文件。因此，您有责任确保在下一次对相同文件路径/名称调用 {func}`init_process_group` 之前清理该文件。
+另一种初始化方法利用一个在组内所有机器上都可见的共享文件系统，以及期望的 `world_size`。URL 应以 `file://` 开头，并指向共享文件系统上一个不存在的文件（位于现有目录中）。文件系统初始化会在文件不存在时自动创建该文件，但不会删除文件。因此，您有责任确保在下一次对相同文件路径/名称调用 `init_process_group` 之前清理该文件。
 
 请注意，最新的分布式包不再支持自动排名分配，并且 `group_name` 也已弃用。
 
-:::{warning}
-此方法假设文件系统支持使用 `fcntl` 进行锁定——大多数本地系统和 NFS 都支持此功能。
-:::
 
-:::{warning}
-此方法将始终创建文件，并尽力在程序结束时清理和删除文件。换句话说，每次使用文件初始化方法进行初始化都需要一个全新的空文件，初始化才能成功。如果再次使用先前初始化所用的同一文件（该文件恰巧未被清理），这是未预期的行为，通常会导致死锁和失败。因此，尽管此方法会尽力清理文件，但如果自动删除未能成功，您有责任确保在训练结束时移除文件，以防止下次再次重用同一文件。如果您计划在同一文件名上多次调用 {func}`init_process_group`，这一点尤其重要。换句话说，如果文件未被移除/清理，而您再次对该文件调用 {func}`init_process_group`，预计会出现失败。这里的经验法则是，确保每次调用 {func}`init_process_group` 时文件不存在或为空。
-:::
+> ⚠️ **警告**
+> 此方法假设文件系统支持使用 `fcntl` 进行锁定——大多数本地系统和 NFS 都支持此功能。
+
+
+> ⚠️ **警告**
+> 此方法将始终创建文件，并尽力在程序结束时清理和删除文件。换句话说，每次使用文件初始化方法进行初始化都需要一个全新的空文件，初始化才能成功。如果再次使用先前初始化所用的同一文件（该文件恰巧未被清理），这是未预期的行为，通常会导致死锁和失败。因此，尽管此方法会尽力清理文件，但如果自动删除未能成功，您有责任确保在训练结束时移除文件，以防止下次再次重用同一文件。如果您计划在同一文件名上多次调用 `init_process_group`，这一点尤其重要。换句话说，如果文件未被移除/清理，而您再次对该文件调用 `init_process_group`，预计会出现失败。这里的经验法则是，确保每次调用 `init_process_group` 时文件不存在或为空。
+
 
 ```
 import torch.distributed as dist
@@ -244,32 +157,16 @@ rank 0 的机器将用于建立所有连接。
 
 ## 初始化后
 
-一旦运行了 {func}`torch.distributed.init_process_group`，就可以使用以下函数。要检查进程组是否已初始化，请使用 {func}`torch.distributed.is_initialized`。
+一旦运行了 `torch.distributed.init_process_group`，就可以使用以下函数。要检查进程组是否已初始化，请使用 `torch.distributed.is_initialized`。
 
-```{eval-rst}
-.. autoclass:: Backend
-    :members:
-```
-
-```{eval-rst}
-.. autofunction:: get_backend
-```
-
-```{eval-rst}
-.. autofunction:: get_rank
-```
-
-```{eval-rst}
-.. autofunction:: get_world_size
-```
 
 ## 关闭
 
-通过调用 {func}`destroy_process_group` 在退出时清理资源非常重要。
+通过调用 `destroy_process_group` 在退出时清理资源非常重要。
 
-最简单的模式是在训练脚本中不再需要通信时（通常在 main() 函数末尾附近），通过为 `group` 参数使用默认值 None 调用 {func}`destroy_process_group()` 来销毁每个进程组和后端。此调用应在每个训练器进程中执行一次，而不是在外部的进程启动器级别。
+最简单的模式是在训练脚本中不再需要通信时（通常在 main() 函数末尾附近），通过为 `group` 参数使用默认值 None 调用 `destroy_process_group()` 来销毁每个进程组和后端。此调用应在每个训练器进程中执行一次，而不是在外部的进程启动器级别。
 
-如果 pg 中的所有 rank 未在超时时间内调用 {func}`destroy_process_group`，特别是在应用程序中有多个进程组时（例如用于 N-D 并行），退出时可能会出现挂起。这是因为 ProcessGroupNCCL 的析构函数会调用 ncclCommAbort，而该调用必须集体执行，但如果由 python 的 GC 调用 ProcessGroupNCCL 的析构函数，其调用顺序是不确定的。调用 {func}`destroy_process_group` 有助于确保跨 rank 以一致的顺序调用 ncclCommAbort，并避免在 ProcessGroupNCCL 的析构函数中调用 ncclCommAbort。
+如果 pg 中的所有 rank 未在超时时间内调用 `destroy_process_group`，特别是在应用程序中有多个进程组时（例如用于 N-D 并行），退出时可能会出现挂起。这是因为 ProcessGroupNCCL 的析构函数会调用 ncclCommAbort，而该调用必须集体执行，但如果由 python 的 GC 调用 ProcessGroupNCCL 的析构函数，其调用顺序是不确定的。调用 `destroy_process_group` 有助于确保跨 rank 以一致的顺序调用 ncclCommAbort，并避免在 ProcessGroupNCCL 的析构函数中调用 ncclCommAbort。
 
 ### 重新初始化
 
@@ -279,78 +176,24 @@ ______________________________________________________________________
 
 ## 组
 
-默认情况下，集合操作在默认组（也称为 world）上运行，并要求所有进程进入分布式函数调用。然而，某些工作负载可以从更细粒度的通信中受益。这就是分布式组发挥作用的地方。{func}`~torch.distributed.new_group` 函数可用于创建新组，包含所有进程的任意子集。它返回一个不透明的组句柄，可以作为 `group` 参数传递给所有集合操作（集合操作是在某些众所周知的编程模式中交换信息的分布式函数）。
+默认情况下，集合操作在默认组（也称为 world）上运行，并要求所有进程进入分布式函数调用。然而，某些工作负载可以从更细粒度的通信中受益。这就是分布式组发挥作用的地方。`~torch.distributed.new_group` 函数可用于创建新组，包含所有进程的任意子集。它返回一个不透明的组句柄，可以作为 `group` 参数传递给所有集合操作（集合操作是在某些众所周知的编程模式中交换信息的分布式函数）。
 
-```{eval-rst}
-.. autofunction:: new_group
-```
-
-```{eval-rst}
-.. autofunction:: torch.distributed.distributed_c10d.shrink_group
-```
-
-```{eval-rst}
-.. autofunction:: get_group_rank
-```
-
-```{eval-rst}
-.. autofunction:: get_global_rank
-```
-
-```{eval-rst}
-.. autofunction:: get_process_group_ranks
-
-```
 
 ## DeviceMesh
 
 DeviceMesh 是一个更高级别的抽象，用于管理进程组（或 NCCL 通信器）。
-它允许用户轻松创建节点间和节点内的进程组，而无需担心如何为不同的子进程组正确设置秩，并有助于轻松管理这些分布式进程组。{func}`~torch.distributed.device_mesh.init_device_mesh` 函数可用于创建新的 DeviceMesh，并通过一个描述设备拓扑的网格形状来实现。
+它允许用户轻松创建节点间和节点内的进程组，而无需担心如何为不同的子进程组正确设置秩，并有助于轻松管理这些分布式进程组。`~torch.distributed.device_mesh.init_device_mesh` 函数可用于创建新的 DeviceMesh，并通过一个描述设备拓扑的网格形状来实现。
 
-```{eval-rst}
-.. autoclass:: torch.distributed.device_mesh.DeviceMesh
-    :members:
-```
 
 ## 点对点通信
 
-```{eval-rst}
-.. autofunction:: send
-```
 
-```{eval-rst}
-.. autofunction:: recv
-```
-
-{func}`~torch.distributed.isend` 和 {func}`~torch.distributed.irecv`
+`~torch.distributed.isend` 和 `~torch.distributed.irecv`
 在使用时会返回分布式请求对象。通常，此对象的类型是未指定的，因为它们不应手动创建，但保证支持两种方法：
 
 - `is_completed()` - 如果操作已完成则返回 True
 - `wait()` - 将阻塞进程直到操作完成。一旦返回，`is_completed()` 保证返回 True。
 
-```{eval-rst}
-.. autofunction:: isend
-```
-
-```{eval-rst}
-.. autofunction:: irecv
-```
-
-```{eval-rst}
-.. autofunction:: send_object_list
-```
-
-```{eval-rst}
-.. autofunction:: recv_object_list
-```
-
-```{eval-rst}
-.. autofunction:: batch_isend_irecv
-```
-
-```{eval-rst}
-.. autoclass:: P2POp
-```
 
 ## 同步和异步集体操作
 
@@ -391,127 +234,11 @@ if rank == 0:
 
 ## 集体函数
 
-```{eval-rst}
-.. autofunction:: broadcast
-```
-
-```{eval-rst}
-.. autofunction:: broadcast_object_list
-```
-
-```{eval-rst}
-.. autofunction:: all_reduce
-```
-
-```{eval-rst}
-.. autofunction:: reduce
-```
-
-```{eval-rst}
-.. autofunction:: all_gather
-```
-
-```{eval-rst}
-.. autofunction:: all_gather_into_tensor
-```
-
-```{eval-rst}
-.. autofunction:: all_gather_object
-```
-
-```{eval-rst}
-.. autofunction:: gather
-```
-
-```{eval-rst}
-.. autofunction:: gather_object
-```
-
-```{eval-rst}
-.. autofunction:: scatter
-```
-
-```{eval-rst}
-.. autofunction:: scatter_object_list
-```
-
-```{eval-rst}
-.. autofunction:: reduce_scatter
-```
-
-```{eval-rst}
-.. autofunction:: reduce_scatter_tensor
-```
-
-```{eval-rst}
-.. autofunction:: all_to_all_single
-```
-
-```{eval-rst}
-.. autofunction:: all_to_all
-```
-
-```{eval-rst}
-.. autofunction:: barrier
-```
-
-```{eval-rst}
-.. autofunction:: monitored_barrier
-```
-
-```{eval-rst}
-.. autoclass:: Work
-    :members:
-```
-
-```{eval-rst}
-.. autoclass:: ReduceOp
-```
-
-```{eval-rst}
-.. class:: reduce_op
-
-    用于归约操作的已弃用枚举类：``SUM``、``PRODUCT``、
-    ``MIN`` 和 ``MAX``。
-
-    建议改用 :class:`~torch.distributed.ReduceOp`。
-
-```
 
 ## 分布式键值存储
 
-distributed 包附带一个分布式键值存储，可用于在进程组之间共享信息，也可用于在 {func}`torch.distributed.init_process_group` 中初始化分布式包（通过显式创建存储作为指定 `init_method` 的替代方案）。键值存储有 3 种选择：{class}`~torch.distributed.TCPStore`、{class}`~torch.distributed.FileStore` 和 {class}`~torch.distributed.HashStore`。
+distributed 包附带一个分布式键值存储，可用于在进程组之间共享信息，也可用于在 `torch.distributed.init_process_group` 中初始化分布式包（通过显式创建存储作为指定 `init_method` 的替代方案）。键值存储有 3 种选择：`~torch.distributed.TCPStore`、`~torch.distributed.FileStore` 和 `~torch.distributed.HashStore`。
 
-```{eval-rst}
-.. autoclass:: Store
-    :members:
-    :special-members:
-```
-
-```{eval-rst}
-.. autoclass:: TCPStore
-    :members:
-    :special-members: __init__
-```
-
-```{eval-rst}
-.. autoclass:: HashStore
-    :members:
-    :special-members: __init__
-```
-
-```{eval-rst}
-.. autoclass:: FileStore
-    :members:
-    :special-members: __init__
-```
-
-```{eval-rst}
-.. autoclass:: PrefixStore
-    :members:
-    :special-members: __init__
-
-```
 
 ## 分析集体通信
 
@@ -543,17 +270,17 @@ with torch.profiler():
 
 ## 多 GPU 集体函数
 
-:::{warning}
-多 GPU 函数（代表每个 CPU 线程有多个 GPU）已弃用。截至目前，PyTorch Distributed 的首选编程模型是每个线程一个设备，如本文档中的 API 所示。如果您是后端开发人员并希望支持每个线程多个设备，请联系 PyTorch Distributed 的维护者。
-:::
 
-(object_collectives)=
+> ⚠️ **警告**
+> 多 GPU 函数（代表每个 CPU 线程有多个 GPU）已弃用。截至目前，PyTorch Distributed 的首选编程模型是每个线程一个设备，如本文档中的 API 所示。如果您是后端开发人员并希望支持每个线程多个设备，请联系 PyTorch Distributed 的维护者。
+
 
 ## 对象集体操作
 
-:::{warning}
-对象集体操作有许多严重的限制。请继续阅读以确定它们是否适合您的用例。
-:::
+
+> ⚠️ **警告**
+> 对象集体操作有许多严重的限制。请继续阅读以确定它们是否适合您的用例。
+
 
 对象集体操作是一组类似集体的操作，适用于任意 Python 对象，只要它们可以被 pickle。实现了各种集体模式（例如 broadcast、all_gather 等），但它们大致遵循以下模式：
 
@@ -577,43 +304,23 @@ with torch.profiler():
 
 除了内置的 GLOO/MPI/NCCL 后端，PyTorch 分布式还支持通过运行时注册机制使用第三方后端。关于如何通过 C++ 扩展开发第三方后端的参考资料，请参阅 [教程 - 自定义 C++ 和 CUDA 扩展](https://pytorch.org/tutorials/advanced/cpp_extension.html) 和 `test/cpp_extensions/cpp_c10d_extension.cpp`。第三方后端的能力由其自身实现决定。
 
-新的后端继承自 `c10d::ProcessGroup`，并在导入时通过 {func}`torch.distributed.Backend.register_backend` 注册后端名称和实例化接口。
+新的后端继承自 `c10d::ProcessGroup`，并在导入时通过 `torch.distributed.Backend.register_backend` 注册后端名称和实例化接口。
 
-当手动导入此后端并使用相应的后端名称调用 {func}`torch.distributed.init_process_group` 时，`torch.distributed` 包将在新后端上运行。
+当手动导入此后端并使用相应的后端名称调用 `torch.distributed.init_process_group` 时，`torch.distributed` 包将在新后端上运行。
 
-:::{warning}
-对第三方后端的支持是实验性的，可能会发生变化。
-:::
 
-(distributed-launch)=
+> ⚠️ **警告**
+> 对第三方后端的支持是实验性的，可能会发生变化。
+
 
 ## 启动工具
 
 `torch.distributed` 包还在 `torch.distributed.launch` 中提供了一个启动工具。这个辅助工具可用于在每个节点上启动多个进程以进行分布式训练。
 
-```{eval-rst}
-.. automodule:: torch.distributed.launch
-```
-
-```{eval-rst}
-.. currentmodule:: torch.distributed.launch
-```
-
-```{eval-rst}
-.. autofunction:: launch
-```
-
-```{eval-rst}
-.. autofunction:: main
-```
-
-```{eval-rst}
-.. autofunction:: parse_args
-```
 
 ## 生成工具
 
-{ref}`multiprocessing-doc` 包还在 {func}`torch.multiprocessing.spawn` 中提供了一个 `spawn` 函数。这个辅助函数可用于生成多个进程。它的工作原理是传入你想要运行的函数，然后生成 N 个进程来运行它。这也可以用于多进程分布式训练。
+`multiprocessing-doc` 包还在 `torch.multiprocessing.spawn` 中提供了一个 `spawn` 函数。这个辅助函数可用于生成多个进程。它的工作原理是传入你想要运行的函数，然后生成 N 个进程来运行它。这也可以用于多进程分布式训练。
 
 关于如何使用它的参考资料，请参阅 [PyTorch 示例 - ImageNet 实现](https://github.com/pytorch/examples/tree/master/imagenet)
 
@@ -636,7 +343,7 @@ with torch.profiler():
 
 ### 受监控的屏障
 
-从 v1.10 开始，{func}`torch.distributed.monitored_barrier` 作为 {func}`torch.distributed.barrier` 的替代方案存在，当崩溃时（即并非所有进程在提供的超时时间内调用 {func}`torch.distributed.monitored_barrier`），它会提供有关哪个进程可能出故障的有用信息。{func}`torch.distributed.monitored_barrier` 使用 `send`/`recv` 通信原语在类似于确认的过程中实现了一个主机端屏障，允许进程 0 报告哪个（些）进程未能及时确认屏障。例如，考虑以下函数，其中进程 1 未能调用 {func}`torch.distributed.monitored_barrier`（在实践中，这可能是由于应用程序错误或先前集合操作中的挂起）：
+从 v1.10 开始，`torch.distributed.monitored_barrier` 作为 `torch.distributed.barrier` 的替代方案存在，当崩溃时（即并非所有进程在提供的超时时间内调用 `torch.distributed.monitored_barrier`），它会提供有关哪个进程可能出故障的有用信息。`torch.distributed.monitored_barrier` 使用 `send`/`recv` 通信原语在类似于确认的过程中实现了一个主机端屏障，允许进程 0 报告哪个（些）进程未能及时确认屏障。例如，考虑以下函数，其中进程 1 未能调用 `torch.distributed.monitored_barrier`（在实践中，这可能是由于应用程序错误或先前集合操作中的挂起）：
 
 ```
 import os
@@ -673,7 +380,7 @@ RuntimeError: Rank 1 failed to pass monitoredBarrier in 2000 ms
 
 当 `TORCH_CPP_LOG_LEVEL=INFO` 时，环境变量 `TORCH_DISTRIBUTED_DEBUG` 可用于触发额外的有用日志记录和集合同步检查，以确保所有进程都适当地同步。`TORCH_DISTRIBUTED_DEBUG` 可以根据所需的调试级别设置为 `OFF`（默认）、`INFO` 或 `DETAIL`。请注意，最详细的选项 `DETAIL` 可能会影响应用程序性能，因此应仅在调试问题时使用。
 
-设置 `TORCH_DISTRIBUTED_DEBUG=INFO` 将在使用 {func}`torch.nn.parallel.DistributedDataParallel` 训练的模型初始化时产生额外的调试日志记录，而 `TORCH_DISTRIBUTED_DEBUG=DETAIL` 将额外记录选定迭代次数的运行时性能统计信息。这些运行时统计信息包括前向时间、后向时间、梯度通信时间等数据。例如，给定以下应用程序：
+设置 `TORCH_DISTRIBUTED_DEBUG=INFO` 将在使用 `torch.nn.parallel.DistributedDataParallel` 训练的模型初始化时产生额外的调试日志记录，而 `TORCH_DISTRIBUTED_DEBUG=DETAIL` 将额外记录选定迭代次数的运行时性能统计信息。这些运行时统计信息包括前向时间、后向时间、梯度通信时间等数据。例如，给定以下应用程序：
 
 ```
 import os
@@ -769,7 +476,7 @@ I0607 16:18:58.085693 544066 logger.cpp:344] [Rank 0 / 2] 训练 TwoLinLayerNet 
  平均反向通信/计算重叠时间：2234674
 ```
 
-此外，`TORCH_DISTRIBUTED_DEBUG=INFO` 增强了 {func}`torch.nn.parallel.DistributedDataParallel` 中因模型存在未使用参数而导致的崩溃日志记录。目前，如果前向传播中可能存在未使用的参数，则必须在 {func}`torch.nn.parallel.DistributedDataParallel` 初始化时传入 `find_unused_parameters=True`，并且从 v1.10 开始，要求所有模型输出都参与损失计算，因为 {func}`torch.nn.parallel.DistributedDataParallel` 不支持反向传播中存在未使用的参数。这些约束对于大型模型尤其具有挑战性，因此当因错误而崩溃时，{func}`torch.nn.parallel.DistributedDataParallel` 将记录所有未使用参数的完全限定名称。例如，在上述应用程序中，如果我们将 `loss` 的计算改为 `loss = output[1]`，那么 `TwoLinLayerNet.a` 在反向传播中不会收到梯度，从而导致 `DDP` 失败。崩溃时，用户会收到关于未使用参数的信息，这对于大型模型来说可能难以手动查找：
+此外，`TORCH_DISTRIBUTED_DEBUG=INFO` 增强了 `torch.nn.parallel.DistributedDataParallel` 中因模型存在未使用参数而导致的崩溃日志记录。目前，如果前向传播中可能存在未使用的参数，则必须在 `torch.nn.parallel.DistributedDataParallel` 初始化时传入 `find_unused_parameters=True`，并且从 v1.10 开始，要求所有模型输出都参与损失计算，因为 `torch.nn.parallel.DistributedDataParallel` 不支持反向传播中存在未使用的参数。这些约束对于大型模型尤其具有挑战性，因此当因错误而崩溃时，`torch.nn.parallel.DistributedDataParallel` 将记录所有未使用参数的完全限定名称。例如，在上述应用程序中，如果我们将 `loss` 的计算改为 `loss = output[1]`，那么 `TwoLinLayerNet.a` 在反向传播中不会收到梯度，从而导致 `DDP` 失败。崩溃时，用户会收到关于未使用参数的信息，这对于大型模型来说可能难以手动查找：
 
 ```
 RuntimeError: Expected to have finished reduction in the prior iteration before starting a new one. This error indicates that your module has parameters that were not used in producing loss. You can enable unused parameter detection by passing
@@ -781,7 +488,7 @@ Parameters which did not receive grad for rank 0: a.weight
 Parameter indices which did not receive grad for rank 0: 0
 ```
 
-设置 `TORCH_DISTRIBUTED_DEBUG=DETAIL` 将对用户直接或间接（例如 DDP 的 `allreduce`）发出的每个集体调用触发额外的**一致性**和**同步**检查。这是通过创建一个包装进程组来实现的，该包装进程组包装了 {func}`torch.distributed.init_process_group` 和 {func}`torch.distributed.new_group` API 返回的所有进程组。因此，这些 API 将返回一个包装进程组，可以像常规进程组一样使用，但在将集体操作分派到底层进程组之前会执行一致性检查。目前，这些检查包括一个 {func}`torch.distributed.monitored_barrier`，它确保所有秩完成其未完成的集体调用，并报告卡住的秩。接下来，通过确保所有集体函数匹配且使用一致的张量形状调用，来检查集体操作本身的一致性。如果不是这种情况，应用程序崩溃时会包含详细的错误报告，而不是挂起或无信息的错误消息。例如，考虑以下函数，它在 {func}`torch.distributed.all_reduce` 中使用了不匹配的输入形状：
+设置 `TORCH_DISTRIBUTED_DEBUG=DETAIL` 将对用户直接或间接（例如 DDP 的 `allreduce`）发出的每个集体调用触发额外的**一致性**和**同步**检查。这是通过创建一个包装进程组来实现的，该包装进程组包装了 `torch.distributed.init_process_group` 和 `torch.distributed.new_group` API 返回的所有进程组。因此，这些 API 将返回一个包装进程组，可以像常规进程组一样使用，但在将集体操作分派到底层进程组之前会执行一致性检查。目前，这些检查包括一个 `torch.distributed.monitored_barrier`，它确保所有秩完成其未完成的集体调用，并报告卡住的秩。接下来，通过确保所有集体函数匹配且使用一致的张量形状调用，来检查集体操作本身的一致性。如果不是这种情况，应用程序崩溃时会包含详细的错误报告，而不是挂起或无信息的错误消息。例如，考虑以下函数，它在 `torch.distributed.all_reduce` 中使用了不匹配的输入形状：
 
 ```
 import torch
@@ -814,31 +521,22 @@ RuntimeError: Error when verifying shape tensors for collective ALLREDUCE on ran
 [ torch.LongTensor{1} ]
 ```
 
-:::{note}
-为了在运行时对调试级别进行细粒度控制，也可以使用函数 {func}`torch.distributed.set_debug_level`、{func}`torch.distributed.set_debug_level_from_env` 和 {func}`torch.distributed.get_debug_level`。
-:::
 
-此外，`TORCH_DISTRIBUTED_DEBUG=DETAIL` 可以与 `TORCH_SHOW_CPP_STACKTRACES=1` 结合使用，以便在检测到集合操作不同步时记录完整的调用堆栈。这些集合操作不同步检查适用于所有使用 `c10d` 集合调用的应用程序，这些调用由通过 {func}`torch.distributed.init_process_group` 和 {func}`torch.distributed.new_group` API 创建的进程组支持。
+> 📝 **注意**
+> 为了在运行时对调试级别进行细粒度控制，也可以使用函数 `torch.distributed.set_debug_level`、`torch.distributed.set_debug_level_from_env` 和 `torch.distributed.get_debug_level`。
+
+
+此外，`TORCH_DISTRIBUTED_DEBUG=DETAIL` 可以与 `TORCH_SHOW_CPP_STACKTRACES=1` 结合使用，以便在检测到集合操作不同步时记录完整的调用堆栈。这些集合操作不同步检查适用于所有使用 `c10d` 集合调用的应用程序，这些调用由通过 `torch.distributed.init_process_group` 和 `torch.distributed.new_group` API 创建的进程组支持。
 
 
 ### torch.distributed.debug HTTP 服务器
 
-`torch.distributed.debug` 模块提供了一个 HTTP 服务器，可用于调试分布式应用程序。可以通过调用 {func}`torch.distributed.debug.start_debug_server` 来启动服务器。这允许用户在运行时跨所有工作进程收集数据。
-
-```{eval-rst}
-.. automodule:: torch.distributed.debug
-    :members:
-    :undoc-members:
-    :show-inheritance:
-    :special-members: __init__
-    :member-order: bysource
-
-```
+`torch.distributed.debug` 模块提供了一个 HTTP 服务器，可用于调试分布式应用程序。可以通过调用 `torch.distributed.debug.start_debug_server` 来启动服务器。这允许用户在运行时跨所有工作进程收集数据。
 
 
 ## 日志记录
 
-除了通过 {func}`torch.distributed.monitored_barrier` 和 `TORCH_DISTRIBUTED_DEBUG` 提供的显式调试支持外，`torch.distributed` 的底层 C++ 库也会在不同级别输出日志消息。这些消息有助于理解分布式训练作业的执行状态，并排查诸如网络连接失败等问题。下表展示了如何通过组合 `TORCH_CPP_LOG_LEVEL` 和 `TORCH_DISTRIBUTED_DEBUG` 环境变量来调整日志级别。
+除了通过 `torch.distributed.monitored_barrier` 和 `TORCH_DISTRIBUTED_DEBUG` 提供的显式调试支持外，`torch.distributed` 的底层 C++ 库也会在不同级别输出日志消息。这些消息有助于理解分布式训练作业的执行状态，并排查诸如网络连接失败等问题。下表展示了如何通过组合 `TORCH_CPP_LOG_LEVEL` 和 `TORCH_DISTRIBUTED_DEBUG` 环境变量来调整日志级别。
 
 | `TORCH_CPP_LOG_LEVEL` | `TORCH_DISTRIBUTED_DEBUG` | 有效日志级别 |
 | --------------------- | ------------------------- | ------------------- |
@@ -855,493 +553,14 @@ RuntimeError: Error when verifying shape tensors for collective ALLREDUCE on ran
 - `torch.distributed.DistNetworkError`：当网络库遇到错误时抛出此异常（例如：对端重置连接）。
 - `torch.distributed.DistStoreError`：当存储（Store）遇到错误时抛出此异常（例如：TCPStore 超时）。
 
-```{eval-rst}
-.. autoclass:: torch.distributed.DistError
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.DistBackendError
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.DistNetworkError
-```
-
-```{eval-rst}
-.. autoclass:: torch.distributed.DistStoreError
-```
 
 如果您正在运行单节点训练，可能希望以交互方式在脚本中设置断点。我们提供了一种方便地在单个排名（rank）上设置断点的方法：
 
-```{eval-rst}
-.. autofunction:: torch.distributed.breakpoint
-```
 
 % 缺少特定条目的分布式模块。
 
 % 在此处添加它们以便跟踪，直到它们得到更永久的修复。
 
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.model_averaging
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.data
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.launcher
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn.jit
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn.jit.templates
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.ddp_zero_hook
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.debugging_hooks
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.default_hooks
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.mixed_precision_hooks
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.optimizer_overlap_hooks
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.post_localSGD_hook
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.powerSGD_hook
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.ddp_comm_hooks.quantization_hooks
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.join
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.model_averaging.averagers
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.model_averaging.hierarchical_model_averager
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.algorithms.model_averaging.utils
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.argparse_util
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.c10d_logger
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.default_planner
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.filesystem
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.hf_storage
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.quantized_hf_storage
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.metadata
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.optimizer
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.planner
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.planner_helpers
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.resharding
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.state_dict_loader
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.state_dict_saver
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.stateful
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.storage
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.utils
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.collective_utils
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.constants
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.device_mesh
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.distributed_c10d
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.agent.server.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.agent.server.local_elastic_agent
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.events.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.events.handlers
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.metrics.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.multiprocessing.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.multiprocessing.errors.error_handler
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.multiprocessing.errors.handlers
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.multiprocessing.redirects
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.multiprocessing.tail_log
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.c10d_rendezvous_backend
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.dynamic_rendezvous
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.etcd_rendezvous
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.etcd_rendezvous_backend
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.etcd_server
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.etcd_store
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.static_tcp_rendezvous
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.rendezvous.utils
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.timer.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.timer.file_based_local_timer
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.timer.local_timer
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.data.cycling_iterator
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.data.elastic_distributed_sampler
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.distributed
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.log_level
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.logging
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.elastic.utils.store
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.fsdp.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.fsdp.fully_sharded_data_parallel
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.fsdp.sharded_grad_scaler
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.fsdp.wrap
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.launcher.api
-
-.. autofunction:: torch.distributed.launcher.api.launch_agent
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.logging_handlers
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn.api.remote_module
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn.functional
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn.jit.instantiator
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.nn.jit.templates.remote_module_template
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.apply_optimizer_in_backward
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_adadelta
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_adagrad
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_adam
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_adamax
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_adamw
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_rmsprop
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_rprop
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.functional_sgd
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.named_optimizer
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.optimizer
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.post_localSGD_optimizer
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.utils
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.optim.zero_redundancy_optimizer
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.remote_device
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rendezvous
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.backend_registry
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.constants
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.functions
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.internal
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.options
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.rref_proxy
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.rpc.server_process_global_profiler
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.tensor.parallel.api
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.tensor.parallel.ddp
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.tensor.parallel.fsdp
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.tensor.parallel.input_reshard
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.tensor.parallel.loss
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.tensor.parallel.style
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.utils
-```
-
-```{eval-rst}
-.. py:module:: torch.distributed.checkpoint.state_dict
-```
 
 ```{toctree}
 :hidden:

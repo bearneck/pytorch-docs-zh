@@ -97,7 +97,7 @@ for i in range(5):
     gn(torch.ones(3, 3))
 ```
 
-(programming_model.recompilation.changing_cache_size_limit)=
+
 ## 更改缓存大小限制
 
 函数可以重新编译的次数是有限制的，

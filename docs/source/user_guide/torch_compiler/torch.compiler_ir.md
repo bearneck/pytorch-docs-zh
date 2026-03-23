@@ -1,4 +1,3 @@
-(torch.compiler_ir)=
 
 # IRs
 

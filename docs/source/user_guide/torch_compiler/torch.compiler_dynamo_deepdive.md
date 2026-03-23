@@ -1,4 +1,3 @@
-(torch.compiler_dynamo_deepdive)=
 
 # Dynamo 深度解析
 
@@ -197,7 +196,7 @@ FX 图的所有输入和中间元素都是 `fx.Node`。在 Dynamo 中，`fx.Node
 
 一个图存储对张量的操作……以及对符号整数的操作。我们稍后将讨论符号整数，但首先我们将讨论 Dynamo 如何解决一个相当重要的正确性问题。
 
-(making-dynamo-sound-guards)=
+
 ## 确保 Dynamo 的正确性：守卫（Guards）
 
 至此，我们有了一种完全忽略控制流来追踪程序的方法。为此，我们重新实现了整个 CPython……如果这听起来有点杀鸡用牛刀，那是因为确实如此。[torch.jit.trace](https://pytorch.org/docs/main/generated/torch.jit.trace.html) 已经实现了这个功能，而且没有所有这些复杂的机制，那么 Dynamo 的意义何在？

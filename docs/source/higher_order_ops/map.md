@@ -8,7 +8,6 @@ mystnb:
   merge_streams: True
 ---
 
-(map)=
 
 # 控制流 - Map
 
@@ -81,6 +80,3 @@ print(ep)
 
 ## API 参考
 
-```{eval-rst}
-.. autofunction:: torch._higher_order_ops.map.map
-```

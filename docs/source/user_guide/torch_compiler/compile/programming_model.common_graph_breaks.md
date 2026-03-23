@@ -102,7 +102,7 @@ def fn(y):
 print(fn(torch.ones(3, 3)))
 ```
 
-- 使用 {ref}`cond` 等高级操作符替代数据依赖的控制流。
+- 使用 `cond` 等高级操作符替代数据依赖的控制流。
 
 ```{code-cell}
 # 旧代码

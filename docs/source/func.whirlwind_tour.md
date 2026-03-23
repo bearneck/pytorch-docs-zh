@@ -2,9 +2,6 @@
 
 ## 什么是 torch.func？
 
-```{eval-rst}
-.. currentmodule:: torch.func
-```
 
 torch.func，原名 functorch，是一个为 PyTorch 提供类似 [JAX](https://github.com/google/jax) 风格的可组合函数变换的库。
 
@@ -22,11 +19,11 @@ torch.func，原名 functorch，是一个为 PyTorch 提供类似 [JAX](https://
 - 高效计算雅可比矩阵和海森矩阵
 - 高效计算批处理雅可比矩阵和海森矩阵
 
-组合 {func}`vmap`、{func}`grad`、{func}`vjp` 和 {func}`jvp` 变换，使我们能够表达上述内容，而无需为每个用例设计单独的子系统。
+组合 `vmap`、`grad`、`vjp` 和 `jvp` 变换，使我们能够表达上述内容，而无需为每个用例设计单独的子系统。
 
 ## 有哪些变换？
 
-### {func}`grad`（梯度计算）
+### `grad`（梯度计算）
 
 `grad(func)` 是我们的梯度计算变换。它返回一个新函数，用于计算 `func` 的梯度。它假设 `func` 返回一个单元素张量，并且默认计算 `func` 输出相对于第一个输入的梯度。
 
@@ -42,9 +39,9 @@ neg_sin_x = grad(grad(lambda x: torch.sin(x)))(x)
 assert torch.allclose(neg_sin_x, -x.sin())
 ```
 
-### {func}`vmap`（自动向量化）
+### `vmap`（自动向量化）
 
-注意：{func}`vmap` 对其可使用的代码施加了限制。更多详情，请参阅 {ref}`ux-limitations`。
+注意：`vmap` 对其可使用的代码施加了限制。更多详情，请参阅 `ux-limitations`。
 
 `vmap(func)(*inputs)` 是一个变换，它为 `func` 中的所有张量操作添加一个维度。`vmap(func)` 返回一个新函数，该函数将 `func` 映射到输入中每个张量的某个维度（默认为第 0 维）。
 
@@ -65,7 +62,7 @@ examples = torch.randn(batch_size, feature_size)
 result = vmap(model)(examples)
 ```
 
-当与 {func}`grad` 组合时，{func}`vmap` 可用于计算逐样本梯度：
+当与 `grad` 组合时，`vmap` 可用于计算逐样本梯度：
 
 ```python
 from torch.func import vmap
@@ -87,9 +84,9 @@ inputs = (weights,examples, targets)
 grad_weight_per_example = vmap(grad(compute_loss), in_dims=(None, 0, 0))(*inputs)
 ```
 
-### {func}`vjp`（向量-雅可比积）
+### `vjp`（向量-雅可比积）
 
-{func}`vjp` 变换将 `func` 应用于 `inputs`，并返回一个新函数，该函数在给定一些 `cotangents` 张量的情况下计算向量-雅可比积（vjp）。
+`vjp` 变换将 `func` 应用于 `inputs`，并返回一个新函数，该函数在给定一些 `cotangents` 张量的情况下计算向量-雅可比积（vjp）。
 
 ```python
 from torch.func import vjp
@@ -101,9 +98,9 @@ cotangents = (torch.randn(3),)
 outputs, vjp_fn = vjp(func, inputs); vjps = vjp_fn(*cotangents)
 ```
 
-### {func}`jvp`（雅可比-向量积）
+### `jvp`（雅可比-向量积）
 
-{func}`jvp` 变换计算雅可比-向量积，也称为“前向模式自动微分”。与大多数其他变换不同，它不是高阶函数，但它返回 `func(inputs)` 的输出以及 jvp。
+`jvp` 变换计算雅可比-向量积，也称为“前向模式自动微分”。与大多数其他变换不同，它不是高阶函数，但它返回 `func(inputs)` 的输出以及 jvp。
 
 ```python
 from torch.func import jvp
@@ -114,9 +111,9 @@ _, out_tangent = jvp(f, (x, y), (torch.ones(5), torch.ones(5)))
 assert torch.allclose(out_tangent, x + y)
 ```
 
-### {func}`jacrev`、{func}`jacfwd` 和 {func}`hessian`
+### `jacrev`、`jacfwd` 和 `hessian`
 
-{func}`jacrev` 变换返回一个新函数，该函数接受 `x` 并使用反向模式自动微分返回函数相对于 `x` 的雅可比矩阵。
+`jacrev` 变换返回一个新函数，该函数接受 `x` 并使用反向模式自动微分返回函数相对于 `x` 的雅可比矩阵。
 
 ```python
 from torch.func import jacrev
@@ -126,7 +123,7 @@ expected = torch.diag(torch.cos(x))
 assert torch.allclose(jacobian, expected)
 ```
 
-{func}`jacrev` 可以与 {func}`vmap` 组合以产生批处理雅可比矩阵：
+`jacrev` 可以与 `vmap` 组合以产生批处理雅可比矩阵：
 
 ```python
 x = torch.randn(64, 5)
@@ -134,7 +131,7 @@ jacobian = vmap(jacrev(torch.sin))(x)
 assert jacobian.shape == (64, 5, 5)
 ```
 
-{func}`jacfwd` 是 jacrev 的直接替代品，它使用前向模式自动微分计算雅可比矩阵：
+`jacfwd` 是 jacrev 的直接替代品，它使用前向模式自动微分计算雅可比矩阵：
 
 ```python
 from torch.func import jacfwd
@@ -144,7 +141,7 @@ expected = torch.diag(torch.cos(x))
 assert torch.allclose(jacobian, expected)
 ```
 
-将 {func}`jacrev` 与自身或 {func}`jacfwd` 组合可以产生海森矩阵：
+将 `jacrev` 与自身或 `jacfwd` 组合可以产生海森矩阵：
 
 ```python
 def f(x):
@@ -155,7 +152,7 @@ hessian0 = jacrev(jacrev(f))(x)
 hessian1 = jacfwd(jacrev(f))(x)
 ```
 
-{func}`hessian` 是一个结合了 jacfwd 和 jacrev 的便捷函数：
+`hessian` 是一个结合了 jacfwd 和 jacrev 的便捷函数：
 
 ```python
 from torch.func import hessian

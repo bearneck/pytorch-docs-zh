@@ -43,7 +43,6 @@ gm.print_readable()
 非严格追踪与 Dynamo（严格）追踪的不同之处在于**它是不安全的**，也就是说，给定一个函数，它捕获的张量操作图可能具有与原始函数不同的语义。
 给定一个 Python 函数，Dynamo 追踪会捕获一个张量操作图和剩余的字节码，当它们组合起来时，其语义与原始 Python 函数相同。
 
-(programming_model.non_strict_tracing_model.pure_functions)=
 
 ## 纯函数
 
@@ -160,7 +159,7 @@ except Exception as e:
     print(e)
 ```
 
-(specialization-and-constants)=
+
 ## 特化与常量
 
 非严格追踪会捕获一个可能在某些值上特化的计算图。这意味着捕获的计算图仅对这些值有效。我们说该计算图将这些值视为**常量**。

@@ -1,4 +1,4 @@
-(mps_environment_variables)=
+
 # MPS 环境变量
 
 **PyTorch 环境变量**

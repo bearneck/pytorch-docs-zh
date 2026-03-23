@@ -1,11 +1,10 @@
-(export.pt2_archive)=
 
 # PT2 归档规范
 
 以下规范定义了可通过以下方法生成的归档格式：
 
-* 通过调用 {func}`torch.export.save` 的 {ref}`torch.export <torch.export>`
-* 通过调用 {func}`torch._inductor.aoti_compile_and_package` 的 {ref}`AOTInductor <torch.compiler_aot_inductor>`
+* 通过调用 `torch.export.save` 的 `torch.export <torch.export>`
+* 通过调用 `torch._inductor.aoti_compile_and_package` 的 `AOTInductor <torch.compiler_aot_inductor>`
 
 该归档是一个 zip 文件，可以使用标准的 zipfile API 进行操作。
 
@@ -106,4 +105,4 @@ TensorConstants、非持久缓冲区和 TorchBind 对象保存在 `/data/constan
 
 此归档规范支持多个模型定义共存于同一个文件中，`<model_name>` 作为模型的唯一标识符，并将在归档的其他文件夹中用作引用。
 
-像 {func}`torch.export.pt2_archive._package.package_pt2` 和 {func}`torch.export.pt2_archive._package.load_pt2` 这样的底层 API 允许您对打包和加载过程进行更细粒度的控制。
+像 `torch.export.pt2_archive._package.package_pt2` 和 `torch.export.pt2_archive._package.load_pt2` 这样的底层 API 允许您对打包和加载过程进行更细粒度的控制。

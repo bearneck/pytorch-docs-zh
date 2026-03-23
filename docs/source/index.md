@@ -30,5 +30,5 @@ community/index
 
 ## 索引和表格
 
-* {ref}`genindex`
-* {ref}`modindex`
+* `genindex`
+* `modindex`

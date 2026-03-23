@@ -31,52 +31,16 @@
 
 包装设备运行时 API 并添加错误处理。`SetDevice` 函数展示了这种模式：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/runtime/OpenRegFunctions.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG SetDevice FUNCTION
-    :end-before: LITERALINCLUDE END: OPENREG SetDevice FUNCTION
-    :linenos:
-```
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/runtime/OpenRegFunctions.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG set_device FUNCTION
-    :end-before: LITERALINCLUDE END: OPENREG set_device FUNCTION
-    :linenos:
-```
 
 ### 绑定
 
 使用 pybind11 将 C++ 函数暴露给 Python：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/torch_openreg/csrc/Module.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: MODULE SET DEVICE HELPER
-    :end-before: LITERALINCLUDE END: MODULE SET DEVICE HELPER
-    :linenos:
-```
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/torch_openreg/csrc/Module.cpp
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG MODULE METHODS
-    :end-before: LITERALINCLUDE END: OPENREG MODULE METHODS
-    :linenos:
-    :emphasize-lines: 5
-```
 
 ### Python 端
 
 用用户友好的 Python 函数包装 C++ 绑定：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/torch_openreg/openreg/__init__.py
-    :language: python
-    :start-after: LITERALINCLUDE START: PYTHON SET DEVICE FUNCTION
-    :end-before: LITERALINCLUDE END: PYTHON SET DEVICE FUNCTION
-    :linenos:
-```
 
 以下是 C++ 到 Python 的完整映射：
 
@@ -87,7 +51,6 @@
 | `_setDevice`       | `torch_openreg._C._set_device(idx)`    | `torch.openreg.set_device(idx)`  | 设置活动设备                           |
 | `_exchangeDevice`  | `torch_openreg._C._exchange_device(idx)` | N/A（仅内部使用）                | 原子地交换设备并返回之前的设备         |
 
-(device-guard)=
 
 ## 防护
 
@@ -95,13 +58,6 @@
 
 实现 `DeviceGuardImplInterface` 以集成到 PyTorch 的防护系统中：
 
-```{eval-rst}
-.. literalinclude:: ../../../test/cpp_extensions/open_registration_extension/torch_openreg/csrc/runtime/OpenRegGuard.h
-    :language: c++
-    :start-after: LITERALINCLUDE START: OPENREG ALL DEVICE GUARD IMPL
-    :end-before: LITERALINCLUDE END: OPENREG ALL DEVICE GUARD IMPL
-    :linenos:
-```
 
 这使得该防护可用于 PyTorch 的 `PrivateUse1` 设备类型；用户随后可以将标准的 PyTorch 设备防护与自定义后端一起使用。
 

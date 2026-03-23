@@ -2,69 +2,24 @@
 orphan: true
 ---
 
-(torch.compiler_troubleshooting_old)=
 
 # PyTorch 2.0 故障排除（旧版）
 
 **作者**: [Michael Lazos](https://github.com/mlazos)
 
-:::{note}
-本文档已过时，现在主要作为如何运行 `torch.compile` 最小化工具的主要参考资料。
-请参阅[更新的故障排除文档](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_troubleshooting.html)。
-此外，还有一份更[全面的 torch.compile 手册](https://docs.google.com/document/d/1y5CRfMLdwEoF1nTk9q8qEu1mgMUuUtvhklPKJ2emLU8/edit#heading=h.ivdr7fmrbeab)可用。
-:::
 
-我们正在积极开发调试工具、性能分析器，并改进我们的错误和警告信息。下表列出了可用的工具及其典型用途。如需更多帮助，请参阅 {ref}`diagnosing-runtime-errors`。
+> 📝 **注意**
+> 本文档已过时，现在主要作为如何运行 `torch.compile` 最小化工具的主要参考资料。
+> 请参阅[更新的故障排除文档](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_troubleshooting.html)。
+> 此外，还有一份更[全面的 torch.compile 手册](https://docs.google.com/document/d/1y5CRfMLdwEoF1nTk9q8qEu1mgMUuUtvhklPKJ2emLU8/edit#heading=h.ivdr7fmrbeab)可用。
 
-```{eval-rst}
-.. list-table:: 标题
-   :widths: 25 25 50
-   :header-rows: 1
 
-   * - 工具
-     - 用途
-     - 使用方法
-   * - 信息日志
-     - 查看编译的摘要步骤
-     - ``torch._logging.set_logs(dynamo = logging.INFO)`` 或 ``TORCH_LOGS="dynamo"``
-   * - 调试日志
-     - 查看编译的详细步骤（打印每个跟踪的指令）
-     - ``torch._logging.set_logs(dynamo = logging.DEBUG)`` 和
-       ``torch._dynamo.config.verbose = True``，或 ``TORCH_LOGS="+dynamo" TORCHDYNAMO_VERBOSE=1``
-   * - 适用于任何后端的最小化工具
-     - 为任何后端找到能复现错误的最小子图
-     - 设置环境变量 ``TORCHDYNAMO_REPRO_AFTER="dynamo"``
-   * - 适用于 ``TorchInductor`` 的最小化工具
-     - 如果已知错误发生在 ``AOTAutograd`` 之后，找到在 ``TorchInductor`` 降级过程中能复现错误的最小子图
-     - 设置环境变量 ``TORCHDYNAMO_REPRO_AFTER="aot"``
-   * - Dynamo 精度最小化工具
-     - 当您怀疑问题出在 ``AOTAutograd`` 时，找到能复现 eager 模式模型与优化模型之间精度问题的最小子图
-     - ``TORCHDYNAMO_REPRO_AFTER="dynamo" TORCHDYNAMO_REPRO_LEVEL=4``
-   * - Inductor 精度最小化工具
-     - 当您怀疑问题出在后端（例如 inductor）时，找到能复现 eager 模式模型与优化模型之间精度问题的最小子图。
-       如果此工具无效，请尝试使用 Dynamo 精度最小化工具。
-     - ``TORCHDYNAMO_REPRO_AFTER="aot" TORCHDYNAMO_REPRO_LEVEL=4``
-   * - ``torch._dynamo.explain``
-     - 查找图中断并显示其原因
-     - ``torch._dynamo.explain(fn)(*inputs)``
-   * - 记录/回放
-     - 记录并回放帧以复现图捕获期间的错误
-     - ``torch._dynamo.config.replay_record_enabled = True``
-   * - TorchDynamo 函数名过滤
-     - 仅编译具有给定名称的函数，以减少调试问题时的干扰
-     - 设置环境变量 ``TORCHDYNAMO_DEBUG_FUNCTION=<name>``
-   * - TorchInductor 调试日志
-     - 打印 TorchInductor 的通用调试信息以及生成的 Triton/C++ 代码
-     - ``torch._inductor.config.debug = True``
-   * - TorchInductor 追踪
-     - 显示每个 TorchInductor 阶段所花费的时间 + 输出代码和图可视化
-     - 设置环境变量 TORCH_COMPILE_DEBUG=1 或
-       ``torch._inductor.config.trace.enabled = True``
-```
+我们正在积极开发调试工具、性能分析器，并改进我们的错误和警告信息。下表列出了可用的工具及其典型用途。如需更多帮助，请参阅 `diagnosing-runtime-errors`。
+
 
 除了信息和调试日志外，您还可以使用 [torch.\_logging](https://pytorch.org/docs/main/logging.html) 进行更细粒度的日志记录。
 
-(diagnosing-runtime-errors)=
+
 ## 诊断运行时错误
 
 从高层次来看，TorchDynamo 堆栈包括从 Python 代码进行的图捕获（TorchDynamo）和一个后端编译器。例如，一个后端编译器可能包括反向图追踪（AOTAutograd）和图降级（TorchInductor）\*。错误可能发生在堆栈的任何组件中，并将提供完整的堆栈跟踪。
@@ -84,16 +39,15 @@ orphan: true
 
 缩小问题范围的一般步骤如下：
 
-1. 使用 `"eager"` 后端运行您的程序。如果错误不再发生，则问题出在正在使用的后端编译器中（如果使用 TorchInductor，请继续步骤 2。如果不是，请参阅 {ref}`minifying-backend-compiler-errors`）。如果使用 `"eager"` 后端时错误仍然发生，则错误是由于 {ref}`torchdynamo-errors`。
-2. 仅当使用 `TorchInductor` 作为后端编译器时才需要此步骤。使用 `"aot_eager"` 后端运行模型。如果此后端引发错误，则错误发生在 AOTAutograd 追踪期间。如果使用此后端时错误不再发生，则 {ref}`minifying-torchinductor-errors`。
+1. 使用 `"eager"` 后端运行您的程序。如果错误不再发生，则问题出在正在使用的后端编译器中（如果使用 TorchInductor，请继续步骤 2。如果不是，请参阅 `minifying-backend-compiler-errors`）。如果使用 `"eager"` 后端时错误仍然发生，则错误是由于 `torchdynamo-errors`。
+2. 仅当使用 `TorchInductor` 作为后端编译器时才需要此步骤。使用 `"aot_eager"` 后端运行模型。如果此后端引发错误，则错误发生在 AOTAutograd 追踪期间。如果使用此后端时错误不再发生，则 `minifying-torchinductor-errors`。
 
 以下各节将分析这些情况。
 
-:::{note}
-TorchInductor 后端包含 AOTAutograd 追踪和 TorchInductor 编译器本身。我们将通过以下方式区分：将 `TorchInductor` 称为后端，而将 TorchInductor 降级（lowering）阶段称为对 AOTAutograd 追踪的计算图进行降级处理的阶段。
-:::
 
-(torchdynamo-errors)=
+> 📝 **注意**
+> TorchInductor 后端包含 AOTAutograd 追踪和 TorchInductor 编译器本身。我们将通过以下方式区分：将 `TorchInductor` 称为后端，而将 TorchInductor 降级（lowering）阶段称为对 AOTAutograd 追踪的计算图进行降级处理的阶段。
+
 
 ### Torchdynamo 错误
 
@@ -193,7 +147,6 @@ AssertionError
 
 如果您随后将 `torch.compile(backend="inductor")` 更改为 `torch.compile(backend="aot_eager")`，它将无错误运行，因为[问题](https://github.com/pytorch/torchdynamo/blob/d09e50fbee388d466b5252a63045643166006f77/torchinductor/lowering.py#:~:text=%23%20This%20shouldn%27t%20be,assert%20False)出在 TorchInductor 降级过程中，而不是在 AOTAutograd 中。
 
-(minifying-torchinductor-errors)=
 
 ### 最小化 TorchInductor 错误
 
@@ -243,11 +196,10 @@ compiled(*args)
 
 `Repro` 模块的 `forward` 方法包含了导致问题的确切操作符。提交问题时，请包含任何最小化的复现代码以帮助调试。
 
-(minifying-backend-compiler-errors)=
 
 ### 最小化后端编译器错误
 
-对于 TorchInductor 以外的后端编译器，查找导致错误的子图的过程与 {ref}`minifying-torchinductor-errors` 中的步骤几乎相同，但有一个重要的注意事项。即，最小化工具现在将运行在 TorchDynamo 追踪的图上，而不是 AOTAutograd 的输出图上。让我们通过一个示例来了解。
+对于 TorchInductor 以外的后端编译器，查找导致错误的子图的过程与 `minifying-torchinductor-errors` 中的步骤几乎相同，但有一个重要的注意事项。即，最小化工具现在将运行在 TorchDynamo 追踪的图上，而不是 AOTAutograd 的输出图上。让我们通过一个示例来了解。
 
 ```py
 import torch
@@ -278,9 +230,10 @@ compiled_test_backend_error()
 
 为了在 TorchDynamo 追踪前向图后运行代码，你可以使用 `TORCHDYNAMO_REPRO_AFTER` 环境变量。使用 `TORCHDYNAMO_REPRO_AFTER="dynamo"`（或 `torch._dynamo.config.repro_after="dynamo"`）运行此程序应产生[此输出](https://gist.github.com/mlazos/244e3d5b53667e44078e194762c0c92b)，并在 `{torch._dynamo.config.base_dir}/repro.py` 中生成以下代码。
 
-:::{note}
-TORCHDYNAMO_REPRO_AFTER 的另一个选项是 `"aot"`，它将在生成反向图后运行最小化工具。
-:::
+
+> 📝 **注意**
+> TORCHDYNAMO_REPRO_AFTER 的另一个选项是 `"aot"`，它将在生成反向图后运行最小化工具。
+
 
 ```python
 import torch
@@ -315,7 +268,7 @@ with torch.cuda.amp.autocast(enabled=False):
     res = run_fwd_maybe_bwd(opt_mod, args)
 ```
 
-最小化工具成功地将图缩减到在 `toy_compiler` 中引发错误的操作符。与 {ref}`minifying-torchinductor-errors` 中过程的另一个区别是，最小化工具在遇到后端编译器错误后会自动运行。成功运行后，最小化工具将 `repro.py` 写入 `torch._dynamo.config.base_dir`。
+最小化工具成功地将图缩减到在 `toy_compiler` 中引发错误的操作符。与 `minifying-torchinductor-errors` 中过程的另一个区别是，最小化工具在遇到后端编译器错误后会自动运行。成功运行后，最小化工具将 `repro.py` 写入 `torch._dynamo.config.base_dir`。
 
 ## 性能分析
 
@@ -450,7 +403,7 @@ compiled_fun = torch.compile(some_fun, ...)
 
 TorchDynamo 将尝试将 `some_fun` 中的所有 torch/张量操作编译到单个 FX 图中，但它可能无法将所有内容捕获到一个图中。
 
-某些图中断原因是 TorchDynamo 无法克服的，并且不容易修复。例如，调用 torch 之外的 C 扩展对 torchdynamo 是不可见的，并且可能执行任意操作，而 TorchDynamo 无法引入必要的守卫（参见 {ref}`making-dynamo-sound-guards`）来确保编译后的程序可以安全地重用。如果生成的片段很小，图中断可能会影响性能。为了最大化性能，尽可能减少图中断的数量非常重要。
+某些图中断原因是 TorchDynamo 无法克服的，并且不容易修复。例如，调用 torch 之外的 C 扩展对 torchdynamo 是不可见的，并且可能执行任意操作，而 TorchDynamo 无法引入必要的守卫（参见 `making-dynamo-sound-guards`）来确保编译后的程序可以安全地重用。如果生成的片段很小，图中断可能会影响性能。为了最大化性能，尽可能减少图中断的数量非常重要。
 
 ## 识别图中断的原因
 

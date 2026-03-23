@@ -47,7 +47,7 @@
 - **Dynamo 编译** – TorchDynamo 内置了一个统计函数，用于收集和显示每个编译阶段所花费的时间。在执行 `torch._dynamo` 后，可以通过调用 `torch._dynamo.utils.compile_times()` 来访问这些统计数据。默认情况下，它会返回一个字符串，表示按名称统计的每个 TorchDynamo 函数所花费的编译时间。
 - **Inductor 编译** – TorchInductor 内置了统计和跟踪功能，用于显示每个编译阶段所花费的时间、输出代码、输出图可视化以及 IR 转储。使用 `env TORCH_COMPILE_DEBUG=1 python repro.py`。这是一个调试工具，旨在通过输出类似[此示例](https://gist.github.com/jansel/f4af078791ad681a0d4094adeb844396)的内容，使调试/理解 TorchInductor 内部机制更加容易。该调试跟踪中的每个文件都可以通过 `torch._inductor.config.trace.*` 来启用/禁用。配置文件和图表默认都是禁用的，因为生成它们的开销较大。更多示例请参阅[示例调试目录输出](https://gist.github.com/jansel/f4af078791ad681a0d4094adeb844396)。
 - **过度重新编译**
-  当 TorchDynamo 编译一个函数（或其一部分）时，它会基于局部变量和全局变量做出某些假设，以允许编译器进行优化，并将这些假设表示为在运行时检查特定值的守卫。如果其中任何一个守卫失败，Dynamo 将重新编译该函数（或部分），最多重新编译 `torch._dynamo.config.recompile_limit` 次。如果你的程序达到了缓存限制，首先需要确定是哪个守卫失败，以及程序的哪部分触发了它。使用 `TORCH_TRACE/tlparse` 或 `TORCH_LOGS=recompiles` 来追踪问题的根源，更多细节请查看 {ref}`torch.compiler_troubleshooting`。
+  当 TorchDynamo 编译一个函数（或其一部分）时，它会基于局部变量和全局变量做出某些假设，以允许编译器进行优化，并将这些假设表示为在运行时检查特定值的守卫。如果其中任何一个守卫失败，Dynamo 将重新编译该函数（或部分），最多重新编译 `torch._dynamo.config.recompile_limit` 次。如果你的程序达到了缓存限制，首先需要确定是哪个守卫失败，以及程序的哪部分触发了它。使用 `TORCH_TRACE/tlparse` 或 `TORCH_LOGS=recompiles` 来追踪问题的根源，更多细节请查看 `torch.compiler_troubleshooting`。
 
 ## 为什么在生产环境中重新编译？
 
@@ -72,7 +72,7 @@ frozen_toy_example(torch.randn(10), torch.randn(10))
 
 然而，无论你使用哪个后端，最好使用基准测试和观察的方法，尝试使用 PyTorch 分析器，直观地检查生成的内核，并尝试自己了解发生了什么。
 
-(torch.compiler_graph_breaks)=
+
 ## 为什么我没有看到加速效果？
 
 ### 图中断
@@ -230,7 +230,6 @@ f(x)
 
 从 2.1 版本开始，`torch.compile` 能够理解处理 NumPy 数组的原生 NumPy 程序，以及通过 `x.numpy()`、`torch.from_numpy` 和相关函数在 PyTorch 和 NumPy 之间转换的混合 PyTorch-NumPy 程序。
 
-(nonsupported-numpy-feats)=
 
 ### `torch.compile` 支持哪些 NumPy 功能？
 
@@ -356,7 +355,7 @@ assert Z.device.type == "cuda"
 
 ### 如何在 `torch.compile` 下调试 NumPy 代码？
 
-调试 JIT 编译的代码具有挑战性，因为现代编译器的复杂性及其引发的令人畏惧的错误。{ref}`torch.compile 故障排除文档 <torch.compiler_troubleshooting>` 包含了一些关于如何完成此任务的技巧和窍门。
+调试 JIT 编译的代码具有挑战性，因为现代编译器的复杂性及其引发的令人畏惧的错误。`torch.compile 故障排除文档 <torch.compiler_troubleshooting>` 包含了一些关于如何完成此任务的技巧和窍门。
 
 如果上述方法不足以定位问题的根源，我们仍然可以使用一些其他 NumPy 特定的工具。我们可以通过禁用对 NumPy 函数的追踪来判断错误是否完全在 PyTorch 代码中：
 
@@ -368,7 +367,7 @@ config.trace_numpy = False
 如果问题出在追踪的 NumPy 代码中，我们可以通过导入 `import torch._numpy as np`，使用 PyTorch 作为后端来急切执行 NumPy 代码（无需 `torch.compile`）。
 这仅应用于**调试目的**，绝不能替代 PyTorch API，因为它**性能远低于** PyTorch API，并且作为私有 API，**可能随时更改而不另行通知**。无论如何，`torch._numpy` 是一个基于 PyTorch 实现的 NumPy Python 版本，`torch.compile` 在内部使用它将 NumPy 代码转换为 PyTorch 代码。它的代码相当易于阅读和修改，因此如果您在其中发现任何错误，请随时提交修复该错误的 PR 或直接提出问题。
 
-如果导入 `torch._numpy as np` 后程序能够正常工作，那么问题很可能出在 TorchDynamo 中。如果是这种情况，请随时提交一个包含 {ref}`最小复现示例 <torch.compiler_troubleshooting>` 的问题。
+如果导入 `torch._numpy as np` 后程序能够正常工作，那么问题很可能出在 TorchDynamo 中。如果是这种情况，请随时提交一个包含 `最小复现示例 <torch.compiler_troubleshooting>` 的问题。
 
 ### 我对一些 NumPy 代码使用了 `torch.compile`，但没有看到任何加速效果。
 
@@ -376,11 +375,11 @@ config.trace_numpy = False
 [关于如何调试这类 torch.compile 问题的通用建议教程](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_faq.html#why-am-i-not-seeing-speedups)。
 
 由于使用了不支持的功能，可能会发生一些图中断。请参阅
-{ref}`不支持的 NumPy 功能 <nonsupported-numpy-feats>`。更一般地说，需要记住的是，一些广泛使用的 NumPy 功能与编译器配合不佳。例如，原地修改使得编译器内部推理变得困难，并且通常比其非原地对应操作性能更差。因此，最好避免使用它们。使用 `out=` 参数也是如此。相反，应优先使用非原地操作，并让 `torch.compile` 来优化内存使用。对于数据依赖的操作也是如此，例如通过布尔掩码进行掩码索引，或者数据依赖的控制流，如 `if` 或 `while` 结构。
+`不支持的 NumPy 功能 <nonsupported-numpy-feats>`。更一般地说，需要记住的是，一些广泛使用的 NumPy 功能与编译器配合不佳。例如，原地修改使得编译器内部推理变得困难，并且通常比其非原地对应操作性能更差。因此，最好避免使用它们。使用 `out=` 参数也是如此。相反，应优先使用非原地操作，并让 `torch.compile` 来优化内存使用。对于数据依赖的操作也是如此，例如通过布尔掩码进行掩码索引，或者数据依赖的控制流，如 `if` 或 `while` 结构。
 
 ## 细粒度追踪应使用哪个 API？
 
-在某些情况下，您可能需要将代码的一小部分排除在 torch.compile 编译之外。本节提供了一些答案，您可以在 {ref}`torchdynamo_fine_grain_tracing` 中找到更多信息。
+在某些情况下，您可能需要将代码的一小部分排除在 torch.compile 编译之外。本节提供了一些答案，您可以在 `torchdynamo_fine_grain_tracing` 中找到更多信息。
 
 ### 如何在函数上实现图中断？
 
@@ -402,15 +401,18 @@ config.trace_numpy = False
 
 ### `torch._dynamo.disable` 和 `torch._dynamo_skip` 有什么区别？
 
-:::{note}
-`torch._dynamo_skip` 已弃用。
-:::
+
+> 📝 **注意**
+> `torch._dynamo_skip` 已弃用。
+
 
 您很可能需要的是 `torch._dynamo.disable`。但在不太可能的情况下，您可能需要更精细的控制。假设您只想在 `a_fn` 函数上禁用追踪，但希望在 `aa_fn` 和 `ab_fn` 中继续追踪。下图演示了此用例：
 
-:::{figure} ../../_static/img/fine_grained_apis/call_stack_diagram.png
-:alt: torch.compile + disable(a_fn, recursive=False) 的示意图
-:::
+
+> **FIGURE**
+> ../../_static/img/fine_grained_apis/call_stack_diagram.png
+> :alt: torch.compile + disable(a_fn, recursive=False) 的示意图
+
 
 在这种情况下，您可以使用 `torch._dynamo.disable(recursive=False)`。
 在早期版本中，此功能由 `torch._dynamo.skip` 提供。现在，这由 `torch._dynamo.disable` 内部的 `recursive` 标志支持。

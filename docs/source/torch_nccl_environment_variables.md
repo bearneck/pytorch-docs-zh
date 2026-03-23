@@ -1,4 +1,4 @@
-(_torch_nccl_environment_variables)=
+
 # PYTORCH ProcessGroupNCCL 环境变量
 
 有关环境变量的更多信息，请参阅 [ProcessGroupNCCL Environment Variables](https://github.com/pytorch/pytorch/blob/main/torch/csrc/distributed/c10d/ProcessGroupNCCL.hpp)。

@@ -1,13 +1,11 @@
-```{eval-rst}
-.. role:: hidden
-    :class: hidden-section
-```
+
 
 # 流水线并行
 
-:::{note}
-`torch.distributed.pipelining` 目前处于 alpha 阶段，正在开发中。API 可能会有变更。它从 [PiPPy](https://github.com/pytorch/PiPPy) 项目迁移而来。
-:::
+
+> 📝 **注意**
+> `torch.distributed.pipelining` 目前处于 alpha 阶段，正在开发中。API 可能会有变更。它从 [PiPPy](https://github.com/pytorch/PiPPy) 项目迁移而来。
+
 
 ## 为什么需要流水线并行？
 
@@ -40,9 +38,9 @@
 
 `PipelineStage` 需要知道阶段模型的输入和输出形状，以便正确分配通信缓冲区。形状必须是静态的，例如，在运行时，形状不能每一步都发生变化。如果运行时形状与预期形状不匹配，将引发 `PipeliningShapeError` 异常。当与其他并行技术组合或应用混合精度时，必须考虑这些技术，以便 `PipelineStage` 知道运行时阶段模块输出的正确形状（和数据类型）。
 
-用户可以通过传入一个代表应在该阶段运行的模型部分的 `nn.Module` 来直接构造 `PipelineStage` 实例。这可能需要对原始模型代码进行修改。请参阅 {ref}`option_1_manual` 中的示例。
+用户可以通过传入一个代表应在该阶段运行的模型部分的 `nn.Module` 来直接构造 `PipelineStage` 实例。这可能需要对原始模型代码进行修改。请参阅 `option_1_manual` 中的示例。
 
-或者，划分前端可以使用图划分技术自动将你的模型拆分为一系列 `nn.Module`。此技术要求模型可以通过 `torch.Export` 进行追踪。生成的 `nn.Module` 与其他并行技术的可组合性尚处于实验阶段，可能需要一些变通方法。如果用户无法轻松更改模型代码，使用此前端可能更具吸引力。更多信息请参阅 {ref}`option_2_tracer`。
+或者，划分前端可以使用图划分技术自动将你的模型拆分为一系列 `nn.Module`。此技术要求模型可以通过 `torch.Export` 进行追踪。生成的 `nn.Module` 与其他并行技术的可组合性尚处于实验阶段，可能需要一些变通方法。如果用户无法轻松更改模型代码，使用此前端可能更具吸引力。更多信息请参阅 `option_2_tracer`。
 
 ## 步骤 2：使用 `PipelineSchedule` 执行
 
@@ -73,7 +71,6 @@ torchrun --nproc_per_node=2 example.py
 
 ## 划分模型的选项
 
-(option_1_manual)=
 
 ### 选项 1：手动划分模型
 
@@ -140,7 +137,6 @@ with torch.device("meta"):
 
 当与其他数据或模型并行技术结合使用时，如果模型块的输出形状/数据类型会受到影响，则可能还需要 `output_args`。
 
-(option_2_tracer)=
 
 ### 选项 2：自动切分模型
 
@@ -256,9 +252,10 @@ info = pipe.info()
 stage = build_stage(dp_mod, stage_idx, info, device, group)
 ```
 
-:::{note}
-`pipeline` 前端使用一个追踪器（`torch.export`）将你的模型捕获为单个图。如果你的模型无法完全图化，可以使用下面介绍的手动前端。
-:::
+
+> 📝 **注意**
+> `pipeline` 前端使用一个追踪器（`torch.export`）将你的模型捕获为单个图。如果你的模型无法完全图化，可以使用下面介绍的手动前端。
+
 
 ## Hugging Face 示例
 
@@ -312,118 +309,18 @@ stage = build_stage(dp_mod, stage_idx, info, device, group)
 
 ## API 参考
 
-```{eval-rst}
-.. automodule:: torch.distributed.pipelining
-```
 
 ### 模型分割 API
 
 以下一组 API 将您的模型转换为流水线表示。
 
-```{eval-rst}
-.. currentmodule:: torch.distributed.pipelining
-```
-
-```{eval-rst}
-.. autoclass:: SplitPoint
-```
-
-```{eval-rst}
-.. autofunction:: pipeline
-```
-
-```{eval-rst}
-.. autoclass:: Pipe
-```
-
-```{eval-rst}
-.. autofunction:: pipe_split
-```
 
 ### 微批次工具
 
-```{eval-rst}
-.. automodule:: torch.distributed.pipelining.microbatch
-```
-
-```{eval-rst}
-.. currentmodule:: torch.distributed.pipelining.microbatch
-```
-
-```{eval-rst}
-.. autoclass:: TensorChunkSpec
-```
-
-```{eval-rst}
-.. autofunction:: split_args_kwargs_into_chunks
-```
-
-```{eval-rst}
-.. autofunction:: merge_chunks
-```
 
 ### 流水线阶段
 
-```{eval-rst}
-.. automodule:: torch.distributed.pipelining.stage
-```
-
-```{eval-rst}
-.. currentmodule:: torch.distributed.pipelining.stage
-```
-
-```{eval-rst}
-.. autoclass:: PipelineStage
-```
-
-```{eval-rst}
-.. autofunction:: build_stage
-```
 
 ### 流水线调度
 
-```{eval-rst}
-.. automodule:: torch.distributed.pipelining.schedules
-```
 
-```{eval-rst}
-.. currentmodule:: torch.distributed.pipelining.schedules
-```
-
-```{eval-rst}
-.. autoclass:: ScheduleGPipe
-```
-
-```{eval-rst}
-.. autoclass:: Schedule1F1B
-```
-
-```{eval-rst}
-.. autoclass:: ScheduleInterleaved1F1B
-```
-
-```{eval-rst}
-.. autoclass:: ScheduleLoopedBFS
-```
-
-```{eval-rst}
-.. autoclass:: ScheduleInterleavedZeroBubble
-```
-
-```{eval-rst}
-.. autoclass:: ScheduleZBVZeroBubble
-```
-
-```{eval-rst}
-.. autoclass:: ScheduleDualPipeV
-```
-
-```{eval-rst}
-.. autoclass:: PipelineScheduleSingle
-  :members:
-```
-
-```{eval-rst}
-.. autoclass:: PipelineScheduleMulti
-  :members:
-```

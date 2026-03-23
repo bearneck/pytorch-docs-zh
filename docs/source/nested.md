@@ -1,8 +1,5 @@
 # torch.nested
 
-```{eval-rst}
-.. automodule:: torch.nested
-```
 
 ## 简介
 
@@ -14,11 +11,11 @@
 
 嵌套张量的一个常见应用是表示不同领域中存在的可变长度序列数据的批次，例如不同的句子长度、图像大小以及音频/视频剪辑长度。传统上，此类数据通过将序列填充到批次内的最大长度、对填充形式执行计算，然后进行掩码处理以移除填充来处理。这种方法效率低下且容易出错，而嵌套张量的存在正是为了解决这些问题。
 
-在嵌套张量上调用操作的 API 与常规 ``torch.Tensor`` 并无不同，允许与现有模型无缝集成，主要区别在于 {ref}`输入的构造 <construction>`。
+在嵌套张量上调用操作的 API 与常规 ``torch.Tensor`` 并无不同，允许与现有模型无缝集成，主要区别在于 `输入的构造 <construction>`。
 
-由于这是一个原型功能，{ref}`支持的操作 <supported operations>` 集合有限，但正在不断增长。我们欢迎问题报告、功能请求和贡献。有关贡献的更多信息，请参阅 [此 Readme](https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/nested/README.md)。
+由于这是一个原型功能，`支持的操作 <supported operations>` 集合有限，但正在不断增长。我们欢迎问题报告、功能请求和贡献。有关贡献的更多信息，请参阅 [此 Readme](https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/nested/README.md)。
 
-(construction)=
+
 ## 构造
 
 ```{note}
@@ -100,7 +97,7 @@ False
 
 请注意，嵌套张量充当原始填充密集张量的视图，引用相同的内存而不进行复制/分配。对非连续 NJT 的操作支持有些有限，因此如果遇到支持缺口，始终可以使用 ``contiguous()`` 转换为连续的 NJT。
 
-(data_layout)=
+
 ## 数据布局和形状
 
 出于效率考虑，嵌套张量通常将其张量分量打包到连续的内存块中，并维护额外的元数据来指定批次项的边界。对于 ``torch.jagged`` 布局，连续内存块存储在 ``values`` 分量中，而 ``offsets`` 分量则用于界定不规则维度的批次项边界。
@@ -152,11 +149,11 @@ False
 RuntimeError: cannot call binary pointwise function add.Tensor with inputs of shapes (2, j2, 128) and (2, j3, 128)
 ```
 
-在上面的例子中，尽管两个 NJT 的概念形状相同，但它们没有引用同一个 ``offsets`` 张量，因此它们的形状不同，并且不兼容。我们认识到这种行为不够直观，正在努力为嵌套张量的 Beta 版本放宽此限制。有关解决方法，请参阅本文档的 {ref}`故障排除 <ragged_structure_incompatibility>` 部分。
+在上面的例子中，尽管两个 NJT 的概念形状相同，但它们没有引用同一个 ``offsets`` 张量，因此它们的形状不同，并且不兼容。我们认识到这种行为不够直观，正在努力为嵌套张量的 Beta 版本放宽此限制。有关解决方法，请参阅本文档的 `故障排除 <ragged_structure_incompatibility>` 部分。
 
 除了 ``offsets`` 元数据外，NJT 还可以计算并缓存其组件的最小和最大序列长度，这对于调用特定的内核（例如 SDPA）可能很有用。目前还没有公开的 API 来访问这些信息，但这将在 Beta 版本中改变。
 
-(supported operations)=
+
 ## 支持的操作
 
 本节列出了您可能觉得有用的嵌套张量常见操作列表。这并非详尽无遗，因为 PyTorch 中有数千个操作。虽然目前其中相当一部分支持嵌套张量，但完全支持是一项庞大的任务。嵌套张量的理想状态是全面支持所有可用于非嵌套张量的 PyTorch 操作。为了帮助我们实现这一目标，请考虑：
@@ -264,7 +261,7 @@ torch.Size([2, 6, j1])
 有关 NJT 与 FlexAttention 的使用示例，请参见
 [此处](https://pytorch.org/tutorials/intermediate/transformer_building_blocks.html#flexattention-njt)。
 
-(usage_with_torch_compile)=
+
 ## 与 torch.compile 配合使用
 
 NJT 设计用于与 ``torch.compile()`` 配合以实现最佳性能，我们始终建议尽可能将 ``torch.compile()`` 与 NJT 结合使用。无论 NJT 是作为编译函数或模块的输入传递，还是在函数内部内联实例化，NJT 都能开箱即用且无需图中断。
@@ -312,12 +309,12 @@ torch.Size([2, j1, 3])
 
 如果在使用 NJT + ``torch.compile`` 时遇到问题或晦涩的错误，请提交 PyTorch issue。在 ``torch.compile`` 中完全支持子类是一项长期工作，目前可能仍存在一些不完善之处。
 
-(troubleshooting)=
+
 ## 故障排除
 
 本节包含使用嵌套张量时可能遇到的常见错误，以及这些错误的原因和解决建议。
 
-(unimplemented_op)=
+
 ### 未实现的操作
 
 随着嵌套张量操作支持的增加，此错误已越来越少见，但考虑到 PyTorch 中有数千个操作，目前仍有可能遇到。
@@ -328,7 +325,7 @@ torch.Size([2, j1, 3])
 
 错误信息很直接；我们尚未为这个特定操作添加支持。如果您愿意，可以自行[贡献](contributions)实现，或者直接[请求](https://github.com/pytorch/pytorch/issues/118107)我们在未来的 PyTorch 版本中添加对此操作的支持。
 
-(ragged_structure_incompatibility)=
+
 ### 不规则结构不兼容
 
 ```
@@ -374,7 +371,7 @@ torch.Size([2, j1, 128])
 
 如果在设置这些标志后，您仍然看到数据依赖操作符错误，请向 PyTorch 提交问题。`torch.compile()` 的这一领域仍在大力开发中，NJT 支持的某些方面可能还不完整。
 
-(contributions)=
+
 ## 贡献
 
 如果您想为嵌套张量开发做出贡献，最有影响力的方式之一是为当前不支持的 PyTorch 操作符添加嵌套张量支持。这个过程通常包括几个简单的步骤：
@@ -389,32 +386,7 @@ torch.Size([2, j1, 128])
 *   对于*非批次维度*的操作，基于 `unbind()` 的回退应该有效。
 *   对于参差维度上的操作，可以考虑使用一个不会对输出产生负面偏差的、经过适当选择的填充值，将其转换为填充密集张量，运行操作符，然后再转换回 NJT。在 `torch.compile` 内部，这些转换可以被融合以避免具体化填充的中间张量。
 
-(construction_and_conversion)=
 
 ## 构造和转换函数的详细文档
-```{eval-rst}
-.. currentmodule:: torch.nested
-```
-```{eval-rst}
-.. autofunction:: nested_tensor
-```
-```{eval-rst}
-.. autofunction:: nested_tensor_from_jagged
-```
-```{eval-rst}
-.. autofunction:: as_nested_tensor
-```
-```{eval-rst}
-.. autofunction:: to_padded_tensor
-```
-```{eval-rst}
-.. autofunction:: masked_select
-```
-```{eval-rst}
-.. autofunction:: narrow
-```
-```{eval-rst}
-.. seealso::
 
-   `通过用嵌套张量和 torch.compile 替换 nn.Transformer 来加速 PyTorch Transformers <https://docs.pytorch.org/tutorials/intermediate/transformer_building_blocks.html>`_
-```
+

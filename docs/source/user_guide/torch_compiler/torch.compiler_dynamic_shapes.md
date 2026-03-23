@@ -16,7 +16,7 @@ from compile import header_code
 torch._logging.set_logs(graph_breaks=True, graph_code=True)
 ```
 
-(dynamic_shapes)=
+
 # 动态形状
 
 本节解释了如何在 PyTorch 中处理动态形状，包括如何调试和修复常见错误、在算子中实现对动态形状的支持，以及理解其底层机制。
@@ -37,7 +37,7 @@ torch._logging.set_logs(graph_breaks=True, graph_code=True)
 
 ```{note}
 为简单起见，此示例使用了 `@torch.compile(dynamic=True)`。请注意，由于此选项容易出错，不推荐使用。
-关于启用动态形状的推荐方法，请参见 {ref}`enable-dynamic-behavior`。
+关于启用动态形状的推荐方法，请参见 `enable-dynamic-behavior`。
 ```
 
 ```{code-cell}
@@ -74,7 +74,7 @@ f(torch.rand(40))
 
 虽然对于这个小例子，编译时间差异很小，但更复杂的用例将显示出显著的性能改进。
 
-(what_is_a_specialization)=
+
 ## 什么是特化？
 
 **特化** 指的是通过检查控制流中的形状条件，为特定输入形状优化计算图。如果基于形状条件进入某个分支，则该图将针对该条件进行定制。如果新的输入不满足此条件，系统将重新编译该图。
@@ -109,24 +109,24 @@ f(torch.rand(50))
 ```{image} ../../_static/img/dynamic_shapes/dynamic_shapes_example_specialization.png
 ```
 
-(enable-dynamic-behavior)=
+
 ## 启用动态行为
 
 有以下几种方法可以使事物变为动态：
 
-* {ref}`automatic_dynamic`
-* {ref}`user_annotations` (推荐)
-* {ref}`torch_compile_dynamic_true` (仅用于测试)
-* {ref}`dynamic_shapes_advanced_control_options` (用于高级用例)
+* `automatic_dynamic`
+* `user_annotations` (推荐)
+* `torch_compile_dynamic_true` (仅用于测试)
+* `dynamic_shapes_advanced_control_options` (用于高级用例)
 
 请阅读下面关于每个选项的说明。
 
-(automatic_dynamic)=
+
 ### 自动动态
 
-**自动动态** 是默认行为，其中 {func}`torch.compile` 在首次编译时假定使用静态形状，同时跟踪该次编译的输入尺寸。当触发重新编译时，它使用此信息来识别哪些维度已发生变化，并在第二次编译中将它们标记为动态。
+**自动动态** 是默认行为，其中 `torch.compile` 在首次编译时假定使用静态形状，同时跟踪该次编译的输入尺寸。当触发重新编译时，它使用此信息来识别哪些维度已发生变化，并在第二次编译中将它们标记为动态。
 
-(user_annotations)=
+
 ### 用户注解
 
 有几个 API 允许用户通过名称或代码显式地将特定输入标记为动态。这对于避免初始编译（这些编译最终会因之前的工具而变为动态）很有用。它也用于标记那些不会自动被标记为动态的元素，例如神经网络模块参数等。用户注解是启用动态形状的首选方法。
@@ -150,9 +150,9 @@ f(torch.rand(50))
 > compiled_model = torch.compile(model)
 > ```
 
-{func}`torch._dynamo.mark_dynamic` 函数将张量的一个维度标记为动态，如果该维度被特化，则会失败。它不适用于整数。仅当您知道使用此输入的所有计算图都收敛到单个动态计算图时，才使用此函数。否则，您可能会遇到具有误导性的约束违反错误。在这种情况下，请考虑使用 {func}`torch._dynamo.maybe_mark_dynamic`。目前，{func}`torch._dynamo.mark_dynamic` 的优先级不高于 `force_parameter_static_shapes = True` 或 `force_nn_module_property_static_shapes = True`。
+`torch._dynamo.mark_dynamic` 函数将张量的一个维度标记为动态，如果该维度被特化，则会失败。它不适用于整数。仅当您知道使用此输入的所有计算图都收敛到单个动态计算图时，才使用此函数。否则，您可能会遇到具有误导性的约束违反错误。在这种情况下，请考虑使用 `torch._dynamo.maybe_mark_dynamic`。目前，`torch._dynamo.mark_dynamic` 的优先级不高于 `force_parameter_static_shapes = True` 或 `force_nn_module_property_static_shapes = True`。
 
-如果您事先知道某个特定维度将是动态的，可以使用 {func}`torch._dynamo.mark_dynamic(tensor, dim)` 来避免初始重新编译。此外，如果您已经知道此维度的最小和最大可能值，可以使用 {func}`torch._dynamo.mark_dynamic(tensor, dim, min=min, max=max)` 来指定它们。
+如果您事先知道某个特定维度将是动态的，可以使用 `torch._dynamo.mark_dynamic(tensor, dim)` 来避免初始重新编译。此外，如果您已经知道此维度的最小和最大可能值，可以使用 `torch._dynamo.mark_dynamic(tensor, dim, min=min, max=max)` 来指定它们。
 
 以下是一个简单的示例：
 
@@ -176,13 +176,13 @@ f(torch.randn(40))
 
 #### `maybe_mark_dynamic(tensor, dim)`
 
-{func}`torch._dynamo.maybe_mark_dynamic` 函数与 {func}`torch._dynamo.mark_dynamic` 共享所有属性，但如果尺寸被特化，它不会失败。当输入被多个计算图共享，或者特定框架下的计算图数量不收敛到一时，请使用此函数。例如，在上面的示例中，使用 {func}`torch._dynamo.maybe_mark_dynamic()`，因为尺寸为 0 和 1 的计算图将被特化。但是，您可以使用 {func}`torch._dynamo.mark_dynamic` 来确保永远不会特化。
+`torch._dynamo.maybe_mark_dynamic` 函数与 `torch._dynamo.mark_dynamic` 共享所有属性，但如果尺寸被特化，它不会失败。当输入被多个计算图共享，或者特定框架下的计算图数量不收敛到一时，请使用此函数。例如，在上面的示例中，使用 `torch._dynamo.maybe_mark_dynamic()`，因为尺寸为 0 和 1 的计算图将被特化。但是，您可以使用 `torch._dynamo.mark_dynamic` 来确保永远不会特化。
 
 #### `mark_unbacked(tensor, dim)`
 
-{func}`torch._dynamo.decorators.mark_unbacked` 函数将张量的一个维度标记为无支撑维度。这不太可能是您需要的工具，但如果特化发生在条件 `guard_size_oblivious(x)` 内部，并且使用它可以消除特化，那么它可能有用。请确保它能修复特化问题，并且不会引入数据相关的错误，该错误会在您试图避免的特化位置或之前转换为计算图中断。使用下一个选项可能更好。
+`torch._dynamo.decorators.mark_unbacked` 函数将张量的一个维度标记为无支撑维度。这不太可能是您需要的工具，但如果特化发生在条件 `guard_size_oblivious(x)` 内部，并且使用它可以消除特化，那么它可能有用。请确保它能修复特化问题，并且不会引入数据相关的错误，该错误会在您试图避免的特化位置或之前转换为计算图中断。使用下一个选项可能更好。
 
-(dynamic_sources_allow_list)=
+
 #### 动态允许列表 (`DYNAMIC_SOURCES`)
 
 使用环境变量 `TORCH_COMPILE_DYNAMIC_SOURCES` 传递一个配置列表，其中包含要标记为动态的源名称。例如：`TORCH_COMPILE_DYNAMIC_SOURCES=L[‘x’],L[‘y’]`。使用 `tlparse` 中的 PGO 工件最容易找到这些动态源名称。您可以从 PGO 工件中复制并粘贴动态源名称。此方法适用于整数和张量尺寸，并且优先级高于所有其他强制静态形状的标志。如果标记为动态的内容被特化，或者提供的输入不存在，它不会抛出错误。
@@ -203,17 +203,17 @@ f(torch.rand(30))
 f(torch.rand(40))
 ```
 
-(torch.compiler.set_stance_eager_then_compile)=
+
 #### `torch.compiler.set_stance ("eager_then_compile")`
 
-有时，确定哪些输入应标记为动态可能具有挑战性。如果您愿意为第一批数据接受性能成本，另一个便捷的选择是使用 `eager_then_compile` 姿态，它会自动为您确定动态输入。更多信息，请参阅 {func}`torch.compiler.set_stance` 和 [使用 torch.compiler.set_stance 进行动态编译控制](https://docs.pytorch.org/tutorials/recipes/torch_compiler_set_stance_tutorial.html)。
+有时，确定哪些输入应标记为动态可能具有挑战性。如果您愿意为第一批数据接受性能成本，另一个便捷的选择是使用 `eager_then_compile` 姿态，它会自动为您确定动态输入。更多信息，请参阅 `torch.compiler.set_stance` 和 [使用 torch.compiler.set_stance 进行动态编译控制](https://docs.pytorch.org/tutorials/recipes/torch_compiler_set_stance_tutorial.html)。
 
-(torch_compile_dynamic_true)=
+
 ### `torch.compile (dynamic=true)`（不推荐）
 
 此设置强制所有尺寸和整数为动态，增加了遇到动态形状错误的可能性。由于容易出错，不建议设置此选项。它会使每个输入尺寸都变为动态，这可能导致性能下降并最终增加编译时间。
 
-PyTorch 还为动态形状提供了高级控制选项，请参阅：{ref}`dynamic_shapes_advanced_control_options`。
+PyTorch 还为动态形状提供了高级控制选项，请参阅：`dynamic_shapes_advanced_control_options`。
 
 ## 接下来该做什么？
 

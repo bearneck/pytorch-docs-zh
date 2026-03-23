@@ -92,10 +92,7 @@ torch._inductor.config.triton.inject_relu_bug_TESTING_ONLY = 'compile_error'
 torch._inductor.config.aot_inductor.dump_aoti_minifier = True
 
 
-
-
 isolate_fails_code_str = None
-
 
 
 # torch version: 2.6.0a0+gitcd9c6e9
@@ -144,7 +141,6 @@ Wrote minimal repro out to repro.py
 #         super().__init__()
 
 
-
 #     def forward(self, linear):
 #         relu = torch.ops.aten.relu.default(linear);  linear = None
 #         return (relu,)
@@ -166,10 +162,7 @@ torch._inductor.config.triton.inject_relu_bug_TESTING_ONLY = 'compile_error'
 torch._inductor.config.aot_inductor.dump_aoti_minifier = True
 
 
-
-
 isolate_fails_code_str = None
-
 
 
 # torch version: 2.6.0a0+gitcd9c6e9

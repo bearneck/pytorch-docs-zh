@@ -1,4 +1,3 @@
-(compiler_nn_module)=
 
 # PyTorch 2.0 NNModule 支持
 

@@ -43,9 +43,10 @@ def my_compiler(gm, example_inputs):
 
 除了 `register_backend` 装饰器，如果你的后端在另一个 Python 包中，你也可以通过 Python 包的入口点来注册你的后端，这为包为另一个包注册插件提供了一种方式。
 
-:::{hint}
-你可以在 [Python 打包文档](https://setuptools.pypa.io/en/latest/userguide/entry_point.html) 中了解更多关于 `entry_points` 的信息。
-:::
+
+> 💡 **提示**
+> 你可以在 [Python 打包文档](https://setuptools.pypa.io/en/latest/userguide/entry_point.html) 中了解更多关于 `entry_points` 的信息。
+
 
 要通过 `entry_points` 注册你的后端，你可以在包的 `setup.py` 文件中将你的后端函数添加到 `torch_dynamo_backends` 入口点组，如下所示：
 

@@ -1,24 +1,22 @@
-(export.programming_model)=
 
 # torch.export 编程模型
 
-本文档旨在解释 {func}`torch.export.export` 的行为和功能。它旨在帮助您建立对 {func}`torch.export.export` 如何处理代码的直观理解。
+本文档旨在解释 `torch.export.export` 的行为和功能。它旨在帮助您建立对 `torch.export.export` 如何处理代码的直观理解。
 
 ## 追踪基础
 
-{func}`torch.export.export` 通过在"示例"输入上追踪模型的执行，并记录沿追踪路径观察到的 PyTorch 操作和条件，来捕获表示模型的图。只要满足相同的条件，该图就可以在不同的输入上运行。
+`torch.export.export` 通过在"示例"输入上追踪模型的执行，并记录沿追踪路径观察到的 PyTorch 操作和条件，来捕获表示模型的图。只要满足相同的条件，该图就可以在不同的输入上运行。
 
-{func}`torch.export.export` 的基本输出是一个包含关联元数据的 PyTorch 操作单图。此输出的确切格式在 {ref}`导出 IR 规范 <export.ir_spec>` 中介绍。
+`torch.export.export` 的基本输出是一个包含关联元数据的 PyTorch 操作单图。此输出的确切格式在 `导出 IR 规范 <export.ir_spec>` 中介绍。
 
-(non-strict-export)=
 
 ### 严格追踪与非严格追踪
 
-{func}`torch.export.export` 提供两种追踪模式。
+`torch.export.export` 提供两种追踪模式。
 
 在*非严格模式*下，我们使用普通的 Python 解释器追踪程序。您的代码完全按照在即时执行模式下的方式执行；唯一的区别是所有张量都被替换为[伪张量](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_fake_tensor.html)（**这些张量具有形状和其他形式的元数据，但没有实际数据**），并包装在记录所有操作的[代理对象](https://pytorch.org/docs/main/fx.html)中，这些操作被记录到图中。我们还会捕获[张量形状上的条件](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_dynamic_shapes.html#the-guard-model)，**这些条件保护生成代码的正确性**。
 
-在*严格模式*下，我们首先使用 {ref}`TorchDynamo <torch.compiler_dynamo_deepdive>`（一个 Python 字节码分析引擎）追踪程序。TorchDynamo 实际上并不执行您的 Python 代码。相反，它进行符号分析并根据结果构建图。一方面，这种分析允许 {func}`torch.export.export` 在 Python 级别安全性上提供额外的保证（除了捕获张量形状上的条件，如非严格模式）。另一方面，并非所有 Python 功能都受此分析支持。
+在*严格模式*下，我们首先使用 `TorchDynamo <torch.compiler_dynamo_deepdive>`（一个 Python 字节码分析引擎）追踪程序。TorchDynamo 实际上并不执行您的 Python 代码。相反，它进行符号分析并根据结果构建图。一方面，这种分析允许 `torch.export.export` 在 Python 级别安全性上提供额外的保证（除了捕获张量形状上的条件，如非严格模式）。另一方面，并非所有 Python 功能都受此分析支持。
 
 尽管目前默认的追踪模式是严格模式，但**我们强烈建议使用非严格模式**，该模式很快将成为默认模式。对于大多数模型，张量形状上的条件足以保证正确性，而 Python 级别安全性的额外保证没有影响；同时，在 TorchDynamo 中遇到不受支持的 Python 功能会带来不必要的风险。
 
@@ -26,7 +24,7 @@
 
 ## 值：静态与动态
 
-理解 {func}`torch.export.export` 行为的一个关键概念是*静态*值和*动态*值之间的区别。
+理解 `torch.export.export` 行为的一个关键概念是*静态*值和*动态*值之间的区别。
 
 ### 静态值
 
@@ -125,7 +123,7 @@ torch.export.export(M(), (Input(f=torch.ones(10, 4), p=torch.zeros(10, 4)),))
 
 ### 可选输入类型
 
-对于程序中未传递的可选输入，{func}`torch.export.export` 将特化为其默认值。因此，导出的程序将要求用户显式传递所有参数，并失去默认行为。例如：
+对于程序中未传递的可选输入，`torch.export.export` 将特化为其默认值。因此，导出的程序将要求用户显式传递所有参数，并失去默认行为。例如：
 
 ```python
 class M(torch.nn.Module):
@@ -161,7 +159,7 @@ ExportedProgram:
 
 ## 控制流：静态与动态
 
-{func}`torch.export.export` 支持控制流。控制流的行为取决于您分支所依据的值是静态还是动态的。
+`torch.export.export` 支持控制流。控制流的行为取决于您分支所依据的值是静态还是动态的。
 
 ### 静态控制流
 
@@ -213,7 +211,7 @@ class M_new(torch.nn.Module):
 
 我们提供了**用于表达动态形状断言的运算符**，例如 `torch._check`。请注意，仅当存在依赖于数据的动态形状上的控制流时才需要使用此功能。
 
-以下是一个在涉及数据依赖动态形状的条件 `nz.shape[0] > 0` 上使用 `if` 语句的示例，其中 `nz` 是调用 {func}`torch.nonzero` 的结果，该运算符的输出形状依赖于输入数据。您无需重写代码，只需使用 `torch._check` 添加断言即可有效决定追踪哪个分支。
+以下是一个在涉及数据依赖动态形状的条件 `nz.shape[0] > 0` 上使用 `if` 语句的示例，其中 `nz` 是调用 `torch.nonzero` 的结果，该运算符的输出形状依赖于输入数据。您无需重写代码，只需使用 `torch._check` 添加断言即可有效决定追踪哪个分支。
 
 ```python
 class M_old(torch.nn.Module):
@@ -240,7 +238,7 @@ class M_new(torch.nn.Module):
 
 *符号*类似于变量；它描述动态张量形状。
 
-随着追踪的进行，中间张量的形状可能由更通用的表达式描述，通常涉及整数算术运算符。这是因为**对于大多数 PyTorch 运算符，输出张量的形状可以描述为输入张量形状的函数**。例如，{func}`torch.cat` 的输出形状是其输入形状的总和。
+随着追踪的进行，中间张量的形状可能由更通用的表达式描述，通常涉及整数算术运算符。这是因为**对于大多数 PyTorch 运算符，输出张量的形状可以描述为输入张量形状的函数**。例如，`torch.cat` 的输出形状是其输入形状的总和。
 
 此外，当我们在程序中遇到控制流时，会创建布尔表达式（通常涉及关系运算符）来描述追踪路径上的条件。这些**表达式会被求值以决定追踪程序的哪条路径**，并记录在[形状环境](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_dynamic_shapes.html#overall-architecture)中，以保护追踪路径的正确性并评估后续创建的表达式。
 
@@ -250,7 +248,7 @@ class M_new(torch.nn.Module):
 
 回顾在追踪过程中，我们使用[伪张量](https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_fake_tensor.html)执行程序，这些张量没有实际数据。通常我们无法使用伪张量调用 PyTorch 运算符的实际实现。因此，每个运算符都需要一个额外的伪（或称“元”）实现，该实现输入和输出伪张量，并在形状和伪张量携带的其他元数据方面与实际实现的行为匹配。
 
-例如，请注意 {func}`torch.index_select` 的伪实现如何利用输入形状计算输出形状（同时忽略输入数据并返回空的输出数据）。
+例如，请注意 `torch.index_select` 的伪实现如何利用输入形状计算输出形状（同时忽略输入数据并返回空的输出数据）。
 
 ```python
 def meta_index_select(self, dim, index):
@@ -341,7 +339,7 @@ def _(x):
 - **静态常规属性**（例如基本类型）**可以被更新**。读取和更新可以自由交错进行，且如预期那样，任何读取操作都将始终看到最新更新的值。由于这些属性是静态的，我们也会将其值固化，因此生成的代码不会包含实际“获取”或“设置”此类属性的指令。
 - **动态常规属性**（例如张量类型）**不能被更新**。若要更新，必须在模块初始化时将其注册为缓冲区。
 - **缓冲区可以被更新**，更新可以是原地操作（例如 `self.buffer[:] = ...`）或非原地操作（例如 `self.buffer = ...`）。
-- **参数不能被更新**。通常参数仅在训练期间更新，推理期间不更新。建议使用 {func}`torch.no_grad` 进行导出，以避免导出时的参数更新。
+- **参数不能被更新**。通常参数仅在训练期间更新，推理期间不更新。建议使用 `torch.no_grad` 进行导出，以避免导出时的参数更新。
 
 ### 函数化处理的影响
 

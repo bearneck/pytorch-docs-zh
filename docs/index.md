@@ -11,15 +11,15 @@
 | [硬件加速](source/cuda.md) | CUDA、MPS、XPU、AMP 混合精度 |
 | [分布式训练](source/distributed.md) | DDP、FSDP、RPC、弹性训练 |
 | [torch.compile](source/user_guide/torch_compiler/torch.compiler.md) | JIT 编译加速 |
-| [量化与优化](source/quantization.rst) | 模型量化、性能分析 |
+| [量化与优化](source/quantization.md) | 模型量化、性能分析 |
 | [部署与导出](source/onnx.md) | ONNX、TorchScript、FX |
-| [C++ API](cpp/source/index.rst) | LibTorch C++ 前端 |
+| [C++ API](cpp/source/index.md) | LibTorch C++ 前端 |
 
 ## 📖 关于本文档
 
 - 原始文档：[pytorch/pytorch](https://github.com/pytorch/pytorch/tree/main/docs)
 - 翻译仓库：[bearneck/pytorch-docs-zh](https://github.com/bearneck/pytorch-docs-zh)
 - 翻译引擎：DeepSeek AI
-- 共翻译文件：**263 个**，零失败
+- 共翻译：**259 个文件**，全部转换为标准 Markdown
 
-> **注意**：代码块、API 名称、参数名称均保留原文，仅自然语言描述部分翻译为中文。
+> **注意**：代码块、API 名称、参数名均保留原文，仅描述性文字翻译为中文。

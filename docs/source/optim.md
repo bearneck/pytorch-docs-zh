@@ -1,16 +1,13 @@
 # torch.optim
 
-```{eval-rst}
-.. automodule:: torch.optim
-```
 
 ## 如何使用优化器
 
-要使用 {mod}`torch.optim`，你需要构造一个优化器对象，该对象将保存当前状态，并根据计算出的梯度更新参数。
+要使用 `torch.optim`，你需要构造一个优化器对象，该对象将保存当前状态，并根据计算出的梯度更新参数。
 
 ### 构造优化器
 
-要构造一个 {class}`Optimizer`，你需要给它一个包含待优化参数（所有参数都应为 {class}`~torch.nn.Parameter` 类型）的可迭代对象，或者包含命名参数（(str, {class}`~torch.nn.Parameter`) 元组）的可迭代对象。然后，你可以指定优化器特定的选项，例如学习率、权重衰减等。
+要构造一个 `Optimizer`，你需要给它一个包含待优化参数（所有参数都应为 `~torch.nn.Parameter` 类型）的可迭代对象，或者包含命名参数（(str, `~torch.nn.Parameter`) 元组）的可迭代对象。然后，你可以指定优化器特定的选项，例如学习率、权重衰减等。
 
 示例：
 ```python
@@ -27,7 +24,7 @@ optimizer = optim.Adam([('layer0', var1), ('layer1', var2)], lr=0.0001)
 
 ### 每个参数组的选项
 
-{class}`Optimizer` 也支持指定每个参数组的选项。为此，不要传递 {class}`~torch.autograd.Variable` 的可迭代对象，而是传递 {class}`dict` 的可迭代对象。每个字典将定义一个独立的参数组，并且应包含一个 `params` 键，其中包含属于该组的参数列表。其他键应与优化器接受的关键字参数匹配，并将用作该组的优化选项。
+`Optimizer` 也支持指定每个参数组的选项。为此，不要传递 `~torch.autograd.Variable` 的可迭代对象，而是传递 `dict` 的可迭代对象。每个字典将定义一个独立的参数组，并且应包含一个 `params` 键，其中包含属于该组的参数列表。其他键应与优化器接受的关键字参数匹配，并将用作该组的优化选项。
 
 例如，当想要指定每层的学习率时，这非常有用：
 
@@ -49,7 +46,7 @@ optim.SGD([
 你仍然可以将选项作为关键字参数传递。它们将用作默认值，适用于那些没有覆盖这些选项的组。当你只想改变一个选项，同时保持所有参数组之间的其他选项一致时，这很有用。
 ```
 
-还要考虑以下与参数不同惩罚相关的示例。请记住，{func}`~torch.nn.Module.parameters` 返回一个包含所有可学习参数的可迭代对象，包括偏置项和其他可能偏好不同惩罚的参数。为了解决这个问题，可以为每个参数组指定单独的惩罚权重：
+还要考虑以下与参数不同惩罚相关的示例。请记住，`~torch.nn.Module.parameters` 返回一个包含所有可学习参数的可迭代对象，包括偏置项和其他可能偏好不同惩罚的参数。为了解决这个问题，可以为每个参数组指定单独的惩罚权重：
 
 ```python
 bias_params = [p for name, p in self.named_parameters() if 'bias' in name]
@@ -65,11 +62,11 @@ optim.SGD([
 
 ### 执行优化步骤
 
-所有优化器都实现了一个 {func}`~Optimizer.step` 方法，用于更新参数。它可以通过两种方式使用：
+所有优化器都实现了一个 `~Optimizer.step` 方法，用于更新参数。它可以通过两种方式使用：
 
 #### `optimizer.step()`
 
-这是大多数优化器支持的简化版本。在使用例如 {func}`~torch.autograd.Variable.backward` 计算出梯度后，可以调用此函数。
+这是大多数优化器支持的简化版本。在使用例如 `~torch.autograd.Variable.backward` 计算出梯度后，可以调用此函数。
 
 示例：
 
@@ -98,53 +95,12 @@ for input, target in dataset:
     optimizer.step(closure)
 ```
 
-(optimizer-algorithms)=
 
 ## 基类
 
-```{eval-rst}
-.. autoclass:: Optimizer
-
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    Optimizer.add_param_group
-    Optimizer.load_state_dict
-    Optimizer.register_load_state_dict_pre_hook
-    Optimizer.register_load_state_dict_post_hook
-    Optimizer.state_dict
-    Optimizer.register_state_dict_pre_hook
-    Optimizer.register_state_dict_post_hook
-    Optimizer.step
-    Optimizer.register_step_pre_hook
-    Optimizer.register_step_post_hook
-    Optimizer.zero_grad
-```
 
 ## 算法
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    Adadelta
-    Adafactor
-    Adagrad
-    Adam
-    AdamW
-    SparseAdam
-    Adamax
-    ASGD
-    LBFGS
-    Muon
-    NAdam
-    RAdam
-    RMSprop
-    Rprop
-    SGD
-```
 
 我们的许多算法都有针对性能、可读性和/或通用性进行优化的各种实现，因此如果用户没有指定特定的实现，我们会尝试默认为当前设备上通常最快的实现。
 
@@ -155,57 +111,13 @@ for input, target in dataset:
 
 以下是显示各算法可用实现及默认实现的表格：
 
-```{eval-rst}
-.. csv-table::
-    :header: "算法", "默认实现", "支持 foreach?", "支持 fused?"
-    :widths: 25, 25, 25, 25
-    :delim: ;
-
-    :class:`Adadelta`;foreach;是;否
-    :class:`Adafactor`;for-loop;否;否
-    :class:`Adagrad`;foreach;是;是 (仅 CPU)
-    :class:`Adam`;foreach;是;是
-    :class:`AdamW`;foreach;是;是
-    :class:`SparseAdam`;for-loop;否;否
-    :class:`Adamax`;foreach;是;否
-    :class:`ASGD`;foreach;是;否
-    :class:`LBFGS`;for-loop;否;否
-    :class:`Muon`;for-loop;否;否
-    :class:`NAdam`;foreach;是;否
-    :class:`RAdam`;foreach;是;否
-    :class:`RMSprop`;foreach;是;否
-    :class:`Rprop`;foreach;是;否
-    :class:`SGD`;foreach;是;是
-```
 
 下表显示了融合实现的稳定性状态：
 
-```{eval-rst}
-.. csv-table::
-    :header: "算法", "CPU", "CUDA", "MPS"
-    :widths: 25, 25, 25, 25
-    :delim: ;
-
-    :class:`Adadelta`;不支持;不支持;不支持
-    :class:`Adafactor`;不支持;不支持;不支持
-    :class:`Adagrad`;测试版;不支持;不支持
-    :class:`Adam`;测试版;稳定版;测试版
-    :class:`AdamW`;测试版;稳定版;测试版
-    :class:`SparseAdam`;不支持;不支持;不支持
-    :class:`Adamax`;不支持;不支持;不支持
-    :class:`ASGD`;不支持;不支持;不支持
-    :class:`LBFGS`;不支持;不支持;不支持
-    :class:`Muon`;不支持;不支持;不支持
-    :class:`NAdam`;不支持;不支持;不支持
-    :class:`RAdam`;不支持;不支持;不支持
-    :class:`RMSprop`;不支持;不支持;不支持
-    :class:`Rprop`;不支持;不支持;不支持
-    :class:`SGD`;测试版;测试版;测试版
-```
 
 ## 如何调整学习率
 
-{class}`torch.optim.lr_scheduler.LRScheduler` 提供了多种基于训练轮次调整学习率的方法。{class}`torch.optim.lr_scheduler.ReduceLROnPlateau` 允许基于某些验证指标动态降低学习率。
+`torch.optim.lr_scheduler.LRScheduler` 提供了多种基于训练轮次调整学习率的方法。`torch.optim.lr_scheduler.ReduceLROnPlateau` 允许基于某些验证指标动态降低学习率。
 
 学习率调度应在优化器更新之后应用；例如，您应该按以下方式编写代码：
 
@@ -257,32 +169,10 @@ for epoch in range(20):
 在 PyTorch 1.1.0 之前，学习率调度器预期在优化器更新之前调用；1.1.0 版本以破坏向后兼容的方式改变了这一行为。如果您在优化器更新（调用 `optimizer.step()`）之前使用学习率调度器（调用 `scheduler.step()`），将会跳过学习率调度计划的第一个值。如果在升级到 PyTorch 1.1.0 后无法复现结果，请检查是否在错误的时间调用了 `scheduler.step()`。
 ```
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    lr_scheduler.LRScheduler
-    lr_scheduler.LambdaLR
-    lr_scheduler.MultiplicativeLR
-    lr_scheduler.StepLR
-    lr_scheduler.MultiStepLR
-    lr_scheduler.ConstantLR
-    lr_scheduler.LinearLR
-    lr_scheduler.ExponentialLR
-    lr_scheduler.PolynomialLR
-    lr_scheduler.CosineAnnealingLR
-    lr_scheduler.ChainedScheduler
-    lr_scheduler.SequentialLR
-    lr_scheduler.ReduceLROnPlateau
-    lr_scheduler.CyclicLR
-    lr_scheduler.OneCycleLR
-    lr_scheduler.CosineAnnealingWarmRestarts
-```
 
 ## 如何利用命名参数加载优化器状态字典
 
-函数 {func}`~Optimizer.load_state_dict` 会在加载的状态字典包含可选的 `param_names` 内容时将其存储。然而，加载优化器状态的过程不受影响，因为参数的顺序对于保持兼容性很重要（以防顺序不同）。要利用从加载的状态字典中获取的参数名称，需要根据所需行为实现自定义的 `register_load_state_dict_pre_hook`。
+函数 `~Optimizer.load_state_dict` 会在加载的状态字典包含可选的 `param_names` 内容时将其存储。然而，加载优化器状态的过程不受影响，因为参数的顺序对于保持兼容性很重要（以防顺序不同）。要利用从加载的状态字典中获取的参数名称，需要根据所需行为实现自定义的 `register_load_state_dict_pre_hook`。
 
 例如，当模型架构发生变化但权重和优化器状态需要保持不变时，这非常有用。以下示例演示了如何实现此自定义功能。
 
@@ -451,9 +341,9 @@ def names_matching(optimizer, state_dict):
 
 ## 权重平均（SWA 和 EMA）
 
-{class}`torch.optim.swa_utils.AveragedModel` 实现了随机权重平均（SWA）和指数移动平均（EMA），
-{class}`torch.optim.swa_utils.SWALR` 实现了 SWA 学习率调度器，
-{func}`torch.optim.swa_utils.update_bn` 是一个实用函数，用于在训练结束时更新 SWA/EMA 的批量归一化统计量。
+`torch.optim.swa_utils.AveragedModel` 实现了随机权重平均（SWA）和指数移动平均（EMA），
+`torch.optim.swa_utils.SWALR` 实现了 SWA 学习率调度器，
+`torch.optim.swa_utils.update_bn` 是一个实用函数，用于在训练结束时更新 SWA/EMA 的批量归一化统计量。
 
 SWA 在论文 [Averaging Weights Leads to Wider Optima and Better Generalization](https://arxiv.org/abs/1803.05407) 中提出。
 
@@ -476,9 +366,9 @@ EMA 模型通过指定 `multi_avg_fn` 参数来构建，如下所示：
 >>> averaged_model = AveragedModel(model, multi_avg_fn=get_ema_multi_avg_fn(decay))
 ```
 
-衰减（decay）是一个介于 0 和 1 之间的参数，控制平均参数的衰减速度。如果未提供给 {func}`torch.optim.swa_utils.get_ema_multi_avg_fn`，默认值为 0.999。衰减值应接近 1.0，因为较小的值可能导致优化收敛问题。
+衰减（decay）是一个介于 0 和 1 之间的参数，控制平均参数的衰减速度。如果未提供给 `torch.optim.swa_utils.get_ema_multi_avg_fn`，默认值为 0.999。衰减值应接近 1.0，因为较小的值可能导致优化收敛问题。
 
-{func}`torch.optim.swa_utils.get_ema_multi_avg_fn` 返回一个函数，该函数将以下 EMA 方程应用于权重：
+`torch.optim.swa_utils.get_ema_multi_avg_fn` 返回一个函数，该函数将以下 EMA 方程应用于权重：
 
 ```{math}
 W_0^{\text{EMA}} = W_0^{\text{model}}
@@ -489,7 +379,7 @@ W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay})
 ```
 其中 `W_t^{\text{EMA}}` 是步骤 `t` 的 EMA 参数，`W_t^{\text{model}}` 是步骤 `t` 的模型参数，decay 是 EMA 衰减率（默认：0.999）。
 
-这里的模型 `model` 可以是任意的 {class}`torch.nn.Module` 对象。`averaged_model` 将跟踪 `model` 参数的运行平均值。要更新这些平均值，应在 `optimizer.step()` 后使用 {func}`update_parameters` 函数：
+这里的模型 `model` 可以是任意的 `torch.nn.Module` 对象。`averaged_model` 将跟踪 `model` 参数的运行平均值。要更新这些平均值，应在 `optimizer.step()` 后使用 `update_parameters` 函数：
 
 ```python
 >>> averaged_model.update_parameters(model)
@@ -499,7 +389,7 @@ W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay})
 
 ### 自定义平均策略
 
-默认情况下，{class}`torch.optim.swa_utils.AveragedModel` 计算所提供参数的运行等权重平均值，但你也可以使用 `avg_fn` 或 `multi_avg_fn` 参数定义自定义平均函数：
+默认情况下，`torch.optim.swa_utils.AveragedModel` 计算所提供参数的运行等权重平均值，但你也可以使用 `avg_fn` 或 `multi_avg_fn` 参数定义自定义平均函数：
 
 - `avg_fn` 允许定义一个作用于每个参数元组（平均参数，模型参数）的函数，并应返回新的平均参数。
 - `multi_avg_fn` 允许定义更高效的操作，同时作用于参数列表元组（平均参数列表，模型参数列表），例如使用 `torch._foreach*` 函数。此函数必须原地更新平均参数。
@@ -520,7 +410,7 @@ W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay})
 
 ### SWA 学习率调度
 
-通常，在 SWA 中学习率设置为较高的常数值。{class}`SWALR` 是一种学习率调度器，它将学习率退火到一个固定值，然后保持恒定。例如，以下代码创建一个调度器，在每个参数组内，将学习率在 5 个周期内从其初始值线性退火到 0.05：
+通常，在 SWA 中学习率设置为较高的常数值。`SWALR` 是一种学习率调度器，它将学习率退火到一个固定值，然后保持恒定。例如，以下代码创建一个调度器，在每个参数组内，将学习率在 5 个周期内从其初始值线性退火到 0.05：
 
 ```python
 >>> swa_scheduler = torch.optim.swa_utils.SWALR(optimizer, \
@@ -531,20 +421,19 @@ W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay})
 
 ### 处理批量归一化
 
-{func}`update_bn` 是一个实用函数，允许在训练结束时，在给定的数据加载器 `loader` 上为 SWA 模型计算批量归一化统计量：
+`update_bn` 是一个实用函数，允许在训练结束时，在给定的数据加载器 `loader` 上为 SWA 模型计算批量归一化统计量：
 
 ```python
 >>> torch.optim.swa_utils.update_bn(loader, swa_model)
 ```
 
-{func}`update_bn` 将 `swa_model` 应用于数据加载器中的每个元素，并计算模型中每个批量归一化层的激活统计量。
+`update_bn` 将 `swa_model` 应用于数据加载器中的每个元素，并计算模型中每个批量归一化层的激活统计量。
 
 ```{warning}
-{func}`update_bn` 假设数据加载器 `loader` 中的每个批次要么是一个张量，要么是一个张量列表，
+`update_bn` 假设数据加载器 `loader` 中的每个批次要么是一个张量，要么是一个张量列表，
 其中第一个元素是网络 `swa_model` 应该应用到的张量。
 如果你的数据加载器具有不同的结构，可以通过使用 `swa_model` 对数据集中的每个元素进行前向传递来更新 `swa_model` 的批归一化统计量。
 ```
-
 
 
 ### 完整示例：SWA
@@ -599,29 +488,7 @@ W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay})
 >>> preds = ema_model(test_input)
 ```
 
-```{eval-rst}
-.. autosummary::
-    :toctree: generated
-    :nosignatures:
-
-    swa_utils.AveragedModel
-    swa_utils.SWALR
-
-
-.. autofunction:: torch.optim.swa_utils.get_ema_multi_avg_fn
-.. autofunction:: torch.optim.swa_utils.update_bn
-```
 
 <!-- 此模块需要文档记录。暂时添加在此处以供跟踪 -->
-```{eval-rst}
-.. py:module:: torch.optim.lr_scheduler
-.. py:module:: torch.optim.optimizer
-.. py:module:: torch.optim.swa_utils
-```
 
-```{eval-rst}
-.. toctree::
-    :hidden:
 
-    optim.aliases.md
-```

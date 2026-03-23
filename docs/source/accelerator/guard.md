@@ -48,7 +48,7 @@ Guard 接口类 [`c10::impl::DeviceGuardImplInterface`][DeviceGuardImplInterface
 
 ## 实现
 
-- {ref}`Device Guard 实现 <device-guard>`
+- `Device Guard 实现 <device-guard>`
 - Stream Guard 实现（即将推出）
 - Event Guard 实现（即将推出）
 

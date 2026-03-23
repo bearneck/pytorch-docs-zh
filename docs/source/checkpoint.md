@@ -6,12 +6,3 @@
 保存逻辑会为 CPU 和另一种设备类型（通过 `_infer_device_type` 从张量参数中推断出设备类型，排除 CPU 张量）保存和恢复 RNG 状态到 `run_fn`。如果存在多个设备，则只会保存单个设备类型的设备状态，其余设备将被忽略。因此，如果任何检查点函数涉及随机性，这可能导致梯度不正确。（请注意，如果检测到的设备中包含 CUDA 设备，它将优先处理；否则，将选择遇到的第一个设备。）如果没有 CPU 张量，将保存和恢复默认设备类型状态（默认值为 `cuda`，可以通过 `DefaultDeviceType` 设置为其他设备）。然而，该逻辑无法预测用户是否会在 `run_fn` 内部将张量移动到新设备。因此，如果在 `run_fn` 内部将张量移动到新设备（“新”意味着不属于[当前设备 + 张量参数的设备]集合），则无法保证与非检查点传递相比的确定性输出。
 ```
 
-```{eval-rst}
-.. currentmodule:: torch.utils.checkpoint
-.. autofunction:: checkpoint
-.. autofunction:: checkpoint_sequential
-.. autofunction:: set_checkpoint_debug_enabled
-.. autoclass:: CheckpointPolicy
-.. autoclass:: SelectiveCheckpointContext
-.. autofunction:: create_selective_checkpoint_contexts
-```

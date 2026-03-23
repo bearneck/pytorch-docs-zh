@@ -1,4 +1,3 @@
-(compile_programming_model)=
 
 # torch.compile 编程模型
 

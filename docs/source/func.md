@@ -1,8 +1,5 @@
 # torch.func
 
-```{eval-rst}
-.. currentmodule:: torch.func
-```
 
 torch.func，之前被称为 "functorch"，是为 PyTorch 提供的 [JAX 风格](https://github.com/google/jax) 的可组合函数变换。
 
@@ -18,7 +15,7 @@ torch.func，之前被称为 "functorch"，是为 PyTorch 提供的 [JAX 风格]
 
 - "函数变换" 是一个高阶函数，它接受一个数值函数并返回一个新函数，该新函数计算一个不同的量。
 
-- {mod}`torch.func` 包含自动微分变换（`grad(f)` 返回一个计算 `f` 梯度的函数）、向量化/批处理变换（`vmap(f)` 返回一个在输入批次上计算 `f` 的函数）以及其他变换。
+- `torch.func` 包含自动微分变换（`grad(f)` 返回一个计算 `f` 梯度的函数）、向量化/批处理变换（`vmap(f)` 返回一个在输入批次上计算 `f` 的函数）以及其他变换。
 
 - 这些函数变换可以任意组合。例如，组合 `vmap(grad(f))` 可以计算一种称为"逐样本梯度"的量，这是目前标准 PyTorch 无法高效计算的。
 
@@ -32,16 +29,7 @@ torch.func，之前被称为 "functorch"，是为 PyTorch 提供的 [JAX 风格]
 - 高效计算雅可比矩阵和海森矩阵
 - 高效计算批处理雅可比矩阵和批处理海森矩阵
 
-组合 {func}`vmap`、{func}`grad` 和 {func}`vjp` 变换使我们能够表达上述内容，而无需为每个用例设计单独的子系统。这种可组合函数变换的思想源自 [JAX 框架](https://github.com/google/jax)。
+组合 `vmap`、`grad` 和 `vjp` 变换使我们能够表达上述内容，而无需为每个用例设计单独的子系统。这种可组合函数变换的思想源自 [JAX 框架](https://github.com/google/jax)。
 
 ## 阅读更多
 
-```{eval-rst}
-.. toctree::
-  :maxdepth: 2
-
-  func.whirlwind_tour
-  func.api
-  func.ux_limitations
-  func.migrating
-```

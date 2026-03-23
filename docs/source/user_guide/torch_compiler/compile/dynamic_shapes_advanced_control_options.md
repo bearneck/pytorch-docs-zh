@@ -1,4 +1,4 @@
-(dynamic_shapes_advanced_control_options)=
+
 # 控制动态行为的高级选项
 
 PyTorch 提供了几个高级选项来控制动态行为。
@@ -13,7 +13,7 @@ PyTorch 提供了几个高级选项来控制动态行为。
 
 在本教程的其余部分，你可以使用以下环境变量在本地开启 PGO：`TORCH_COMPILE_JOB_ID=1 TORCH_DYNAMO_AUTOMATIC_DYNAMIC_LOCAL_PGO=1`
 
-(identifying-dynamic-elements-marked-by-pgo)=
+
 ### 识别由 PGO 标记的动态元素
 
 使用 `tlparse` 查找感兴趣的行号并检查输入是否观察到多个值。
@@ -67,13 +67,13 @@ PyTorch 提供了几个高级选项来控制动态行为。
 这是一个两步过程：
 
 1. 找到被 PGO 或自动动态标记为动态的元素。
-2. 使用 {ref}`user_annotations` 之一将它们标记为动态。
+2. 使用 `user_annotations` 之一将它们标记为动态。
 
 #### 如何识别要标记为动态的元素
 
 遵循以下指南：
 
-1. **PGO 产物：** 按照 {ref}`identifying-dynamic-elements-marked-by-pgo` 中的步骤操作。
+1. **PGO 产物：** 按照 `identifying-dynamic-elements-marked-by-pgo` 中的步骤操作。
 2. **动态日志：** 如果你有一个启用了 `TORCH_LOGS="+dynamic"` 的运行，每次分配新的动态维度时，都会有一条调试行指定它以及输入名称。
 3. **比较计算图：** 对于在不同运行间编译次数减少的帧，检查第二次运行或冷运行中最新运行的 Dynamo 图。查找那些图中标记为动态的元素。具体来说，找到相似的计算图（一个是特化版本，一个是动态版本）。
 

@@ -1,4 +1,3 @@
-(torch_cuda_memory)=
 
 # 理解 CUDA 内存使用
 
@@ -9,7 +8,7 @@
 ```{note}
 本文档描述的内存分析器和可视化工具仅能查看通过 PyTorch 分配器分配和管理的 CUDA 内存。任何直接从 CUDA API 分配的内存将不会在 PyTorch 内存分析器中可见。
 
-NCCL（用于 CUDA 设备上的分布式通信）是一个常见示例，它分配了一些对 PyTorch 内存分析器不可见的 GPU 内存。更多信息请参阅 {ref}`non_pytorch_alloc`。
+NCCL（用于 CUDA 设备上的分布式通信）是一个常见示例，它分配了一些对 PyTorch 内存分析器不可见的 GPU 内存。更多信息请参阅 `non_pytorch_alloc`。
 ```
 
 ## 生成快照
@@ -49,12 +48,12 @@ torch.cuda.memory._dump_snapshot("my_snapshot.pickle")
 地址 b7f064c000000_0 指的是地址为 7f064c000000 的 (b)lock，这是该地址第 "_0" 次被分配。
 这个唯一的字符串可以在活动内存时间线中查找，并在活动状态历史中搜索，以检查张量分配或释放时的内存状态。
 
-(non_pytorch_alloc)=
+
 ## 识别非 PyTorch 分配
 
 如果您怀疑 CUDA 内存是在 PyTorch 之外分配的，您可以使用 pynvml 包收集原始的 CUDA 分配信息，并将其与 PyTorch 报告的内存分配进行比较。
 
-要收集 PyTorch 之外的内存使用情况，请使用 {func}`device_memory_used`
+要收集 PyTorch 之外的内存使用情况，请使用 `device_memory_used`
 
 ```python
 import torch
@@ -64,18 +63,4 @@ print(torch.cuda.device_memory_used(device_idx))
 
 ## 快照 API 参考
 
-```{eval-rst}
-.. currentmodule:: torch.cuda.memory
-```
 
-```{eval-rst}
-.. autofunction:: _record_memory_history
-```
-
-```{eval-rst}
-.. autofunction:: _snapshot
-```
-
-```{eval-rst}
-.. autofunction:: _dump_snapshot
-```
