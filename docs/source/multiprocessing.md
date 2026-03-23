@@ -1,0 +1,171 @@
+---
+orphan: true
+---
+
+(multiprocessing-doc)=
+
+# 多进程包 - torch.multiprocessing
+
+```{eval-rst}
+.. automodule:: torch.multiprocessing
+```
+
+```{eval-rst}
+.. currentmodule:: torch.multiprocessing
+```
+
+:::{warning}
+如果主进程异常退出（例如由于收到信号），Python 的 `multiprocessing` 有时无法清理其子进程。这是一个已知的缺陷，因此如果在中断解释器后看到任何资源泄漏，很可能意味着您遇到了这种情况。
+:::
+
+## 策略管理
+
+```{eval-rst}
+.. autofunction:: get_all_sharing_strategies
+```
+
+```{eval-rst}
+.. autofunction:: get_sharing_strategy
+```
+
+```{eval-rst}
+.. autofunction:: set_sharing_strategy
+
+```
+
+(multiprocessing-cuda-sharing-details)=
+
+## 共享 CUDA 张量
+
+仅在 Python 3 中支持进程间共享 CUDA 张量，并且需要使用 `spawn` 或 `forkserver` 启动方法。
+
+与 CPU 张量不同，只要接收进程保留张量的副本，发送进程就必须保持原始张量存在。引用计数在底层实现，但要求用户遵循以下最佳实践。
+
+:::{warning}
+如果消费者进程因致命信号异常死亡，只要发送进程仍在运行，共享张量可能会永远保留在内存中。
+:::
+
+1. 在消费者进程中尽快释放内存。
+
+```
+## 正确做法
+x = queue.get()
+# 用 x 做一些事情
+del x
+```
+
+```
+## 错误做法
+x = queue.get()
+# 用 x 做一些事情
+# 做其他所有事情（生产者必须将 x 保留在内存中）
+```
+
+2. 保持生产者进程运行，直到所有消费者进程退出。这将防止生产者进程释放消费者仍在使用的内存的情况。
+
+```
+## 生产者
+# 发送张量，做一些事情
+event.wait()
+```
+
+```
+## 消费者
+# 接收张量并使用它们
+event.set()
+```
+
+3. 不要传递接收到的张量。
+
+```
+# 这不会工作
+x = queue.get()
+queue_2.put(x)
+```
+
+```
+# 您需要创建一个进程本地的副本
+x = queue.get()
+x_clone = x.clone()
+queue_2.put(x_clone)
+```
+
+```
+# 在同一进程中对同一队列进行放入和获取操作很可能导致段错误
+queue.put(tensor)
+x = queue.get()
+```
+
+## 共享策略
+
+本节简要概述不同共享策略的工作原理。请注意，这仅适用于 CPU 张量——CUDA 张量将始终使用 CUDA API，因为这是它们可以共享的唯一方式。
+
+### 文件描述符 - `file_descriptor`
+
+:::{note}
+这是默认策略（除了不支持该策略的 macOS 和 OS X）。
+:::
+
+此策略将使用文件描述符作为共享内存句柄。每当存储被移动到共享内存时，从 `shm_open` 获得的文件描述符会与对象一起被缓存，并且当它将被发送到其他进程时，文件描述符将被传输（例如通过 UNIX 套接字）。接收方也会缓存文件描述符并对其进行 `mmap`，以获得存储数据的共享视图。
+
+请注意，如果要共享大量张量，此策略将在大部分时间保持大量文件描述符处于打开状态。如果您的系统对打开文件描述符的数量限制较低，并且您无法提高限制，则应使用 `file_system` 策略。
+
+### 文件系统 - `file_system`
+
+此策略将使用提供给 `shm_open` 的文件名来标识共享内存区域。这样做的好处是不需要实现缓存从中获得的文件描述符，但同时也容易导致共享内存泄漏。文件在创建后不能立即删除，因为其他进程需要访问它以打开它们的视图。如果进程严重崩溃或被杀死，并且没有调用存储析构函数，文件将保留在系统中。这非常严重，因为它们会持续占用内存，直到系统重启或手动释放。
+
+为了解决共享内存文件泄漏的问题，{mod}`torch.multiprocessing` 将生成一个名为 `torch_shm_manager` 的守护进程，该进程将与当前进程组隔离，并跟踪所有共享内存分配。一旦连接到它的所有进程退出，它将等待片刻以确保没有新的连接，然后遍历该组分配的所有共享内存文件。如果发现任何文件仍然存在，它们将被释放。我们已经测试了这种方法，并证明它对各种故障具有鲁棒性。尽管如此，如果您的系统有足够高的限制，并且 `file_descriptor` 是受支持的策略，我们不建议切换到这种策略。
+
+## 生成子进程
+
+:::{note}
+适用于 Python >= 3.4。
+
+这依赖于 Python `multiprocessing` 包中的 `spawn` 启动方法。
+:::
+
+通过创建 `Process` 实例并调用 `join` 来等待其完成，可以生成多个子进程来执行某些功能。这种方法在处理单个子进程时效果很好，但在处理多个进程时可能会出现问题。
+
+也就是说，顺序地连接进程意味着它们将顺序终止。如果它们不这样做，并且第一个进程没有终止，进程终止将不会被注意到。此外，也没有用于错误传播的原生机制。
+
+下面的 `spawn` 函数解决了这些问题，并负责错误传播、无序终止，并在检测到其中一个进程出错时主动终止进程。
+
+```{eval-rst}
+.. automodule:: torch.multiprocessing.spawn
+```
+
+```{eval-rst}
+.. currentmodule:: torch.multiprocessing.spawn
+```
+
+```{eval-rst}
+.. autofunction:: spawn
+```
+
+```{eval-rst}
+.. currentmodule:: torch.multiprocessing
+
+```
+
+```{eval-rst}
+.. class:: SpawnContext
+
+   当使用 ``join=False`` 调用 :func:`~spawn` 时返回。
+
+   .. automethod:: join
+
+```
+
+% 此模块需要记录。暂时添加在此处以供跟踪
+
+```{eval-rst}
+.. py:module:: torch.multiprocessing.pool
+```
+
+```{eval-rst}
+.. py:module:: torch.multiprocessing.queue
+```
+
+```{eval-rst}
+.. py:module:: torch.multiprocessing.reductions
+```

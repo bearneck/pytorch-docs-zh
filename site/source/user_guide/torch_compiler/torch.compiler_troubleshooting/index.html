@@ -1,0 +1,7639 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="PyTorch 官方文档中文翻译版">
+      
+      
+        <meta name="author" content="PyTorch 中文社区">
+      
+      
+      
+        <link rel="prev" href="../torch.compiler_transformations/">
+      
+      
+        <link rel="next" href="../troubleshooting_faqs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Torch.compiler troubleshooting - PyTorch 中文文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans SC";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#torchcompile" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="PyTorch 中文文档" class="md-header__button md-logo" aria-label="PyTorch 中文文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PyTorch 中文文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Torch.compiler troubleshooting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="orange"  aria-label="切换到暗色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到暗色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="orange"  aria-label="切换到亮色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到亮色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/bearneck/pytorch-docs-zh" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pytorch-docs-zh
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  PyTorch 中文文档
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+  
+  Source
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="PyTorch 中文文档" class="md-nav__button md-logo" aria-label="PyTorch 中文文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PyTorch 中文文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bearneck/pytorch-docs-zh" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pytorch-docs-zh
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PyTorch 中文文档
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Source
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.accelerator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../amp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Amp
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autograd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autograd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../backends/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../benchmark_utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmark utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../checkpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils.checkpoint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../complex_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complex numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../config_mod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cuda.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.cuda 中的别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cuda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.cuda
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cuda.tunable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cuda.tunable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils.data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ddp_comm_hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDP 通信钩子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../debugging_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debugging environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../deterministic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils.deterministic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed._dist2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验性面向对象分布式 API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.algorithms.join/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed.algorithms.join
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.checkpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed.checkpoint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.elastic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch Distributed Elastic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.fsdp.fully_shard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.distributed.fsdp.fully_shard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.optim/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed.optim
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.pipelining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed.pipelining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed.tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributed.tensor.parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributed.tensor.parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../distributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distributions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../dlpack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils.dlpack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fft
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fsdp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FullyShardedDataParallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../func.api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.func API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../func.batch_norm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    修补批归一化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../func/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.func
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../func.migrating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    从 functorch 迁移到 torch.func
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../func.ux_limitations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Func.ux limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../func.whirlwind_tour/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.func 快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../future_mod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.__future__
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../futures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Futures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fx.experimental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fx.experimental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../fx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fx
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.hub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../jit_utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JIT 工具 - torch.utils.jit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linalg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linalg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../masked/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Masked
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../meta/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Meta 设备
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../miscellaneous_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Miscellaneous environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mobile_optimizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils.mobile_optimizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../model_zoo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils.model_zoo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../module_tracker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils.module_tracker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.monitor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.mps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mps_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mps environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mtia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.mtia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mtia.memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.mtia.memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mtia.mtia_graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.mtia.mtia_graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../multiprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../name_inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Name inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../named_tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Named tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../nested/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.nested
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../nn.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nn.aliases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../nn.attention.bias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nn.attention.bias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../nn.attention.experimental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.nn.attention.experimental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../nn.attention.flex_attention/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nn.attention.flex attention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../nn.attention.varlen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nn.attention.varlen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../onnx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.onnx
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../onnx_export/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基于 torch.export 的 ONNX 导出器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../onnx_ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.onnx.ops
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../onnx_testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.onnx.testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../onnx_verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.onnx.verification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../optim.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.optim 中的别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../optim/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.optim
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../package/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../profiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pytorch-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pytorch api
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantization-support.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantization support.aliases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantization-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    量化 API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../random/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.random
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Signal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../size/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.Size
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../special/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Special
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../symmetric_memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Symmetric memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../threading_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Threading environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch 中的别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch.compiler_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler api
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch.compiler_troubleshooting_old/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler troubleshooting old
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch.intermediate_debug_printer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.intermediate debug printer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch.overrides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.overrides
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch_cuda_memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch cuda memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../torch_nccl_environment_variables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch nccl environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../type_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Type info
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../xpu.aliases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.xpu 中的别名
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../xpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    torch.xpu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_100" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_100" id="__nav_2_100_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accelerator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_100_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_100">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Accelerator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    加速器集成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/amp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自动混合精度
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/autoload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自动加载机制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/device/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    设备管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/guard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    加速器钩子
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/operators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算子注册
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../accelerator/profiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    性能分析器集成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_101" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_101" id="__nav_2_101_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Higher order ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_101_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_101">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Higher order ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../higher_order_ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../higher_order_ops/associative_scan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Associative scan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../higher_order_ops/cond/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cond
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../higher_order_ops/map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../higher_order_ops/scan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../higher_order_ops/while_loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    While loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_102" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_102" id="__nav_2_102_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_102_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_102">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/libtorch_stable_abi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LibTorch 稳定 ABI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_103" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_103" id="__nav_2_103_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_103_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_103">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    用户指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pytorch_main_components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pytorch main components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_103_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_103_3" id="__nav_2_103_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch compiler
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_103_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_103_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Torch compiler
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    高级指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考/API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    核心概念
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Export
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    性能优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler.config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler.config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_aot_inductor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler aot inductor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_aot_inductor_debugging_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AOTInductor 调试指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_aot_inductor_minifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AOTInductor 最小化工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_backward/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler backward
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_cudagraph_trees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CUDAGraph 树
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_custom_backends/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自定义后端
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_dynamic_shapes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler dynamic shapes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_dynamo_deepdive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler dynamo deepdive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_dynamo_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler dynamo overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_fake_tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fake tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题解答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_fine_grain_apis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler fine grain apis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_get_started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler get started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_inductor_profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TorchInductor GPU 性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_ir/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler ir
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_nn_module/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler nn module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_performance_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PyTorch 2.0 性能仪表板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_profiling_torch_compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用 torch.compile 性能分析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../torch.compiler_transformations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    在 ATen IR 上编写图变换
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torch.compiler troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设定预期
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="设定预期">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译时间
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        术语
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="术语">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图中断
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        守卫
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        动态形状
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        日志记录工具
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="日志记录工具">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tlparse-torch_trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tlparse / TORCH_TRACE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#torch_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TORCH_LOGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlparse-torch_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tlparse 与 TORCH_LOGS 对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        简单解决方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="简单解决方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#torchcompile_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在哪里应用 torch.compile？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        禁用和抑制错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决图中断问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解决图中断问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据依赖操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自定义操作符
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        打印
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误的代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理重新编译
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="处理重新编译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        是否启用了动态形状？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        更改缓存大小限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        用张量包装常量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        报告问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="报告问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消融测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二分查找
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        创建复现示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最小化工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        深入调试
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="深入调试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#torchdynamo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TorchDynamo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TorchDynamo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        记录 Dynamo 正在追踪的内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamo_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 Dynamo 追踪过程中设置断点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        字节码生成错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aotautograd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AOTAutograd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#torch_logs_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TORCH_LOGS 选项摘要
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关文章
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting_faqs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    故障排除常见问题解答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_103_3_29" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_103_3_29" id="__nav_2_103_3_29_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_103_3_29_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_103_3_29">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Compile
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_advanced_control_options/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes advanced control options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_backed_unbacked/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes backed unbacked
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_beyond_the_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes beyond the basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes core concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_debugging_tlparse_torch_logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes debugging tlparse torch logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_troubleshooting_guardon_errors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes troubleshooting guardon errors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/dynamic_shapes_zero_one_specialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamic shapes zero one specialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.common_graph_breaks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.common graph breaks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.compiler_disable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.compiler disable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.custom_ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自定义运算符
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.dynamo_core_concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.dynamo core concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.dynamo_nonstrict_trace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.dynamo nonstrict trace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.error_on_graph_break/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.error on graph break
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.fullgraph_false/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用 fullgraph=False
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.fullgraph_true/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.fullgraph true
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.graph_breaks_index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    处理图中断
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.nested_graph_breaks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    嵌套图断点
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.non_strict_tracing_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.non strict tracing model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tlparse / TORCH_TRACE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.recompilation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.recompilation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.reporting_issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    报告问题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.skipped_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model.skipped functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compile/programming_model.where_to_apply_compile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    在何处应用 torch.compile？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_103_3_30" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_103_3_30" id="__nav_2_103_3_30_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Export
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_103_3_30_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_103_3_30">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Export
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/api_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Api reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/draft_export/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Draft export
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/ir_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ir spec
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/joint_with_descriptors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    联合描述符
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/programming_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/pt2_archive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pt2 archive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设定预期
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="设定预期">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        编译时间
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        术语
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="术语">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图中断
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        守卫
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        动态形状
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        日志记录工具
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="日志记录工具">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tlparse-torch_trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tlparse / TORCH_TRACE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#torch_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TORCH_LOGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlparse-torch_logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tlparse 与 TORCH_LOGS 对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        简单解决方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="简单解决方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#torchcompile_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在哪里应用 torch.compile？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        禁用和抑制错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决图中断问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解决图中断问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据依赖操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自定义操作符
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        打印
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        错误的代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理重新编译
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="处理重新编译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        是否启用了动态形状？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        更改缓存大小限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        用张量包装常量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        报告问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="报告问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消融测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二分查找
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        创建复现示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最小化工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        深入调试
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="深入调试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#torchdynamo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TorchDynamo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TorchDynamo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dynamo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        记录 Dynamo 正在追踪的内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamo_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 Dynamo 追踪过程中设置断点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        字节码生成错误
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aotautograd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AOTAutograd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#torch_logs_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TORCH_LOGS 选项摘要
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关文章
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<p>(torch.compiler_troubleshooting)=</p>
+<h1 id="torchcompile">torch.compile 故障排除<a class="headerlink" href="#torchcompile" title="Permanent link">&para;</a></h1>
+<p>您正尝试在 PyTorch 模型上使用 <code>torch.compile</code> 来提升性能，但效果不如预期。可能是性能没有改善、出现崩溃，或者编译时间过长。本文提供了一些技巧、变通方法和调试工具，帮助您应对这些挑战。</p>
+<p><strong>目录</strong></p>
+<div class="highlight"><pre><span></span><code>:local: true
+</code></pre></div>
+<h2 id="_1">设定预期<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><code>torch.compile</code> 被设计为一个通用的 PyTorch 编译器。与之前的编译器解决方案 TorchScript 不同，<code>torch.compile</code> 需要更少的代码改动，这意味着通常不需要从头重写模型。它也能更优雅地处理不支持的代码——不支持的代码只会导致优化机会的丢失，而不会引发崩溃。</p>
+<p>在理想情况下，我们可以简单地将 <code>torch.compile</code> 应用于任何 PyTorch 模型，并享受自动加速带来的好处。然而，现实中代码的复杂性可能导致以下三种情况之一：</p>
+<ol>
+<li><code>torch.compile</code> 无缝工作，提供加速效果。</li>
+<li>需要进行一些代码修改。<code>torch.compile</code> 不会崩溃或耗时过长，但您可能看不到显著的性能提升。</li>
+<li>需要对代码进行大量修改。</li>
+</ol>
+<p>我们预计大多数代码会属于情况 (1) 和 (2)。本文档提供了按参与程度排列的技巧，以帮助解决情况 (2) 中的代码问题。</p>
+<h3 id="_2">编译时间<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p><code>torch.compile</code> 作为一个即时编译器运行，因此编译函数的初始一两次运行预计会明显变慢。在某些条件下（详见下文）发生的重新编译也会使运行变慢。<code>torch.compile</code> 的各个组件会缓存结果，以减少未来调用（甚至在不同进程中）的编译时间。对于常见或基准测试模型，冷启动（未缓存）编译时间通常在几秒到几分钟之间。更大的模型可能需要 30 分钟到几个小时。</p>
+<h2 id="_3">术语<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>以下术语与 <code>torch.compile</code> 问题排查相关。</p>
+<h3 id="_4">图中断<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p><code>torch.compile</code> 会追踪您的代码，并尝试将 PyTorch 代码捕获到一个单一的 PyTorch 操作符计算图（FX 图）中。然而，这并非总是可行。当遇到无法追踪的代码时，就会发生“图中断”。图中断涉及编译到目前为止已确定的 FX 图，运行不支持的代码，然后在不受支持的代码之后使用新的 FX 图恢复追踪。由于计算图被分割，我们失去了优化机会，因此模型代码应尽可能避免图中断。图中断发生在以下情况：</p>
+<ul>
+<li>依赖于数据的 if 语句</li>
+<li>许多 Python 内置函数</li>
+<li>C 函数</li>
+</ul>
+<p>下面是一个由于 Python 内置库中的 <code>copy.deepcopy</code> 函数导致图中断的示例（实际输出可能有所不同）。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
+Graph break in user code at /data/users/williamwen/pytorch/playground.py:7
+Reason: Unsupported: builtin: open [&lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;, &lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;] False
+User code traceback:
+File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 7, in fn
+    with open(&quot;test.txt&quot;, &quot;r&quot;) as f:
+Traceback (most recent call last):
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 635, in wrapper
+    return inner_fn(self, inst)
+        ^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2414, in CALL
+    self._call(inst)
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2408, in _call
+    self.call_function(fn, args, kwargs)
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 962, in call_function
+    self.push(fn.call_function(self, args, kwargs))  # type: ignore[arg-type]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/builtin.py&quot;, line 997, in call_function
+    return handler(tx, args, kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/builtin.py&quot;, line 831, in &lt;lambda&gt;
+    return lambda *args: unimplemented(error_msg)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/exc.py&quot;, line 313, in unimplemented
+    raise Unsupported(msg, case_name=case_name)
+torch._dynamo.exc.Unsupported: builtin: open [&lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;, &lt;class &#39;torch._dynamo.variables.constant.ConstantVariable&#39;&gt;] False
+</code></pre></div>
+<h3 id="_5">守卫<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p><code>torch.compile</code> 在追踪代码时会对运行时值做出一些假设。在追踪过程中，我们会生成“守卫”，这些是对这些假设的运行时检查。在后续调用编译函数时，会运行守卫以确定是否可以重用先前编译的代码。运行时检查的示例包括常量值、类型和对象 ID。</p>
+<p>以下是生成守卫的示例。<code>TENSOR_MATCH</code> 守卫检查输入的类型、设备、数据类型、形状等。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;guards&quot; python playground.py
+GUARDS:
+</code></pre></div>
+<p>TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:471 in init_ambient_guards
+| +- GLOBAL_STATE: <strong><em>check</em>global_state()
+| +- TORCH_FUNCTION_MODE_STACK: </strong>_check_torch_function_mode_stack()
+| +- GuardManager: source=L['x'], accessed_by=DictGetItemGuardAccessor(x)
+| | +- TENSOR_MATCH: check_tensor(L['x'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU), torch.float32, device=None, requires_grad=False, size=[3, 3], stride=[3, 1])  # return x + 1  # playground.py:6 in fn
+| | +- NO_HASATTR: hasattr(L['x'], '_dynamo_dynamic_indices') == False           # return x + 1  # playground.py:6 in fn
+<div class="highlight"><pre><span></span><code>### 重新编译
+
+如果所有先前编译代码实例的守卫检查都失败，那么 `torch.compile` 必须&quot;重新编译&quot;该函数，需要再次追踪原始代码。
+
+在下面的示例中，由于检查张量参数形状的守卫失败，重新编译是必要的。
+
+```py
+import torch
+
+@torch.compile
+def fn(x):
+    return x + 1
+
+fn(torch.ones(3, 3))
+fn(torch.ones(4, 4))
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;recompiles&quot; python playground.py
+Recompiling function fn in /data/users/williamwen/pytorch/playground.py:3
+    triggered by the following guard failure(s):
+    - 0/0: tensor &#39;L[&#39;x&#39;]&#39; size mismatch at index 0. expected 3, actual 4
+</code></pre></div>
+<h3 id="_6">动态形状<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><code>torch.compile</code> 最初假设张量形状是静态/常量，并基于这些假设设置守卫。
+通过使用"动态形状"，我们可以让 <code>torch.compile</code> 生成能够接受不同形状张量输入的编译代码——我们避免了每次形状不同时都重新编译。
+默认情况下，自动动态形状是启用的 <code>torch.compile(dynamic=None)</code>——如果由于形状不匹配导致编译失败，将尝试使用动态形状重新编译。
+动态形状也可以完全启用 <code>dynamic=True</code> 或禁用 <code>dynamic=False</code>。</p>
+<p>下面，我们启用动态形状，并注意到不再需要重新编译。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;dynamic,recompiles&quot; python playground.py
+create_symbol s0 = 3 for L[&#39;x&#39;].size()[0] [2, int_oo] at playground.py:5 in fn (_dynamo/variables/builder.py:2718 in &lt;lambda&gt;), for more info run with TORCHDYNAMO_EXTENDED_DEBUG_CREATE_SYMBOL=&quot;s0&quot;
+produce_guards
+produce_guards
+</code></pre></div>
+<p>有关动态形状的更多信息，请参阅 <a href="https://docs.google.com/document/d/1GgvOe7C8_NVOMLOCwDaYV1mXXyHMXY7ExoewHqooxrs/edit#heading=h.fh8zzonyw8ng">动态形状手册</a>。</p>
+<h2 id="_7">日志记录工具<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>(tlparse-torch-trace)=</p>
+<h3 id="tlparse-torch_trace">tlparse / TORCH_TRACE<a class="headerlink" href="#tlparse-torch_trace" title="Permanent link">&para;</a></h3>
+<p><code>tlparse</code> / <code>TORCH_TRACE</code> 是一对工具，用于生成如下所示的编译报告：
+<a href="https://web.mit.edu/~ezyang/Public/bhack-20240609-tlparse/index.html">https://web.mit.edu/~ezyang/Public/bhack-20240609-tlparse/index.html</a>。</p>
+<p>追踪非常容易收集。要收集追踪，请使用以下命令运行你的复现命令：</p>
+<div class="highlight"><pre><span></span><code>TORCH_TRACE=&quot;/tmp/tracedir&quot; python foo.py
+pip install tlparse
+tlparse /tmp/tracedir
+</code></pre></div>
+<p>这种方法即使你在运行分布式作业时也有效，会为每个 rank 提供一个追踪。
+它将在你的浏览器中打开类似于上面生成的 HTML 页面。
+如果你正在为一个你没有独立复现的复杂问题提交错误报告，你仍然可以通过附上在 <code>/tmp/tracedir</code> 中生成的追踪日志来极大地帮助 PyTorch 开发人员。</p>
+<div class="highlight"><pre><span></span><code>追踪日志包含你所有的模型代码。
+如果你正在处理的模型是敏感的，请不要共享追踪日志。追踪日志**不包含**权重。
+</code></pre></div>
+<p>```{raw} html
+    <style>
+        .red {background-color:#ff0000;}
+        .green {background-color:#00ff00;}
+        .dark-green {background-color:#027f02;}
+    </style>
+<div class="highlight"><pre><span></span><code>```{eval-rst}
+.. role:: red
+
+.. role:: green
+
+.. role:: dark-green
+</code></pre></div></p>
+<p><code>tlparse</code> 的输出主要面向 PyTorch 开发人员，其日志格式易于在 GitHub 上上传和共享。
+然而，作为非 PyTorch 开发人员，你仍然可以从中提取有用的信息。
+我们建议从报告中的内联帮助文本开始，它解释了其内容。
+以下是一些你可以从 <code>tlparse</code> 中获得的信息：</p>
+<ul>
+<li>通过查看堆栈树，可以了解编译了哪些模型代码？
+    如果你不熟悉正在编译的代码库，这尤其有用！</li>
+<li>存在多少个图中断 / 不同的编译区域？
+    （每个不同的编译都是其自己颜色编码的块，如 {dark-green}<code>[0/0]</code>）。
+    可能发生图中断的帧显示为浅绿色 {green}<code>[2/4]</code>。
+    如果有很多帧，那是可疑的，表明你可能有一些灾难性的图中断，或者你的代码可能不太适合 <code>torch.compile</code>。</li>
+<li>我重新编译特定帧多少次了？重新编译很多次的帧看起来像：
+    {dark-green}<code>[10/0]</code> {dark-green}<code>[10/1]</code> {dark-green}<code>[10/2]</code>
+    - 如果某个东西被重新编译了很多次，那是非常可疑的，值得调查，即使它不是问题的根本原因。</li>
+<li>是否存在编译错误？出错的帧看起来像 {red}<code>[0/1]</code>。</li>
+<li>我为给定帧生成了哪些中间编译器产物？
+    例如，你可以查看生成的高级 FX 图或生成的 Triton 代码。</li>
+<li>特定帧是否有相关信息？你可以在 <code>compilation_metrics</code> 中找到这些信息。</li>
+</ul>
+<p>(torch-logs)=</p>
+<h3 id="torch_logs">TORCH_LOGS<a class="headerlink" href="#torch_logs" title="Permanent link">&para;</a></h3>
+<p>你可以使用 <code>TORCH_LOGS</code> 环境变量来有选择地启用 <code>torch.compile</code> 堆栈的某些部分进行日志记录。
+<code>TORCH_LOGS</code> 实际上是 <code>tlparse</code> 的日志来源。<code>TORCH_LOGS</code> 环境变量的格式如下：</p>
+<div class="highlight"><pre><span></span><code>TORCH_LOGS=&quot;&lt;option1&gt;,&lt;option2&gt;,...&quot; python foo.py
+</code></pre></div>
+<p>有用的高级选项包括：</p>
+<ul>
+<li><code>graph_breaks</code>：记录用户代码中发生图中断的位置及中断原因</li>
+<li><code>guards</code>：记录生成的守卫条件</li>
+<li><code>recompiles</code>：记录重新编译的函数以及导致重新编译的失败守卫条件</li>
+<li><code>dynamic</code>：记录与动态形状相关的信息</li>
+</ul>
+<p>此外，您也可以通过编程方式使用 <code>torch._logging.set_logs</code> 设置日志选项：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">_logging</span><span class="o">.</span><span class="n">set_logs</span><span class="p">(</span><span class="n">graph_breaks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">...</span>
+</code></pre></div>
+<p>更多 <code>TORCH_LOGS</code> 选项请参阅 {ref}<code>troubleshooting-torch-logs-options</code>。
+完整选项列表请查看 <a href="https://pytorch.org/docs/stable/logging.html">torch._logging</a>
+和 <a href="https://pytorch.org/docs/stable/generated/torch._logging.set_logs.html#torch._logging.set_logs">torch._logging.set_logs</a>。</p>
+<h3 id="tlparse-torch_logs">tlparse 与 TORCH_LOGS 对比<a class="headerlink" href="#tlparse-torch_logs" title="Permanent link">&para;</a></h3>
+<p>通常，我们建议在遇到问题时首先使用 <code>tlparse</code>。
+<code>tlparse</code> 非常适合调试大型模型并获取模型编译过程的高层概览。
+另一方面，当我们已经知道是哪个 <code>torch.compile</code> 组件导致问题时，
+<code>TORCH_LOGS</code> 更适合用于小型示例和细粒度的调试细节。</p>
+<h2 id="_8">简单解决方案<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>这里我们描述一些涉及少量代码修改或更改 <code>torch.compile</code> 设置的解决方案。</p>
+<h3 id="torchcompile_1">在哪里应用 torch.compile？<a class="headerlink" href="#torchcompile_1" title="Permanent link">&para;</a></h3>
+<p>我们建议在不会导致过多问题的最高层级函数上应用 <code>torch.compile</code>。
+通常，这是指包含优化器但不包含循环的训练或评估步骤、顶层的 <code>nn.Module</code>，
+或者某些子 <code>nn.Module</code>。<code>torch.compile</code> 特别不擅长处理像 DDP 或 FSDP 这样的分布式包装器模块，
+因此考虑将 <code>torch.compile</code> 应用于传递给包装器的内部模块。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 推理</span>
+<span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">opt_model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_ITERS</span><span class="p">):</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">opt_model</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># 训练</span>
+<span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()(</span><span class="n">pred</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_ITERS</span><span class="p">):</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">inp</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># DistributedDataParallel</span>
+<span class="n">model</span> <span class="o">=</span> <span class="o">...</span>
+<span class="n">opt_model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">model_ddp</span> <span class="o">=</span> <span class="n">DistributedDataParallel</span><span class="p">(</span><span class="n">opt_model</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_ITERS</span><span class="p">):</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model_ddp</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_9">禁用和抑制错误<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>对于某些模型架构，模型的部分内容特别难以编译——要么存在许多图中断，要么会发生崩溃。
+您可能希望显式禁用模型中这些有问题的部分，以便将 <code>torch.compile</code> 应用于可正常工作的部分。
+您可以使用 <code>@torch.compiler.disable</code> 装饰器来实现这一点。当 <code>torch.compile</code> 尝试调用被禁用的函数时，
+它会中断图并跳过对被禁用函数的追踪，在调用后恢复追踪。
+默认情况下，从被禁用函数进行的所有递归调用也会被禁用。使用 <code>recursive=False</code> 选项可以允许对递归调用进行编译。</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bad1_inner</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="c1"># 被跳过</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">disable</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bad1_outer</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="c1"># 被跳过</span>
+    <span class="n">bad1_inner</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bad2_inner</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="c1"># 被追踪</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bad2_outer</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="c1"># 被跳过</span>
+    <span class="n">bad2_inner</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="c1"># 图中断</span>
+    <span class="n">bad1_outer</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="o">...</span>
+    <span class="c1"># 图中断</span>
+    <span class="n">bad2_outer</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<p>例如，我们在推荐模型中使用 <code>torch.compiler.disable</code> 来禁用稀疏架构上的 <code>torch.compile</code>，
+因为稀疏架构难以编译。预处理和日志记录函数是其他通常会导致大量图中断且从编译中获益不大的函数示例。</p>
+<p>如果您遇到编译器崩溃但希望继续执行，可以设置 <code>torch._dynamo.config.suppress_errors = True</code>。
+当编译器崩溃时，我们将跳过追踪该函数并稍后重试。这不是最佳实践——最好根据需要手动添加禁用注解。</p>
+<h3 id="_10">解决图中断问题<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>为了最大化优化机会，减少图中断的数量非常重要。
+请记住，您可以使用 <code>tlparse</code> 或 <code>TORCH_LOGS="graph_breaks"</code> 查看发生的图中断。
+通常，图中断由以下原因之一引起：</p>
+<ol>
+<li>您尝试执行的操作本质上无法被追踪，例如数据依赖的控制流。</li>
+<li>您尝试执行的操作尚未得到支持。
+   例如，目前对使用内置 Python <code>inspect</code> 模块的代码追踪支持有限。</li>
+<li>您的代码中存在错误。例如，您可能尝试使用错误数量的参数调用函数。</li>
+</ol>
+<p>图中断日志会告诉您用户代码位置和图中断的原因。
+不幸的是，如果没有对 Dynamo 的深入理解，许多图中断是无法解决的。
+甚至确定三种原因中哪一种是导致图中断的真正原因都可能具有挑战性。
+我们正在努力使图中断信息更具可操作性。</p>
+<p>此外，不同图中断导致的优化机会损失影响也不同。
+例如，发生在模型 <code>forward</code> 方法中间的图中断可能比发生在 <code>forward</code> 开头预处理部分的图中断影响更负面。
+因此，防止<em>每一个</em>中断并不关键，关键是防止那些导致显著性能损失的中断。</p>
+<p>如果图中断信息没有提示任何操作，您怀疑图中断的原因是 (2)，
+并且您认为图中断正在导致性能损失，请将图中断作为问题报告。
+如果一个函数有许多图中断，考虑在该函数上禁用编译，因为图中断的开销成本可能会变得过高。</p>
+<p>以下是一些常见的图中断及其解决方案。</p>
+<h4 id="_11">数据依赖操作<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<p><code>torch.compile</code> 会在数据依赖操作上发生图中断，例如数据依赖的控制流（if 语句、涉及张量的循环）和直接的张量数据访问（<code>.item</code>、<code>.data_ptr</code>）。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
+Graph break in user code at /data/users/williamwen/pytorch/playground.py:6
+Reason: Data-dependent jump
+User code traceback:
+File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 6, in fn
+    if y &gt; 0:
+
+Graph break in user code at /data/users/williamwen/pytorch/playground.py:7
+Reason: Unsupported: Tensor.item
+User code traceback:
+File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 7, in torch_dynamo_resume_in_fn_at_6
+    return x + y.item()
+Traceback (most recent call last):
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 616, in wrapper
+    return inner_fn(self, inst)
+        ^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2288, in CALL
+    self._call(inst)
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 2282, in _call
+    self.call_function(fn, args, kwargs)
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py&quot;, line 838, in call_function
+    self.push(fn.call_function(self, args, kwargs))  # type: ignore[arg-type]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/misc.py&quot;, line 1038, in call_function
+    return self.obj.call_method(tx, self.name, args, kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/tensor.py&quot;, line 527, in call_method
+    result = handler_method(*args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/variables/tensor.py&quot;, line 773, in method_item
+    unimplemented(&quot;Tensor.item&quot;)
+File &quot;/data/users/williamwen/pytorch/torch/_dynamo/exc.py&quot;, line 304, in unimplemented
+    raise Unsupported(msg, case_name=case_name)
+torch._dynamo.exc.Unsupported: Tensor.item
+</code></pre></div>
+<p>解决这些图中断的通用方法是避免执行数据依赖操作。一些具体的解决方法包括：</p>
+<ul>
+<li>如果你的控制流实际上并不依赖于数据值，考虑修改你的代码，使其在常量上执行控制流。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># 旧代码</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span>
+
+<span class="c1"># 新代码</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">cond</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span>
+</code></pre></div>
+<ul>
+<li>使用高阶操作符如 <code>torch.cond</code> (<a href="https://pytorch.org/docs/main/cond.html">https://pytorch.org/docs/main/cond.html</a>) 来代替数据依赖的控制流</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># 旧代码</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span>
+
+<span class="c1"># 新代码</span>
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">x</span><span class="p">,),</span>
+    <span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>如果你有 <code>.item()</code> 调用，尝试设置 <code>torch._dynamo.config.capture_scalar_outputs = True</code> 或 <code>TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1</code></li>
+<li>将函数中有问题的部分包装在自定义操作符中</li>
+</ul>
+<h4 id="_12">自定义操作符<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<p>如果你的代码由于缺少支持或根本上的不兼容性导致 <code>torch.compile</code> 难以追踪，你可以考虑将有问题的代码包装在自定义操作符中。</p>
+<p>自定义操作符需要一些额外的工作才能使其与 <code>torch.compile</code> 兼容。
+更多详情请参阅 <a href="https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html">https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html</a>。</p>
+<h4 id="_13">打印<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<p>打印/日志记录/发出警告将导致图中断。如果你的函数进行了许多日志调用，例如一个记录训练迭代数据的函数，考虑对其应用 <code>torch.compiler.disable</code>。</p>
+<p>或者，你可以尝试使用 <code>torch._dynamo.config.reorderable_logging_functions</code>。
+此配置用于重新排序日志函数，使它们在跟踪函数的末尾被调用，从而避免图中断。但是，如果发生突变等情况，记录的内容可能会有所不同。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">reorderable_logging_functions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">print</span><span class="p">)</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
+log!
+</code></pre></div>
+<h4 id="_14">错误的代码<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<p>你的代码可能是错误的，或者正遇到来自 <code>torch.compile</code> 外部的错误。
+在下面的代码中，我们在 <code>torch.sin</code> 调用中打错了字，提供了一个额外的参数。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+<span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;graph_breaks&quot; python playground.py
+Graph break in user code at /data/users/williamwen/pytorch/playground.py:5
+Reason: Unsupported: TypeError &lt;built-in method sin of type object at 0x7fd6fd764600&gt;: sin() takes 1 positional argument but 2 were given
+User code traceback:
+File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 5, in fn
+    y = torch.sin(x, x)
+...
+</code></pre></div>
+<p>从日志中很难判断错误是由你的代码引起的还是由 <code>torch.compile</code> 的 bug 引起的。
+为了区分，我们建议尝试在不使用 <code>torch.compile</code> 的情况下运行你的代码，看看是否仍然出现错误。</p>
+<h3 id="_15">处理重新编译<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p>你可以使用 <code>tlparse</code> 或 <code>TORCH_LOGS=recompiles</code> 来查看重新编译及其原因。</p>
+<h4 id="_16">是否启用了动态形状？<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
+<p>由于形状不匹配导致的重新编译形式如下：</p>
+<div class="highlight"><pre><span></span><code>tensor &#39;L[&#39;x&#39;]&#39; size mismatch at index 0. expected 3, actual 4
+</code></pre></div>
+<p>请确保 <code>torch.compile</code> 的 <code>dynamic</code> 选项没有设置为 <code>False</code>。
+默认选项 <code>dynamic=None</code> 只会在第一次编译后尝试动态形状。
+你可以设置 <code>dynamic=True</code> 来尽可能地进行动态编译。</p>
+<p>有关动态形状的更多信息，请参阅<a href="https://docs.google.com/document/d/1GgvOe7C8_NVOMLOCwDaYV1mXXyHMXY7ExoewHqooxrs/edit#heading=h.fh8zzonyw8ng">动态形状手册</a>。</p>
+<h4 id="_17">更改缓存大小限制<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h4>
+<p>函数可以重新编译的次数是有限制的，由 <code>torch._dynamo.config.recompile_limit</code> 和 <code>torch._dynamo.config.accumulated_recompile_limit</code> 决定。
+如果任一限制被超过，我们将不再尝试编译该函数，而是以即时执行的方式运行该函数。
+<code>torch.compile</code> 还会发出一个警告，其中包含受影响的函数以及触发了哪个限制。
+在下面的示例中，每次函数调用都会导致重新编译尝试。
+当我们达到缓存大小限制（8）时，我们停止尝试重新编译。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ python playground.py
+torch._dynamo hit config.recompile_limit (8)
+    function: &#39;fn&#39; (/data/users/williamwen/pytorch/playground.py:5)
+    last reason: 0/0: tensor &#39;L[&#39;x&#39;]&#39; size mismatch at index 0. expected 1, actual 9
+</code></pre></div>
+<p>如果您知道重新编译的次数有一个合理的恒定上限，您可以提高缓存大小限制。
+如果重新编译的成本超过了编译带来的好处，那么您可以考虑降低缓存大小限制。</p>
+<h4 id="_18">用张量包装常量<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
+<p>默认情况下，<code>int</code> / <code>float</code> 变量被视为常量并受到相应的保护。
+在下面的示例中，每次函数调用都会导致重新编译。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;recompiles&quot; python playground.py
+Recompiling function fn in /data/users/williamwen/pytorch/playground.py:3
+    triggered by the following guard failure(s):
+    - 0/7: L[&#39;c&#39;] == 8.5
+    - 0/6: L[&#39;c&#39;] == 7.5
+    - 0/5: L[&#39;c&#39;] == 6.5
+    - 0/4: L[&#39;c&#39;] == 5.5
+    - 0/3: L[&#39;c&#39;] == 4.5
+    - 0/2: L[&#39;c&#39;] == 3.5
+    - 0/1: L[&#39;c&#39;] == 2.5
+    - 0/0: L[&#39;c&#39;] == 1.5
+torch._dynamo hit config.recompile_limit (8)
+    function: &#39;fn&#39; (/data/users/williamwen/pytorch/playground.py:3)
+    last reason: 0/0: L[&#39;c&#39;] == 1.5
+</code></pre></div>
+<p>特别是对于学习率调度器，使用常量初始化可能导致重新编译：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">mod</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">sched</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ExponentialLR</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">sched</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;recompiles&quot; python playground.py
+Recompiling function step in /data/users/williamwen/pytorch/torch/optim/adam.py:189
+    triggered by the following guard failure(s):
+    - 3/7: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.004782969000000002
+    - 3/6: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.005314410000000002
+    - 3/5: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.005904900000000002
+    - 3/4: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.006561000000000002
+    - 3/3: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.007290000000000001
+    - 3/2: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.008100000000000001
+    - 3/1: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.009000000000000001
+    - 3/0: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.01
+torch._dynamo hit config.recompile_limit (8)
+    function: &#39;step&#39; (/data/users/williamwen/pytorch/torch/optim/adam.py:189)
+    last reason: 3/0: L[&#39;self&#39;].param_groups[0][&#39;lr&#39;] == 0.01
+</code></pre></div>
+<p>在这两个示例中，我们可以将浮点变量包装在张量中，以防止重新编译。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 第一个示例</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span>
+
+<span class="c1"># 第二个示例</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))</span>
+<span class="n">sched</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ExponentialLR</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.9</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="_19">报告问题<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
+<p>如果上面提供的解决方法不足以让 <code>torch.compile</code> 正常工作，那么您应该考虑向 PyTorch 报告该问题。
+但是，您可以做一些事情来大大简化我们的工作。</p>
+<h3 id="_20">消融测试<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<p>使用 <code>torch.compile</code> 的 <code>backend=</code> 选项检查 <code>torch.compile</code> 堆栈的哪个组件导致了问题。
+特别是，尝试：</p>
+<ul>
+<li><code>torch.compile(fn, backend="eager")</code>，它只运行 TorchDynamo，即 <code>torch.compile</code> 的图捕获组件。</li>
+<li><code>torch.compile(fn, backend="aot_eager")</code>，它运行 TorchDynamo 和 AOTAutograd，后者在编译期间额外生成反向图。</li>
+<li><code>torch.compile(fn, backend="aot_eager_decomp_partition")</code>，它运行 TorchDynamo 和 AOTAutograd，并带有算子分解/分区。</li>
+<li><code>torch.compile(fn, backend="inductor")</code>，它运行 TorchDynamo、AOTAutograd 和 TorchInductor，后者是生成编译内核的后端 ML 编译器。</li>
+</ul>
+<p>如果您仅在 Inductor 后端失败，您还可以测试各种 Inductor 模式：</p>
+<ul>
+<li><code>torch.compile(fn, backend="inductor", mode="default")</code></li>
+<li><code>torch.compile(fn, backend="inductor", mode="reduce-overhead")</code></li>
+<li><code>torch.compile(fn, backend="inductor", mode="max-autotune")</code></li>
+</ul>
+<p>您还可以检查动态形状是否在任何后端导致问题：</p>
+<ul>
+<li><code>torch.compile(fn, dynamic=True)</code> （始终使用动态形状）</li>
+<li><code>torch.compile(fn, dynamic=False)</code> （从不使用动态形状）</li>
+<li><code>torch.compile(fn, dynamic=None)</code> （自动动态形状）</li>
+</ul>
+<h3 id="_21">二分查找<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<p>您是否尝试过最新的 nightly 版本？过去是否正常工作但现在不再工作？
+您能否通过二分查找来确定问题首次出现的 nightly 版本？
+二分查找对于性能、精度或编译时间回归特别有帮助，因为问题的根源可能并不明显。</p>
+<h3 id="_22">创建复现示例<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
+<p>创建可复现示例需要大量工作，如果您没有时间完成，这完全可以理解。
+然而，如果您是一位积极但不熟悉 <code>torch.compile</code> 内部机制的用户，
+创建一个独立的可复现示例对我们修复错误的能力会产生巨大影响。
+如果没有可复现示例，您的错误报告必须包含足够的信息，以便我们能够识别问题的根本原因并从头编写复现示例。</p>
+<p>以下是有用的可复现示例列表，按优先级从高到低排列：</p>
+<ol>
+<li><strong>独立、小型可复现示例：</strong> 一个没有外部依赖、代码少于 100 行的脚本，运行时能复现问题。</li>
+<li><strong>独立、大型可复现示例：</strong> 即使规模较大，但独立性强是一个巨大优势！</li>
+<li><strong>依赖项可控的非独立可复现示例：</strong>
+   例如，如果在 <code>pip install transformers</code> 后运行脚本能复现问题，
+   这是可控的。我们很可能能够运行并进行调查。</li>
+<li><strong>需要大量设置的非独立可复现示例：</strong> 这可能涉及下载数据集、
+   多个环境设置步骤，或需要特定系统库版本而要求使用 Docker 镜像。
+   设置越复杂，我们重建环境的难度就越大。</li>
+</ol>
+<p>:::{note}
+       Docker 简化了设置，但使环境变更复杂化，因此它并非完美解决方案，不过必要时我们会使用它。
+   :::</p>
+<p>在某种程度上正交的是，可以在单个进程中运行的可复现示例优于
+需要多进程训练的可复现示例（但再次强调，如果您只有多进程复现示例，我们也会接受！）。</p>
+<p>此外，以下是您可以在问题中检查并尝试在复现示例中复现的方面（非详尽列表）：</p>
+<ul>
+<li><strong>自动求导</strong>。您的张量输入是否设置了 <code>requires_grad=True</code>？您是否在输出上调用了 <code>backward()</code>？</li>
+<li><strong>动态形状</strong>。您是否设置了 <code>dynamic=True</code>？或者您是否使用不同形状多次运行了测试代码？</li>
+<li><strong>自定义运算符</strong>。实际工作流中是否涉及自定义运算符？
+  您能否使用 Python 自定义运算符 API 复现其某些重要特性？</li>
+<li><strong>配置</strong>。您是否设置了所有相同的配置？
+  这包括 <code>torch._dynamo.config</code> 和 <code>torch._inductor.config</code> 设置，
+  以及 <code>torch.compile</code> 的参数，如 <code>backend</code> / <code>mode</code>。</li>
+<li><strong>上下文管理器</strong>。您是否复现了任何活动的上下文管理器？
+  这可能是 <code>torch.no_grad</code>、自动混合精度、<code>TorchFunctionMode</code> / <code>TorchDispatchMode</code>、
+  激活检查点、编译自动求导等。</li>
+<li><strong>张量子类</strong>。是否涉及张量子类？</li>
+</ul>
+<h3 id="_23">最小化工具<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
+<p>最小化工具是 <code>torch.compile</code> 的早期工具，给定一个在尝试运行或编译时崩溃的 FX 图，
+它会找到一个同样会崩溃的子图，并输出执行该子图操作的代码。
+本质上，最小化工具为特定类别的 <code>torch.compile</code> 相关崩溃找到最小复现示例。
+这假设我们能够成功追踪代码。</p>
+<p>不幸的是，目前大多数情况下，最小化工具无法按预期工作，可能需要替代方法。
+这可能是因为可以通过这种方式自动复现的错误通常更容易修复，
+并且已经得到解决，留下的是更复杂且不易复现的问题。
+然而，尝试使用最小化工具很简单，因此即使可能不会成功，也值得一试。</p>
+<p>操作最小化工具的说明可以在<a href="https://pytorch.org/docs/stable/torch.compiler_troubleshooting_old.html">此处</a>找到。
+如果编译器崩溃，您可以设置 <code>TORCHDYNAMO_REPRO_AFTER="dynamo"</code> 或 <code>TORCHDYNAMO_REPRO_AFTER="aot"</code>
+<code>aot</code> 选项更可能成功，尽管它可能无法识别 <code>AOTAutograd</code> 问题。这将生成 <code>repro.py</code> 文件，可能有助于诊断问题。
+对于与精度相关的问题，考虑设置 <code>TORCHDYNAMO_REPRO_LEVEL=4</code>。请注意，这可能无法总是成功识别有问题的子图。</p>
+<h2 id="_24">深入调试<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h2>
+<p>本节提供了用于独立调试 <code>torch.compile</code> 问题
+或更深入理解 <code>torch.compile</code> 堆栈的工具和技术。
+这些方法比上面介绍的方法更复杂，PyTorch 开发人员经常使用它们
+来调试实际的 <code>torch.compile</code> 问题。</p>
+<p>以下是堆栈的高级概述：</p>
+<p><img alt="Torch Dynamo 堆栈" src="../../_static/img/dynamo/td_stack.png" /></p>
+<p>该堆栈包含三个主要组件：TorchDynamo、AOTAutograd 和 Inductor。
+我们的调试策略首先确定错误发生在哪个组件，
+然后单独调试该组件。要确定导致问题的组件，
+请参阅上面 <code>报告问题</code> 下的 <code>消融</code> 部分。有关调试特定组件的指导，请参考以下部分。</p>
+<h3 id="torchdynamo">TorchDynamo<a class="headerlink" href="#torchdynamo" title="Permanent link">&para;</a></h3>
+<h4 id="dynamo">记录 Dynamo 正在追踪的内容<a class="headerlink" href="#dynamo" title="Permanent link">&para;</a></h4>
+<p><code>TORCH_LOGS=trace_bytecode</code> 选项使您能够查看 Dynamo 正在追踪的确切字节码指令，
+以及 Python 解释器堆栈的符号表示。当遇到图中断或崩溃时，
+建议检查最后几条追踪的字节码指令。</p>
+<p>您还可以使用 <code>TORCH_LOGS=trace_source</code> 来查看 Dynamo 正在追踪的源代码行。
+这与 <code>trace_bytecode</code> 结合使用很有用，可以查看每条追踪的字节码指令对应的源代码行。</p>
+<p>最后，您可以使用 <code>TORCH_LOGS=graph_code</code> 来查看表示 Dynamo 追踪的 FX 图的 Python 代码。
+您可以查看此代码以双重检查是否追踪了正确的操作。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;eager&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ TORCH_LOGS=&quot;trace_bytecode,trace_source,graph_code&quot; python playground.py
+TRACE starts_line /data/users/williamwen/pytorch/playground.py:6 in f ()
+    @torch.compile(backend=&quot;eager&quot;)
+TRACE RESUME 0 []
+TRACE starts_line /data/users/williamwen/pytorch/playground.py:8 in f (f)
+        x = torch.sin(x)
+TRACE LOAD_GLOBAL torch []
+TRACE LOAD_ATTR sin [NullVariable(), PythonModuleVariable(&lt;module &#39;torch&#39; from &#39;/data/users/williamwen/pytorch/torch/__init__.py&#39;&gt;)]
+TRACE LOAD_FAST x [NullVariable(), TorchInGraphFunctionVariable(&lt;built-in method sin of type object at 0x7f00f6964600&gt;)]
+TRACE CALL 1 [NullVariable(), TorchInGraphFunctionVariable(&lt;built-in method sin of type object at 0x7f00f6964600&gt;), LazyVariableTracker()]
+TRACE STORE_FAST x [TensorVariable()]
+TRACE starts_line /data/users/williamwen/pytorch/playground.py:9 in f (f)
+        x = g(x, x)
+TRACE LOAD_GLOBAL g []
+TRACE LOAD_FAST x [NullVariable(), UserFunctionVariable()]
+TRACE LOAD_FAST x [NullVariable(), UserFunctionVariable(), TensorVariable()]
+TRACE CALL 2 [NullVariable(), UserFunctionVariable(), TensorVariable(), TensorVariable()]
+TRACE starts_line /data/users/williamwen/pytorch/playground.py:3 in g (g) (inline depth: 1)
+    def g(x, y):
+TRACE RESUME 0 []
+TRACE starts_line /data/users/williamwen/pytorch/playground.py:4 in g (g) (inline depth: 1)
+        return x + y
+TRACE LOAD_FAST x []
+TRACE LOAD_FAST y [TensorVariable()]
+TRACE BINARY_OP 0 [TensorVariable(), TensorVariable()]
+TRACE RETURN_VALUE None [TensorVariable()]
+TRACE STORE_FAST x [TensorVariable()]
+TRACE starts_line /data/users/williamwen/pytorch/playground.py:10 in f (f)
+        return x
+TRACE LOAD_FAST x []
+TRACE RETURN_VALUE None [TensorVariable()]
+TRACED GRAPH
+===== __compiled_fn_1 =====
+/data/users/williamwen/pytorch/torch/fx/_lazy_graph_module.py class GraphModule(torch.nn.Module):
+    def forward(self, L_x_: &quot;f32[3, 3][3, 1]cpu&quot;):
+        l_x_ = L_x_
+
+        # File: /data/users/williamwen/pytorch/playground.py:8 in f, code: x = torch.sin(x)
+        x: &quot;f32[3, 3][3, 1]cpu&quot; = torch.sin(l_x_);  l_x_ = None
+
+        # File: /data/users/williamwen/pytorch/playground.py:4 in g, code: return x + y
+        x_1: &quot;f32[3, 3][3, 1]cpu&quot; = x + x;  x = None
+        return (x_1,)
+</code></pre></div>
+<h4 id="dynamo_1">在 Dynamo 追踪过程中设置断点<a class="headerlink" href="#dynamo_1" title="Permanent link">&para;</a></h4>
+<p>有时，在 Dynamo/用户代码中插入断点有助于查看在追踪用户代码时 Dynamo 的状态。
+不幸的是，以常规 Python 方式插入断点会导致 TorchDynamo 中出现图中断，因此我们将无法在预期设置断点的位置查看 Dynamo 的状态。</p>
+<p>设置断点的第一种方法是在 Dynamo 源代码中插入断点。推荐放置断点的三个位置是：</p>
+<ul>
+<li>在 <code>torch/_dynamo/symbolic_convert.py</code> 中，在以有问题的字节码指令命名的函数处设置断点，
+  例如 <code>def CALL_FUNCTION</code> 和 <code>def STORE_ATTR</code>。您可以根据输入条件设置断点，
+  例如，指令的 <code>argval</code>，或者栈顶对象的名称，因为某些字节码操作码使用频繁。</li>
+<li>在图中断或错误起源处设置断点。通常，图中断是通过调用 <code>unimplemented(...)</code> 发出的。</li>
+<li>在 <code>torch/_dynamo/variables/builder.py</code> 的 <code>_wrap</code> 函数中设置断点。您可能需要根据输入条件设置断点。
+  此函数决定如何符号化表示给定的值。如果您怀疑某个值的表示不正确，请考虑在此处设置断点。</li>
+</ul>
+<p>第二种插入断点的方法是使用 <code>torch._dynamo.comptime.comptime.breakpoint</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo.comptime</span><span class="w"> </span><span class="kn">import</span> <span class="n">comptime</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">comptime</span><span class="o">.</span><span class="n">breakpoint</span><span class="p">()</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>comptime 断点非常方便，因为它允许您在正在追踪的用户代码中的特定位置检查 Dynamo 状态。
+它不需要您在 Dynamo 源代码中插入断点，也不需要根据变量条件设置断点。</p>
+<p>当 comptime 断点被触发时，您可以执行以下操作：</p>
+<ul>
+<li><code>ctx.print_bt()</code> 打印用户堆栈跟踪</li>
+<li><code>ctx.print_locals()</code> 打印所有当前局部变量</li>
+<li><code>ctx.print_graph()</code> 打印当前追踪的图</li>
+<li><code>ctx.disas()</code> 打印当前追踪函数的字节码</li>
+<li>使用标准的 <code>pdb</code> 命令，例如 <code>bt/u/d/n/s/r</code> - 您可以向上查看 <code>pdb</code> 堆栈以检查更多 Dynamo 内部状态</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo.comptime</span><span class="w"> </span><span class="kn">import</span> <span class="n">comptime</span>
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;eager&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">comptime</span><span class="o">.</span><span class="n">breakpoint</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">y</span>
+
+<span class="n">f</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ python playground.py
+--Return--
+&gt; /data/users/williamwen/pytorch/torch/_dynamo/comptime.py(392)inner()-&gt;None
+-&gt; builtins.breakpoint()
+(Pdb) ctx.print_bt()
+File &quot;/data/users/williamwen/pytorch/playground.py&quot;, line 7, in f
+    comptime.breakpoint()
+
+(Pdb) ctx.print_locals()
+x = FakeTensor(..., size=(3, 3))
+y = FakeTensor(..., size=(3, 3))
+(Pdb) bt
+...
+/data/users/williamwen/pytorch/torch/_dynamo/symbolic_convert.py(826)call_function()
+-&gt; self.push(fn.call_function(self, args, kwargs))  # type: ignore[arg-type]
+/data/users/williamwen/pytorch/torch/_dynamo/variables/misc.py(331)call_function()
+-&gt; func(ComptimeContext(tx))
+&gt; /data/users/williamwen/pytorch/torch/_dynamo/comptime.py(392)inner()-&gt;None
+-&gt; builtins.breakpoint()
+(Pdb) ctx.print_graph()
+
+
+
+def forward(self, L_x_: &quot;f32[3, 3]&quot;):
+    l_x_ = L_x_
+
+    # File: /data/users/williamwen/pytorch/playground.py:6 in f, code: y = x + 1
+    y: &quot;f32[3, 3]&quot; = l_x_ + 1;  l_x_ = y = None
+</code></pre></div>
+<p>% TODO(uncomment/update once we improve this API)
+% 调试大型模型
+% ^^^^^^^^^^^^^^^^^^^^^^
+%
+% 在大型模型上调试 TorchDynamo 可能比较棘手，主要是因为 Dynamo 会追踪大量代码。
+% 很难找到有问题的函数，或者确定在哪里设置断点。
+% 即使我们找到了有问题的函数，我们也不想处理大量的日志输出。
+% 幸运的是，你可以使用 <code>TORCHDYNAMO_DEBUG_FUNCTION=&lt;function name&gt;</code>，它将 dynamo 追踪限制在仅具有特定名称（精确匹配）的函数上。
+% 这将允许你将模型中的所有函数过滤到感兴趣的函数。
+% 结合上述调试策略使用此功能。</p>
+<h4 id="_25">字节码生成错误<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h4>
+<p>虽然不常见，但 Dynamo 可能会生成错误的字节码。如果你确定以下情况，则可能发生此错误：</p>
+<ul>
+<li>消融实验表明错误发生在 TorchDynamo 层面</li>
+<li>错误并非来自 TorchDynamo 堆栈帧</li>
+<li>错误看起来更像是用户错误而非 Dynamo 错误，或者是段错误</li>
+<li>在不使用 <code>torch.compile</code> 时不会发生此错误</li>
+</ul>
+<p>字节码生成错误通常很难修复，我们建议提交问题而不是尝试自己修复。
+如果你有兴趣查看 Dynamo 生成的字节码，可以使用 <code>TORCH_LOGS=bytecode</code>。
+你可以在此处查看 Dynamo 生成的字节码的高级概述 <a href="https://docs.google.com/presentation/d/1tMZOoAoNKF32CAm1C-WfzdVVgoEvJ3lp/edit?usp=sharing&amp;ouid=114922067987692817315&amp;rtpof=true&amp;sd=true">here</a>。</p>
+<h3 id="aotautograd">AOTAutograd<a class="headerlink" href="#aotautograd" title="Permanent link">&para;</a></h3>
+<p>AOTAutograd 错误通常难以调试——我们建议直接提交问题。
+AOTAutograd 日志输出主要用于查看 Inductor 的输入是什么。</p>
+<p>% TODO
+% TorchInductor
+% -------------</p>
+<p>% TODO</p>
+<p>(troubleshooting-torch-logs-options)=</p>
+<h3 id="torch_logs_1">TORCH_LOGS 选项摘要<a class="headerlink" href="#torch_logs_1" title="Permanent link">&para;</a></h3>
+<p>以下是有用的 <code>TORCH_LOGS</code> 选项摘要：</p>
+<div class="highlight"><pre><span></span><code>.. list-table::
+    :widths: 25 50
+    :header-rows: 1
+
+    * - 选项
+      - 描述
+    * - +all
+      - 输出所有 ``torch.compile`` 组件的调试日志
+    * - +dynamo
+      - 输出 TorchDynamo 的调试日志
+    * - +aot
+      - 输出 AOTAutograd 的调试日志
+    * - +inductor
+      - 输出 TorchInductor 的调试日志
+    * - dynamic
+      - 输出动态形状的日志
+    * - graph_code
+      - 输出 Dynamo 生成的 FX 图的 Python 代码
+    * - graph_sizes
+      - 输出 Dynamo 生成的 FX 图的张量大小
+    * - trace_bytecode
+      - 输出 Dynamo 正在追踪的字节码指令以及 Dynamo 正在跟踪的符号解释器堆栈
+    * - trace_source
+      - 输出 Dynamo 当前正在追踪的原始源代码行
+    * - bytecode
+      - 输出 Dynamo 生成的字节码
+    * - guards
+      - 输出生成的守卫
+    * - recompiles
+      - 输出重新编译原因（仅输出第一个失败的守卫检查）
+    * - recompiles_verbose
+      - 输出重新编译发生时所有失败的守卫检查
+    * - aot_graphs
+      - 输出 AOTAutograd 生成的图
+    * - aot_joint_graphs
+      - 输出 AOTAutograd 生成的联合前向-反向图
+    * - output_code
+      - 输出 Inductor 生成的代码
+    * - kernel_code
+      - 按内核输出 Inductor 生成的代码
+    * - schedule
+      - 输出 Inductor 调度日志
+    * - perf_hints
+      - 输出 Inductor 性能提示日志
+    * - fusion
+      - 输出 Inductor 融合日志
+</code></pre></div>
+<p>有关完整选项列表，请参阅 <a href="https://pytorch.org/docs/stable/logging.html">torch._logging</a>
+和 <a href="https://pytorch.org/docs/stable/generated/torch._logging.set_logs.html#torch._logging.set_logs">torch._logging.set_logs</a>。</p>
+<h2 id="_26">相关文章<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html">torch.compile 教程</a></li>
+<li><a href="https://pytorch.org/docs/stable/torch.compiler_fine_grain_apis.html">torch.compile 细粒度 API</a></li>
+<li><a href="https://pytorch.org/docs/stable/torch.compiler_faq.html">torch.compile 常见问题解答</a></li>
+<li><a href="https://pytorch.org/docs/stable/torch.compiler.html#torch-compiler-overview">torch.compiler 命名空间概述</a></li>
+<li><a href="https://pytorch.org/docs/stable/torch.compiler_api.html">torch.compiler API 参考</a></li>
+<li><a href="https://pytorch.org/docs/stable/torch.compiler_profiling_torch_compile.html">分析 torch.compile</a></li>
+<li><a href="https://docs.google.com/document/d/1y5CRfMLdwEoF1nTk9q8qEu1mgMUuUtvhklPKJ2emLU8/edit?usp=sharing">torch.compile 缺失手册</a></li>
+<li><a href="https://docs.google.com/document/d/1GgvOe7C8_NVOMLOCwDaYV1mXXyHMXY7ExoewHqooxrs/edit#heading=h.fh8zzonyw8ng">动态形状手册</a></li>
+<li><a href="https://pytorch.org/tutorials/recipes/torch_compile_caching_tutorial.html">TorchInductor 缓存教程</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/bearneck/pytorch-docs-zh" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

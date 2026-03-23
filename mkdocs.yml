@@ -1,0 +1,46 @@
+site_name: PyTorch 中文文档
+site_description: PyTorch 官方文档中文翻译版
+site_author: PyTorch 中文社区
+docs_dir: docs
+site_dir: site
+repo_url: https://github.com/bearneck/pytorch-docs-zh
+repo_name: pytorch-docs-zh
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - scheme: default
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: 切换到暗色模式
+    - scheme: slate
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: 切换到亮色模式
+  font:
+    text: Noto Sans SC
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/bearneck/pytorch-docs-zh
