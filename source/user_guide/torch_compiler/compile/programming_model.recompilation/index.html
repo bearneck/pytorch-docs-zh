@@ -8091,8 +8091,7 @@
   
 
 
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
-import torch
+<div class="highlight"><pre><span></span><code>import torch
 
 import header_code
 
@@ -8144,10 +8143,9 @@ for i in range(5):
     gn(torch.ones(3, 3))
 </code></pre></div>
 <p>在这两个示例中，我们可以将 <code>float</code> 变量包装在张量中以防止重新编译。</p>
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
-torch._dynamo.reset()
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># 第一个示例
+<div class="highlight"><pre><span></span><code>torch._dynamo.reset()
+{code-cell}
+# 第一个示例
 for i in range(5):
     fn(torch.ones(i), torch.tensor(0.5 + i))
 # 第二个示例

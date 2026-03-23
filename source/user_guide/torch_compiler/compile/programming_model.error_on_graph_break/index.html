@@ -8113,8 +8113,7 @@
   
 
 
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
-import torch
+<div class="highlight"><pre><span></span><code>import torch
 
 import header_code
 torch._logging.set_logs(graph_breaks=True)
@@ -8278,21 +8277,21 @@ try:
     fn(torch.randn(3))
 except Exception as e:
     print(e)
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>@torch.compile(fullgraph=True)
+{code-cell}
+@torch.compile(fullgraph=True)
 def inner(x):
     x = x + 1
     torch._dynamo.graph_break()
     return x + 2
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="nd">@torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fullgraph</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">inner</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+python
+@torch.compile(fullgraph=False)
+def fn(x):
+    return inner(x)
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+try:
+    fn(torch.randn(3))
+except Exception as e:
+    print(e)
 </code></pre></div>
 <h2 id="fullgraphtruefalse-error_on_graph_break"><code>fullgraph=True/False</code> 与 <code>error_on_graph_break</code> 对比总结<a class="headerlink" href="#fullgraphtruefalse-error_on_graph_break" title="Permanent link">&para;</a></h2>
 <p>下表总结了 <code>fullgraph=True/False</code> 和 <code>error_on_graph_break</code> 之间的区别：</p>

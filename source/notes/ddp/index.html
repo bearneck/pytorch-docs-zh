@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ddp" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -6596,7 +6596,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         示例
@@ -6607,7 +6607,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         内部设计
@@ -6618,7 +6618,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         实现
@@ -8050,7 +8050,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         示例
@@ -8061,7 +8061,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         内部设计
@@ -8072,7 +8072,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         实现
@@ -8141,14 +8141,13 @@
   
 
 
-<h1 id="ddp">分布式数据并行<a class="headerlink" href="#ddp" title="Permanent link">&para;</a></h1>
-<p>warning
- title
-Warning</p>
-<p><code class="interpreted-text" role="class">torch.nn.parallel.DistributedDataParallel</code> 的实现会随时间演进。本设计说明基于 v1.4 版本的状态编写。</p>
-<p><code class="interpreted-text" role="class">torch.nn.parallel.DistributedDataParallel</code> (DDP) 透明地执行分布式数据并行训练。本页描述了其工作原理并揭示了实现细节。</p>
-<h2 id="_1">示例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>让我们从一个简单的 <code class="interpreted-text" role="class">torch.nn.parallel.DistributedDataParallel</code> 示例开始。该示例使用 <code class="interpreted-text" role="class">torch.nn.Linear</code> 作为本地模型，用 DDP 包装它，然后在 DDP 模型上运行一次前向传播、一次反向传播和一个优化器步骤。之后，本地模型上的参数将被更新，不同进程上的所有模型应该完全相同。</p>
+<h1 id="_1">分布式数据并行<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>⚠️ <strong>警告</strong>
+<code>torch.nn.parallel.DistributedDataParallel</code> 的实现会随时间演进。本设计说明基于 v1.4 版本的状态编写。</p>
+<p><code>torch.nn.parallel.DistributedDataParallel</code> (DDP) 透明地执行分布式数据并行训练。本页描述了其工作原理并揭示了实现细节。</p>
+<h2 id="_2">示例<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>让我们从一个简单的 <code>torch.nn.parallel.DistributedDataParallel</code> 示例开始。该示例使用 <code>torch.nn.Linear</code> 作为本地模型，用 DDP 包装它，然后在 DDP 模型上运行一次前向传播、一次反向传播和一个优化器步骤。之后，本地模型上的参数将被更新，不同进程上的所有模型应该完全相同。</p>
 <div class="highlight"><pre><span></span><code>import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
@@ -8194,25 +8193,23 @@ if __name__==&quot;__main__&quot;:
 <div class="highlight"><pre><span></span><code>ddp_model = DDP(model, device_ids=[rank])
 ddp_model = torch.compile(ddp_model)
 </code></pre></div>
-<h2 id="_2">内部设计<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>本节通过深入探讨一次迭代中每个步骤的细节，揭示 <code class="interpreted-text" role="class">torch.nn.parallel.DistributedDataParallel</code> 在底层的工作原理。</p>
+<h2 id="_3">内部设计<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>本节通过深入探讨一次迭代中每个步骤的细节，揭示 <code>torch.nn.parallel.DistributedDataParallel</code> 在底层的工作原理。</p>
 <ul>
 <li><strong>前提条件</strong>: DDP 依赖于 c10d <code>ProcessGroup</code> 进行通信。因此，应用程序必须在构建 DDP 之前创建 <code>ProcessGroup</code> 实例。</li>
-<li><strong>构建</strong>: DDP 构造函数接收对本地模块的引用，并从 rank 0 进程向组内所有其他进程广播 <code>state_dict()</code>，以确保所有模型副本从完全相同的状态开始。然后，每个 DDP 进程创建一个本地 <code>Reducer</code>，该 <code>Reducer</code> 稍后将在反向传播过程中负责梯度同步。为了提高通信效率，<code>Reducer</code> 将参数梯度组织到桶中，并一次减少一个桶。桶大小可以通过在 DDP 构造函数中设置 [bucket_cap_mb]{.title-ref} 参数来配置。参数梯度到桶的映射是在构建时根据桶大小限制和参数大小确定的。模型参数按照给定模型的 <code>Model.parameters()</code> 的（大致）逆序分配到桶中。使用逆序的原因是 DDP 期望梯度在反向传播过程中大致按照该顺序准备就绪。下图展示了一个示例。注意，<code>grad0</code> 和 <code>grad1</code> 在 <code>bucket1</code> 中，而另外两个梯度在 <code>bucket0</code> 中。当然，这个假设可能并不总是成立，当这种情况发生时，可能会损害 DDP 的反向传播速度，因为 <code>Reducer</code> 无法在最早可能的时间启动通信。除了分桶之外，<code>Reducer</code> 在构建期间还会注册 autograd 钩子，每个参数一个钩子。这些钩子将在反向传播过程中梯度准备就绪时触发。</li>
+<li><strong>构建</strong>: DDP 构造函数接收对本地模块的引用，并从 rank 0 进程向组内所有其他进程广播 <code>state_dict()</code>，以确保所有模型副本从完全相同的状态开始。然后，每个 DDP 进程创建一个本地 <code>Reducer</code>，该 <code>Reducer</code> 稍后将在反向传播过程中负责梯度同步。为了提高通信效率，<code>Reducer</code> 将参数梯度组织到桶中，并一次减少一个桶。桶大小可以通过在 DDP 构造函数中设置 [bucket_cap_mb] 参数来配置。参数梯度到桶的映射是在构建时根据桶大小限制和参数大小确定的。模型参数按照给定模型的 <code>Model.parameters()</code> 的（大致）逆序分配到桶中。使用逆序的原因是 DDP 期望梯度在反向传播过程中大致按照该顺序准备就绪。下图展示了一个示例。注意，<code>grad0</code> 和 <code>grad1</code> 在 <code>bucket1</code> 中，而另外两个梯度在 <code>bucket0</code> 中。当然，这个假设可能并不总是成立，当这种情况发生时，可能会损害 DDP 的反向传播速度，因为 <code>Reducer</code> 无法在最早可能的时间启动通信。除了分桶之外，<code>Reducer</code> 在构建期间还会注册 autograd 钩子，每个参数一个钩子。这些钩子将在反向传播过程中梯度准备就绪时触发。</li>
 <li><strong>前向传播</strong>: DDP 接收输入并将其传递给本地模型，然后如果 <code>find_unused_parameters</code> 设置为 <code>True</code>，则分析本地模型的输出。此模式允许在模型的子图上运行反向传播，DDP 通过从模型输出遍历 autograd 图并标记所有未使用的参数为已准备好进行归约，从而找出哪些参数参与了反向传播。在反向传播过程中，<code>Reducer</code> 只会等待未就绪的参数，但它仍会归约所有桶。目前，将参数梯度标记为就绪并不能帮助 DDP 跳过桶，但它可以防止 DDP 在反向传播过程中永远等待不存在的梯度。请注意，遍历 autograd 图会引入额外的开销，因此应用程序应仅在必要时将 <code>find_unused_parameters</code> 设置为 <code>True</code>。</li>
-<li><strong>反向传播</strong>: <code>backward()</code> 函数直接在损失 <code>Tensor</code> 上调用，这超出了 DDP 的控制范围，DDP 使用构建时注册的 autograd 钩子来触发梯度同步。当一个梯度准备就绪时，其对应的 DDP 钩子将在该梯度累加器上触发，然后 DDP 将该参数梯度标记为已准备好进行归约。当一个桶中的所有梯度都准备就绪时，<code>Reducer</code> 在该桶上启动异步 <code>allreduce</code> 以计算所有进程中梯度的平均值。当所有桶都准备就绪时，<code>Reducer</code> 将阻塞等待所有 <code>allreduce</code> 操作完成。完成后，平均梯度将写入所有参数的 <code>param.grad</code> 字段。因此，在反向传播之后，不同 DDP 进程中相同对应参数上的 [grad]{.title-ref} 字段应该是相同的。</li>
+<li><strong>反向传播</strong>: <code>backward()</code> 函数直接在损失 <code>Tensor</code> 上调用，这超出了 DDP 的控制范围，DDP 使用构建时注册的 autograd 钩子来触发梯度同步。当一个梯度准备就绪时，其对应的 DDP 钩子将在该梯度累加器上触发，然后 DDP 将该参数梯度标记为已准备好进行归约。当一个桶中的所有梯度都准备就绪时，<code>Reducer</code> 在该桶上启动异步 <code>allreduce</code> 以计算所有进程中梯度的平均值。当所有桶都准备就绪时，<code>Reducer</code> 将阻塞等待所有 <code>allreduce</code> 操作完成。完成后，平均梯度将写入所有参数的 <code>param.grad</code> 字段。因此，在反向传播之后，不同 DDP 进程中相同对应参数上的 [grad] 字段应该是相同的。</li>
 <li><strong>优化器步骤</strong>: 从优化器的角度来看，它正在优化一个本地模型。所有 DDP 进程上的模型副本可以保持同步，因为它们都从相同的状态开始，并且在每次迭代中都有相同的平均梯度。</li>
 </ul>
 <p><img alt="ddp_grad_sync.png" src="https://user-images.githubusercontent.com/16999635/72401724-d296d880-371a-11ea-90ab-737f86543df9.png" width="700px" /></p>
-<p>note
- title
-Note</p>
-<p>DDP 要求所有进程上的 <code>Reducer</code> 实例以完全相同的顺序调用 <code>allreduce</code>，这是通过始终按照桶索引顺序而不是实际桶就绪顺序运行 <code>allreduce</code> 来实现的。进程间不匹配的 <code>allreduce</code> 顺序可能导致错误结果或 DDP 反向传播挂起。</p>
-<h2 id="_3">实现<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>📝 <strong>注意</strong>
+DDP 要求所有进程上的 <code>Reducer</code> 实例以完全相同的顺序调用 <code>allreduce</code>，这是通过始终按照桶索引顺序而不是实际桶就绪顺序运行 <code>allreduce</code> 来实现的。进程间不匹配的 <code>allreduce</code> 顺序可能导致错误结果或 DDP 反向传播挂起。</p>
+<h2 id="_4">实现<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>以下是指向 DDP 实现组件的指针。堆叠图展示了代码的结构。</p>
 <h3 id="processgroup">ProcessGroup<a class="headerlink" href="#processgroup" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://github.com/pytorch/pytorch/blob/v1.7.0/torch/lib/c10d/ProcessGroup.hpp">ProcessGroup.hpp</a>: 包含所有进程组实现的抽象 API。<code>c10d</code> 库开箱即用地提供了 3 种实现，即 [ProcessGroupGloo]{.title-ref}、`ProcessGroupNCCL` 和 [ProcessGroupMPI]{.title-ref}。 <code>DistributedDataParallel</code> 在初始化期间使用 <code>ProcessGroup::broadcast()</code> 将模型状态从 rank 0 进程发送到其他进程，并使用 <code>ProcessGroup::allreduce()</code> 对梯度求和。</li>
+<li><a href="https://github.com/pytorch/pytorch/blob/v1.7.0/torch/lib/c10d/ProcessGroup.hpp">ProcessGroup.hpp</a>: 包含所有进程组实现的抽象 API。<code>c10d</code> 库开箱即用地提供了 3 种实现，即 [ProcessGroupGloo]、`ProcessGroupNCCL` 和 [ProcessGroupMPI]。 <code>DistributedDataParallel</code> 在初始化期间使用 <code>ProcessGroup::broadcast()</code> 将模型状态从 rank 0 进程发送到其他进程，并使用 <code>ProcessGroup::allreduce()</code> 对梯度求和。</li>
 <li><a href="https://github.com/pytorch/pytorch/blob/v1.7.0/torch/lib/c10d/Store.hpp">Store.hpp</a>: 协助进程组实例的 rendezvous 服务相互发现。</li>
 </ul>
 <h3 id="distributeddataparallel">DistributedDataParallel<a class="headerlink" href="#distributeddataparallel" title="Permanent link">&para;</a></h3>
@@ -8226,10 +8223,11 @@ Note</p>
 </ul>
 <p><img alt="ddp_code.png" src="https://user-images.githubusercontent.com/16999635/72313120-4e7c1c80-3658-11ea-9c6d-44336b2daeac.png" width="400px" /></p>
 <h3 id="torchdynamo-ddpoptimizer">TorchDynamo DDPOptimizer<a class="headerlink" href="#torchdynamo-ddpoptimizer" title="Permanent link">&para;</a></h3>
-<p>DDP 的性能优势来自于在反向传播期间将 allreduce 集合操作与计算重叠。当与 TorchDynamo 一起用于编译整个前向和整个反向图时，AotAutograd 会阻止这种重叠，因为 allreduce 操作是在整个优化的反向计算 [完成之后]{#完成之后}_ 由 autograd 钩子启动的。</p>
+<p>DDP 的性能优势来自于在反向传播期间将 allreduce 集合操作与计算重叠。当与 TorchDynamo 一起用于编译整个前向和整个反向图时，AotAutograd 会阻止这种重叠，因为 allreduce 操作是在整个优化的反向计算 [完成之后]_ 由 autograd 钩子启动的。</p>
 <p>TorchDynamo 的 DDPOptimizer 通过在反向传播期间，在 DDP 的 allreduce 桶的逻辑边界处打断前向图来提供帮助。注意：目标是在反向传播期间打断图，最简单的实现是打断前向图，然后对每个部分调用 AotAutograd 并进行编译。这使得 DDP 的 allreduce 钩子可以在反向传播的各个部分之间触发，并安排通信以与计算重叠。</p>
 <p>有关更深入的解释和实验结果，请参阅 <a href="https://dev-discuss.pytorch.org/t/torchdynamo-update-9-making-ddp-work-with-torchdynamo/860/1">此博客文章</a>，或阅读 <a href="https://github.com/pytorch/pytorch/blob/bbc39b7bb48d28d67e3253a89cc82df3687ddd1b/torch/_dynamo/backends/distributed.py#L124">torch/_dynamo/optimizations/distributed.py</a> 中的文档和代码。</p>
-<p>要调试 DDPOptimizer，请设置 [TORCH_LOGS=\'ddp_graphs\']{.title-ref} 以获取完整的图转储。对于不带图的日志，请将 \'dynamo\'、\'distributed\' 或 \'dist_ddp\' 中的任意一个添加到 [TORCH_LOGS]{.title-ref}（以获取关于桶边界的基本信息）。要禁用 DDPOptimizer，请设置 [torch._dynamo.config.optimize_ddp=False]{.title-ref}。即使没有 DDPOptimizer，DDP 和 TorchDynamo 仍应能正常工作，但性能会下降。</p>
+<p>要调试 DDPOptimizer，请设置 [TORCH_LOGS=\'ddp_graphs\'] 以获取完整的图转储。对于不带图的日志，请将 \'dynamo\'、\'distributed\' 或 \'dist_ddp\' 中的任意一个添加到 [TORCH_LOGS]（以获取关于桶边界的基本信息）。要禁用 DDPOptimizer，请设置 [torch._dynamo.config.optimize_ddp=False]。即使没有 DDPOptimizer，DDP 和 TorchDynamo 仍应能正常工作，但性能会下降。</p>
+</blockquote>
 
 
 

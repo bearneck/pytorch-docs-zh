@@ -8117,47 +8117,47 @@
 <p>AOTInductor 是 <a href="https://dev-discuss.pytorch.org/t/torchinductor-a-pytorch-native-compiler-with-define-by-run-ir-and-symbolic-shapes/747">TorchInductor</a> 的一个专门版本，旨在处理导出的 PyTorch 模型，对其进行优化，并生成共享库以及其他相关产物。这些编译后的产物专门设计用于在非 Python 环境中部署，通常用于服务器端的推理部署。</p>
 <p>在本教程中，您将了解如何获取一个 PyTorch 模型，将其导出、编译成产物，并使用 C++ 进行模型预测。</p>
 <h2 id="_1">模型编译<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>要使用 AOTInductor 编译模型，我们首先需要使用 <code>torch.export.export</code> 将给定的 PyTorch 模型捕获为计算图。<code>torch.export &lt;torch.export&gt;</code> 提供了正确性保证以及对捕获的 IR 的严格规范，AOTInductor 依赖于此。</p>
-<p>然后，我们将使用 <code>torch._inductor.aoti_compile_and_package</code> 通过 TorchInductor 编译导出的程序，并将编译后的产物保存到一个包中。该包采用 <code>PT2 归档规范 &lt;export.pt2_archive&gt;</code> 的格式。</p>
+<p>要使用 AOTInductor 编译模型，我们首先需要使用 <code>torch.export.export</code> 将给定的 PyTorch 模型捕获为计算图。torch.export  提供了正确性保证以及对捕获的 IR 的严格规范，AOTInductor 依赖于此。</p>
+<p>然后，我们将使用 <code>torch._inductor.aoti_compile_and_package</code> 通过 TorchInductor 编译导出的程序，并将编译后的产物保存到一个包中。该包采用 PT2 归档规范  的格式。</p>
 <div class="highlight"><pre><span></span><code>如果您的机器上启用了 CUDA 设备，并且您安装了支持 CUDA 的 PyTorch，以下代码会将模型编译为用于 CUDA 执行的共享库。否则，编译后的产物将在 CPU 上运行。为了在 CPU 推理期间获得更好的性能，建议在运行下面的 Python 脚本之前，通过设置 `export TORCHINDUCTOR_FREEZING=1` 来启用冻结。在配备 Intel® GPU 的环境中，此行为同样适用。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+python
+import os
+import torch
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = torch.nn.Linear(10, 16)
+        self.relu = torch.nn.ReLU()
+        self.fc2 = torch.nn.Linear(16, 1)
+        self.sigmoid = torch.nn.Sigmoid()
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span>
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        x = self.sigmoid(x)
+        return x
 
-<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-    <span class="n">example_inputs</span><span class="o">=</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),)</span>
-    <span class="n">batch_dim</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">Dim</span><span class="p">(</span><span class="s2">&quot;batch&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
-    <span class="c1"># [可选] 将输入 x 的第一个维度指定为动态维度。</span>
-    <span class="n">exported</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">example_inputs</span><span class="p">,</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">batch_dim</span><span class="p">}})</span>
-    <span class="c1"># [注意] 在此示例中，我们直接将导出的模块传递给 aoti_compile_and_package。</span>
-    <span class="c1"># 根据您的使用情况，例如，如果您的训练平台和推理平台不同，您可以选择使用 torch.export.save 保存导出的模型，</span>
-    <span class="c1"># 然后在推理平台上使用 torch.export.load 加载回来以运行 AOT 编译。</span>
-    <span class="n">output_path</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_inductor</span><span class="o">.</span><span class="n">aoti_compile_and_package</span><span class="p">(</span>
-        <span class="n">exported</span><span class="p">,</span>
-        <span class="c1"># [可选] 指定生成的共享库路径。如果未指定，</span>
-        <span class="c1"># 生成的产物将存储在系统的临时目录中。</span>
-        <span class="n">package_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;model.pt2&quot;</span><span class="p">),</span>
-        <span class="c1"># [可选] 指定 Inductor 配置</span>
-        <span class="c1"># 这个特定的 max_autotune 选项将开启更广泛的内核自动调优以获得更好的性能。</span>
-        <span class="n">inductor_configs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;max_autotune&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,},</span>
-    <span class="p">)</span>
+with torch.no_grad():
+    device = &quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;
+    model = Model().to(device=device)
+    example_inputs=(torch.randn(8, 10, device=device),)
+    batch_dim = torch.export.Dim(&quot;batch&quot;, min=1, max=1024)
+    # [可选] 将输入 x 的第一个维度指定为动态维度。
+    exported = torch.export.export(model, example_inputs, dynamic_shapes={&quot;x&quot;: {0: batch_dim}})
+    # [注意] 在此示例中，我们直接将导出的模块传递给 aoti_compile_and_package。
+    # 根据您的使用情况，例如，如果您的训练平台和推理平台不同，您可以选择使用 torch.export.save 保存导出的模型，
+    # 然后在推理平台上使用 torch.export.load 加载回来以运行 AOT 编译。
+    output_path = torch._inductor.aoti_compile_and_package(
+        exported,
+        # [可选] 指定生成的共享库路径。如果未指定，
+        # 生成的产物将存储在系统的临时目录中。
+        package_path=os.path.join(os.getcwd(), &quot;model.pt2&quot;),
+        # [可选] 指定 Inductor 配置
+        # 这个特定的 max_autotune 选项将开启更广泛的内核自动调优以获得更好的性能。
+        inductor_configs={&quot;max_autotune&quot;: True,},
+    )
 </code></pre></div>
 <p>在这个示例中，<code>Dim</code> 参数用于将输入变量 "x" 的第一个维度指定为动态维度。值得注意的是，编译库的路径和名称未指定，导致共享库存储在临时目录中。为了从 C++ 端访问此路径，我们将其保存到文件中，以便稍后在 C++ 代码中检索。</p>
 <h2 id="python">在 Python 中进行推理<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
@@ -8217,38 +8217,37 @@ aoti_example/
     CMakeLists.txt
     inference.cpp
     model.py
-<div class="highlight"><pre><span></span><code>```bash
+bash
 $ mkdir build
 $ cd build
 $ CMAKE_PREFIX_PATH=/path/to/python/install/site-packages/torch/share/cmake cmake ..
 $ cmake --build . --config Release
-</code></pre></div></p>
-<p>在 <code>build</code> 目录中生成 <code>aoti_example</code> 二进制文件后，执行它将显示类似于以下的结果：</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>./aoti_example
+<div class="highlight"><pre><span></span><code>在 `build` 目录中生成 `aoti_example` 二进制文件后，执行它将显示类似于以下的结果：
+
+```bash
+$ ./aoti_example
 第一次推理的结果：
-<span class="m">0</span>.4866
-<span class="m">0</span>.5184
-<span class="m">0</span>.4462
-<span class="m">0</span>.4611
-<span class="m">0</span>.4744
-<span class="m">0</span>.4811
-<span class="m">0</span>.4938
-<span class="m">0</span>.4193
-<span class="o">[</span><span class="w"> </span>CUDAFloatType<span class="o">{</span><span class="m">8</span>,1<span class="o">}</span><span class="w"> </span><span class="o">]</span>
+0.4866
+0.5184
+0.4462
+0.4611
+0.4744
+0.4811
+0.4938
+0.4193
+[ CUDAFloatType{8,1} ]
 第二次推理的结果：
-<span class="m">0</span>.4883
-<span class="m">0</span>.4703
-<span class="o">[</span><span class="w"> </span>CUDAFloatType<span class="o">{</span><span class="m">2</span>,1<span class="o">}</span><span class="w"> </span><span class="o">]</span>
-</code></pre></div>
+0.4883
+0.4703
+[ CUDAFloatType{2,1} ]
+</code></pre></div></p>
 <h2 id="_2">故障排除<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>以下是一些用于调试 AOT Inductor 的有用工具。</p>
-<div class="highlight"><pre><span></span><code>:caption: 调试工具
-:maxdepth: 1
-
-../../logging
-torch.compiler_aot_inductor_minifier
-torch.compiler_aot_inductor_debugging_guide
-</code></pre></div>
+<ul>
+<li><a href="../../../logging/">/ /logging</a></li>
+<li><a href="../torch.compiler_aot_inductor_minifier/">Torch Compiler Aot Inductor Minifier</a></li>
+<li><a href="../torch.compiler_aot_inductor_debugging_guide/">Torch Compiler Aot Inductor Debugging Guide</a></li>
+</ul>
 <p>要启用对输入的运行时检查，请将环境变量 <code>AOTI_RUNTIME_CHECK_INPUTS</code> 设置为 1。如果编译模型的输入在大小、数据类型或步幅方面与导出期间使用的输入不同，这将引发 <code>RuntimeError</code>。</p>
 <h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
 

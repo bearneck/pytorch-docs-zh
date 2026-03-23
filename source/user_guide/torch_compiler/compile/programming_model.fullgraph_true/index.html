@@ -8069,8 +8069,7 @@
   
 
 
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
-import torch
+<div class="highlight"><pre><span></span><code>import torch
 
 import header_code
 </code></pre></div>
@@ -8209,8 +8208,8 @@ try:
     f(x)  # 图中断：torch.save 不被支持
 except Exception as e:
     print(e)
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>def f_rewritten(x):
+{code-cell}
+def f_rewritten(x):
     y = g(x)
     torch.save(y, &quot;foo.pt&quot;)
     z = h(y)
@@ -8227,8 +8226,8 @@ def h(y):
     return z
 
 f_rewritten(x)
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
+{code-cell}
+
 import os
 os.remove(&quot;foo.pt&quot;)
 </code></pre></div>

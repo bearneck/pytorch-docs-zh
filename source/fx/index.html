@@ -9093,7 +9093,7 @@ def transform(m : nn.Module) -&gt; nn.Module:
 <h2 id="_8">调试<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <h3 id="_9">简介<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>在编写转换的过程中，我们的代码常常不会完全正确。在这种情况下，我们可能需要进行一些调试。关键是要逆向工作：首先，检查调用生成模块的结果，以证明或反驳正确性。然后，检查并调试生成的代码。接着，调试导致生成代码的转换过程。</p>
-<p>如果你不熟悉调试器，请参阅辅助章节 <code>Available-Debuggers</code>。</p>
+<p>如果你不熟悉调试器，请参阅辅助章节 <em>Available-Debuggers</em>。</p>
 <h3 id="_10">转换编写中的常见陷阱<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <ul>
 <li>非确定性的 <code>set</code> 迭代顺序。在 Python 中，<code>set</code> 数据类型是无序的。例如，使用 <code>set</code> 来包含像 <code>Node</code> 这样的对象集合，可能会导致意外的非确定性。一个例子是迭代一组 <code>Node</code> 以将它们插入到 <code>Graph</code> 中。因为 <code>set</code> 数据类型是无序的，输出程序中操作的顺序将是非确定性的，并且可能在程序调用之间发生变化。推荐的替代方法是使用 <code>dict</code> 数据类型，该类型从 Python 3.7（以及 cPython 3.6）开始是<a href="https://mail.python.org/pipermail/python-dev/2017-December/151283.html">插入有序的</a>。可以通过将要去重的值存储在 <code>dict</code> 的键中，来等效地使用 <code>dict</code> 作为集合。</li>
@@ -9184,7 +9184,7 @@ def transform(m : nn.Module) -&gt; nn.Module:
 <span class="n">post_trace</span> <span class="o">=</span> <span class="n">SubclassM</span><span class="p">()</span>
 </code></pre></div>
 <h4 id="graphmodule-to_folder">使用 <code>GraphModule</code> 中的 <code>to_folder</code> 函数<a class="headerlink" href="#graphmodule-to_folder" title="Permanent link">&para;</a></h4>
-<p><code>GraphModule.to_folder</code> 是 <code>GraphModule</code> 中的一个方法，允许你将生成的 FX 代码转储到一个文件夹中。尽管如 <code>打印生成的代码</code> 中所示，将前向传递代码复制到代码中通常就足够了，但使用 <code>to_folder</code> 可能更容易检查模块和参数。</p>
+<p><code>GraphModule.to_folder</code> 是 <code>GraphModule</code> 中的一个方法，允许你将生成的 FX 代码转储到一个文件夹中。尽管如 <em>打印生成的代码</em> 中所示，将前向传递代码复制到代码中通常就足够了，但使用 <code>to_folder</code> 可能更容易检查模块和参数。</p>
 <p><div class="highlight"><pre><span></span><code><span class="n">m</span> <span class="o">=</span> <span class="n">symbolic_trace</span><span class="p">(</span><span class="n">M</span><span class="p">())</span>
 <span class="n">m</span><span class="o">.</span><span class="n">to_folder</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;Bar&quot;</span><span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">foo</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bar</span>
@@ -9192,7 +9192,7 @@ def transform(m : nn.Module) -&gt; nn.Module:
 </code></pre></div>
 运行上述示例后，我们可以查看 <code>foo/module.py</code> 中的代码，并根据需要修改它（例如添加 <code>print</code> 语句或使用 <code>pdb</code>）来调试生成的代码。</p>
 <h3 id="_14">调试转换过程<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
-<p>既然我们已经确定某个转换正在生成错误的代码，那么是时候调试转换本身了。首先，我们将查阅文档中的 <code>符号追踪的限制</code> 部分。一旦我们确认追踪按预期工作，目标就变成了找出在 <code>GraphModule</code> 转换过程中出了什么问题。<code>编写转换</code> 中可能有一个快速的答案，但如果没有，有几种方法可以检查我们追踪的模块：</p>
+<p>既然我们已经确定某个转换正在生成错误的代码，那么是时候调试转换本身了。首先，我们将查阅文档中的 <em>符号追踪的限制</em> 部分。一旦我们确认追踪按预期工作，目标就变成了找出在 <code>GraphModule</code> 转换过程中出了什么问题。<em>编写转换</em> 中可能有一个快速的答案，但如果没有，有几种方法可以检查我们追踪的模块：</p>
 <p><div class="highlight"><pre><span></span><code><span class="c1"># 示例 Module</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">M</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -9339,7 +9339,7 @@ fx.symbolic_trace(f) # 失败！
 
 fx.symbolic_trace(f, concrete_args={&#39;flag&#39;: True})
 </code></pre></div>
-对于真正的动态控制流，包含此代码的程序部分可以追踪为对方法（参见 <code>自定义追踪</code>）或函数（参见 <code>wrap</code>）的调用，而不是直接追踪其内部代码。</p>
+对于真正的动态控制流，包含此代码的程序部分可以追踪为对方法（参见 <em>自定义追踪</em>）或函数（参见 <code>wrap</code>）的调用，而不是直接追踪其内部代码。</p>
 <h3 id="torch">非 <code>torch</code> 函数<a class="headerlink" href="#torch" title="Permanent link">&para;</a></h3>
 <p>FX 使用 <code>__torch_function__</code> 作为其拦截调用的机制（有关此机制的更多信息，请参阅<a href="https://github.com/pytorch/pytorch/blob/main/torch/fx/README.md#technical-details">技术概述</a>）。某些函数，例如内置的 Python 函数或 <code>math</code> 模块中的函数，不在 <code>__torch_function__</code> 的覆盖范围内，但我们仍然希望在符号追踪中捕获它们。例如：</p>
 <p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>

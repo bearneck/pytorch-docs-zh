@@ -8621,11 +8621,11 @@
 <p>本文档旨在解释 <code>torch.export.export</code> 的行为和功能。它旨在帮助您建立对 <code>torch.export.export</code> 如何处理代码的直观理解。</p>
 <h2 id="_1">追踪基础<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p><code>torch.export.export</code> 通过在"示例"输入上追踪模型的执行，并记录沿追踪路径观察到的 PyTorch 操作和条件，来捕获表示模型的图。只要满足相同的条件，该图就可以在不同的输入上运行。</p>
-<p><code>torch.export.export</code> 的基本输出是一个包含关联元数据的 PyTorch 操作单图。此输出的确切格式在 <code>导出 IR 规范 &lt;export.ir_spec&gt;</code> 中介绍。</p>
+<p><code>torch.export.export</code> 的基本输出是一个包含关联元数据的 PyTorch 操作单图。此输出的确切格式在 导出 IR 规范  中介绍。</p>
 <h3 id="_2">严格追踪与非严格追踪<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p><code>torch.export.export</code> 提供两种追踪模式。</p>
 <p>在<em>非严格模式</em>下，我们使用普通的 Python 解释器追踪程序。您的代码完全按照在即时执行模式下的方式执行；唯一的区别是所有张量都被替换为<a href="https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_fake_tensor.html">伪张量</a>（<strong>这些张量具有形状和其他形式的元数据，但没有实际数据</strong>），并包装在记录所有操作的<a href="https://pytorch.org/docs/main/fx.html">代理对象</a>中，这些操作被记录到图中。我们还会捕获<a href="https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_dynamic_shapes.html#the-guard-model">张量形状上的条件</a>，<strong>这些条件保护生成代码的正确性</strong>。</p>
-<p>在<em>严格模式</em>下，我们首先使用 <code>TorchDynamo &lt;torch.compiler_dynamo_deepdive&gt;</code>（一个 Python 字节码分析引擎）追踪程序。TorchDynamo 实际上并不执行您的 Python 代码。相反，它进行符号分析并根据结果构建图。一方面，这种分析允许 <code>torch.export.export</code> 在 Python 级别安全性上提供额外的保证（除了捕获张量形状上的条件，如非严格模式）。另一方面，并非所有 Python 功能都受此分析支持。</p>
+<p>在<em>严格模式</em>下，我们首先使用 TorchDynamo （一个 Python 字节码分析引擎）追踪程序。TorchDynamo 实际上并不执行您的 Python 代码。相反，它进行符号分析并根据结果构建图。一方面，这种分析允许 <code>torch.export.export</code> 在 Python 级别安全性上提供额外的保证（除了捕获张量形状上的条件，如非严格模式）。另一方面，并非所有 Python 功能都受此分析支持。</p>
 <p>尽管目前默认的追踪模式是严格模式，但<strong>我们强烈建议使用非严格模式</strong>，该模式很快将成为默认模式。对于大多数模型，张量形状上的条件足以保证正确性，而 Python 级别安全性的额外保证没有影响；同时，在 TorchDynamo 中遇到不受支持的 Python 功能会带来不必要的风险。</p>
 <p>在本文档的其余部分，我们假设在<a href="https://pytorch.org/docs/main/export.html#non-strict-export">非严格模式</a>下进行追踪；特别是，我们假设<strong>所有 Python 功能都受支持</strong>。</p>
 <h2 id="_3">值：静态与动态<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>

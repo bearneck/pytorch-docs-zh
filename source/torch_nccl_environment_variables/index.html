@@ -7952,9 +7952,7 @@
 
 <h1 id="pytorch-processgroupnccl">PYTORCH ProcessGroupNCCL 环境变量<a class="headerlink" href="#pytorch-processgroupnccl" title="Permanent link">&para;</a></h1>
 <p>有关环境变量的更多信息，请参阅 <a href="https://github.com/pytorch/pytorch/blob/main/torch/csrc/distributed/c10d/ProcessGroupNCCL.hpp">ProcessGroupNCCL Environment Variables</a>。</p>
-<div class="highlight"><pre><span></span><code>:header-rows: 1
-
-* - **变量**
+<div class="highlight"><pre><span></span><code>* - **变量**
   - **描述**
 * - ``TORCH_NCCL_ASYNC_ERROR_HANDLING``
   - 控制在 watchdog 中观察到异常时，如何处理 NCCL 的异步错误。如果设置为 0，则不处理异步 NCCL 错误。如果设置为 1，则在出错时中止 NCCL 通信器并终止进程。如果设置为 2，则仅中止 NCCL 通信器；如果设置为 3，则在不中止 NCCL 通信器的情况下终止进程。默认值为 3。

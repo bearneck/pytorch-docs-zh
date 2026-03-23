@@ -3657,17 +3657,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        启动开销
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -8082,17 +8071,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        启动开销
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -8150,8 +8128,7 @@
     <span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;trace.json&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>查看 Chrome 追踪</strong>：在 Chrome 浏览器中，打开 chrome://tracing 并加载 json 文件。使用“w”和“s”键进行放大和缩小，使用“a”和“d”键左右滚动。“?”将显示包含快捷键列表的“帮助”屏幕。</p>
-<p>```{figure} ../../_static/img/profiling_torch_compile/basic_chrome_trace.png
-:alt: 在 chrome://tracing 查看器中可视化的基础 Chrome 追踪示例
+<p>```{figure} ../../_static/img/profiling_torch_compile/basic_chrome_trace.png</p>
 <div class="highlight"><pre><span></span><code>在这里，我们观察到：
 * CompiledFunction 和 CompiledFunctionBackward 事件，它们对应于 dynamo 编译的区域。
 * 顶部的 CPU 事件和底部的 GPU 事件。
@@ -8163,8 +8140,7 @@
 要查看流连接，请单击 GPU 内核并单击“ac2g”：
 
 ```{figure}  ../../_static/img/profiling_torch_compile/ac2g.png
-:alt: 在 chrome://trace 查看器中的可视化，显示内核与其启动位置之间的异步流。
-</code></pre></div></p>
+</code></pre></div>
 <p>或者，使用顶部的“Flow events”下拉菜单打开<em>所有</em>流。</p>
 <h2 id="cuda-graph">解决 CUDA Graph 分析问题<a class="headerlink" href="#cuda-graph" title="Permanent link">&para;</a></h2>
 <p>当启用 CUDA 图时，某些 CUDA 配置（驱动程序版本低于 525.85.12 或 CUDA &lt; 12）可能会在分析工具和 CUDA 图之间遇到问题。要解决这些问题，请在程序顶部添加一个空的分析上下文：</p>
@@ -8209,117 +8185,106 @@
             <span class="n">fwd_bwd</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;trace_compile.json&quot;</span><span class="p">)</span>
+<span class="p">{</span><span class="n">figure</span><span class="p">}</span> <span class="o">../../</span><span class="n">_static</span><span class="o">/</span><span class="n">img</span><span class="o">/</span><span class="n">profiling_torch_compile</span><span class="o">/</span><span class="n">compilation_profiling</span><span class="o">.</span><span class="n">png</span>
 </code></pre></div>
-<p>```{figure} ../../_static/img/profiling_torch_compile/compilation_profiling.png
-:alt: 在 chrome://trace 查看器中的可视化，显示 dynamo 和 inductor 编译步骤
-<div class="highlight"><pre><span></span><code>注意几点：
+<p>注意几点：</p>
+<ul>
+<li>第一次调用应<em>在</em>分析期间发生，以便捕获编译过程</li>
+<li>添加预热编译以初始化任何需要延迟初始化的系统。</li>
+</ul>
+<h1 id="torch-compiled-region-compiledfunction">查找图中断："Torch-Compiled Region" 和 "CompiledFunction"<a class="headerlink" href="#torch-compiled-region-compiledfunction" title="Permanent link">&para;</a></h1>
+<p>尽管有用于识别图中断的日志记录工具，但分析器提供了一种快速的可视化方法来识别 :ref:<code>图中断 &lt;torch.compiler_graph_breaks&gt;</code>。有两个分析器事件需要注意：<strong>Torch-Compiled Region</strong> 和 <strong>CompiledFunction</strong>。</p>
+<p><strong>Torch-Compiled Region</strong> - 在 PyTorch 2.2 中引入 - 是一个覆盖整个编译区域的分析器事件。图中断（graph break）的表现几乎总是一样的：嵌套的 "Torch-Compiled Region" 事件。从 PyTorch 2.5 开始，分析器事件还将包含帧 ID 和帧编译 ID。帧 ID 是帧的唯一标识符，帧编译 ID 表示该帧已被编译的次数。</p>
+<p>如果你运行两个独立的函数，并且每个函数都独立应用了 <code>torch.compile()</code>，通常应该会看到两个相邻（即<strong>不是</strong>堆叠/嵌套）的 Torch-Compiled 区域。同时，如果你遇到图中断（或 <code>disable()</code>/跳过的区域），则会出现嵌套的 "Torch-Compiled Region" 事件。</p>
+<p><strong>CompiledFunction</strong> - 在 PyTorch 2.0 中引入 - 是一个分析器事件，当任何输入需要梯度时会出现。每个图中断都会打断一个 CompiledFunction 块，将其一分为二。CompiledFunction 事件仅在涉及 Autograd 时出现，即图中某些输入张量的 <code>requires_grad=True</code>。</p>
+<p>当跟踪中出现 CompiledFunction 事件时，通常在反向传播过程中会有一个 CompiledFunctionBackward 事件与之配对。如果调用了反向函数，跟踪中应该会出现一个 "fwd-bwd link" 连接这两者。</p>
+<p>如果你的用例包含一个不需要梯度且不包含 "Torch-Compiled Region" 事件的图，可能更难判断 <code>torch.compile</code> 是否正确应用。一个线索可以是 Inductor 生成的 Triton 内核的存在。</p>
+<p>请参见下面的合成示例进行演示：</p>
+<div class="highlight"><pre><span></span><code>    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">torch._dynamo</span>
+    <span class="c1"># user can switch between cuda and xpu</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span>
 
-* 第一次调用应*在*分析期间发生，以便捕获编译过程
-* 添加预热编译以初始化任何需要延迟初始化的系统。
+    <span class="k">class</span><span class="w"> </span><span class="nc">ModelWithBreaks</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">create_sequential</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mod1</span> <span class="o">=</span> <span class="n">create_sequential</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mod2</span> <span class="o">=</span> <span class="n">create_sequential</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mod3</span> <span class="o">=</span> <span class="n">create_sequential</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mod4</span> <span class="o">=</span> <span class="n">create_sequential</span><span class="p">()</span>
 
-# 查找图中断：&quot;Torch-Compiled Region&quot; 和 &quot;CompiledFunction&quot;
+        <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">):</span>
+            <span class="n">mod1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mod1</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+            <span class="n">mod2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mod2</span><span class="p">(</span><span class="n">mod1</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+            <span class="n">mod3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mod3</span><span class="p">(</span><span class="n">mod2</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+            <span class="n">mod4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mod4</span><span class="p">(</span><span class="n">mod3</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">mod4</span>
 
-尽管有用于识别图中断的日志记录工具，但分析器提供了一种快速的可视化方法来识别 :ref:`图中断 &lt;torch.compiler_graph_breaks&gt;`。有两个分析器事件需要注意：**Torch-Compiled Region** 和 **CompiledFunction**。
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ModelWithBreaks</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
 
-**Torch-Compiled Region** - 在 PyTorch 2.2 中引入 - 是一个覆盖整个编译区域的分析器事件。图中断（graph break）的表现几乎总是一样的：嵌套的 &quot;Torch-Compiled Region&quot; 事件。从 PyTorch 2.5 开始，分析器事件还将包含帧 ID 和帧编译 ID。帧 ID 是帧的唯一标识符，帧编译 ID 表示该帧已被编译的次数。
+    <span class="n">model_c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-如果你运行两个独立的函数，并且每个函数都独立应用了 `torch.compile()`，通常应该会看到两个相邻（即**不是**堆叠/嵌套）的 Torch-Compiled 区域。同时，如果你遇到图中断（或 `disable()`/跳过的区域），则会出现嵌套的 &quot;Torch-Compiled Region&quot; 事件。
+    <span class="k">def</span><span class="w"> </span><span class="nf">fwd_bwd</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">model_c</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
 
-**CompiledFunction** - 在 PyTorch 2.0 中引入 - 是一个分析器事件，当任何输入需要梯度时会出现。每个图中断都会打断一个 CompiledFunction 块，将其一分为二。CompiledFunction 事件仅在涉及 Autograd 时出现，即图中某些输入张量的 `requires_grad=True`。
+    <span class="c1"># warm up</span>
+    <span class="n">fwd_bwd</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-当跟踪中出现 CompiledFunction 事件时，通常在反向传播过程中会有一个 CompiledFunctionBackward 事件与之配对。如果调用了反向函数，跟踪中应该会出现一个 &quot;fwd-bwd link&quot; 连接这两者。
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="n">fwd_bwd</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">prof</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 
-如果你的用例包含一个不需要梯度且不包含 &quot;Torch-Compiled Region&quot; 事件的图，可能更难判断 `torch.compile` 是否正确应用。一个线索可以是 Inductor 生成的 Triton 内核的存在。
-
-请参见下面的合成示例进行演示：
-
-```python
-
-    import torch
-    import torch._dynamo
-    # user can switch between cuda and xpu
-    device = &#39;cuda&#39;
-
-    class ModelWithBreaks(torch.nn.Module):
-        def __init__(self):
-            super().__init__()
-            def create_sequential():
-                return torch.nn.Sequential(
-                    torch.nn.Linear(128, 128),
-                    torch.nn.ReLU(),
-                    torch.nn.Linear(128, 128),
-                    torch.nn.ReLU(),
-                )
-            self.mod1 = create_sequential()
-            self.mod2 = create_sequential()
-            self.mod3 = create_sequential()
-            self.mod4 = create_sequential()
-
-        def forward(self, inp):
-            mod1 = self.mod1(inp)
-            torch._dynamo.graph_break()
-            mod2 = self.mod2(mod1)
-            torch._dynamo.graph_break()
-            mod3 = self.mod3(mod2)
-            torch._dynamo.graph_break()
-            mod4 = self.mod4(mod3)
-            return mod4
-
-    model = ModelWithBreaks().to(device)
-    inputs = [torch.randn((128, 128), device=device) for _ in range(10)]
-
-    model_c = torch.compile(model)
-
-    def fwd_bwd(inp):
-        out = model_c(inp)
-        out.sum().backward()
-
-    # warm up
-    fwd_bwd(inputs[0])
-
-    with torch.profiler.profile() as prof:
-        for i in range(1, 4):
-            fwd_bwd(inputs[i])
-            prof.step()
-
-    prof.export_chrome_trace(&quot;trace_break.json&quot;)
-</code></pre></div></p>
-<p>```{figure} ../../_static/img/profiling_torch_compile/graph_breaks_with_torch_compiled_region.png
-:alt: 在 chrome://trace 查看器中的可视化，显示嵌套的 Torch-Compiled Region 事件和多个 CompiledFunction 事件 - 表明存在图中断。
-<div class="highlight"><pre><span></span><code>## 算子内核
-
-当一个算子被启动时，我们期望看到几个事件：
-
-1. CPU 端事件
-2. 内核启动（如果处理的是 GPU 内核）
-3. GPU 端事件
-
-```{figure} ../../_static/img/profiling_torch_compile/kernel_launch_labeled.png
-:alt: 在 chrome://trace 查看器中的可视化，显示三种类型的事件 - CPU 端事件、内核启动和 GPU 端事件
-</code></pre></div></p>
-<p><strong>Inductor 生成的 Triton 内核：</strong>
-1. <strong>CPU 端事件</strong> 应显示为以 "triton_" 为前缀的事件。这些事件目前信息量很少 - 只有内核名称和启动信息，但比典型的 aten 内核启动（包含输入形状、类型等）的信息要少。
-2. <strong>内核启动</strong> 应显示为 cuLaunchKernel 而不是 cudaLaunchKernel（cudaLaunchKernel 是 aten 算子的典型情况）
-3. <strong>GPU 端事件</strong> 应该出现，其名称的描述性取决于 inductor 配置中的 <code>unique_kernel_names</code></p>
-<p>```{figure} ../../_static/img/profiling_torch_compile/triton_kernel_launch.png
-<div class="highlight"><pre><span></span><code>**非 Inductor 生成的 Triton 内核：**
-
-1. **CPU 端** 事件可能不会出现在跟踪中；自动插入分析器事件的机制目前是在 Inductor 层面实现的，因此绕过 Inductor 的 Triton 内核可能不会出现在跟踪中，除非用户手动标注了它们。
-2. **内核启动** 应显示为 cuLaunchKernel 而不是 cudaLaunchKernel（cudaLaunchKernel 是 aten 算子的典型情况）
-3. **GPU 端** 事件应该出现，其命名方式与编写的 triton 内核类似。
-
-```{figure} ../../_static/img/profiling_torch_compile/noninductor_triton_kernel.png
-</code></pre></div></p>
-<p><strong>Inductor 生成的 CPU 内核：</strong></p>
+    <span class="n">prof</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s2">&quot;trace_break.json&quot;</span><span class="p">)</span>
+<span class="p">{</span><span class="n">figure</span><span class="p">}</span> <span class="o">../../</span><span class="n">_static</span><span class="o">/</span><span class="n">img</span><span class="o">/</span><span class="n">profiling_torch_compile</span><span class="o">/</span><span class="n">graph_breaks_with_torch_compiled_region</span><span class="o">.</span><span class="n">png</span>
+</code></pre></div>
+<h2 id="_2">算子内核<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>当一个算子被启动时，我们期望看到几个事件：</p>
 <ol>
-<li><strong>CPU 端事件</strong> 不会出现在跟踪中；我们尚未为此添加分析功能。</li>
-<li><strong>内核启动</strong> 和 <strong>GPU 端事件</strong> 不存在</li>
+<li>CPU 端事件</li>
+<li>内核启动（如果处理的是 GPU 内核）</li>
+<li>GPU 端事件</li>
 </ol>
-<p><strong>非 Triton 内核</strong>（即 aten 内核或自定义算子）有时也可能会出现在跟踪中。有时，Inductor 会回退到原始算子的实现，在这种情况下，你会看到对 aten 算子的调用。</p>
-<h2 id="_2">启动开销<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>一个常见的问题是 GPU 利用率低。一个快速的识别方法是查看 GPU 上的内核之间是否存在大的间隙：</p>
-<p><code>{figure} ../../_static/img/profiling_torch_compile/cpu_bound.png
-:alt: 在 chrome://trace 查看器中的可视化，显示 GPU 内核之间存在大的间隙。这表明模型受 CPU 限制，很可能是由于内核启动期间的开销造成的。</code></p>
+<p>```{figure} ../../_static/img/profiling_torch_compile/kernel_launch_labeled.png</p>
+<div class="highlight"><pre><span></span><code>**Inductor 生成的 Triton 内核：**
+1. **CPU 端事件** 应显示为以 &quot;triton\_&quot; 为前缀的事件。这些事件目前信息量很少 - 只有内核名称和启动信息，但比典型的 aten 内核启动（包含输入形状、类型等）的信息要少。
+2. **内核启动** 应显示为 cuLaunchKernel 而不是 cudaLaunchKernel（cudaLaunchKernel 是 aten 算子的典型情况）
+3. **GPU 端事件** 应该出现，其名称的描述性取决于 inductor 配置中的 `unique_kernel_names`
+
+```{figure} ../../_static/img/profiling_torch_compile/triton_kernel_launch.png
+</code></pre></div>
+<p><strong>非 Inductor 生成的 Triton 内核：</strong></p>
+<ol>
+<li><strong>CPU 端</strong> 事件可能不会出现在跟踪中；自动插入分析器事件的机制目前是在 Inductor 层面实现的，因此绕过 Inductor 的 Triton 内核可能不会出现在跟踪中，除非用户手动标注了它们。</li>
+<li><strong>内核启动</strong> 应显示为 cuLaunchKernel 而不是 cudaLaunchKernel（cudaLaunchKernel 是 aten 算子的典型情况）</li>
+<li><strong>GPU 端</strong> 事件应该出现，其命名方式与编写的 triton 内核类似。</li>
+</ol>
+<p>```{figure} ../../_static/img/profiling_torch_compile/noninductor_triton_kernel.png
+<div class="highlight"><pre><span></span><code>**Inductor 生成的 CPU 内核：**
+
+1. **CPU 端事件** 不会出现在跟踪中；我们尚未为此添加分析功能。
+2. **内核启动** 和 **GPU 端事件** 不存在
+
+**非 Triton 内核**（即 aten 内核或自定义算子）有时也可能会出现在跟踪中。有时，Inductor 会回退到原始算子的实现，在这种情况下，你会看到对 aten 算子的调用。
+
+## 启动开销
+
+一个常见的问题是 GPU 利用率低。一个快速的识别方法是查看 GPU 上的内核之间是否存在大的间隙：
+
+```{figure} ../../_static/img/profiling_torch_compile/cpu_bound.png
+</code></pre></div></p>
 <p>这通常是 CPU 开销的结果，例如，如果内核启动之间在 CPU 上花费的时间大于 GPU 处理内核所花费的时间。这个问题在小批量大小的情况下更常见。</p>
 <p>在使用 inductor 时，当启动开销成为关注点时，启用 CUDA 图通常有助于提升性能。</p>
 

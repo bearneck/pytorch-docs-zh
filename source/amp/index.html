@@ -8426,14 +8426,14 @@
 <p>% 以下两个模块目前缺少文档条目。暂时在此处添加它们。</p>
 <p>% 这不会为渲染页面添加任何内容</p>
 <p><code>torch.amp</code> 为混合精度提供了便捷方法，其中一些操作使用 <code>torch.float32</code> (<code>float</code>) 数据类型，而其他操作使用较低精度的浮点数据类型 (<code>lower_precision_fp</code>)：<code>torch.float16</code> (<code>half</code>) 或 <code>torch.bfloat16</code>。某些操作，如线性层和卷积，在 <code>lower_precision_fp</code> 中要快得多。其他操作，如归约，通常需要 <code>float32</code> 的动态范围。混合精度尝试将每个操作与其适当的数据类型匹配。</p>
-<p>通常，使用 <code>torch.float16</code> 数据类型的"自动混合精度训练"会同时使用 <code>torch.autocast</code> 和 <code>torch.amp.GradScaler</code>，如 <code>自动混合精度示例&lt;amp-examples&gt;</code> 和 <a href="https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html">自动混合精度教程</a> 所示。然而，<code>torch.autocast</code> 和 <code>torch.GradScaler</code> 是模块化的，如果需要可以单独使用。如 <code>torch.autocast</code> 的 CPU 示例部分所示，在 CPU 上使用 <code>torch.bfloat16</code> 数据类型的"自动混合精度训练/推理"仅使用 <code>torch.autocast</code>。</p>
+<p>通常，使用 <code>torch.float16</code> 数据类型的"自动混合精度训练"会同时使用 <code>torch.autocast</code> 和 <code>torch.amp.GradScaler</code>，如 自动混合精度示例 和 <a href="https://pytorch.org/tutorials/recipes/recipes/amp_recipe.html">自动混合精度教程</a> 所示。然而，<code>torch.autocast</code> 和 <code>torch.GradScaler</code> 是模块化的，如果需要可以单独使用。如 <code>torch.autocast</code> 的 CPU 示例部分所示，在 CPU 上使用 <code>torch.bfloat16</code> 数据类型的"自动混合精度训练/推理"仅使用 <code>torch.autocast</code>。</p>
 <blockquote>
 <p>⚠️ <strong>警告</strong>
 <code>torch.cuda.amp.autocast(args...)</code> 和 <code>torch.cpu.amp.autocast(args...)</code> 已弃用。请改用 <code>torch.amp.autocast("cuda", args...)</code> 或 <code>torch.amp.autocast("cpu", args...)</code>。
 <code>torch.cuda.amp.GradScaler(args...)</code> 和 <code>torch.cpu.amp.GradScaler(args...)</code> 已弃用。请改用 <code>torch.amp.GradScaler("cuda", args...)</code> 或 <code>torch.amp.GradScaler("cpu", args...)</code>。</p>
 </blockquote>
 <p><code>torch.autocast</code> 和 <code>torch.cpu.amp.autocast</code> 是 <code>1.10</code> 版本中的新功能。</p>
-<div class="highlight"><pre><span></span><code>:local: true
+<div class="highlight"><pre><span></span><code>
 </code></pre></div>
 <h2 id="_1">自动转换<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h2 id="_2">梯度缩放<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>

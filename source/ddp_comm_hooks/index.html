@@ -8219,14 +8219,14 @@
 <p>通信钩子提供了一种灵活的方式来 allreduce 梯度。因此，它主要在 allreduce 之前操作每个副本上的梯度，这些梯度被分桶处理以增加通信与计算之间的重叠。具体来说，<code>torch.distributed.GradBucket</code> 表示一个待 allreduce 的梯度张量桶。</p>
 <h2 id="_3">默认通信钩子<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>默认通信钩子是简单的<strong>无状态</strong>钩子，因此 <code>register_comm_hook</code> 中的输入状态要么是一个进程组，要么是 <code>None</code>。输入 <code>bucket</code> 是一个 <code>torch.distributed.GradBucket</code> 对象。</p>
-<p>此外，还提供了一个通信钩子包装器，以支持将 <code>~fp16_compress_hook</code> 或 <code>~bf16_compress_hook</code> 作为包装器，这可以与其他通信钩子结合使用。</p>
+<p>此外，还提供了一个通信钩子包装器，以支持将 <code>fp16_compress_hook</code> 或 <code>bf16_compress_hook</code> 作为包装器，这可以与其他通信钩子结合使用。</p>
 <h2 id="powersgd">PowerSGD 通信钩子<a class="headerlink" href="#powersgd" title="Permanent link">&para;</a></h2>
 <p>PowerSGD (<a href="https://arxiv.org/abs/1905.13727">Vogels et al., NeurIPS 2019</a>) 是一种梯度压缩算法，它可以提供非常高的压缩率并加速受带宽限制的分布式训练。该算法需要维护一些超参数和内部状态。因此，PowerSGD 通信钩子是一个<strong>有状态</strong>的钩子，用户需要提供如下定义的状态对象。</p>
 <h3 id="powersgd_1">PowerSGD 状态<a class="headerlink" href="#powersgd_1" title="Permanent link">&para;</a></h3>
 <h3 id="powersgd_2">PowerSGD 钩子<a class="headerlink" href="#powersgd_2" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>PowerSGD 通常需要与模型梯度大小相同的额外内存来启用误差反馈，这可以补偿有偏的压缩通信并提高准确性。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>PowerSGD 钩子可能与 [Apex 自动混合精度包](https://github.com/NVIDIA/apex) 冲突。请改用 PyTorch [原生自动混合精度包](https://pytorch.org/docs/stable/amp.html)。
+{warning}
+PowerSGD 钩子可能与 [Apex 自动混合精度包](https://github.com/NVIDIA/apex) 冲突。请改用 PyTorch [原生自动混合精度包](https://pytorch.org/docs/stable/amp.html)。
 </code></pre></div>
 <h2 id="_4">调试通信钩子<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>顾名思义，调试通信钩子<strong>仅</strong>用于调试和性能优化目的。</p>
@@ -8235,8 +8235,8 @@
 <h2 id="_5">通信钩子的检查点<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>有状态的通信钩子可以作为模型检查点的一部分保存，以便支持训练器重启。为了使钩子可序列化，需要定义 <code>__setstate__</code> 和 <code>__getstate__</code> 方法。</p>
 <div class="highlight"><pre><span></span><code>`__getstate__` 应该从返回的字典中排除不可序列化的属性。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>`__setstate__` 应该正确初始化不可序列化的属性，这些属性在提供的 `state` 中被排除。
+{warning}
+`__setstate__` 应该正确初始化不可序列化的属性，这些属性在提供的 `state` 中被排除。
 </code></pre></div>
 <p><code>PowerSGDState</code> 已经实现了 <code>__setstate__</code> 和 <code>__getstate__</code> 方法，可以作为参考。</p>
 <p>以下是一个保存和重新加载 PowerSGD 状态及钩子的简单端到端示例。</p>

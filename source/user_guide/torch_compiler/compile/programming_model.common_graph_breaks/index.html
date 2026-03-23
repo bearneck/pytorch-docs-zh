@@ -8069,8 +8069,7 @@
   
 
 
-<div class="highlight"><pre><span></span><code>:tags: [remove-cell]
-import torch
+<div class="highlight"><pre><span></span><code>import torch
 
 import header_code
 
@@ -8130,8 +8129,8 @@ def fn(y):
         return y - x
 
 print(fn(torch.ones(3, 3)))
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># 新代码
+{code-cell}
+# 新代码
 x = torch.randn(3, 3)
 cond = (x.sum() &gt; 0).item()
 @torch.compile
@@ -8144,7 +8143,7 @@ def fn(y):
 print(fn(torch.ones(3, 3)))
 </code></pre></div>
 <ul>
-<li>使用 <code>cond</code> 等高级操作符替代数据依赖的控制流。</li>
+<li>使用 <em>cond</em> 等高级操作符替代数据依赖的控制流。</li>
 </ul>
 <div class="highlight"><pre><span></span><code># 旧代码
 @torch.compile
@@ -8154,8 +8153,8 @@ def fn(x):
     return x - 1
 
 print(fn(torch.ones(3, 3)))
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># 新代码
+{code-cell}
+# 新代码
 @torch.compile
 def fn(x):
     return torch.cond(

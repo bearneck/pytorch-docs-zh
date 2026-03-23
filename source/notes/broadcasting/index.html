@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#broadcasting-semantics" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -6484,7 +6484,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         通用语义
@@ -6495,7 +6495,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         原地操作语义
@@ -6506,7 +6506,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         向后兼容性
@@ -8011,7 +8011,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         通用语义
@@ -8022,7 +8022,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         原地操作语义
@@ -8033,7 +8033,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         向后兼容性
@@ -8063,10 +8063,10 @@
   
 
 
-<h1 id="broadcasting-semantics">广播语义<a class="headerlink" href="#broadcasting-semantics" title="Permanent link">&para;</a></h1>
+<h1 id="_1">广播语义<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>许多 PyTorch 操作支持 NumPy 的广播语义。 详情请参阅 <a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">https://numpy.org/doc/stable/user/basics.broadcasting.html</a>。</p>
 <p>简而言之，如果一个 PyTorch 操作支持广播，那么其张量参数可以自动扩展为相同大小（无需复制数据）。</p>
-<h2 id="_1">通用语义<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_2">通用语义<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>两个张量在满足以下规则时是"可广播的"：</p>
 <ul>
 <li>从尾部维度开始迭代维度大小时，维度大小必须相等，其中一个为 1，或者其中一个维度不存在。</li>
@@ -8078,10 +8078,10 @@
 <p># 可以对齐尾部维度 &gt;&gt;&gt; x=torch.empty(5,3,4,1) &gt;&gt;&gt; y=torch.empty( 3,1,1) # x 和 y 是可广播的。 # 第 1 个尾部维度：两者大小均为 1 # 第 2 个尾部维度：y 的大小为 1 # 第 3 个尾部维度：x 大小 == y 大小 # 第 4 个尾部维度：y 维度不存在</p>
 <p># 但是： &gt;&gt;&gt; x=torch.empty(5,2,4,1) &gt;&gt;&gt; y=torch.empty( 3,1,1) # x 和 y 不可广播，因为在第 3 个尾部维度中 2 != 3</p>
 </blockquote>
-<p>如果两个张量 <code class="interpreted-text" role="attr">x</code>、<code class="interpreted-text" role="attr">y</code> 是"可广播的"，则结果张量大小按如下方式计算：</p>
+<p>如果两个张量 <code>x</code>、<code>y</code> 是"可广播的"，则结果张量大小按如下方式计算：</p>
 <ul>
-<li>如果 <code class="interpreted-text" role="attr">x</code> 和 <code class="interpreted-text" role="attr">y</code> 的维度数量不相等，则在维度较少的张量的维度前添加 1，使其长度相等。</li>
-<li>然后，对于每个维度大小，结果维度大小是 <code class="interpreted-text" role="attr">x</code> 和 <code class="interpreted-text" role="attr">y</code> 在该维度上大小的最大值。</li>
+<li>如果 <code>x</code> 和 <code>y</code> 的维度数量不相等，则在维度较少的张量的维度前添加 1，使其长度相等。</li>
+<li>然后，对于每个维度大小，结果维度大小是 <code>x</code> 和 <code>y</code> 在该维度上大小的最大值。</li>
 </ul>
 <p>例如：:</p>
 <blockquote>
@@ -8089,20 +8089,20 @@
 <p># 但并非必需： &gt;&gt;&gt; x=torch.empty(1) &gt;&gt;&gt; y=torch.empty(3,1,7) &gt;&gt;&gt; (x+y).size() torch.Size([3, 1, 7])</p>
 <p>&gt;&gt;&gt; x=torch.empty(5,2,4,1) &gt;&gt;&gt; y=torch.empty(3,1,1) &gt;&gt;&gt; (x+y).size() RuntimeError: The size of tensor a (2) must match the size of tensor b (3) at non-singleton dimension 1</p>
 </blockquote>
-<h2 id="_2">原地操作语义<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">原地操作语义<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>一个复杂之处在于，原地操作不允许原地张量因广播而改变形状。</p>
 <p>例如：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; x=torch.empty(5,3,4,1) &gt;&gt;&gt; y=torch.empty(3,1,1) &gt;&gt;&gt; (<a href="">x.add</a>(y)).size() torch.Size([5, 3, 4, 1])</p>
 <p># 但是： &gt;&gt;&gt; x=torch.empty(1,3,1) &gt;&gt;&gt; y=torch.empty(3,1,7) &gt;&gt;&gt; (<a href="">x.add</a>(y)).size() RuntimeError: The expanded size of the tensor (1) must match the existing size (7) at non-singleton dimension 2.</p>
 </blockquote>
-<h2 id="_3">向后兼容性<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_4">向后兼容性<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>PyTorch 的早期版本允许某些逐点函数在不同形状的张量上执行，只要每个张量中的元素数量相等即可。然后，通过将每个张量视为 1 维来执行逐点操作。PyTorch 现在支持广播，并且"1 维"逐点行为被视为已弃用，在张量不可广播但具有相同元素数量的情况下将生成 Python 警告。</p>
 <p>请注意，广播的引入可能导致向后不兼容的更改，这种情况发生在两个张量形状不同但可广播且具有相同元素数量时。 例如：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; torch.add(torch.ones(4,1), torch.randn(4))</p>
 </blockquote>
-<p>以前会产生大小为 torch.Size([4,1]) 的张量，但现在会产生大小为 torch.Size([4,4]) 的张量。 为了帮助识别代码中可能存在的由广播引起的向后不兼容情况，您可以将 [torch.utils.backcompat.broadcast_warning.enabled]{.title-ref} 设置为 [True]{.title-ref}，这将在这种情况下生成 Python 警告。</p>
+<p>以前会产生大小为 torch.Size([4,1]) 的张量，但现在会产生大小为 torch.Size([4,4]) 的张量。 为了帮助识别代码中可能存在的由广播引起的向后不兼容情况，您可以将 [torch.utils.backcompat.broadcast_warning.enabled] 设置为 [True]，这将在这种情况下生成 Python 警告。</p>
 <p>例如：:</p>
 <blockquote>
 <p>&gt;&gt;&gt; torch.utils.backcompat.broadcast_warning.enabled=True &gt;&gt;&gt; torch.add(torch.ones(4,1), torch.ones(4)) __main__:1: UserWarning: self and other do not have the same shape, but are broadcastable, and have the same number of elements. Changing behavior in a backwards incompatible manner to broadcasting rather than viewing as 1-dimensional.</p>

@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tensor-attributes-doc" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -859,7 +859,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dtype-doc" class="md-nav__link">
+  <a href="#torchdtype" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.dtype
@@ -870,7 +870,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#device-doc" class="md-nav__link">
+  <a href="#torchdevice" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.device
@@ -881,7 +881,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#layout-doc" class="md-nav__link">
+  <a href="#torchlayout" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.layout
@@ -8022,7 +8022,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dtype-doc" class="md-nav__link">
+  <a href="#torchdtype" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.dtype
@@ -8033,7 +8033,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#device-doc" class="md-nav__link">
+  <a href="#torchdevice" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.device
@@ -8044,7 +8044,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#layout-doc" class="md-nav__link">
+  <a href="#torchlayout" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.layout
@@ -8085,13 +8085,10 @@
   
 
 
-<p>currentmodule
-torch</p>
-<h1 id="tensor-attributes-doc">张量属性<a class="headerlink" href="#tensor-attributes-doc" title="Permanent link">&para;</a></h1>
-<p>每个 <code>torch.Tensor</code> 都拥有 <code class="interpreted-text" role="class">torch.dtype</code>、<code class="interpreted-text" role="class">torch.device</code> 和 <code class="interpreted-text" role="class">torch.layout</code> 属性。</p>
-<h2 id="dtype-doc">torch.dtype<a class="headerlink" href="#dtype-doc" title="Permanent link">&para;</a></h2>
-<p>dtype
-<code class="interpreted-text" role="class">torch.dtype</code> 是一个表示 <code class="interpreted-text" role="class">torch.Tensor</code> 数据类型的对象。PyTorch 支持多种不同的数据类型：</p>
+<h1 id="_1">张量属性<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>每个 <code>torch.Tensor</code> 都拥有 <code>torch.dtype</code>、<code>torch.device</code> 和 <code>torch.layout</code> 属性。</p>
+<h2 id="torchdtype">torch.dtype<a class="headerlink" href="#torchdtype" title="Permanent link">&para;</a></h2>
+<p><code>torch.dtype</code> 是一个表示 <code>torch.Tensor</code> 数据类型的对象。PyTorch 支持多种不同的数据类型：</p>
 <p><strong>浮点数据类型</strong></p>
 <p>dtype                                                               描述</p>
 <hr />
@@ -8099,38 +8096,37 @@ torch</p>
   <code>torch.float64</code> 或 <code>torch.double</code>                                   64位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754">https://en.wikipedia.org/wiki/IEEE_754</a>
   <code>torch.float16</code> 或 <code>torch.half</code>                                     16位浮点数，定义于 <a href="https://en.wikipedia.org/wiki/IEEE_754，S-E-M">https://en.wikipedia.org/wiki/IEEE_754，S-E-M</a> 1-5-10
   <code>torch.bfloat16</code>                                                    16位浮点数，有时称为 Brain 浮点数，S-E-M 1-8-7
-  <code>torch.complex32</code> 或 <code>torch.chalf</code>                                  32位复数，包含两个 [float16]{.title-ref} 分量
-  <code>torch.complex64</code> 或 <code>torch.cfloat</code>                                 64位复数，包含两个 [float32]{.title-ref} 分量
-  <code>torch.complex128</code> 或 <code>torch.cdouble</code>                               128位复数，包含两个 [float64]{.title-ref} 分量
-  <code>torch.float8_e4m3fn</code> <a class="citation" href="#shell">[shell]</a>,[^1]           8位浮点数，S-E-M 1-4-3，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a>
-  <code>torch.float8_e5m2</code> <a class="citation" href="#shell">[shell]</a>                  8位浮点数，S-E-M 1-5-2，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a>
-  <code>torch.float8_e4m3fnuz</code> <a class="citation" href="#shell">[shell]</a>,[^2]         8位浮点数，S-E-M 1-4-3，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a>
-  <code>torch.float8_e5m2fnuz</code> <a class="citation" href="#shell">[shell]</a>,[^3]         8位浮点数，S-E-M 1-5-2，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a>
-  <code>torch.float8_e8m0fnu</code> <a class="citation" href="#shell">[shell]</a>,[^4]          8位浮点数，S-E-M 0-8-0，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a>
-  <code>torch.float4_e2m1fn_x2</code> <a class="citation" href="#shell">[shell]</a>,[^5],[^6]   打包的4位浮点数，S-E-M 1-2-1，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a></p>
+  <code>torch.complex32</code> 或 <code>torch.chalf</code>                                  32位复数，包含两个 [float16] 分量
+  <code>torch.complex64</code> 或 <code>torch.cfloat</code>                                 64位复数，包含两个 [float32] 分量
+  <code>torch.complex128</code> 或 <code>torch.cdouble</code>                               128位复数，包含两个 [float64] 分量
+  <code>torch.float8_e4m3fn</code> <a href="#shell">[shell]</a>,[^1]           8位浮点数，S-E-M 1-4-3，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a>
+  <code>torch.float8_e5m2</code> <a href="#shell">[shell]</a>                  8位浮点数，S-E-M 1-5-2，来自 <a href="https://arxiv.org/abs/2209.05433">https://arxiv.org/abs/2209.05433</a>
+  <code>torch.float8_e4m3fnuz</code> <a href="#shell">[shell]</a>,[^2]         8位浮点数，S-E-M 1-4-3，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a>
+  <code>torch.float8_e5m2fnuz</code> <a href="#shell">[shell]</a>,[^3]         8位浮点数，S-E-M 1-5-2，来自 <a href="https://arxiv.org/pdf/2206.02915">https://arxiv.org/pdf/2206.02915</a>
+  <code>torch.float8_e8m0fnu</code> <a href="#shell">[shell]</a>,[^4]          8位浮点数，S-E-M 0-8-0，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a>
+  <code>torch.float4_e2m1fn_x2</code> <a href="#shell">[shell]</a>,[^5],[^6]   打包的4位浮点数，S-E-M 1-2-1，来自 <a href="https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf">https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf</a></p>
 <p><strong>整数数据类型</strong></p>
 <p>dtype                                                描述</p>
 <hr />
 <p><code>torch.uint8</code>                                        8位整数（无符号）
   <code>torch.int8</code>                                         8位整数（有符号）
-  <code>torch.uint16</code> <a class="citation" href="#shell">[shell]</a>,[^7]   16位整数（无符号）
+  <code>torch.uint16</code> <a href="#shell">[shell]</a>,[^7]   16位整数（无符号）
   <code>torch.int16</code> 或 <code>torch.short</code>                       16位整数（有符号）
-  <code>torch.uint32</code> <a class="citation" href="#shell">[shell]</a>,[^8]   32位整数（无符号）
+  <code>torch.uint32</code> <a href="#shell">[shell]</a>,[^8]   32位整数（无符号）
   <code>torch.int32</code> 或 <code>torch.int</code>                         32位整数（有符号）
-  <code>torch.uint64</code> <a class="citation" href="#shell">[shell]</a>,[^9]   64位整数（无符号）
+  <code>torch.uint64</code> <a href="#shell">[shell]</a>,[^9]   64位整数（无符号）
   <code>torch.int64</code> 或 <code>torch.long</code>                        64位整数（有符号）
   <code>torch.bool</code>                                         布尔型</p>
 <p><strong>注意</strong>：遗留构造函数如 <code>torch.*.FloatTensor</code>、<code>torch.*.DoubleTensor</code>、<code>torch.*.HalfTensor</code>、 <code>torch.*.BFloat16Tensor</code>、<code>torch.*.ByteTensor</code>、<code>torch.*.CharTensor</code>、<code>torch.*.ShortTensor</code>、<code>torch.*.IntTensor</code>、 <code>torch.*.LongTensor</code>、<code>torch.*.BoolTensor</code> 仅为向后兼容而保留，不应再使用。</p>
-<p>要判断一个 <code class="interpreted-text" role="class">torch.dtype</code> 是否为浮点数据类型，可以使用属性 <code class="interpreted-text" role="attr">is_floating_point</code>，如果数据类型是浮点类型，则返回 <code>True</code>。</p>
-<p>要判断一个 <code class="interpreted-text" role="class">torch.dtype</code> 是否为复数数据类型，可以使用属性 <code class="interpreted-text" role="attr">is_complex</code>，如果数据类型是复数类型，则返回 <code>True</code>。</p>
-<p>{#type-promotion-doc}
-当算术操作（`add`、`sub`、`div`、`mul`）的输入数据类型不同时，我们会通过寻找满足以下规则的最小数据类型来进行类型提升：</p>
+<p>要判断一个 <code>torch.dtype</code> 是否为浮点数据类型，可以使用属性 <code>is_floating_point</code>，如果数据类型是浮点类型，则返回 <code>True</code>。</p>
+<p>要判断一个 <code>torch.dtype</code> 是否为复数数据类型，可以使用属性 <code>is_complex</code>，如果数据类型是复数类型，则返回 <code>True</code>。</p>
+<p>当算术操作（`add`、`sub`、`div`、`mul`）的输入数据类型不同时，我们会通过寻找满足以下规则的最小数据类型来进行类型提升：</p>
 <ul>
 <li>如果标量操作数的类型类别高于张量操作数（类别顺序：复数 &gt; 浮点 &gt; 整数 &gt; 布尔值），我们会提升到足以容纳该类别所有标量操作数的类型。</li>
 <li>如果零维张量操作数的类别高于有维度的操作数，我们会提升到具有足够大小和类别以容纳该类别所有零维张量操作数的类型。</li>
 <li>如果没有更高类别的零维操作数，我们会提升到具有足够大小和类别以容纳所有有维度操作数的类型。</li>
 </ul>
-<p>浮点标量操作数的 dtype 为 [torch.get_default_dtype()]{.title-ref}，整数非布尔标量操作数的 dtype 为 [torch.int64]{.title-ref}。与 numpy 不同，我们在确定操作数的最小 [dtypes]{.title-ref} 时不检查值。目前不支持复数类型。未定义 shell dtypes 的提升规则。</p>
+<p>浮点标量操作数的 dtype 为 [torch.get_default_dtype()]，整数非布尔标量操作数的 dtype 为 [torch.int64]。与 numpy 不同，我们在确定操作数的最小 [dtypes] 时不检查值。目前不支持复数类型。未定义 shell dtypes 的提升规则。</p>
 <p>提升示例:</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; float_tensor = torch.ones(1, dtype=torch.float)
 &gt;&gt;&gt; double_tensor = torch.ones(1, dtype=torch.double)
@@ -8167,7 +8163,7 @@ torch.int32
 &gt;&gt;&gt; torch.add(long_tensor, float_tensor).dtype
 torch.float32
 </code></pre></div>
-<p>当指定了算术运算的输出张量时，我们允许强制转换到其 [dtype]{.title-ref}，但以下情况除外：</p>
+<p>当指定了算术运算的输出张量时，我们允许强制转换到其 [dtype]，但以下情况除外：</p>
 <p>:   - 整数输出张量不能接受浮点张量。
     - 布尔输出张量不能接受非布尔张量。
     - 非复数输出张量不能接受复数张量。</p>
@@ -8188,17 +8184,16 @@ torch.float32
 &gt;&gt;&gt; bool_tensor *= uint_tensor
 &gt;&gt;&gt; float_tensor *= complex_float_tensor
 </code></pre></div>
-<h2 id="device-doc">torch.device<a class="headerlink" href="#device-doc" title="Permanent link">&para;</a></h2>
-<p>device
-<code class="interpreted-text" role="class">torch.device</code> 是一个表示 <code class="interpreted-text" role="class">torch.Tensor</code> 已分配或将要分配到的设备对象。</p>
-<p><code class="interpreted-text" role="class">torch.device</code> 包含一个设备类型（最常见的是 \"cpu\" 或 \"cuda\"，但也可能是 <code class="interpreted-text" role="doc">"mps" &lt;mps&gt;</code>、<code class="interpreted-text" role="doc">"xpu" &lt;xpu&gt;</code>、`\"xla\" \&lt;https://github.com/pytorch/xla/&gt;`_ 或 <code class="interpreted-text" role="doc">"meta" &lt;meta&gt;</code>）以及可选的该设备类型的设备序号。如果未指定设备序号，此对象将始终表示该设备类型的当前设备，即使在调用 <code class="interpreted-text" role="func">torch.cuda.set_device()</code> 之后也是如此；例如，使用设备 <code>'cuda'</code> 构造的 <code class="interpreted-text" role="class">torch.Tensor</code> 等同于 <code>'cuda:X'</code>，其中 X 是 <code class="interpreted-text" role="func">torch.cuda.current_device()</code> 的结果。</p>
-<p>可以通过 <code class="interpreted-text" role="attr">Tensor.device</code> 属性访问 <code class="interpreted-text" role="class">torch.Tensor</code> 的设备。</p>
-<p><code class="interpreted-text" role="class">torch.device</code> 可以通过以下方式构造：</p>
+<h2 id="torchdevice">torch.device<a class="headerlink" href="#torchdevice" title="Permanent link">&para;</a></h2>
+<p><code>torch.device</code> 是一个表示 <code>torch.Tensor</code> 已分配或将要分配到的设备对象。</p>
+<p><code>torch.device</code> 包含一个设备类型（最常见的是 \"cpu\" 或 \"cuda\"，但也可能是 <code>"mps" &lt;mps&gt;</code>、<code>"xpu" &lt;xpu&gt;</code>、`\"xla\" \&lt;https://github.com/pytorch/xla/&gt;`_ 或 <code>"meta" &lt;meta&gt;</code>）以及可选的该设备类型的设备序号。如果未指定设备序号，此对象将始终表示该设备类型的当前设备，即使在调用 <code>torch.cuda.set_device()</code> 之后也是如此；例如，使用设备 <code>'cuda'</code> 构造的 <code>torch.Tensor</code> 等同于 <code>'cuda:X'</code>，其中 X 是 <code>torch.cuda.current_device()</code> 的结果。</p>
+<p>可以通过 <code>Tensor.device</code> 属性访问 <code>torch.Tensor</code> 的设备。</p>
+<p><code>torch.device</code> 可以通过以下方式构造：</p>
 <blockquote>
 <ul>
 <li>设备字符串，即设备类型（可选包含设备序号）的字符串表示。</li>
 <li>设备类型和设备序号。</li>
-<li>设备序号，此时将使用当前的 <code class="interpreted-text" role="ref">加速器&lt;accelerators&gt;</code> 类型。</li>
+<li>设备序号，此时将使用当前的 <code>加速器&lt;accelerators&gt;</code> 类型。</li>
 </ul>
 </blockquote>
 <p>通过设备字符串： :</p>
@@ -8225,10 +8220,9 @@ device(type=&#39;mps&#39;, index=0)
 device(type=&#39;cpu&#39;, index=0)
 </code></pre></div>
 <p>通过设备序号：</p>
-<p>note
- title
-Note</p>
-<p>如果当前未检测到加速器，此方法将引发 RuntimeError。</p>
+<blockquote>
+<p>📝 <strong>注意</strong>
+如果当前未检测到加速器，此方法将引发 RuntimeError。</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; torch.device(0)  # 当前加速器是 cuda
 device(type=&#39;cuda&#39;, index=0)
 
@@ -8246,37 +8240,27 @@ RuntimeError: Cannot access accelerator device when none is available.
 &gt;&gt;&gt; r.device
 device(type=&#39;cuda&#39;, index=1)
 </code></pre></div>
-<p>如果工厂函数被传递了显式的非 None 设备参数，此上下文管理器将不起作用。要全局更改默认设备，另请参阅 <code class="interpreted-text" role="func">torch.set_default_device</code>。</p>
-<p>warning
- title
-Warning</p>
-<p>此函数会对每次调用 torch API（不仅仅是工厂函数）的 Python 调用施加轻微的性能开销。如果这给您带来了问题，请在 <a href="https://github.com/pytorch/pytorch/issues/92701">https://github.com/pytorch/pytorch/issues/92701</a> 发表评论。</p>
-<p>note
- title
-Note</p>
-<p>函数中的 <code class="interpreted-text" role="class">torch.device</code> 参数通常可以用字符串替代。 这有助于快速原型设计。</p>
+<p>如果工厂函数被传递了显式的非 None 设备参数，此上下文管理器将不起作用。要全局更改默认设备，另请参阅 <code>torch.set_default_device</code>。</p>
+<p>⚠️ <strong>警告</strong>
+此函数会对每次调用 torch API（不仅仅是工厂函数）的 Python 调用施加轻微的性能开销。如果这给您带来了问题，请在 <a href="https://github.com/pytorch/pytorch/issues/92701">https://github.com/pytorch/pytorch/issues/92701</a> 发表评论。</p>
+<p>📝 <strong>注意</strong>
+函数中的 <code>torch.device</code> 参数通常可以用字符串替代。 这有助于快速原型设计。</p>
 <p>&gt;&gt;&gt; # 接受 torch.device 的函数示例 &gt;&gt;&gt; cuda1 = torch.device(\'cuda:1\') &gt;&gt;&gt; torch.randn((2,3), device=cuda1)</p>
 <p>&gt;&gt;&gt; # 可以用字符串替代 torch.device &gt;&gt;&gt; torch.randn((2,3), device=\'cuda:1\')</p>
-<p>note
- title
-Note</p>
-<p>接受设备参数的方法通常支持（格式正确的）字符串或整数设备序号，即以下写法完全等效：</p>
+<p>📝 <strong>注意</strong>
+接受设备参数的方法通常支持（格式正确的）字符串或整数设备序号，即以下写法完全等效：</p>
 <p>&gt;&gt;&gt; torch.randn((2,3), device=torch.device(\'cuda:1\')) &gt;&gt;&gt; torch.randn((2,3), device=\'cuda:1\') &gt;&gt;&gt; torch.randn((2,3), device=1) # 如果当前加速器是 cuda，则等价于 \'cuda:1\'</p>
-<p>note
- title
-Note</p>
-<p>张量永远不会在设备间自动移动，需要用户显式调用。标量张量（tensor.dim()==0）是此规则唯一的例外，它们在需要时会自动从 CPU 传输到 GPU，因为此操作可以\"免费\"完成。 示例：</p>
+<p>📝 <strong>注意</strong>
+张量永远不会在设备间自动移动，需要用户显式调用。标量张量（tensor.dim()==0）是此规则唯一的例外，它们在需要时会自动从 CPU 传输到 GPU，因为此操作可以\"免费\"完成。 示例：</p>
 <p>&gt;&gt;&gt; # 两个标量 &gt;&gt;&gt; torch.ones(()) + torch.ones(()).cuda() # 正常，标量自动从 CPU 传输到 GPU &gt;&gt;&gt; torch.ones(()).cuda() + torch.ones(()) # 正常，标量自动从 CPU 传输到 GPU</p>
 <p>&gt;&gt;&gt; # 一个标量（CPU），一个向量（GPU） &gt;&gt;&gt; torch.ones(()) + torch.ones(1).cuda() # 正常，标量自动从 CPU 传输到 GPU &gt;&gt;&gt; torch.ones(1).cuda() + torch.ones(()) # 正常，标量自动从 CPU 传输到 GPU</p>
 <p>&gt;&gt;&gt; # 一个标量（GPU），一个向量（CPU） &gt;&gt;&gt; torch.ones(()).cuda() + torch.ones(1) # 失败，标量不会自动从 GPU 传输到 CPU，且非标量不会自动从 CPU 传输到 GPU &gt;&gt;&gt; torch.ones(1) + torch.ones(()).cuda() # 失败，标量不会自动从 GPU 传输到 CPU，且非标量不会自动从 CPU 传输到 GPU</p>
-<h2 id="layout-doc">torch.layout<a class="headerlink" href="#layout-doc" title="Permanent link">&para;</a></h2>
-<p>layout
- warning
- title
-Warning</p>
-<p><code>torch.layout</code> 类目前处于测试阶段，后续可能变更。</p>
-<p><code class="interpreted-text" role="class">torch.layout</code> 是一个表示 <code class="interpreted-text" role="class">torch.Tensor</code> 内存布局的对象。目前我们支持 <code>torch.strided</code>（稠密张量），并对 <code>torch.sparse_coo</code>（稀疏 COO 张量）提供测试版支持。</p>
-<p><code>torch.strided</code> 表示稠密张量，是最常用的内存布局。每个跨步张量都有一个关联的 <code class="interpreted-text" role="class">torch.Storage</code> 来存储其数据。这些张量提供了存储的多维 <a href="https://en.wikipedia.org/wiki/Stride_of_an_array">跨步</a> 视图。跨步是一个整数列表：第 k 个跨步表示在张量的第 k 维中，从一个元素移动到下一个元素所需的内存跳跃量。这个概念使得许多张量操作能够高效执行。</p>
+<h2 id="torchlayout">torch.layout<a class="headerlink" href="#torchlayout" title="Permanent link">&para;</a></h2>
+<p><strong>LAYOUT</strong></p>
+<p>⚠️ <strong>警告</strong>
+<code>torch.layout</code> 类目前处于测试阶段，后续可能变更。</p>
+<p><code>torch.layout</code> 是一个表示 <code>torch.Tensor</code> 内存布局的对象。目前我们支持 <code>torch.strided</code>（稠密张量），并对 <code>torch.sparse_coo</code>（稀疏 COO 张量）提供测试版支持。</p>
+<p><code>torch.strided</code> 表示稠密张量，是最常用的内存布局。每个跨步张量都有一个关联的 <code>torch.Storage</code> 来存储其数据。这些张量提供了存储的多维 <a href="https://en.wikipedia.org/wiki/Stride_of_an_array">跨步</a> 视图。跨步是一个整数列表：第 k 个跨步表示在张量的第 k 维中，从一个元素移动到下一个元素所需的内存跳跃量。这个概念使得许多张量操作能够高效执行。</p>
 <p>示例:</p>
 <div class="highlight"><pre><span></span><code>&gt;&gt;&gt; x = torch.tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])
 &gt;&gt;&gt; x.stride()
@@ -8285,29 +8269,28 @@ Warning</p>
 &gt;&gt;&gt; x.t().stride()
 (1, 5)
 </code></pre></div>
-<p>关于 <code>torch.sparse_coo</code> 张量的更多信息，请参阅 <code class="interpreted-text" role="ref">sparse-docs</code>。</p>
+<p>关于 <code>torch.sparse_coo</code> 张量的更多信息，请参阅 <code>sparse-docs</code>。</p>
 <h2 id="torchmemory_format">torch.memory_format<a class="headerlink" href="#torchmemory_format" title="Permanent link">&para;</a></h2>
-<p>memory_format
-<code class="interpreted-text" role="class">torch.memory_format</code> 是一个表示 <code class="interpreted-text" role="class">torch.Tensor</code> 已分配或将要分配的内存格式的对象。</p>
+<p><code>torch.memory_format</code> 是一个表示 <code>torch.Tensor</code> 已分配或将要分配的内存格式的对象。</p>
 <p>可能的取值包括：</p>
 <ul>
 <li><code>torch.contiguous_format</code>： 张量已分配或将要分配在稠密非重叠内存中。跨步值按递减顺序表示。</li>
 <li><code>torch.channels_last</code>： 张量已分配或将要分配在稠密非重叠内存中。跨步值按 <code>strides[0] &gt; strides[2] &gt; strides[3] &gt; strides[1] == 1</code> 即 NHWC 顺序表示。</li>
 <li><code>torch.channels_last_3d</code>： 张量已分配或将要分配在稠密非重叠内存中。跨步值按 <code>strides[0] &gt; strides[2] &gt; strides[3] &gt; strides[4] &gt; strides[1] == 1</code> 即 NDHWC 顺序表示。</li>
-<li><code>torch.preserve_format</code>： 用于 [clone]{.title-ref} 等函数以保留输入张量的内存格式。如果输入张量分配在稠密非重叠内存中，输出张量的跨步将从输入复制。否则输出跨步将遵循 <code>torch.contiguous_format</code>。</li>
+<li><code>torch.preserve_format</code>： 用于 [clone] 等函数以保留输入张量的内存格式。如果输入张量分配在稠密非重叠内存中，输出张量的跨步将从输入复制。否则输出跨步将遵循 <code>torch.contiguous_format</code>。</li>
 </ul>
-<p>{#citations}</p>
-<p>[shell]{#shell .citation-label}</p>
+<p>[shell]</p>
 <p>:   shell 数据类型是一种支持的操作和后端有限的特化数据类型。 具体来说，支持创建张量的操作（<code>torch.empty</code>、<code>torch.fill</code>、<code>torch.zeros</code>） 以及不窥探数据元素内部的操作（<code>torch.cat</code>、<code>torch.view</code>、<code>torch.reshape</code>）。 而窥探数据元素内部的操作，如类型转换、矩阵乘法、nan/inf 检查等，仅根据成熟度、硬件加速内核的存在性以及已确立的用例，在逐个案例的基础上提供支持。</p>
 <p>[^1]: \"fn\"、\"fnu\" 和 \"fnuz\" 数据类型后缀的含义： \"f\" - 仅有限值编码，无无穷大； \"n\" - nan 值编码与 IEEE 规范不同； \"uz\" - 仅\"无符号零\"，即无负零编码</p>
 <p>[^2]: \"fn\"、\"fnu\" 和 \"fnuz\" 数据类型后缀的含义： \"f\" - 仅有限值编码，无无穷大； \"n\" - nan 值编码与 IEEE 规范不同； \"uz\" - 仅\"无符号零\"，即无负零编码</p>
 <p>[^3]: \"fn\"、\"fnu\" 和 \"fnuz\" 数据类型后缀的含义： \"f\" - 仅有限值编码，无无穷大； \"n\" - nan 值编码与 IEEE 规范不同； \"uz\" - 仅\"无符号零\"，即无负零编码</p>
 <p>[^4]: \"fn\"、\"fnu\" 和 \"fnuz\" 数据类型后缀的含义： \"f\" - 仅有限值编码，无无穷大； \"n\" - nan 值编码与 IEEE 规范不同； \"uz\" - 仅\"无符号零\"，即无负零编码</p>
 <p>[^5]: \"fn\"、\"fnu\" 和 \"fnuz\" 数据类型后缀的含义： \"f\" - 仅有限值编码，无无穷大； \"n\" - nan 值编码与 IEEE 规范不同； \"uz\" - 仅\"无符号零\"，即无负零编码</p>
-<p>[^6]: [torch.float4_e2m1fn_x2]{.title-ref} 数据类型表示两个打包在一个字节中的4位值。 请注意，修改张量形状/步幅的 PyTorch 操作（如转置）在字节边界上操作，并且**不会**解包/重新打包亚字节值。</p>
+<p>[^6]: [torch.float4_e2m1fn_x2] 数据类型表示两个打包在一个字节中的4位值。 请注意，修改张量形状/步幅的 PyTorch 操作（如转置）在字节边界上操作，并且**不会**解包/重新打包亚字节值。</p>
 <p>[^7]: 目前计划仅在 eager 模式下对除 <code>uint8</code> 之外的无符号类型提供有限支持（它们主要存在是为了辅助 torch.compile 的使用）；如果您需要 eager 模式支持且不需要额外的数值范围，我们建议使用其对应的有符号变体。更多详情请参阅 <a href="https://github.com/pytorch/pytorch/issues/58734">https://github.com/pytorch/pytorch/issues/58734</a>。</p>
 <p>[^8]: 目前计划仅在 eager 模式下对除 <code>uint8</code> 之外的无符号类型提供有限支持（它们主要存在是为了辅助 torch.compile 的使用）；如果您需要 eager 模式支持且不需要额外的数值范围，我们建议使用其对应的有符号变体。更多详情请参阅 <a href="https://github.com/pytorch/pytorch/issues/58734">https://github.com/pytorch/pytorch/issues/58734</a>。</p>
 <p>[^9]: 目前计划仅在 eager 模式下对除 <code>uint8</code> 之外的无符号类型提供有限支持（它们主要存在是为了辅助 torch.compile 的使用）；如果您需要 eager 模式支持且不需要额外的数值范围，我们建议使用其对应的有符号变体。更多详情请参阅 <a href="https://github.com/pytorch/pytorch/issues/58734">https://github.com/pytorch/pytorch/issues/58734</a>。</p>
+</blockquote>
 
 
 

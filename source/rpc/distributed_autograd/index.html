@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#distributed-autograd-design" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -7920,7 +7920,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         背景
@@ -7931,7 +7931,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         前向传播期间的自动求导记录
@@ -7942,7 +7942,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         分布式自动求导上下文
@@ -7953,7 +7953,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         分布式反向传播
@@ -7965,7 +7965,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         计算依赖关系
@@ -7976,7 +7976,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fast-mode-algorithm" class="md-nav__link">
+  <a href="#fast" class="md-nav__link">
     <span class="md-ellipsis">
       
         FAST 模式算法
@@ -8003,7 +8003,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         分布式优化器
@@ -8014,7 +8014,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       
         简单的端到端示例
@@ -8046,10 +8046,10 @@
 
 <p>orphan</p>
 <p>:   </p>
-<h1 id="distributed-autograd-design">分布式自动求导设计<a class="headerlink" href="#distributed-autograd-design" title="Permanent link">&para;</a></h1>
-<p>本文档将详细介绍分布式自动求导的设计，并深入探讨其内部实现。在继续阅读之前，请确保您已熟悉 <code class="interpreted-text" role="ref">autograd-mechanics</code> 和 <code class="interpreted-text" role="ref">distributed-rpc-framework</code>。</p>
-<h2 id="_1">背景<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>假设您有两个节点，并且一个非常简单的模型被划分在这两个节点上。这可以使用 <code class="interpreted-text" role="mod">torch.distributed.rpc</code> 实现如下：</p>
+<h1 id="_1">分布式自动求导设计<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>本文档将详细介绍分布式自动求导的设计，并深入探讨其内部实现。在继续阅读之前，请确保您已熟悉 <code>autograd-mechanics</code> 和 <code>distributed-rpc-framework</code>。</p>
+<h2 id="_2">背景<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>假设您有两个节点，并且一个非常简单的模型被划分在这两个节点上。这可以使用 <code>torch.distributed.rpc</code> 实现如下：</p>
 <div class="highlight"><pre><span></span><code>import torch
 import torch.distributed.rpc as rpc
 
@@ -8071,22 +8071,22 @@ t5 = torch.mul(t3, t4)
 loss = t5.sum()
 </code></pre></div>
 <p>分布式自动求导的主要动机是能够在我们计算出的 <code>loss</code> 上对这样的分布式模型运行反向传播，并为所有需要梯度的张量记录相应的梯度。</p>
-<h2 id="_2">前向传播期间的自动求导记录<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>PyTorch 在前向传播期间构建自动求导图，该图用于执行反向传播。更多细节请参见 <code class="interpreted-text" role="ref">how-autograd-encodes-history</code>。</p>
+<h2 id="_3">前向传播期间的自动求导记录<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>PyTorch 在前向传播期间构建自动求导图，该图用于执行反向传播。更多细节请参见 <code>how-autograd-encodes-history</code>。</p>
 <p>对于分布式自动求导，我们需要在前向传播期间跟踪所有 RPC 调用，以确保反向传播正确执行。为此，我们在执行 RPC 时，将 <code>send</code> 和 <code>recv</code> 函数附加到自动求导图中。</p>
 <ul>
 <li><code>send</code> 函数附加在 RPC 的源节点上，其输出边指向 RPC 输入张量的自动求导函数。该函数在反向传播期间的输入是从目标节点接收到的，作为相应 <code>recv</code> 函数的输出。</li>
 <li><code>recv</code> 函数附加在 RPC 的目标节点上，其输入是从使用输入张量在目标节点上执行的算子中获取的。该函数的输出梯度在反向传播期间被发送到源节点的相应 <code>send</code> 函数。</li>
 <li>每个 <code>send-recv</code> 对被分配一个全局唯一的 <code>autograd_message_id</code>，以唯一标识该对。这在反向传播期间查找远程节点上的对应函数时非常有用。</li>
-<li>对于 <code class="interpreted-text" role="ref">rref</code>，每当我们调用 <code class="interpreted-text" role="meth">torch.distributed.rpc.RRef.to_here</code> 时，我们都会为涉及的张量附加一个适当的 <code>send-recv</code> 对。</li>
+<li>对于 <code>rref</code>，每当我们调用 <code>torch.distributed.rpc.RRef.to_here</code> 时，我们都会为涉及的张量附加一个适当的 <code>send-recv</code> 对。</li>
 </ul>
 <p>例如，我们上面示例的自动求导图将如下所示（为简化起见，省略了 t5.sum()）：</p>
 <p><img alt="image" src="../_static/img/distributed_autograd/send_recv_functions.png" /></p>
-<h2 id="_3">分布式自动求导上下文<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>每个使用分布式自动求导的前向和反向传播都被分配一个唯一的 <code class="interpreted-text" role="class">torch.distributed.autograd.context</code>，并且这个上下文有一个全局唯一的 <code>autograd_context_id</code>。此上下文会根据需要在每个节点上创建。</p>
+<h2 id="_4">分布式自动求导上下文<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>每个使用分布式自动求导的前向和反向传播都被分配一个唯一的 <code>torch.distributed.autograd.context</code>，并且这个上下文有一个全局唯一的 <code>autograd_context_id</code>。此上下文会根据需要在每个节点上创建。</p>
 <p>此上下文服务于以下目的：</p>
 <ol>
-<li>运行分布式反向传播的多个节点可能会在同一张量上累积梯度，因此在我们有机会运行优化器之前，张量的 <code>.grad</code> 字段将包含来自各种分布式反向传播的梯度。这类似于在本地多次调用 <code class="interpreted-text" role="meth">torch.autograd.backward</code>。为了提供一种分离每次反向传播梯度的方法，梯度被累积在每次反向传播的 <code class="interpreted-text" role="class">torch.distributed.autograd.context</code> 中。</li>
+<li>运行分布式反向传播的多个节点可能会在同一张量上累积梯度，因此在我们有机会运行优化器之前，张量的 <code>.grad</code> 字段将包含来自各种分布式反向传播的梯度。这类似于在本地多次调用 <code>torch.autograd.backward</code>。为了提供一种分离每次反向传播梯度的方法，梯度被累积在每次反向传播的 <code>torch.distributed.autograd.context</code> 中。</li>
 <li>在前向传播期间，我们将每次自动求导传播的 <code>send</code> 和 <code>recv</code> 函数存储在此上下文中。这确保我们持有自动求导图中适当节点的引用以保持其存活。除此之外，在反向传播期间更容易查找适当的 <code>send</code> 和 <code>recv</code> 函数。</li>
 <li>通常，我们还使用此上下文为每次分布式自动求导传播存储一些元数据。</li>
 </ol>
@@ -8098,9 +8098,9 @@ with dist_autograd.context() as context_id:
   dist_autograd.backward(context_id, loss)
 </code></pre></div>
 <p>需要注意的是，必须在分布式自动求导上下文管理器内调用模型的前向传播，因为需要一个有效的上下文来确保所有 <code>send</code> 和 <code>recv</code> 函数被正确存储，以便在所有参与节点上运行反向传播。</p>
-<h2 id="_4">分布式反向传播<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_5">分布式反向传播<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>在本节中，我们将概述在分布式反向传播期间准确计算依赖关系所面临的挑战，并描述几种执行分布式反向传播的算法（及其权衡）。</p>
-<h3 id="_5">计算依赖关系<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h3 id="_6">计算依赖关系<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>考虑在单台机器上运行的以下代码</p>
 <div class="highlight"><pre><span></span><code>import torch
 a = torch.rand((3, 3), requires_grad=True)
@@ -8129,8 +8129,8 @@ loss = d.sum()
 <p><img alt="image" src="../_static/img/distributed_autograd/distributed_dependencies.png" /></p>
 <p>计算这个分布式 autograd 图的依赖关系要困难得多，并且需要一些开销（无论是计算开销还是网络通信开销）。</p>
 <p>对于性能敏感的应用，我们可以通过假设每个 <code>send</code> 和 <code>recv</code> 函数在反向传播过程中都是有效的（大多数应用不会执行未使用的 RPC）来避免大量开销。这简化了分布式 autograd 算法，并且效率更高，但代价是应用需要了解其局限性。该算法被称为 <a href="">FAST mode algorithm</a>，将在下文详细描述。</p>
-<p>在一般情况下，可能并非每个 <code>send</code> 和 <code>recv</code> 函数在反向传播过程中都是必需的。为了解决这个问题，我们提出了 <a href="">SMART mode algorithm</a>，将在后续章节中描述。请注意，目前仅实现了 [FAST]{.title-ref} 模式算法。</p>
-<h3 id="fast-mode-algorithm">FAST 模式算法<a class="headerlink" href="#fast-mode-algorithm" title="Permanent link">&para;</a></h3>
+<p>在一般情况下，可能并非每个 <code>send</code> 和 <code>recv</code> 函数在反向传播过程中都是必需的。为了解决这个问题，我们提出了 <a href="">SMART mode algorithm</a>，将在后续章节中描述。请注意，目前仅实现了 [FAST] 模式算法。</p>
+<h3 id="fast">FAST 模式算法<a class="headerlink" href="#fast" title="Permanent link">&para;</a></h3>
 <p>该算法的关键假设是，当我们运行反向传播时，每个 <code>send</code> 函数都具有 1 个依赖。换句话说，我们假设会通过 RPC 从另一个节点接收到梯度。</p>
 <p>算法如下：</p>
 <ol>
@@ -8142,7 +8142,7 @@ loss = d.sum()
 <li>当远程主机收到此请求时，我们使用 <code>autograd_context_id</code> 和 <code>autograd_message_id</code> 来查找相应的 <code>send</code> 函数。</li>
 <li>如果这是工作节点首次收到给定 <code>autograd_context_id</code> 的请求，它将按照上述第 1-3 点所述在本地计算依赖关系。</li>
 <li>在第 6 步中检索到的 <code>send</code> 函数随后会被放入该工作节点的本地 autograd 引擎的执行队列中。</li>
-<li>最后，我们不会将梯度累积在张量的 <code>.grad</code> 字段上，而是为每个 <a href="">Distributed Autograd Context</a> 单独累积梯度。梯度存储在 <code>Dict[Tensor, Tensor]</code> 中，这基本上是一个从张量到其关联梯度的映射，可以使用 <code class="interpreted-text" role="meth">~torch.distributed.autograd.get_gradients</code> API 检索此映射。</li>
+<li>最后，我们不会将梯度累积在张量的 <code>.grad</code> 字段上，而是为每个 <a href="">Distributed Autograd Context</a> 单独累积梯度。梯度存储在 <code>Dict[Tensor, Tensor]</code> 中，这基本上是一个从张量到其关联梯度的映射，可以使用 <code>torch.distributed.autograd.get_gradients</code> API 检索此映射。</li>
 </ol>
 <p>| </p>
 <p>例如，使用分布式 autograd 的完整代码如下：</p>
@@ -8190,16 +8190,16 @@ with dist_autograd.context() as context_id:
 </ol>
 <h3 id="smart">SMART 模式算法<a class="headerlink" href="#smart" title="Permanent link">&para;</a></h3>
 <p>该算法的完整细节仍在开发中，但总体思路可以参考 <a href="https://github.com/pytorch/pytorch/issues/23110">RFC</a> 中的 <strong>Distributed Autograd Algorithm Smart mode</strong> 部分。</p>
-<h2 id="_6">分布式优化器<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p><code class="interpreted-text" role="class">~torch.distributed.optim.DistributedOptimizer</code> 的操作如下：</p>
+<h2 id="_7">分布式优化器<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><code>torch.distributed.optim.DistributedOptimizer</code> 的操作如下：</p>
 <ol>
-<li>接收一个待优化的远程参数列表 (<code class="interpreted-text" role="class">~torch.distributed.rpc.RRef</code>)。这些参数也可以是包装在本地 <code>RRef</code> 中的本地参数。</li>
-<li>接收一个 <code class="interpreted-text" role="class">~torch.optim.Optimizer</code> 类作为本地优化器，在所有不同的 <code>RRef</code> 所有者上运行。</li>
+<li>接收一个待优化的远程参数列表 (<code>torch.distributed.rpc.RRef</code>)。这些参数也可以是包装在本地 <code>RRef</code> 中的本地参数。</li>
+<li>接收一个 <code>torch.optim.Optimizer</code> 类作为本地优化器，在所有不同的 <code>RRef</code> 所有者上运行。</li>
 <li>分布式优化器在每个工作节点上创建本地 <code>Optimizer</code> 的实例，并持有指向它们的 <code>RRef</code>。</li>
-<li>当调用 <code class="interpreted-text" role="meth">torch.distributed.optim.DistributedOptimizer.step</code> 时，分布式优化器使用 RPC 在相应的远程工作者上远程执行所有本地优化器。必须提供一个分布式 autograd 的 <code>context_id</code> 作为 <code class="interpreted-text" role="meth">torch.distributed.optim.DistributedOptimizer.step</code> 的输入。本地优化器使用此 ID 来应用存储在对应上下文中的梯度。</li>
+<li>当调用 <code>torch.distributed.optim.DistributedOptimizer.step</code> 时，分布式优化器使用 RPC 在相应的远程工作者上远程执行所有本地优化器。必须提供一个分布式 autograd 的 <code>context_id</code> 作为 <code>torch.distributed.optim.DistributedOptimizer.step</code> 的输入。本地优化器使用此 ID 来应用存储在对应上下文中的梯度。</li>
 <li>如果多个并发的分布式优化器在同一个工作者上更新相同的参数，这些更新会通过锁进行序列化。</li>
 </ol>
-<h2 id="_7">简单的端到端示例<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_8">简单的端到端示例<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <p>将所有内容整合起来，以下是一个使用分布式 autograd 和分布式优化器的简单端到端示例。如果代码保存在名为 \"dist_autograd_simple.py\" 的文件中，可以使用命令 <code>MASTER_ADDR="localhost" MASTER_PORT=29500 python dist_autograd_simple.py</code> 运行：</p>
 <div class="highlight"><pre><span></span><code>import torch
 import torch.multiprocessing as mp

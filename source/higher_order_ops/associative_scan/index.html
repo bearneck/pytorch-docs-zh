@@ -8120,37 +8120,37 @@ print(cumprod)
 <span class="n">dim_seq</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">Dim</span><span class="p">(</span><span class="s2">&quot;seq&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">ep</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">export</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="p">(</span><span class="n">inp</span><span class="p">,),</span> <span class="n">dynamic_shapes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;xs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">dim_seq</span><span class="p">}})</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">ep</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>ExportedProgram:
-    class GraphModule(torch.nn.Module):
-        def forward(self, xs: &quot;f32[s83, 3]&quot;):
-            # File: /data/users/angelayi/pytorch2/foo.py:25 in forward, code: return associative_scan(combine_fn, xs, dim=0, combine_mode=&quot;pointwise&quot;)
-            movedim: &quot;f32[s83, 3]&quot; = torch.ops.aten.movedim.int(xs, 0, 0);  xs = None
 
-            # File: &lt;eval_with_key&gt;.3:6 in forward, code: select_copy = torch.select_copy(l_leaves_xs_0_, 0, 0);  select_copy = None
-            select_copy: &quot;f32[3]&quot; = torch.ops.aten.select_copy.int(movedim, 0, 0);  select_copy = None
+<span class="n">ExportedProgram</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">GraphModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">:</span> <span class="s2">&quot;f32[s83, 3]&quot;</span><span class="p">):</span>
+            <span class="c1"># File: /data/users/angelayi/pytorch2/foo.py:25 in forward, code: return associative_scan(combine_fn, xs, dim=0, combine_mode=&quot;pointwise&quot;)</span>
+            <span class="n">movedim</span><span class="p">:</span> <span class="s2">&quot;f32[s83, 3]&quot;</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">aten</span><span class="o">.</span><span class="n">movedim</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="n">xs</span> <span class="o">=</span> <span class="kc">None</span>
 
-            # File: &lt;eval_with_key&gt;.3:8 in forward, code: associative_scan = torch.ops.higher_order.associative_scan(associative_scan_combine_fn_0, [l_leaves_xs_0_], ());  associative_scan_combine_fn_0 = l_leaves_xs_0_ = None
-            associative_scan_combine_graph_0 = self.associative_scan_combine_graph_0
-            associative_scan = torch.ops.higher_order.associative_scan(associative_scan_combine_graph_0, [movedim], ());  associative_scan_combine_graph_0 = movedim = None
-            getitem: &quot;f32[s83, 3]&quot; = associative_scan[0];  associative_scan = None
+            <span class="c1"># File: &lt;eval_with_key&gt;.3:6 in forward, code: select_copy = torch.select_copy(l_leaves_xs_0_, 0, 0);  select_copy = None</span>
+            <span class="n">select_copy</span><span class="p">:</span> <span class="s2">&quot;f32[3]&quot;</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">aten</span><span class="o">.</span><span class="n">select_copy</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">movedim</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="n">select_copy</span> <span class="o">=</span> <span class="kc">None</span>
 
-            # File: /data/users/angelayi/pytorch2/foo.py:25 in forward, code: return associative_scan(combine_fn, xs, dim=0, combine_mode=&quot;pointwise&quot;)
-            movedim_1: &quot;f32[s83, 3]&quot; = torch.ops.aten.movedim.int(getitem, 0, 0);  getitem = None
-            return (movedim_1,)
+            <span class="c1"># File: &lt;eval_with_key&gt;.3:8 in forward, code: associative_scan = torch.ops.higher_order.associative_scan(associative_scan_combine_fn_0, [l_leaves_xs_0_], ());  associative_scan_combine_fn_0 = l_leaves_xs_0_ = None</span>
+            <span class="n">associative_scan_combine_graph_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">associative_scan_combine_graph_0</span>
+            <span class="n">associative_scan</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">higher_order</span><span class="o">.</span><span class="n">associative_scan</span><span class="p">(</span><span class="n">associative_scan_combine_graph_0</span><span class="p">,</span> <span class="p">[</span><span class="n">movedim</span><span class="p">],</span> <span class="p">());</span>  <span class="n">associative_scan_combine_graph_0</span> <span class="o">=</span> <span class="n">movedim</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">getitem</span><span class="p">:</span> <span class="s2">&quot;f32[s83, 3]&quot;</span> <span class="o">=</span> <span class="n">associative_scan</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="n">associative_scan</span> <span class="o">=</span> <span class="kc">None</span>
 
-        class associative_scan_combine_graph_0(torch.nn.Module):
-            def forward(self, arg0_1: &quot;f32[3]&quot;, arg1_1: &quot;f32[3]&quot;):
-                # File: &lt;eval_with_key&gt;.4:5 in forward, code: add = child + child_1;  child = child_1 = None
-                add: &quot;f32[3]&quot; = torch.ops.aten.add.Tensor(arg0_1, arg1_1);  arg0_1 = arg1_1 = None
-                return [add]
+            <span class="c1"># File: /data/users/angelayi/pytorch2/foo.py:25 in forward, code: return associative_scan(combine_fn, xs, dim=0, combine_mode=&quot;pointwise&quot;)</span>
+            <span class="n">movedim_1</span><span class="p">:</span> <span class="s2">&quot;f32[s83, 3]&quot;</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">aten</span><span class="o">.</span><span class="n">movedim</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">getitem</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>  <span class="n">getitem</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">movedim_1</span><span class="p">,)</span>
 
-Graph signature:
-    # inputs
-    xs: USER_INPUT
+        <span class="k">class</span><span class="w"> </span><span class="nc">associative_scan_combine_graph_0</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg0_1</span><span class="p">:</span> <span class="s2">&quot;f32[3]&quot;</span><span class="p">,</span> <span class="n">arg1_1</span><span class="p">:</span> <span class="s2">&quot;f32[3]&quot;</span><span class="p">):</span>
+                <span class="c1"># File: &lt;eval_with_key&gt;.4:5 in forward, code: add = child + child_1;  child = child_1 = None</span>
+                <span class="n">add</span><span class="p">:</span> <span class="s2">&quot;f32[3]&quot;</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">aten</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">arg0_1</span><span class="p">,</span> <span class="n">arg1_1</span><span class="p">);</span>  <span class="n">arg0_1</span> <span class="o">=</span> <span class="n">arg1_1</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">add</span><span class="p">]</span>
 
-    # outputs
-    movedim_1: USER_OUTPUT
+<span class="n">Graph</span> <span class="n">signature</span><span class="p">:</span>
+    <span class="c1"># inputs</span>
+    <span class="n">xs</span><span class="p">:</span> <span class="n">USER_INPUT</span>
+
+    <span class="c1"># outputs</span>
+    <span class="n">movedim_1</span><span class="p">:</span> <span class="n">USER_OUTPUT</span>
 </code></pre></div>
 <p>请注意，<code>torch.associative_scan</code> 被降级为 <code>torch.ops.higher_order.associative_scan</code>，并且组合函数成为顶层图模块的子图属性。</p>
 <h2 id="_2">限制<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>

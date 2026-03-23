@@ -8573,10 +8573,9 @@
 <p><strong>v2.9.1</strong></p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">2</span>.9.1<span class="w"> </span><span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.24.1<span class="w"> </span><span class="nv">torchaudio</span><span class="o">==</span><span class="m">2</span>.9.1<span class="w"> </span>--index-url<span class="w"> </span>https://download.pytorch.org/whl/xpu
 </code></pre></div>
-<p>note
- title
-Note</p>
-<p>对于更旧的 wheel 包，请参考 <a href="https://pytorch.org/get-started/previous-versions/">历史版本</a> 页面，并确保使用 <code>xpu</code> 索引 URL。</p>
+<blockquote>
+<p>📝 <strong>注意</strong>
+对于更旧的 wheel 包，请参考 <a href="https://pytorch.org/get-started/previous-versions/">历史版本</a> 页面，并确保使用 <code>xpu</code> 索引 URL。</p>
 <h3 id="_8">从源代码构建<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>现在我们已经安装了 <a href="https://www.intel.com/content/www/us/en/developer/articles/tool/pytorch-prerequisites-for-intel-gpu.html">Intel GPU Driver and Intel® Deep Learning Essentials</a>。请按照指南从源代码构建 <code>pytorch</code>、<code>torchvision</code>、<code>torchaudio</code>。</p>
 <p>从源代码构建 <code>torch</code> 请参考 <a href="https://github.com/pytorch/pytorch?tab=readme-ov-file#from-source">PyTorch Installation Build from source</a>。</p>
@@ -8730,10 +8729,8 @@ Note</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Execution finished&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h4 id="amp_1">使用 AMP 进行训练<a class="headerlink" href="#amp_1" title="Permanent link">&para;</a></h4>
-<p>note
- title
-Note</p>
-<p>使用 <code>GradScaler</code> 进行训练需要硬件支持 <code>FP64</code>。Intel® Arc™ A 系列显卡原生不支持 <code>FP64</code>。如果您在 Intel® Arc™ A 系列显卡上运行工作负载，请禁用 <code>GradScaler</code>。</p>
+<p>📝 <strong>注意</strong>
+使用 <code>GradScaler</code> 进行训练需要硬件支持 <code>FP64</code>。Intel® Arc™ A 系列显卡原生不支持 <code>FP64</code>。如果您在 Intel® Arc™ A 系列显卡上运行工作负载，请禁用 <code>GradScaler</code>。</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span>
 
@@ -8848,6 +8845,7 @@ Note</p>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;执行完成&quot;</span><span class="p">)</span>
 </code></pre></div>
+</blockquote>
 
 
 

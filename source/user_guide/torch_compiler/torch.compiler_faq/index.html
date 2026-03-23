@@ -8704,7 +8704,7 @@
 <li><strong>Dynamo 编译</strong> – TorchDynamo 内置了一个统计函数，用于收集和显示每个编译阶段所花费的时间。在执行 <code>torch._dynamo</code> 后，可以通过调用 <code>torch._dynamo.utils.compile_times()</code> 来访问这些统计数据。默认情况下，它会返回一个字符串，表示按名称统计的每个 TorchDynamo 函数所花费的编译时间。</li>
 <li><strong>Inductor 编译</strong> – TorchInductor 内置了统计和跟踪功能，用于显示每个编译阶段所花费的时间、输出代码、输出图可视化以及 IR 转储。使用 <code>env TORCH_COMPILE_DEBUG=1 python repro.py</code>。这是一个调试工具，旨在通过输出类似<a href="https://gist.github.com/jansel/f4af078791ad681a0d4094adeb844396">此示例</a>的内容，使调试/理解 TorchInductor 内部机制更加容易。该调试跟踪中的每个文件都可以通过 <code>torch._inductor.config.trace.*</code> 来启用/禁用。配置文件和图表默认都是禁用的，因为生成它们的开销较大。更多示例请参阅<a href="https://gist.github.com/jansel/f4af078791ad681a0d4094adeb844396">示例调试目录输出</a>。</li>
 <li><strong>过度重新编译</strong>
-  当 TorchDynamo 编译一个函数（或其一部分）时，它会基于局部变量和全局变量做出某些假设，以允许编译器进行优化，并将这些假设表示为在运行时检查特定值的守卫。如果其中任何一个守卫失败，Dynamo 将重新编译该函数（或部分），最多重新编译 <code>torch._dynamo.config.recompile_limit</code> 次。如果你的程序达到了缓存限制，首先需要确定是哪个守卫失败，以及程序的哪部分触发了它。使用 <code>TORCH_TRACE/tlparse</code> 或 <code>TORCH_LOGS=recompiles</code> 来追踪问题的根源，更多细节请查看 <code>torch.compiler_troubleshooting</code>。</li>
+  当 TorchDynamo 编译一个函数（或其一部分）时，它会基于局部变量和全局变量做出某些假设，以允许编译器进行优化，并将这些假设表示为在运行时检查特定值的守卫。如果其中任何一个守卫失败，Dynamo 将重新编译该函数（或部分），最多重新编译 <code>torch._dynamo.config.recompile_limit</code> 次。如果你的程序达到了缓存限制，首先需要确定是哪个守卫失败，以及程序的哪部分触发了它。使用 <code>TORCH_TRACE/tlparse</code> 或 <code>TORCH_LOGS=recompiles</code> 来追踪问题的根源，更多细节请查看 <em>torch.compiler_troubleshooting</em>。</li>
 </ul>
 <h2 id="_6">为什么在生产环境中重新编译？<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>在某些情况下，你可能不希望程序预热后出现意外的编译。例如，如果你在一个对延迟敏感的应用中处理生产流量。为此，TorchDynamo 提供了一种替代模式，该模式会使用先前编译好的图，但不会生成新的图：</p>
@@ -8936,21 +8936,21 @@
 </code></pre></div>
 <p>在图中断期间，中间张量仍然需要移动到 CPU，但当图中断后恢复追踪时，图的其余部分仍在 CUDA 上追踪。考虑到这种 CUDA &lt;&gt; CPU 和 CPU &lt;&gt; CUDA 的移动，在 NumPy 上下文中图中断的代价相当高，应尽量避免，但至少它们允许追踪复杂的代码段。</p>
 <h3 id="torchcompile-numpy_2">如何在 <code>torch.compile</code> 下调试 NumPy 代码？<a class="headerlink" href="#torchcompile-numpy_2" title="Permanent link">&para;</a></h3>
-<p>调试 JIT 编译的代码具有挑战性，因为现代编译器的复杂性及其引发的令人畏惧的错误。<code>torch.compile 故障排除文档 &lt;torch.compiler_troubleshooting&gt;</code> 包含了一些关于如何完成此任务的技巧和窍门。</p>
+<p>调试 JIT 编译的代码具有挑战性，因为现代编译器的复杂性及其引发的令人畏惧的错误。torch.compile 故障排除文档  包含了一些关于如何完成此任务的技巧和窍门。</p>
 <p>如果上述方法不足以定位问题的根源，我们仍然可以使用一些其他 NumPy 特定的工具。我们可以通过禁用对 NumPy 函数的追踪来判断错误是否完全在 PyTorch 代码中：</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
 <span class="n">config</span><span class="o">.</span><span class="n">trace_numpy</span> <span class="o">=</span> <span class="kc">False</span>
 </code></pre></div>
 <p>如果问题出在追踪的 NumPy 代码中，我们可以通过导入 <code>import torch._numpy as np</code>，使用 PyTorch 作为后端来急切执行 NumPy 代码（无需 <code>torch.compile</code>）。
 这仅应用于<strong>调试目的</strong>，绝不能替代 PyTorch API，因为它<strong>性能远低于</strong> PyTorch API，并且作为私有 API，<strong>可能随时更改而不另行通知</strong>。无论如何，<code>torch._numpy</code> 是一个基于 PyTorch 实现的 NumPy Python 版本，<code>torch.compile</code> 在内部使用它将 NumPy 代码转换为 PyTorch 代码。它的代码相当易于阅读和修改，因此如果您在其中发现任何错误，请随时提交修复该错误的 PR 或直接提出问题。</p>
-<p>如果导入 <code>torch._numpy as np</code> 后程序能够正常工作，那么问题很可能出在 TorchDynamo 中。如果是这种情况，请随时提交一个包含 <code>最小复现示例 &lt;torch.compiler_troubleshooting&gt;</code> 的问题。</p>
+<p>如果导入 <code>torch._numpy as np</code> 后程序能够正常工作，那么问题很可能出在 TorchDynamo 中。如果是这种情况，请随时提交一个包含 最小复现示例  的问题。</p>
 <h3 id="numpy-torchcompile_1">我对一些 NumPy 代码使用了 <code>torch.compile</code>，但没有看到任何加速效果。<a class="headerlink" href="#numpy-torchcompile_1" title="Permanent link">&para;</a></h3>
 <p>最好的起点是阅读
 <a href="https://docs.pytorch.org/docs/main/user_guide/torch_compiler/torch.compiler_faq.html#why-am-i-not-seeing-speedups">关于如何调试这类 torch.compile 问题的通用建议教程</a>。</p>
 <p>由于使用了不支持的功能，可能会发生一些图中断。请参阅
-<code>不支持的 NumPy 功能 &lt;nonsupported-numpy-feats&gt;</code>。更一般地说，需要记住的是，一些广泛使用的 NumPy 功能与编译器配合不佳。例如，原地修改使得编译器内部推理变得困难，并且通常比其非原地对应操作性能更差。因此，最好避免使用它们。使用 <code>out=</code> 参数也是如此。相反，应优先使用非原地操作，并让 <code>torch.compile</code> 来优化内存使用。对于数据依赖的操作也是如此，例如通过布尔掩码进行掩码索引，或者数据依赖的控制流，如 <code>if</code> 或 <code>while</code> 结构。</p>
+不支持的 NumPy 功能 。更一般地说，需要记住的是，一些广泛使用的 NumPy 功能与编译器配合不佳。例如，原地修改使得编译器内部推理变得困难，并且通常比其非原地对应操作性能更差。因此，最好避免使用它们。使用 <code>out=</code> 参数也是如此。相反，应优先使用非原地操作，并让 <code>torch.compile</code> 来优化内存使用。对于数据依赖的操作也是如此，例如通过布尔掩码进行掩码索引，或者数据依赖的控制流，如 <code>if</code> 或 <code>while</code> 结构。</p>
 <h2 id="api">细粒度追踪应使用哪个 API？<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<p>在某些情况下，您可能需要将代码的一小部分排除在 torch.compile 编译之外。本节提供了一些答案，您可以在 <code>torchdynamo_fine_grain_tracing</code> 中找到更多信息。</p>
+<p>在某些情况下，您可能需要将代码的一小部分排除在 torch.compile 编译之外。本节提供了一些答案，您可以在 <em>torchdynamo_fine_grain_tracing</em> 中找到更多信息。</p>
 <h3 id="_14">如何在函数上实现图中断？<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
 <p>在函数上实现图中断不足以充分表达您希望 PyTorch 执行的操作。您需要更具体地描述您的用例。您可能需要考虑的一些最常见用例包括：</p>
 <ul>
@@ -8972,8 +8972,7 @@
 </blockquote>
 <p>您很可能需要的是 <code>torch._dynamo.disable</code>。但在不太可能的情况下，您可能需要更精细的控制。假设您只想在 <code>a_fn</code> 函数上禁用追踪，但希望在 <code>aa_fn</code> 和 <code>ab_fn</code> 中继续追踪。下图演示了此用例：</p>
 <blockquote>
-<p><strong>FIGURE</strong>
-../../_static/img/fine_grained_apis/call_stack_diagram.png
+<p><strong>FIGURE</strong>：../../_static/img/fine_grained_apis/call_stack_diagram.png
 :alt: torch.compile + disable(a_fn, recursive=False) 的示意图</p>
 </blockquote>
 <p>在这种情况下，您可以使用 <code>torch._dynamo.disable(recursive=False)</code>。

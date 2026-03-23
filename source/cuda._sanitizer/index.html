@@ -8066,16 +8066,12 @@
   
 
 
-<p>currentmodule
-torch.cuda._sanitizer</p>
 <h1 id="cuda">CUDA 流消毒器<a class="headerlink" href="#cuda" title="Permanent link">&para;</a></h1>
-<p>note
- title
-Note</p>
-<p>这是一个原型功能，意味着它处于早期反馈和测试阶段，其组件可能会发生变化。</p>
+<blockquote>
+<p>📝 <strong>注意</strong>
+这是一个原型功能，意味着它处于早期反馈和测试阶段，其组件可能会发生变化。</p>
 <h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>automodule
-torch.cuda._sanitizer</p>
+<p>torch.cuda._sanitizer</p>
 <h2 id="_2">使用方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>以下是一个在 PyTorch 中简单的同步错误示例：</p>
 <div class="highlight"><pre><span></span><code>import torch
@@ -8135,8 +8131,7 @@ aten::rand(int[] size, *, int? dtype=None, Device? device=None) -&gt; Tensor
 <li>错误信息还显示了被调用操作符的模式，并附有说明，指出操作符的哪些参数对应于受影响的张量。</li>
 <li>在示例中，可以看到张量 <code>a</code> 对应于被调用操作符 <code>torch.mul</code> 的参数 <code>self</code>、<code>out</code> 以及 <code>output</code> 值。</li>
 </ul>
-<p>seealso
-支持的 torch 操作符及其模式列表可以在此处查看： <code class="interpreted-text" role="doc">here &lt;torch&gt;</code>。</p>
+<p>支持的 torch 操作符及其模式列表可以在此处查看： <code>here &lt;torch&gt;</code>。</p>
 <p>可以通过强制新流等待默认流来修复此错误：</p>
 <div class="highlight"><pre><span></span><code>with torch.cuda.stream(torch.cuda.Stream()):
     torch.cuda.current_stream().wait_stream(torch.cuda.default_stream())
@@ -8144,12 +8139,10 @@ aten::rand(int[] size, *, int? dtype=None, Device? device=None) -&gt; Tensor
 </code></pre></div>
 <p>当脚本再次运行时，不会报告任何错误。</p>
 <h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<p>autofunction
-enable_cuda_sanitizer</p>
-<p>autofunction
-zip_arguments</p>
-<p>autofunction
-zip_by_key</p>
+<p>enable_cuda_sanitizer</p>
+<p>zip_arguments</p>
+<p>zip_by_key</p>
+</blockquote>
 
 
 

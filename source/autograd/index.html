@@ -1026,10 +1026,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hiddenfunction" class="md-nav__link">
+  <a href="#function" class="md-nav__link">
     <span class="md-ellipsis">
       
-        {hidden}Function
+        Function
       
     </span>
   </a>
@@ -1048,7 +1048,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function" class="md-nav__link">
+  <a href="#function_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         自定义 Function 工具
@@ -8277,10 +8277,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hiddenfunction" class="md-nav__link">
+  <a href="#function" class="md-nav__link">
     <span class="md-ellipsis">
       
-        {hidden}Function
+        Function
       
     </span>
   </a>
@@ -8299,7 +8299,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function" class="md-nav__link">
+  <a href="#function_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         自定义 Function 工具
@@ -8391,8 +8391,8 @@
 例如，对于接受三个输入的函数 <code>f</code>：一个我们想要计算雅可比矩阵的张量、另一个应视为常量的张量以及一个布尔标志，即 <code>f(input, constant, flag=flag)</code>，
 您可以这样使用：<code>functional.jacobian(lambda x: f(x, constant, flag=flag), input)</code>。</p>
 <h2 id="_2">局部禁用梯度计算<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>有关无梯度模式与推理模式之间差异以及其他可能与这两者混淆的相关机制的更多信息，请参阅 <code>locally-disable-grad-doc</code>。
-另请参阅 <code>torch-rst-local-disable-grad</code> 以获取可用于局部禁用梯度的函数列表。</p>
+<p>有关无梯度模式与推理模式之间差异以及其他可能与这两者混淆的相关机制的更多信息，请参阅 <em>locally-disable-grad-doc</em>。
+另请参阅 <em>torch-rst-local-disable-grad</em> 以获取可用于局部禁用梯度的函数列表。</p>
 <h2 id="_3">默认梯度布局<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>当非稀疏的 <code>param</code> 在 <code>torch.autograd.backward</code> 或 <code>torch.Tensor.backward</code> 期间接收到非稀疏梯度时，
 <code>param.grad</code> 按以下方式累积：</p>
@@ -8437,16 +8437,16 @@ Variable API 已被弃用：使用张量进行自动微分不再需要 Variables
 <p><code>autograd_tensor = torch.randn((2, 3, 4), requires_grad=True)</code></p>
 </blockquote>
 <h2 id="_7">张量自动微分函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<h2 id="hiddenfunction">{hidden}<code>Function</code><a class="headerlink" href="#hiddenfunction" title="Permanent link">&para;</a></h2>
+<h2 id="function"><code>Function</code><a class="headerlink" href="#function" title="Permanent link">&para;</a></h2>
 <h2 id="_8">上下文方法混入类<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <p>当创建一个新的 <code>Function</code> 时，以下方法可用于 <code>ctx</code>。</p>
-<h2 id="function">自定义 Function 工具<a class="headerlink" href="#function" title="Permanent link">&para;</a></h2>
+<h2 id="function_1">自定义 Function 工具<a class="headerlink" href="#function_1" title="Permanent link">&para;</a></h2>
 <p>用于 backward 方法的装饰器。</p>
 <p>用于构建 PyTorch 工具的基础自定义 <code>Function</code></p>
 <h2 id="_9">数值梯度检查<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
 <p>% 仅为重置此文件其余部分的基础路径</p>
 <h2 id="_10">性能分析器<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
-<p>Autograd 包含一个性能分析器，允许你检查模型中不同操作符的成本——无论是在 CPU 还是 GPU 上。目前实现了三种模式——仅使用 CPU 的 <code>~torch.autograd.profiler.profile</code>、基于 nvprof（同时记录 CPU 和 GPU 活动）的 <code>~torch.autograd.profiler.emit_nvtx</code>，以及基于 vtune 性能分析器的 <code>~torch.autograd.profiler.emit_itt</code>。</p>
+<p>Autograd 包含一个性能分析器，允许你检查模型中不同操作符的成本——无论是在 CPU 还是 GPU 上。目前实现了三种模式——仅使用 CPU 的 <code>torch.autograd.profiler.profile</code>、基于 nvprof（同时记录 CPU 和 GPU 活动）的 <code>torch.autograd.profiler.emit_nvtx</code>，以及基于 vtune 性能分析器的 <code>torch.autograd.profiler.emit_itt</code>。</p>
 <h2 id="_11">调试与异常检测<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
 <h2 id="autograd">Autograd 计算图<a class="headerlink" href="#autograd" title="Permanent link">&para;</a></h2>
 <p>Autograd 提供了一些方法，允许用户检查计算图并在反向传播过程中介入行为。</p>
@@ -8465,7 +8465,7 @@ True
 </code></pre></div>
 <p>你也可以使用钩子定义这些保存的张量应该如何打包/解包。
 一个常见的应用是通过将这些中间结果保存到磁盘或 CPU 而不是留在 GPU 上，来用计算换取内存。如果你注意到你的模型在评估时适合 GPU，但在训练时不适合，这尤其有用。
-另请参阅 <code>saved-tensors-hooks-doc</code>。</p>
+另请参阅 <em>saved-tensors-hooks-doc</em>。</p>
 <p>% 此模块需要文档记录。暂时添加在此处以供追踪</p>
 
 

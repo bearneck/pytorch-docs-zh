@@ -7995,7 +7995,8 @@
 <h2 id="api">底层 API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
 <p>以下 API 是 PyTorch C++ 底层算子注册 API 的直接绑定。</p>
 <blockquote>
-<p><strong>WARNING</strong>: 底层算子注册 API 和 PyTorch 调度器是一个复杂的 PyTorch 概念。我们建议在可能的情况下使用上述更高级别的 API（不需要 torch.library.Library 对象）。<code>这篇博客文章 &lt;http://blog.ezyang.com/2020/09/lets-talk-about-the-pytorch-dispatcher/&gt;</code>_ 是了解 PyTorch 调度器的一个很好的起点。</p>
+<p>⚠️ <strong>警告</strong>
+底层算子注册 API 和 PyTorch 调度器是一个复杂的 PyTorch 概念。我们建议在可能的情况下使用上述更高级别的 API（不需要 torch.library.Library 对象）。<code>这篇博客文章 &lt;http://blog.ezyang.com/2020/09/lets-talk-about-the-pytorch-dispatcher/&gt;</code>_ 是了解 PyTorch 调度器的一个很好的起点。</p>
 </blockquote>
 <p>一个引导你了解如何使用此 API 的示例教程可在 <a href="https://colab.research.google.com/drive/1RRhSfk7So3Cn02itzLWE9K4Fam-8U011?usp=sharing">Google Colab</a> 上找到。</p>
 

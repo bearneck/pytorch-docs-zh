@@ -8027,10 +8027,9 @@
 <li><strong>C++ Extensions</strong>：使用自定义 C++ 和 CUDA 例程扩展 Python API 的方法。</li>
 </ul>
 <p>这些构建模块共同构成了一个面向研究和生产的 C++ 库，用于张量计算和动态神经网络，特别强调 GPU 加速以及快速的 CPU 性能。它目前已在 Facebook 的研究和生产中使用；我们期待迎来更多的 PyTorch C++ API 用户。</p>
-<p>warning
- title
-Warning</p>
-<p>目前，C++ API 应被视为处于"测试版"稳定性阶段；我们可能会对后端进行重大的破坏性更改，以改进 API，或者为了提供 PyTorch 的 Python 接口（这是我们最稳定且支持最好的接口）。</p>
+<blockquote>
+<p>⚠️ <strong>警告</strong>
+目前，C++ API 应被视为处于"测试版"稳定性阶段；我们可能会对后端进行重大的破坏性更改，以改进 API，或者为了提供 PyTorch 的 Python 接口（这是我们最稳定且支持最好的接口）。</p>
 <h2 id="aten">ATen<a class="headerlink" href="#aten" title="Permanent link">&para;</a></h2>
 <p>ATen 本质上是一个张量库，PyTorch 中几乎所有其他 Python 和 C++ 接口都构建于其上。它提供了一个核心的 <code>Tensor</code> 类，并定义了数百个操作。这些操作大多都有 CPU 和 GPU 实现，<code>Tensor</code> 类会根据其类型动态分派到相应的实现。使用 ATen 的一个小示例如下：</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ATen/ATen.h&gt;</span>
@@ -8050,7 +8049,7 @@ Warning</p>
 <span class="k">auto</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
 <span class="n">c</span><span class="p">.</span><span class="n">backward</span><span class="p">();</span><span class="w"> </span><span class="c1">// a.grad() 现在将保存 c 相对于 a 的梯度。</span>
 </code></pre></div>
-<p>ATen 中的 <code>at::Tensor</code> 类默认不可微分。要添加 autograd API 提供的张量可微性，你必须使用 [torch::]{.title-ref} 命名空间中的张量工厂函数，而不是 [at::]{.title-ref} 命名空间中的函数。例如，使用 [at::ones]{.title-ref} 创建的张量将不可微分，而使用 [torch::ones]{.title-ref} 创建的张量则是可微分的。</p>
+<p>ATen 中的 <code>at::Tensor</code> 类默认不可微分。要添加 autograd API 提供的张量可微性，你必须使用 [torch::] 命名空间中的张量工厂函数，而不是 [at::] 命名空间中的函数。例如，使用 [at::ones] 创建的张量将不可微分，而使用 [torch::ones] 创建的张量则是可微分的。</p>
 <h2 id="c-frontend">C++ Frontend<a class="headerlink" href="#c-frontend" title="Permanent link">&para;</a></h2>
 <p>PyTorch C++ 前端为神经网络和通用 ML（机器学习）研究及生产用例提供了一个高级的、纯 C++ 的建模接口，其设计和功能在很大程度上遵循了 Python API。C++ 前端包括以下内容：</p>
 <ul>
@@ -8064,11 +8063,9 @@ Warning</p>
 <li>访问 TorchScript JIT 编译器的入口点；</li>
 <li>有助于与 ATen 和 Autograd API 交互的实用工具。</li>
 </ul>
-<p>有关 C++ 前端的更详细描述，请参阅 <a href="https://pytorch.org/cppdocs/frontend.html">此文档</a>。与 C++ 前端相关的 [torch::]{.title-ref} 命名空间的相关部分包括 <a href="https://pytorch.org/cppdocs/api/namespace_torch__nn.html#namespace-torch-nn">torch::nn</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__optim.html#namespace-torch-optim">torch::optim</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__data.html#namespace-torch-data">torch::data</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__serialize.html#namespace-torch-serialize">torch::serialize</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__jit.html#namespace-torch-jit">torch::jit</a> 和 <a href="https://pytorch.org/cppdocs/api/namespace_torch__python.html#namespace-torch-python">torch::python</a>。 C++ 前端的示例可以在 <a href="https://github.com/pytorch/examples/tree/master/cpp">此代码库</a> 中找到，该代码库正在持续积极地扩展。</p>
-<p>note
- title
-Note</p>
-<p>除非你有特殊原因必须仅限于使用 ATen 或 Autograd API，否则 C++ 前端是推荐进入 PyTorch C++ 生态系统的入口点。虽然在我们收集用户反馈（来自您！）期间它仍处于测试阶段，但它比 ATen 和 Autograd API 提供了更多的功能和更好的稳定性保证。</p>
+<p>有关 C++ 前端的更详细描述，请参阅 <a href="https://pytorch.org/cppdocs/frontend.html">此文档</a>。与 C++ 前端相关的 [torch::] 命名空间的相关部分包括 <a href="https://pytorch.org/cppdocs/api/namespace_torch__nn.html#namespace-torch-nn">torch::nn</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__optim.html#namespace-torch-optim">torch::optim</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__data.html#namespace-torch-data">torch::data</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__serialize.html#namespace-torch-serialize">torch::serialize</a>、 <a href="https://pytorch.org/cppdocs/api/namespace_torch__jit.html#namespace-torch-jit">torch::jit</a> 和 <a href="https://pytorch.org/cppdocs/api/namespace_torch__python.html#namespace-torch-python">torch::python</a>。 C++ 前端的示例可以在 <a href="https://github.com/pytorch/examples/tree/master/cpp">此代码库</a> 中找到，该代码库正在持续积极地扩展。</p>
+<p>📝 <strong>注意</strong>
+除非你有特殊原因必须仅限于使用 ATen 或 Autograd API，否则 C++ 前端是推荐进入 PyTorch C++ 生态系统的入口点。虽然在我们收集用户反馈（来自您！）期间它仍处于测试阶段，但它比 ATen 和 Autograd API 提供了更多的功能和更好的稳定性保证。</p>
 <h2 id="torchscript">TorchScript<a class="headerlink" href="#torchscript" title="Permanent link">&para;</a></h2>
 <p>TorchScript 是一种 PyTorch 模型的表示形式，能够被 TorchScript 编译器理解、编译和序列化。从根本上说，TorchScript 本身就是一种编程语言。它是使用 PyTorch API 的 Python 子集。TorchScript 的 C++ 接口主要包含三大功能：</p>
 <ul>
@@ -8080,18 +8077,17 @@ Note</p>
 <h2 id="c">C++ 扩展<a class="headerlink" href="#c" title="Permanent link">&para;</a></h2>
 <p><em>C++ 扩展</em> 提供了一种简单而强大的方式来访问上述所有接口，以扩展 PyTorch 的常规 Python 用例。C++ 扩展最常用于在 C++ 或 CUDA 中实现自定义运算符，以加速标准 PyTorch 设置中的研究。C++ 扩展 API 并未向 PyTorch C++ API 添加任何新功能。相反，它提供了与 Python setuptools 的集成以及 JIT 编译机制，允许从 Python 访问 ATen、autograd 和其他 C++ API。要了解更多关于 C++ 扩展 API 的信息，请参阅 <a href="https://pytorch.org/tutorials/advanced/cpp_extension.html">此教程</a>。</p>
 <h2 id="_1">目录<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>{.toctree maxdepth="2"}
-installing frontend stable api/library_root</p>
-<p>{.toctree glob="" maxdepth="1" caption="说明"}
-notes/*</p>
+<p>installing frontend stable api/library_root</p>
+<p>notes/*</p>
 <h1 id="_2">索引和表格<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
 <ul>
-<li><code class="interpreted-text" role="ref">genindex</code></li>
-<li><code class="interpreted-text" role="ref">modindex</code></li>
-<li><code class="interpreted-text" role="ref">search</code></li>
+<li><code>genindex</code></li>
+<li><code>modindex</code></li>
+<li><code>search</code></li>
 </ul>
 <h2 id="_3">致谢<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>PyTorch C++ 生态系统的此文档网站得益于 <a href="https://github.com/svenevs/exhale/">Exhale</a> 项目以及其维护者 <a href="https://github.com/svenevs/">svenevs</a> 慷慨投入的时间和精力。我们感谢 Stephen 的工作以及他为 PyTorch C++ 文档提供的帮助。</p>
+</blockquote>
 
 
 

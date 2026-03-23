@@ -7995,11 +7995,10 @@
 
 
 <h1 id="torchexport-onnx">基于 torch.export 的 ONNX 导出器<a class="headerlink" href="#torchexport-onnx" title="Permanent link">&para;</a></h1>
-<div class="highlight"><pre><span></span><code>:local:
-:depth: 1
+<div class="highlight"><pre><span></span><code>
 </code></pre></div>
 <h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p><code>torch.export &lt;torch.export&gt;</code> 引擎被用来以提前编译（AOT）的方式生成一个仅表示函数中张量计算过程的追踪图。生成的追踪图（1）在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，（2）消除了所有 Python 控制流和数据结构（某些例外情况除外），并且（3）在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的所有形状约束。</p>
+<p>torch.export  引擎被用来以提前编译（AOT）的方式生成一个仅表示函数中张量计算过程的追踪图。生成的追踪图（1）在功能性 ATen 算子集（以及任何用户指定的自定义算子）中生成标准化的算子，（2）消除了所有 Python 控制流和数据结构（某些例外情况除外），并且（3）在最终转换为 ONNX 图之前，记录了证明这种标准化和控制流消除对于未来输入是可靠所需的所有形状约束。</p>
 <p>此外，在导出过程中，内存使用量显著减少。</p>
 <h2 id="_2">依赖项<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>ONNX 导出器依赖于额外的 Python 包：</p>
@@ -8083,9 +8082,6 @@ assert onnx_program.model.graph.inputs[2].shape == (&quot;batch_size&quot;, 8)
 您可以使用 [Netron](https://netron.app/) 查看导出的模型。
 
 ```{image} _static/img/onnx/onnx_dynamo_mlp_model.png
-:alt: 使用 Netron 查看的 MLP 模型
-:width: 30%
-:align: center
 </code></pre></div></p>
 <h2 id="_3">当转换失败时<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>应使用参数 <code>report=True</code> 第二次调用函数 <code>torch.onnx.export</code>。将生成一个 markdown 报告以帮助用户解决问题。</p>
@@ -8130,14 +8126,14 @@ assert onnx_program.model.graph.inputs[2].shape == (&quot;batch_size&quot;, 8)
 <li><strong>pkg.torch.export.ExportedProgram.graph_signature</strong></li>
 </ul>
 <p>此属性包含原始 PyTorch ExportedProgram 中 <code>graph_signature</code> 的字符串表示形式。图签名描述了模型输入和输出的结构以及它们如何映射到 ONNX 图。输入被定义为 <code>InputSpec</code> 对象，其中包括输入的种类（例如，参数为 <code>InputKind.PARAMETER</code>，用户定义的输入为 <code>InputKind.USER_INPUT</code>）、参数名称、目标（可以是模型中的特定节点）以及输入是否是持久性的。输出被定义为 <code>OutputSpec</code> 对象，指定输出的种类（例如，<code>OutputKind.USER_OUTPUT</code>）和参数名称。</p>
-<p>要了解更多关于图签名的信息，请参阅 <code>torch.export &lt;user_guide/torch_compiler/export&gt;</code> 获取更多信息。</p>
+<p>要了解更多关于图签名的信息，请参阅 <a href="torch.export &lt;user_guide/torch_compiler/export&gt;.md">torch.export <user_guide/torch_compiler/export></a> 获取更多信息。</p>
 <ul>
 <li><strong>pkg.torch.export.ExportedProgram.range_constraints</strong></li>
 </ul>
 <p>此属性包含原始 PyTorch ExportedProgram 中存在的任何范围约束的字符串表示形式。范围约束指定了模型中符号形状或值的有效范围，这对于使用动态形状或符号维度的模型可能很重要。</p>
 <p><em>示例：</em>
   <code>s0: VR[2, int_oo]</code>，表示输入张量的大小必须至少为 2。</p>
-<p>要了解更多关于范围约束的信息，请参阅 <code>torch.export &lt;user_guide/torch_compiler/export&gt;</code> 获取更多信息。</p>
+<p>要了解更多关于范围约束的信息，请参阅 <a href="torch.export &lt;user_guide/torch_compiler/export&gt;.md">torch.export <user_guide/torch_compiler/export></a> 获取更多信息。</p>
 <p>ONNX 图中的每个输入值可能具有以下元数据属性：</p>
 <ul>
 <li><strong>pkg.torch.export.graph_signature.InputSpec.kind</strong></li>

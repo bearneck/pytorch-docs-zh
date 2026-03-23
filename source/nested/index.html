@@ -8369,8 +8369,8 @@
 </code></pre></div>
 <p>嵌套张量允许将不规则形状的数据作为单个张量进行包含和操作。此类数据在底层以高效的打包表示形式存储，同时暴露标准的 PyTorch 张量接口以应用操作。</p>
 <p>嵌套张量的一个常见应用是表示不同领域中存在的可变长度序列数据的批次，例如不同的句子长度、图像大小以及音频/视频剪辑长度。传统上，此类数据通过将序列填充到批次内的最大长度、对填充形式执行计算，然后进行掩码处理以移除填充来处理。这种方法效率低下且容易出错，而嵌套张量的存在正是为了解决这些问题。</p>
-<p>在嵌套张量上调用操作的 API 与常规 <code>torch.Tensor</code> 并无不同，允许与现有模型无缝集成，主要区别在于 <code>输入的构造 &lt;construction&gt;</code>。</p>
-<p>由于这是一个原型功能，<code>支持的操作 &lt;supported operations&gt;</code> 集合有限，但正在不断增长。我们欢迎问题报告、功能请求和贡献。有关贡献的更多信息，请参阅 <a href="https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/nested/README.md">此 Readme</a>。</p>
+<p>在嵌套张量上调用操作的 API 与常规 <code>torch.Tensor</code> 并无不同，允许与现有模型无缝集成，主要区别在于 输入的构造 。</p>
+<p>由于这是一个原型功能，支持的操作  集合有限，但正在不断增长。我们欢迎问题报告、功能请求和贡献。有关贡献的更多信息，请参阅 <a href="https://github.com/pytorch/pytorch/blob/main/aten/src/ATen/native/nested/README.md">此 Readme</a>。</p>
 <h2 id="_2">构造<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>  PyTorch 中存在两种形式的嵌套张量，通过构造时指定的布局进行区分。布局可以是 ``torch.strided`` 或 ``torch.jagged`` 之一。
   我们建议尽可能使用 ``torch.jagged`` 布局。虽然它目前仅支持单个不规则维度，但它具有更好的操作覆盖范围，正在积极开发中，并且与 ``torch.compile`` 集成良好。本文档遵循此建议，为简洁起见，将具有 ``torch.jagged`` 布局的嵌套张量称为 &quot;NJTs&quot;。
@@ -8468,7 +8468,7 @@ False
 &gt;&gt;&gt; nt3 = nt1 + nt2
 RuntimeError: cannot call binary pointwise function add.Tensor with inputs of shapes (2, j2, 128) and (2, j3, 128)
 </code></pre></div>
-<p>在上面的例子中，尽管两个 NJT 的概念形状相同，但它们没有引用同一个 <code>offsets</code> 张量，因此它们的形状不同，并且不兼容。我们认识到这种行为不够直观，正在努力为嵌套张量的 Beta 版本放宽此限制。有关解决方法，请参阅本文档的 <code>故障排除 &lt;ragged_structure_incompatibility&gt;</code> 部分。</p>
+<p>在上面的例子中，尽管两个 NJT 的概念形状相同，但它们没有引用同一个 <code>offsets</code> 张量，因此它们的形状不同，并且不兼容。我们认识到这种行为不够直观，正在努力为嵌套张量的 Beta 版本放宽此限制。有关解决方法，请参阅本文档的 故障排除  部分。</p>
 <p>除了 <code>offsets</code> 元数据外，NJT 还可以计算并缓存其组件的最小和最大序列长度，这对于调用特定的内核（例如 SDPA）可能很有用。目前还没有公开的 API 来访问这些信息，但这将在 Beta 版本中改变。</p>
 <h2 id="_4">支持的操作<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>本节列出了您可能觉得有用的嵌套张量常见操作列表。这并非详尽无遗，因为 PyTorch 中有数千个操作。虽然目前其中相当一部分支持嵌套张量，但完全支持是一项庞大的任务。嵌套张量的理想状态是全面支持所有可用于非嵌套张量的 PyTorch 操作。为了帮助我们实现这一目标，请考虑：</p>
@@ -8560,8 +8560,8 @@ torch.Size([2, 6, j1])
 <h2 id="torchcompile">与 torch.compile 配合使用<a class="headerlink" href="#torchcompile" title="Permanent link">&para;</a></h2>
 <p>NJT 设计用于与 <code>torch.compile()</code> 配合以实现最佳性能，我们始终建议尽可能将 <code>torch.compile()</code> 与 NJT 结合使用。无论 NJT 是作为编译函数或模块的输入传递，还是在函数内部内联实例化，NJT 都能开箱即用且无需图中断。</p>
 <div class="highlight"><pre><span></span><code>    如果您的用例无法使用 ``torch.compile()``，使用 NJT 可能仍能带来性能和内存使用上的好处，但这种情况并不绝对。重要的是，所操作的张量要足够大，以确保性能提升不会被 Python 张量子类的开销所抵消。
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; import torch
+
+&gt;&gt;&gt; import torch
 &gt;&gt;&gt; a = torch.randn(2, 3)
 &gt;&gt;&gt; b = torch.randn(4, 3)
 &gt;&gt;&gt; nt = torch.nested.nested_tensor([a, b], layout=torch.jagged)

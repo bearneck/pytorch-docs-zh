@@ -8044,12 +8044,6 @@
 <p>以下类型定义了检查点期间使用的规划器接口：</p>
 <p>我们提供了一个基于文件系统的存储层：</p>
 <p>我们还提供了其他存储层，包括与 HuggingFace safetensors 交互的存储层：</p>
-<p>.. autoclass:: torch.distributed.checkpoint.HuggingFaceStorageReader
-  :members:</p>
-<p>.. autoclass:: torch.distributed.checkpoint.HuggingFaceStorageWriter
-  :members:</p>
-<p>.. autoclass:: torch.distributed.checkpoint.QuantizedHuggingFaceStorageReader
-  :members:</p>
 <p>我们提供了 <code>LoadPlanner</code> 和 <code>SavePlanner</code> 的默认实现，可以处理所有 torch.distributed 结构，如 FSDP、DDP、ShardedTensor 和 DistributedTensor。</p>
 <p>由于历史设计决策，即使原始未并行化的模型相同，<code>FSDP</code> 和 <code>DDP</code> 的状态字典也可能具有不同的键或完全限定名称（例如，layer1.weight）。此外，<code>FSDP</code> 提供了各种类型的模型状态字典，例如完整状态字典和分片状态字典。另外，优化器状态字典使用参数 ID 而不是完全限定名称来标识参数，这在使用并行化（例如流水线并行）时可能会引起问题。</p>
 <p>为了解决这些挑战，我们提供了一组 API，使用户能够轻松管理状态字典。<code>get_model_state_dict()</code> 返回一个模型状态字典，其键与未并行化模型状态字典返回的键保持一致。类似地，<code>get_optimizer_state_dict()</code> 提供了优化器状态字典，其键在所有应用的并行化中保持一致。为了实现这种一致性，<code>get_optimizer_state_dict()</code> 将参数 ID 转换为与未并行化模型状态字典中相同的完全限定名称。</p>

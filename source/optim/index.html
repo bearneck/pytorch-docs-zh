@@ -8245,7 +8245,7 @@
 <h2 id="_1">如何使用优化器<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>要使用 <code>torch.optim</code>，你需要构造一个优化器对象，该对象将保存当前状态，并根据计算出的梯度更新参数。</p>
 <h3 id="_2">构造优化器<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>要构造一个 <code>Optimizer</code>，你需要给它一个包含待优化参数（所有参数都应为 <code>~torch.nn.Parameter</code> 类型）的可迭代对象，或者包含命名参数（(str, <code>~torch.nn.Parameter</code>) 元组）的可迭代对象。然后，你可以指定优化器特定的选项，例如学习率、权重衰减等。</p>
+<p>要构造一个 <code>Optimizer</code>，你需要给它一个包含待优化参数（所有参数都应为 <code>torch.nn.Parameter</code> 类型）的可迭代对象，或者包含命名参数（(str, <code>torch.nn.Parameter</code>) 元组）的可迭代对象。然后，你可以指定优化器特定的选项，例如学习率、权重衰减等。</p>
 <p>示例：
 <div class="highlight"><pre><span></span><code><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
@@ -8255,7 +8255,7 @@
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([(</span><span class="s1">&#39;layer0&#39;</span><span class="p">,</span> <span class="n">var1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;layer1&#39;</span><span class="p">,</span> <span class="n">var2</span><span class="p">)],</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="_3">每个参数组的选项<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p><code>Optimizer</code> 也支持指定每个参数组的选项。为此，不要传递 <code>~torch.autograd.Variable</code> 的可迭代对象，而是传递 <code>dict</code> 的可迭代对象。每个字典将定义一个独立的参数组，并且应包含一个 <code>params</code> 键，其中包含属于该组的参数列表。其他键应与优化器接受的关键字参数匹配，并将用作该组的优化选项。</p>
+<p><code>Optimizer</code> 也支持指定每个参数组的选项。为此，不要传递 <code>torch.autograd.Variable</code> 的可迭代对象，而是传递 <code>dict</code> 的可迭代对象。每个字典将定义一个独立的参数组，并且应包含一个 <code>params</code> 键，其中包含属于该组的参数列表。其他键应与优化器接受的关键字参数匹配，并将用作该组的优化选项。</p>
 <p>例如，当想要指定每层的学习率时，这非常有用：</p>
 <div class="highlight"><pre><span></span><code><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">([</span>
     <span class="p">{</span><span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">1e-2</span><span class="p">},</span>
@@ -8270,7 +8270,7 @@
 <p>这意味着 <code>model.base</code> 的参数将使用 <code>1e-2</code> 的学习率，而 <code>model.classifier</code> 的参数将保持默认的 <code>1e-3</code> 学习率。最后，所有参数都将使用 <code>0.9</code> 的动量。</p>
 <div class="highlight"><pre><span></span><code>你仍然可以将选项作为关键字参数传递。它们将用作默认值，适用于那些没有覆盖这些选项的组。当你只想改变一个选项，同时保持所有参数组之间的其他选项一致时，这很有用。
 </code></pre></div>
-<p>还要考虑以下与参数不同惩罚相关的示例。请记住，<code>~torch.nn.Module.parameters</code> 返回一个包含所有可学习参数的可迭代对象，包括偏置项和其他可能偏好不同惩罚的参数。为了解决这个问题，可以为每个参数组指定单独的惩罚权重：</p>
+<p>还要考虑以下与参数不同惩罚相关的示例。请记住，<code>torch.nn.Module.parameters</code> 返回一个包含所有可学习参数的可迭代对象，包括偏置项和其他可能偏好不同惩罚的参数。为了解决这个问题，可以为每个参数组指定单独的惩罚权重：</p>
 <div class="highlight"><pre><span></span><code><span class="n">bias_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;bias&#39;</span> <span class="ow">in</span> <span class="n">name</span><span class="p">]</span>
 <span class="n">others</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">()</span> <span class="k">if</span> <span class="s1">&#39;bias&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span><span class="p">]</span>
 
@@ -8281,9 +8281,9 @@
 </code></pre></div>
 <p>通过这种方式，偏置项与非偏置项被隔离开来，并且为偏置项专门设置了 <code>weight_decay</code> 为 <code>0</code>，以避免对该组进行任何惩罚。</p>
 <h3 id="_4">执行优化步骤<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>所有优化器都实现了一个 <code>~Optimizer.step</code> 方法，用于更新参数。它可以通过两种方式使用：</p>
+<p>所有优化器都实现了一个 <code>Optimizer.step</code> 方法，用于更新参数。它可以通过两种方式使用：</p>
 <h4 id="optimizerstep"><code>optimizer.step()</code><a class="headerlink" href="#optimizerstep" title="Permanent link">&para;</a></h4>
-<p>这是大多数优化器支持的简化版本。在使用例如 <code>~torch.autograd.Variable.backward</code> 计算出梯度后，可以调用此函数。</p>
+<p>这是大多数优化器支持的简化版本。在使用例如 <code>torch.autograd.Variable.backward</code> 计算出梯度后，可以调用此函数。</p>
 <p>示例：</p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="nb">input</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">:</span>
     <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
@@ -8350,11 +8350,11 @@
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">train</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">validate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span>     <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>在 PyTorch 1.1.0 之前，学习率调度器预期在优化器更新之前调用；1.1.0 版本以破坏向后兼容的方式改变了这一行为。如果您在优化器更新（调用 `optimizer.step()`）之前使用学习率调度器（调用 `scheduler.step()`），将会跳过学习率调度计划的第一个值。如果在升级到 PyTorch 1.1.0 后无法复现结果，请检查是否在错误的时间调用了 `scheduler.step()`。
+<span class="p">{</span><span class="n">warning</span><span class="p">}</span>
+<span class="n">在</span> <span class="n">PyTorch</span> <span class="mf">1.1.0</span> <span class="n">之前</span><span class="err">，</span><span class="n">学习率调度器预期在优化器更新之前调用</span><span class="err">；</span><span class="mf">1.1.0</span> <span class="n">版本以破坏向后兼容的方式改变了这一行为</span><span class="err">。</span><span class="n">如果您在优化器更新</span><span class="err">（</span><span class="n">调用</span> <span class="err">`</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span><span class="err">`）</span><span class="n">之前使用学习率调度器</span><span class="err">（</span><span class="n">调用</span> <span class="err">`</span><span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span><span class="err">`），</span><span class="n">将会跳过学习率调度计划的第一个值</span><span class="err">。</span><span class="n">如果在升级到</span> <span class="n">PyTorch</span> <span class="mf">1.1.0</span> <span class="n">后无法复现结果</span><span class="err">，</span><span class="n">请检查是否在错误的时间调用了</span> <span class="err">`</span><span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span><span class="err">`。</span>
 </code></pre></div>
 <h2 id="_8">如何利用命名参数加载优化器状态字典<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>函数 <code>~Optimizer.load_state_dict</code> 会在加载的状态字典包含可选的 <code>param_names</code> 内容时将其存储。然而，加载优化器状态的过程不受影响，因为参数的顺序对于保持兼容性很重要（以防顺序不同）。要利用从加载的状态字典中获取的参数名称，需要根据所需行为实现自定义的 <code>register_load_state_dict_pre_hook</code>。</p>
+<p>函数 <code>Optimizer.load_state_dict</code> 会在加载的状态字典包含可选的 <code>param_names</code> 内容时将其存储。然而，加载优化器状态的过程不受影响，因为参数的顺序对于保持兼容性很重要（以防顺序不同）。要利用从加载的状态字典中获取的参数名称，需要根据所需行为实现自定义的 <code>register_load_state_dict_pre_hook</code>。</p>
 <p>例如，当模型架构发生变化但权重和优化器状态需要保持不变时，这非常有用。以下示例演示了如何实现此自定义功能。</p>
 <p>示例：
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OneLayerModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -8518,9 +8518,9 @@ optimizer2 = optim.SGD(model2.named_parameters(), lr=0.01, momentum=0.9)
 </code></pre></div>
 <p>衰减（decay）是一个介于 0 和 1 之间的参数，控制平均参数的衰减速度。如果未提供给 <code>torch.optim.swa_utils.get_ema_multi_avg_fn</code>，默认值为 0.999。衰减值应接近 1.0，因为较小的值可能导致优化收敛问题。</p>
 <p><code>torch.optim.swa_utils.get_ema_multi_avg_fn</code> 返回一个函数，该函数将以下 EMA 方程应用于权重：</p>
-<div class="highlight"><pre><span></span><code>W_0^{\text{EMA}} = W_0^{\text{model}}
-</code></pre></div>
-<p><div class="highlight"><pre><span></span><code>W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay}) \times W_{t+1}^{\text{model}}
+<p><div class="highlight"><pre><span></span><code>W_0^{\text{EMA}} = W_0^{\text{model}}
+{math}
+W_{t+1}^{\text{EMA}} = \text{decay} \times W_t^{\text{EMA}} + (1 - \text{decay}) \times W_{t+1}^{\text{model}}
 </code></pre></div>
 其中 <code>W_t^{\text{EMA}}</code> 是步骤 <code>t</code> 的 EMA 参数，<code>W_t^{\text{model}}</code> 是步骤 <code>t</code> 的模型参数，decay 是 EMA 衰减率（默认：0.999）。</p>
 <p>这里的模型 <code>model</code> 可以是任意的 <code>torch.nn.Module</code> 对象。<code>averaged_model</code> 将跟踪 <code>model</code> 参数的运行平均值。要更新这些平均值，应在 <code>optimizer.step()</code> 后使用 <code>update_parameters</code> 函数：</p>

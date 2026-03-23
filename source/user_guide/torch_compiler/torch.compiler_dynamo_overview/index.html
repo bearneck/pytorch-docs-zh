@@ -8048,7 +8048,7 @@
 
 
 <h1 id="dynamo">Dynamo 概述<a class="headerlink" href="#dynamo" title="Permanent link">&para;</a></h1>
-<p>在阅读本节之前，请先阅读 <code>torch.compiler_overview</code>。</p>
+<p>在阅读本节之前，请先阅读 <em>torch.compiler_overview</em>。</p>
 <p>TorchDynamo（简称 Dynamo）是一个 Python 级别的即时（JIT）编译器，旨在加速未经修改的 PyTorch 程序。Dynamo 通过挂钩 CPython 中的帧评估 API（<a href="https://peps.python.org/pep-0523/">PEP 523</a>），在 Python 字节码即将执行前动态修改它。它将 Python 字节码重写，以提取 PyTorch 操作序列到一个 <a href="https://pytorch.org/docs/stable/fx.html">FX Graph</a> 中，然后使用可定制的后端进行编译。它通过字节码分析创建这个 FX Graph，并设计为将 Python 执行与编译后端混合，以兼顾两者的优势——可用性和性能。</p>
 <p>Dynamo 使得尝试不同的编译器后端变得容易，只需一行装饰器 <code>torch._dynamo.optimize()</code> 即可加速 PyTorch 代码，为方便起见，它被 <code>torch.compile()</code> 包装。</p>
 <p>下图展示了 PyTorch 在使用 <code>torch.compile</code> 和不使用时的运作方式：</p>
@@ -8243,27 +8243,27 @@ ___check_tensors(L[&#39;a&#39;], L[&#39;b&#39;], tensor_check_names=tensor_check
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;source code of __resume_at_38_2:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">decompile</span><span class="p">(</span><span class="n">__resume_at_38_2</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>source code of __compiled_fn_0:
-def forward(self, L_a_ : torch.Tensor, L_b_ : torch.Tensor):
-    l_a_ = L_a_
-    l_b_ = L_b_
-    abs_1 = torch.abs(l_a_)
-    add = abs_1 + 1;  abs_1 = None
-    truediv = l_a_ / add;  l_a_ = add = None
-    sum_1 = l_b_.sum();  l_b_ = None
-    lt = sum_1 &lt; 0;  sum_1 = None
-    return (truediv, lt)
-# 要查看更多调试信息，请使用 ``graph_module.print_readable()``
-============================================================
-source code of __resume_at_30_1:
-def &lt;resume in toy_example&gt;(b, x):
-    b = b * -1
-    return x * b
-============================================================
-source code of __resume_at_38_2:
-def &lt;resume in toy_example&gt;(b, x):
-    return x * b
+
+<span class="n">source</span> <span class="n">code</span> <span class="n">of</span> <span class="n">__compiled_fn_0</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L_a_</span> <span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">L_b_</span> <span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+    <span class="n">l_a_</span> <span class="o">=</span> <span class="n">L_a_</span>
+    <span class="n">l_b_</span> <span class="o">=</span> <span class="n">L_b_</span>
+    <span class="n">abs_1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l_a_</span><span class="p">)</span>
+    <span class="n">add</span> <span class="o">=</span> <span class="n">abs_1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>  <span class="n">abs_1</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">truediv</span> <span class="o">=</span> <span class="n">l_a_</span> <span class="o">/</span> <span class="n">add</span><span class="p">;</span>  <span class="n">l_a_</span> <span class="o">=</span> <span class="n">add</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sum_1</span> <span class="o">=</span> <span class="n">l_b_</span><span class="o">.</span><span class="n">sum</span><span class="p">();</span>  <span class="n">l_b_</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lt</span> <span class="o">=</span> <span class="n">sum_1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">;</span>  <span class="n">sum_1</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">truediv</span><span class="p">,</span> <span class="n">lt</span><span class="p">)</span>
+<span class="c1"># 要查看更多调试信息，请使用 ``graph_module.print_readable()``</span>
+<span class="o">============================================================</span>
+<span class="n">source</span> <span class="n">code</span> <span class="n">of</span> <span class="n">__resume_at_30_1</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="o">&lt;</span><span class="n">resume</span> <span class="ow">in</span> <span class="n">toy_example</span><span class="o">&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">b</span>
+<span class="o">============================================================</span>
+<span class="n">source</span> <span class="n">code</span> <span class="n">of</span> <span class="n">__resume_at_38_2</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="o">&lt;</span><span class="n">resume</span> <span class="ow">in</span> <span class="n">toy_example</span><span class="o">&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">b</span>
 </code></pre></div>
 <p>然而，如果我们使用其他后端，例如内置的 <code>inductor</code>，子图代码将被编译为用于 GPU 的 CUDA 内核或用于 CPU 的 C++ 代码。</p>
 <p>总而言之，编译后的代码在概念上等同于以下代码：</p>
@@ -8276,7 +8276,7 @@ def &lt;resume in toy_example&gt;(b, x):
 </code></pre></div>
 <p>下图展示了 <code>torch.compile</code> 如何转换和优化用户编写的代码：它首先从用户编写的函数中提取计算图，然后将这些图编译成优化后的函数，最后将它们组装成一个新函数，该函数在功能上等同于用户编写的代码，但经过优化以获得良好的计算速度。</p>
 <p><code>{image} ../../_static/img/dynamo/flowchart.jpg</code></p>
-<p>要了解更多关于所有这些如何在内部实现的信息，请参阅 <code>torch.compiler_dynamo_deepdive</code>。</p>
+<p>要了解更多关于所有这些如何在内部实现的信息，请参阅 <em>torch.compiler_dynamo_deepdive</em>。</p>
 
 
 

@@ -8139,7 +8139,7 @@
 <span class="n">Tensor</span><span class="w"> </span><span class="nf">histc</span><span class="p">(</span><span class="kt">int64_t</span><span class="w"> </span><span class="n">bins</span><span class="p">,</span><span class="w"> </span><span class="n">Scalar</span><span class="w"> </span><span class="n">min</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
 <span class="n">Tensor</span><span class="w"> </span><span class="nf">histc</span><span class="p">(</span><span class="kt">int64_t</span><span class="w"> </span><span class="n">bins</span><span class="p">,</span><span class="w"> </span><span class="n">Scalar</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">Scalar</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
 </code></pre></div>
-<p>还提供了原地操作，并且总是以 [_]{.title-ref} 作为后缀，表示它们将修改张量。</p>
+<p>还提供了原地操作，并且总是以 [_] 作为后缀，表示它们将修改张量。</p>
 <h2 id="_1">高效访问张量元素<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>当使用张量范围的操作时，动态分派的相对成本非常小。然而，在某些情况下，特别是在您自己的内核中，需要高效的元素级访问，而元素级循环内部的动态分派成本非常高。ATen 提供了 <em>访问器</em>，它们通过一次动态检查创建，以确认张量的类型和维度数量。然后，访问器公开一个 API，用于高效地访问张量元素。</p>
 <p>访问器是张量的临时视图。它们仅在它们所查看的张量的生命周期内有效，因此应仅在函数的局部使用，就像迭代器一样。</p>
@@ -8197,7 +8197,7 @@
 <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
 <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="o">::</span><span class="n">addmm</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="mf">.5</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
 </code></pre></div>
-<p>除了 <code>Scalar</code>，ATen 还允许 <code>Tensor</code> 对象是零维的。这些张量包含单个值，并且它们可以是对更大 <code>Tensor</code> 中单个元素的引用。它们可以在任何需要 <code>Tensor</code> 的地方使用。它们通常由像 [select]{.title-ref} 这样的操作符创建，这些操作符减少了 <code>Tensor</code> 的维度。</p>
+<p>除了 <code>Scalar</code>，ATen 还允许 <code>Tensor</code> 对象是零维的。这些张量包含单个值，并且它们可以是对更大 <code>Tensor</code> 中单个元素的引用。它们可以在任何需要 <code>Tensor</code> 的地方使用。它们通常由像 [select] 这样的操作符创建，这些操作符减少了 <code>Tensor</code> 的维度。</p>
 <div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">({</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">});</span>
 <span class="n">two</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
 <span class="c1">// ^^^^^^ &lt;- 零维张量</span>

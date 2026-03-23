@@ -8244,7 +8244,7 @@
 <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># 此张量的形状为 [s0, 5]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 此张量的形状为 [2*s0, 5]</span>
 </code></pre></div></p>
-<p>然而，<code>z = x * y</code> 会抛出错误，因为我们知道像乘法这样的逐点操作必须在相同大小的张量上进行，但我们静态地知道 <code>s0 != 2 * s0</code>。敏锐的读者可能会指出，当 <code>s0 == 0</code> 时这不成立，而此处这无关紧要的原因在 <code>zero-one-specialization</code> 中有所描述。</p>
+<p>然而，<code>z = x * y</code> 会抛出错误，因为我们知道像乘法这样的逐点操作必须在相同大小的张量上进行，但我们静态地知道 <code>s0 != 2 * s0</code>。敏锐的读者可能会指出，当 <code>s0 == 0</code> 时这不成立，而此处这无关紧要的原因在 <em>zero-one-specialization</em> 中有所描述。</p>
 <h2 id="_3">守卫<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>在 <code>torch.compile</code> 中，守卫是一种用于确保已编译代码图有效性的机制。默认情况下，当你使一个变量变为动态时，其范围可以是 <code>[-inf, inf]</code>。例如：</p>
 <p><div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">2</span>
@@ -8321,8 +8321,8 @@
 <li>Python 基础设施: <code>torch/fx/experimental/symbolic_shapes.py</code></li>
 <li>其他重要文件: <code>torch/_subclasses/fake_tensor.py</code>, <code>torch/_meta_registrations.py</code>, 分解函数, PrimTorch 参考</li>
 </ul>
-<div class="highlight"><pre><span></span><code>* `dynamic_shapes`
-* `dynamic_shapes_troubleshooting`
+<div class="highlight"><pre><span></span><code>* *dynamic_shapes*
+* *dynamic_shapes_troubleshooting*
 </code></pre></div>
 
 

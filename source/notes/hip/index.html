@@ -90,7 +90,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hip-semantics" class="md-skip">
+        <a href="#hip-rocm" class="md-skip">
           跳转至
         </a>
       
@@ -6764,7 +6764,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hip_as_cuda" class="md-nav__link">
+  <a href="#hip-cuda" class="md-nav__link">
     <span class="md-ellipsis">
       
         HIP 接口复用 CUDA 接口
@@ -6775,7 +6775,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#checking_for_hip" class="md-nav__link">
+  <a href="#hip" class="md-nav__link">
     <span class="md-ellipsis">
       
         检查 HIP
@@ -6786,7 +6786,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tf32_on_rocm" class="md-nav__link">
+  <a href="#rocm-tensorfloat-32tf32" class="md-nav__link">
     <span class="md-ellipsis">
       
         ROCm 上的 TensorFloat-32(TF32)
@@ -6797,7 +6797,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rocm-memory-management" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         内存管理
@@ -6819,7 +6819,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hipfft-plan-cache" class="md-nav__link">
+  <a href="#hipfftrocfft" class="md-nav__link">
     <span class="md-ellipsis">
       
         hipFFT/rocFFT 计划缓存
@@ -6830,7 +6830,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#torch-distributed-backends" class="md-nav__link">
+  <a href="#torchdistributed" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.distributed 后端
@@ -6841,7 +6841,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cuda-api-to_hip-api-mappings" class="md-nav__link">
+  <a href="#c-cuda-api-hip-api" class="md-nav__link">
     <span class="md-ellipsis">
       
         C++ 中 CUDA API 到 HIP API 的映射
@@ -6863,7 +6863,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         启用内核断言
@@ -8099,7 +8099,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hip_as_cuda" class="md-nav__link">
+  <a href="#hip-cuda" class="md-nav__link">
     <span class="md-ellipsis">
       
         HIP 接口复用 CUDA 接口
@@ -8110,7 +8110,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#checking_for_hip" class="md-nav__link">
+  <a href="#hip" class="md-nav__link">
     <span class="md-ellipsis">
       
         检查 HIP
@@ -8121,7 +8121,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tf32_on_rocm" class="md-nav__link">
+  <a href="#rocm-tensorfloat-32tf32" class="md-nav__link">
     <span class="md-ellipsis">
       
         ROCm 上的 TensorFloat-32(TF32)
@@ -8132,7 +8132,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rocm-memory-management" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         内存管理
@@ -8154,7 +8154,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hipfft-plan-cache" class="md-nav__link">
+  <a href="#hipfftrocfft" class="md-nav__link">
     <span class="md-ellipsis">
       
         hipFFT/rocFFT 计划缓存
@@ -8165,7 +8165,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#torch-distributed-backends" class="md-nav__link">
+  <a href="#torchdistributed" class="md-nav__link">
     <span class="md-ellipsis">
       
         torch.distributed 后端
@@ -8176,7 +8176,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cuda-api-to_hip-api-mappings" class="md-nav__link">
+  <a href="#c-cuda-api-hip-api" class="md-nav__link">
     <span class="md-ellipsis">
       
         C++ 中 CUDA API 到 HIP API 的映射
@@ -8198,7 +8198,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         启用内核断言
@@ -8239,11 +8239,11 @@
   
 
 
-<h1 id="hip-semantics">HIP (ROCm) 语义<a class="headerlink" href="#hip-semantics" title="Permanent link">&para;</a></h1>
+<h1 id="hip-rocm">HIP (ROCm) 语义<a class="headerlink" href="#hip-rocm" title="Permanent link">&para;</a></h1>
 <p>ROCm™ 是 AMD 的开源软件平台，用于 GPU 加速的高性能计算和机器学习。HIP 是 ROCm 的 C++ 方言，旨在简化 CUDA 应用程序向可移植 C++ 代码的转换。在将 PyTorch 等现有 CUDA 应用程序转换为可移植 C++ 时，以及需要 AMD 和 NVIDIA 之间可移植性的新项目中，都会使用 HIP。</p>
-<h2 id="hip_as_cuda">HIP 接口复用 CUDA 接口<a class="headerlink" href="#hip_as_cuda" title="Permanent link">&para;</a></h2>
-<p>用于 HIP 的 PyTorch 有意复用了现有的 <code class="interpreted-text" role="mod">torch.cuda</code> 接口。这有助于加速现有 PyTorch 代码和模型的移植，因为几乎不需要（如果有的话）修改代码。</p>
-<p><code class="interpreted-text" role="ref">cuda-semantics</code> 中的示例在 HIP 上完全适用：:</p>
+<h2 id="hip-cuda">HIP 接口复用 CUDA 接口<a class="headerlink" href="#hip-cuda" title="Permanent link">&para;</a></h2>
+<p>用于 HIP 的 PyTorch 有意复用了现有的 <code>torch.cuda</code> 接口。这有助于加速现有 PyTorch 代码和模型的移植，因为几乎不需要（如果有的话）修改代码。</p>
+<p><code>cuda-semantics</code> 中的示例在 HIP 上完全适用：:</p>
 <blockquote>
 <p>cuda = torch.device(\'cuda\') # 默认 HIP 设备 cuda0 = torch.device(\'cuda:0\') # \'rocm\' 或 \'hip\' 无效，请使用 \'cuda\' cuda2 = torch.device(\'cuda:2\') # GPU 2（这些索引从 0 开始）</p>
 <p>x = torch.tensor([1., 2.], device=cuda0) # x.device 是 device(type=\'cuda\', index=0) y = torch.tensor([1., 2.]).cuda() # y.device 是 device(type=\'cuda\', index=0)</p>
@@ -8260,27 +8260,27 @@ z = x + y \# z.device 是 device(type=\&#39;cuda\&#39;, index=0)
 \# 即使在上下文中，你也可以指定设备 \# （或者给 .cuda 调用一个 GPU 索引） d = torch.randn(2, device=cuda2) e = torch.randn(2).to(cuda2) f = torch.randn(2).cuda(cuda2) \# d.device, e.device, 和 f.device 都是 device(type=\&#39;cuda\&#39;, index=2)
 </code></pre></div>
 </blockquote>
-<h2 id="checking_for_hip">检查 HIP<a class="headerlink" href="#checking_for_hip" title="Permanent link">&para;</a></h2>
-<p>无论你使用的是用于 CUDA 还是 HIP 的 PyTorch，调用 <code class="interpreted-text" role="meth">~torch.cuda.is_available</code>。如果你必须检查正在使用的 PyTorch 版本，请参考以下示例：:} 的结果都是相同的。如果你使用的是支持 GPU 的 PyTorch 构建版本，它将返回 [True]{.title-ref</p>
+<h2 id="hip">检查 HIP<a class="headerlink" href="#hip" title="Permanent link">&para;</a></h2>
+<p>无论你使用的是用于 CUDA 还是 HIP 的 PyTorch，调用 <code>torch.cuda.is_available</code> 的结果都是相同的。如果你使用的是支持 GPU 的 PyTorch 构建版本，它将返回 [True]。如果你必须检查正在使用的 PyTorch 版本，请参考以下示例：:</p>
 <blockquote>
 <p>if torch.cuda.is_available() and torch.version.hip:</p>
 <p>:   # 为 HIP 执行特定操作</p>
 <p>elif torch.cuda.is_available() and torch.version.cuda:</p>
 <p>:   # 为 CUDA 执行特定操作</p>
 </blockquote>
-<h2 id="tf32_on_rocm">ROCm 上的 TensorFloat-32(TF32)<a class="headerlink" href="#tf32_on_rocm" title="Permanent link">&para;</a></h2>
+<h2 id="rocm-tensorfloat-32tf32">ROCm 上的 TensorFloat-32(TF32)<a class="headerlink" href="#rocm-tensorfloat-32tf32" title="Permanent link">&para;</a></h2>
 <p>ROCm 不支持 TF32。</p>
-<h2 id="rocm-memory-management">内存管理<a class="headerlink" href="#rocm-memory-management" title="Permanent link">&para;</a></h2>
-<p>PyTorch 使用缓存内存分配器来加速内存分配。这允许在不进行设备同步的情况下快速释放内存。然而，分配器管理的未使用内存在 <code>rocm-smi</code> 中仍会显示为已使用。你可以使用 <code class="interpreted-text" role="meth">~torch.cuda.memory_allocated</code> 和 <code class="interpreted-text" role="meth">~torch.cuda.max_memory_allocated</code> 来监控张量占用的内存，并使用 <code class="interpreted-text" role="meth">~torch.cuda.memory_reserved</code> 和 <code class="interpreted-text" role="meth">~torch.cuda.max_memory_reserved</code> 来监控缓存分配器管理的总内存量。调用 <code class="interpreted-text" role="meth">~torch.cuda.empty_cache</code> 会释放 PyTorch 中所有**未使用的**缓存内存，以便其他 GPU 应用程序可以使用这些内存。但是，张量占用的 GPU 内存不会被释放，因此无法增加 PyTorch 可用的 GPU 内存量。</p>
-<p>对于更高级的用户，我们通过 <code class="interpreted-text" role="meth">~torch.cuda.memory_stats</code> 提供更全面的内存基准测试。我们还提供通过 <code class="interpreted-text" role="meth">~torch.cuda.memory_snapshot</code> 捕获内存分配器状态完整快照的能力，这可以帮助你理解代码产生的底层分配模式。</p>
+<h2 id="_1">内存管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>PyTorch 使用缓存内存分配器来加速内存分配。这允许在不进行设备同步的情况下快速释放内存。然而，分配器管理的未使用内存在 <code>rocm-smi</code> 中仍会显示为已使用。你可以使用 <code>torch.cuda.memory_allocated</code> 和 <code>torch.cuda.max_memory_allocated</code> 来监控张量占用的内存，并使用 <code>torch.cuda.memory_reserved</code> 和 <code>torch.cuda.max_memory_reserved</code> 来监控缓存分配器管理的总内存量。调用 <code>torch.cuda.empty_cache</code> 会释放 PyTorch 中所有**未使用的**缓存内存，以便其他 GPU 应用程序可以使用这些内存。但是，张量占用的 GPU 内存不会被释放，因此无法增加 PyTorch 可用的 GPU 内存量。</p>
+<p>对于更高级的用户，我们通过 <code>torch.cuda.memory_stats</code> 提供更全面的内存基准测试。我们还提供通过 <code>torch.cuda.memory_snapshot</code> 捕获内存分配器状态完整快照的能力，这可以帮助你理解代码产生的底层分配模式。</p>
 <p>要调试内存错误，请在环境中设置 <code>PYTORCH_NO_HIP_MEMORY_CACHING=1</code> 以禁用缓存。为了方便移植，也接受 <code>PYTORCH_NO_CUDA_MEMORY_CACHING=1</code>。</p>
 <h2 id="hipblas">hipBLAS 工作空间<a class="headerlink" href="#hipblas" title="Permanent link">&para;</a></h2>
 <p>对于每个 hipBLAS 句柄和 HIP 流的组合，如果该句柄和流组合执行需要工作空间的 hipBLAS 内核，则会分配一个 hipBLAS 工作空间。为了避免重复分配工作空间，除非调用 <code>torch._C._cuda_clearCublasWorkspaces()</code>，否则这些工作空间不会被释放；请注意，对于 CUDA 或 HIP，这是同一个函数。每次分配的工作空间大小可以通过环境变量 <code>HIPBLAS_WORKSPACE_CONFIG</code> 指定，格式为 <code>:[SIZE]:[COUNT]</code>。例如，环境变量 <code>HIPBLAS_WORKSPACE_CONFIG=:4096:2:16:8</code> 指定总大小为 <code>2 * 4096 + 8 * 16 KiB</code> 或 8 MiB。默认工作空间大小为 32 MiB；MI300 及更新版本默认为 128 MiB。要强制 hipBLAS 避免使用工作空间，请设置 <code>HIPBLAS_WORKSPACE_CONFIG=:0:0</code>。为了方便起见，也接受 <code>CUBLAS_WORKSPACE_CONFIG</code>。</p>
-<h2 id="hipfft-plan-cache">hipFFT/rocFFT 计划缓存<a class="headerlink" href="#hipfft-plan-cache" title="Permanent link">&para;</a></h2>
+<h2 id="hipfftrocfft">hipFFT/rocFFT 计划缓存<a class="headerlink" href="#hipfftrocfft" title="Permanent link">&para;</a></h2>
 <p>不支持设置 hipFFT/rocFFT 计划缓存的大小。</p>
-<h2 id="torch-distributed-backends">torch.distributed 后端<a class="headerlink" href="#torch-distributed-backends" title="Permanent link">&para;</a></h2>
+<h2 id="torchdistributed">torch.distributed 后端<a class="headerlink" href="#torchdistributed" title="Permanent link">&para;</a></h2>
 <p>目前，ROCm 上仅支持 torch.distributed 的 \"nccl\" 和 \"gloo\" 后端。</p>
-<h2 id="cuda-api-to_hip-api-mappings">C++ 中 CUDA API 到 HIP API 的映射<a class="headerlink" href="#cuda-api-to_hip-api-mappings" title="Permanent link">&para;</a></h2>
+<h2 id="c-cuda-api-hip-api">C++ 中 CUDA API 到 HIP API 的映射<a class="headerlink" href="#c-cuda-api-hip-api" title="Permanent link">&para;</a></h2>
 <p>请参考：https://rocm.docs.amd.com/projects/HIP/en/latest/reference/api_syntax.html</p>
 <p>注意：CUDA_VERSION 宏、cudaRuntimeGetVersion 和 cudaDriverGetVersion API 在语义上并不映射到与 HIP_VERSION 宏、hipRuntimeGetVersion 和 hipDriverGetVersion API 相同的值。在进行版本检查时，请不要互换使用它们。</p>
 <p>例如：不要使用</p>
@@ -8292,8 +8292,8 @@ z = x + y \# z.device 是 device(type=\&#39;cuda\&#39;, index=0)
 <p>或者，如果希望仅针对特定的 HIP 版本采用 ROCm/HIP 的代码路径：</p>
 <p><code>#if (defined(CUDA_VERSION) &amp;&amp; CUDA_VERSION &gt;= 11000) || (defined(USE_ROCM) &amp;&amp; ROCM_VERSION &gt;= 40300)</code></p>
 <h2 id="cuda">参考 CUDA 语义文档<a class="headerlink" href="#cuda" title="Permanent link">&para;</a></h2>
-<p>对于此处未列出的任何部分，请参考 CUDA 语义文档： <code class="interpreted-text" role="ref">cuda-semantics</code></p>
-<h2 id="_1">启用内核断言<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>对于此处未列出的任何部分，请参考 CUDA 语义文档： <code>cuda-semantics</code></p>
+<h2 id="_2">启用内核断言<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>ROCm 支持内核断言，但由于性能开销，默认是禁用的。可以通过从源代码重新编译 PyTorch 来启用它。</p>
 <p>请在 cmake 命令参数中添加以下行：:</p>
 <blockquote>

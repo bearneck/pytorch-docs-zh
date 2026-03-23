@@ -8102,8 +8102,7 @@
 <p><code>torch.compiler.disable</code> 在装饰的函数帧以及从该装饰函数帧递归调用的所有函数帧上禁用编译。</p>
 <p>TorchDynamo 拦截每个 Python 函数帧的执行。因此，假设您有一个代码结构（下图），其中函数 <code>fn</code> 调用函数 <code>a_fn</code> 和 <code>b_fn</code>。并且 <code>a_fn</code> 调用 <code>aa_fn</code> 和 <code>ab_fn</code>。当您使用 PyTorch eager 模式而非 <code>torch.compile</code> 时，这些函数帧会按原样运行。使用 <code>torch.compile</code> 时，TorchDynamo 会拦截这些函数帧中的每一个（用绿色表示）：</p>
 <blockquote>
-<p><strong>FIGURE</strong>
-../../_static/img/fine_grained_apis/api_diagram.png
+<p><strong>FIGURE</strong>：../../_static/img/fine_grained_apis/api_diagram.png
 :alt: 不同 API 的调用栈图。</p>
 </blockquote>
 <p>假设函数 <code>a_fn</code> 导致 <code>torch.compile</code> 出现问题，并且这是模型中非关键的部分。您可以在函数 <code>a_fn</code> 上使用 <code>compiler.disable</code>。如上图所示，TorchDynamo 将停止查看源自 <code>a_fn</code> 调用的帧（白色表示原始的 Python 行为）。</p>

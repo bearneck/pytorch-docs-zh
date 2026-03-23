@@ -8104,8 +8104,8 @@
 <li><code>torch.zeros</code></li>
 </ul>
 <h2 id="_3">命名维度<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>关于张量名称的限制，请参阅 <code>~Tensor.names</code>。</p>
-<p>使用 <code>~Tensor.names</code> 访问张量的维度名称，并使用 <code>~Tensor.rename</code> 重命名维度。</p>
+<p>关于张量名称的限制，请参阅 <code>Tensor.names</code>。</p>
+<p>使用 <code>Tensor.names</code> 访问张量的维度名称，并使用 <code>Tensor.rename</code> 重命名维度。</p>
 <div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; imgs = torch.randn(1, 2, 2, 3 , names=(&#39;N&#39;, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;))
     &gt;&gt;&gt; imgs.names
     (&#39;N&#39;, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;)
@@ -8133,7 +8133,7 @@
 <h3 id="_5">匹配语义<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>如果两个名称相等（字符串相等）或者至少有一个是 <code>None</code>，则它们<em>匹配</em>。None 本质上是一种特殊的"通配符"名称。</p>
 <p><code>unify(A, B)</code> 决定将名称 <code>A</code> 和 <code>B</code> 中的哪一个传播到输出。如果它们匹配，则返回两者中更<em>具体</em>的名称。如果名称不匹配，则会报错。</p>
-<div class="highlight"><pre><span></span><code>在实践中，使用命名张量时，应避免存在未命名维度，因为它们的处理可能很复杂。建议使用 `~Tensor.refine_names` 将所有未命名维度提升为命名维度。
+<div class="highlight"><pre><span></span><code>在实践中，使用命名张量时，应避免存在未命名维度，因为它们的处理可能很复杂。建议使用 `Tensor.refine_names` 将所有未命名维度提升为命名维度。
 </code></pre></div>
 <h3 id="_6">基本名称推断规则<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>让我们看看在没有广播的情况下，对两个一维张量进行加法运算时，<code>match</code> 和 <code>unify</code> 是如何用于名称推断的。</p>
@@ -8156,13 +8156,13 @@
     &gt;&gt;&gt; (x + x).names
     (&#39;X&#39;,)
 </code></pre></div>
-<p>有关名称推断规则的完整列表，请参阅 <code>name_inference_reference-doc</code>。以下是两个常见操作，可能有助于理解：</p>
+<p>有关名称推断规则的完整列表，请参阅 <em>name_inference_reference-doc</em>。以下是两个常见操作，可能有助于理解：</p>
 <ul>
-<li>二元算术运算：<code>unifies_names_from_inputs-doc</code></li>
-<li>矩阵乘法运算：<code>contracts_away_dims-doc</code></li>
+<li>二元算术运算：<em>unifies_names_from_inputs-doc</em></li>
+<li>矩阵乘法运算：<em>contracts_away_dims-doc</em></li>
 </ul>
 <h2 id="_7">按名称显式对齐<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<p>使用 <code>~Tensor.align_as</code> 或 <code>~Tensor.align_to</code> 按名称将张量维度对齐到指定的顺序。这对于执行"按名称广播"非常有用。</p>
+<p>使用 <code>Tensor.align_as</code> 或 <code>Tensor.align_to</code> 按名称将张量维度对齐到指定的顺序。这对于执行"按名称广播"非常有用。</p>
 <div class="highlight"><pre><span></span><code>    # 此函数对 `input` 的维度顺序不敏感，
     # 只要它有一个 `C` 维度即可。
     def scale_channels(input, scale):
@@ -8180,7 +8180,7 @@
     &gt;&gt;&gt; scale_channels(videos, scale)
 </code></pre></div>
 <h2 id="_8">操作维度<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>使用 <code>~Tensor.align_to</code> 可以置换大量维度，而无需像 <code>~Tensor.permute</code> 那样提及所有维度。</p>
+<p>使用 <code>Tensor.align_to</code> 可以置换大量维度，而无需像 <code>Tensor.permute</code> 那样提及所有维度。</p>
 <div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; tensor = torch.randn(2, 2, 2, 2, 2, 2)
     &gt;&gt;&gt; named_tensor = tensor.refine_names(&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;)
 
@@ -8188,7 +8188,7 @@
     &gt;&gt;&gt; tensor.permute(5, 4, 0, 1, 2, 3)
     &gt;&gt;&gt; named_tensor.align_to(&#39;F&#39;, &#39;E&#39;, ...)
 </code></pre></div>
-<p>分别使用 <code>~Tensor.flatten</code> 和 <code>~Tensor.unflatten</code> 来展平和展开维度。这些方法比 <code>~Tensor.view</code> 和 <code>~Tensor.reshape</code> 更冗长，但对于阅读代码的人来说具有更多的语义含义。</p>
+<p>分别使用 <code>Tensor.flatten</code> 和 <code>Tensor.unflatten</code> 来展平和展开维度。这些方法比 <code>Tensor.view</code> 和 <code>Tensor.reshape</code> 更冗长，但对于阅读代码的人来说具有更多的语义含义。</p>
 <div class="highlight"><pre><span></span><code>    &gt;&gt;&gt; imgs = torch.randn(32, 3, 128, 128)
     &gt;&gt;&gt; named_imgs = imgs.refine_names(&#39;N&#39;, &#39;C&#39;, &#39;H&#39;, &#39;W&#39;)
 
@@ -8221,7 +8221,7 @@
 </code></pre></div>
 <h2 id="_10">当前支持的操作和子系统<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 <h3 id="_11">运算符<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
-<p>有关支持的 torch 和张量操作的完整列表，请参阅 <code>name_inference_reference-doc</code>。以下操作目前尚未支持（链接中未涵盖）：</p>
+<p>有关支持的 torch 和张量操作的完整列表，请参阅 <em>name_inference_reference-doc</em>。以下操作目前尚未支持（链接中未涵盖）：</p>
 <ul>
 <li>索引、高级索引。</li>
 </ul>
@@ -8235,7 +8235,7 @@
 <li><code>torch.nn.functional.dropout</code></li>
 </ul>
 <h3 id="_12">子系统<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
-<p>自动求导已支持，请参阅 <code>named_tensors_autograd-doc</code>。
+<p>自动求导已支持，请参阅 <em>named_tensors_autograd-doc</em>。
 由于梯度目前未命名，优化器可能可以工作但未经测试。</p>
 <p>NN 模块目前不支持。这可能导致在使用命名张量输入调用模块时出现以下情况：</p>
 <ul>
@@ -8253,7 +8253,7 @@
 </ul>
 <p>如果其中任何一项对您的用例有帮助，请<a href="https://github.com/pytorch/pytorch/issues?q=is%3Aopen+is%3Aissue+label%3A%22module%3A+named+tensor%22">搜索是否已有相关 issue 提交</a>，如果没有，请<a href="https://github.com/pytorch/pytorch/issues/new/choose">提交一个</a>。</p>
 <h2 id="api">命名张量 API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<p>在本节中，请查阅命名张量特定 API 的文档。有关名称如何通过其他 PyTorch 运算符传播的完整参考，请参阅 <code>name_inference_reference-doc</code>。</p>
+<p>在本节中，请查阅命名张量特定 API 的文档。有关名称如何通过其他 PyTorch 运算符传播的完整参考，请参阅 <em>name_inference_reference-doc</em>。</p>
 
 
 

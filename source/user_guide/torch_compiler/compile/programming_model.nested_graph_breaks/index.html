@@ -7959,7 +7959,7 @@
 <h1 id="_1">嵌套图断点<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>概述：
 - 嵌套函数中的图断点可能导致难以理解的编译器行为，我们将在下文进行说明
-- 嵌套图断点会导致 {math}<code>\mathcal O(N)</code> 次重复的图断点行为</p>
+- 嵌套图断点会导致 <code>\mathcal O(N)</code> 次重复的图断点行为</p>
 <p>回顾一下，当 <code>torch.compile</code> 应用于一个函数时，任何嵌套的函数调用也会被追踪。
 <strong>嵌套图断点</strong>指的是在嵌套函数调用中发生的任何图断点。</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -8114,7 +8114,7 @@
 - 编译目前已追踪的 PyTorch 操作并运行编译后的图
 - 调用第二层函数，该函数会自动作为顶层函数被编译
 - 在第二层函数调用后恢复追踪</p>
-<p>请注意，处理此图断点的运行时间为 {math}<code>\mathcal O(NK)</code>，其中 {math}<code>N</code> 是嵌套深度，{math}<code>K</code> 是从顶层函数到图断点的指令数量。我们最终会追踪 {math}<code>\mathcal O(N^2)</code> 个帧，并且对同一个图断点追踪 {math}<code>\mathcal O(N)</code> 次。</p>
+<p>请注意，处理此图断点的运行时间为 <code>\mathcal O(NK)</code>，其中 <code>N</code> 是嵌套深度，<code>K</code> 是从顶层函数到图断点的指令数量。我们最终会追踪 <code>\mathcal O(N^2)</code> 个帧，并且对同一个图断点追踪 <code>\mathcal O(N)</code> 次。</p>
 
 
 

@@ -8064,14 +8064,13 @@
 
 
 <h1 id="_1">大规模部署特性<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>contents</p>
 <p>local</p>
 <p>:   </p>
 <p>本文档讨论在大型系统中运行 PyTorch 或在大规模组织中使用 PyTorch 操作多个系统时，可能有用的一些扩展点和技巧。</p>
 <p>本文档假设您所在组织从源代码构建 PyTorch，或者能够静态链接在 PyTorch 使用时加载的额外代码。因此，许多钩子都作为 C++ API 暴露，可以在集中位置（例如在静态初始化代码中）一次性触发。</p>
 <h2 id="_2">全范围算子性能分析<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>PyTorch 内置了 <code class="interpreted-text" role="mod">torch.autograd.profiler</code>，能够按需测量单个算子的执行时间。您可以使用相同的机制对运行 PyTorch 的任何进程进行\"始终开启\"的测量。这对于收集在给定进程或整个机器集群中运行的 PyTorch 工作负载信息非常有用。</p>
-<p>可以通过 <code>torch::addGlobalCallback</code> 添加新的算子调用回调。钩子函数将接收描述调用上下文（例如 [name]{.title-ref}）的 <code>torch::RecordFunction</code> 结构体。如果启用，<code>RecordFunction::inputs()</code> 包含以 <code>torch::IValue</code> 变体类型表示的函数参数。请注意，输入日志记录的开销相对较大，因此需要显式启用。</p>
+<p>PyTorch 内置了 <code>torch.autograd.profiler</code>，能够按需测量单个算子的执行时间。您可以使用相同的机制对运行 PyTorch 的任何进程进行\"始终开启\"的测量。这对于收集在给定进程或整个机器集群中运行的 PyTorch 工作负载信息非常有用。</p>
+<p>可以通过 <code>torch::addGlobalCallback</code> 添加新的算子调用回调。钩子函数将接收描述调用上下文（例如 [name]）的 <code>torch::RecordFunction</code> 结构体。如果启用，<code>RecordFunction::inputs()</code> 包含以 <code>torch::IValue</code> 变体类型表示的函数参数。请注意，输入日志记录的开销相对较大，因此需要显式启用。</p>
 <p>算子回调还可以访问 <code>c10::ThreadLocalDebugInfo::get()</code> 接口，该接口返回指向包含调试信息的结构体的指针。此调试信息可以通过使用 <code>at::DebugInfoGuard</code> 对象提前设置。调试信息会通过前向传播（包括异步 <code>fork</code> 任务）和后向传播传递，对于将有关执行环境（例如模型 ID）的额外信息从应用程序的高层传递到算子回调非常有用。</p>
 <p>调用回调会增加一些开销，因此通常只需随机采样算子调用即可。这可以通过向 <code>torch::addGlobalCallback</code> 传递可选采样率来基于每个回调启用。</p>
 <p>请注意，<code>addGlobalCallback</code> 不是线程安全的，只能在没有任何 PyTorch 算子运行时调用。通常，在初始化期间调用它们是个好主意。</p>
@@ -8111,7 +8110,7 @@
 <p>PyTorch API 通常是松散耦合的，很容易用专门版本替换组件。常见的扩展点包括：</p>
 <ul>
 <li>用 C++ 实现的自定义算子 - 详见 <a href="https://pytorch.org/tutorials/advanced/cpp_extension.html">教程</a>。</li>
-<li>自定义数据读取通常可以通过调用相应的 Python 库直接集成。可以通过扩展 <code class="interpreted-text" role="class">~torch.utils.data.Dataset</code> 或 <code class="interpreted-text" role="class">~torch.utils.data.IterableDataset</code> 来利用 <code class="interpreted-text" role="mod">torch.utils.data</code> 的现有功能。</li>
+<li>自定义数据读取通常可以通过调用相应的 Python 库直接集成。可以通过扩展 <code>torch.utils.data.Dataset</code> 或 <code>torch.utils.data.IterableDataset</code> 来利用 <code>torch.utils.data</code> 的现有功能。</li>
 </ul>
 
 

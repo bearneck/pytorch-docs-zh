@@ -8074,20 +8074,17 @@
 </ul>
 <p>这些组件共同定义了张量的结构和数据，其中存储保存实际数据，其余部分作为元数据。</p>
 <h2 id="api">无类型存储 API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<p><code class="interpreted-text" role="class">torch.UntypedStorage</code> 是一个连续的、一维的元素数组。其长度等于张量的字节数。存储作为张量的底层数据容器。 通常，使用常规构造函数（如 <code class="interpreted-text" role="func">~torch.zeros</code>、<code class="interpreted-text" role="func">~torch.zeros_like</code> 或 <code class="interpreted-text" role="func">~torch.Tensor.new_zeros</code>）在 PyTorch 中创建的张量，其张量存储与张量本身之间存在一一对应关系。</p>
-<p>然而，一个存储允许多个张量共享。 例如，张量的任何视图（通过 <code class="interpreted-text" role="meth">~torch.Tensor.view</code> 或某些类型的索引（如整数和切片，但并非所有类型）获得）将指向与原始张量相同的底层存储。 当序列化和反序列化共享同一存储的张量时，这种关系会被保留，张量继续指向同一存储。有趣的是，反序列化指向单个存储的多个张量可能比反序列化多个独立张量更快。</p>
-<p>张量存储可以通过 <code class="interpreted-text" role="meth">~torch.Tensor.untyped_storage</code> 方法访问。这将返回一个 <code class="interpreted-text" role="class">torch.UntypedStorage</code> 类型的对象。 幸运的是，存储具有通过 <code class="interpreted-text" role="meth">torch.UntypedStorage.data_ptr</code> 方法访问的唯一标识符。 在常规设置中，具有相同数据存储的两个张量将具有相同的存储 <code>data_ptr</code>。 然而，张量本身可以指向两个独立的存储，一个用于其数据属性，另一个用于其梯度属性。每个都需要自己的 <code>data_ptr()</code>。通常，不能保证 <code class="interpreted-text" role="meth">torch.Tensor.data_ptr</code> 和 <code class="interpreted-text" role="meth">torch.UntypedStorage.data_ptr</code> 匹配，也不应假设这一点成立。</p>
+<p><code>torch.UntypedStorage</code> 是一个连续的、一维的元素数组。其长度等于张量的字节数。存储作为张量的底层数据容器。 通常，使用常规构造函数（如 <code>torch.zeros</code>、<code>torch.zeros_like</code> 或 <code>torch.Tensor.new_zeros</code>）在 PyTorch 中创建的张量，其张量存储与张量本身之间存在一一对应关系。</p>
+<p>然而，一个存储允许多个张量共享。 例如，张量的任何视图（通过 <code>torch.Tensor.view</code> 或某些类型的索引（如整数和切片，但并非所有类型）获得）将指向与原始张量相同的底层存储。 当序列化和反序列化共享同一存储的张量时，这种关系会被保留，张量继续指向同一存储。有趣的是，反序列化指向单个存储的多个张量可能比反序列化多个独立张量更快。</p>
+<p>张量存储可以通过 <code>torch.Tensor.untyped_storage</code> 方法访问。这将返回一个 <code>torch.UntypedStorage</code> 类型的对象。 幸运的是，存储具有通过 <code>torch.UntypedStorage.data_ptr</code> 方法访问的唯一标识符。 在常规设置中，具有相同数据存储的两个张量将具有相同的存储 <code>data_ptr</code>。 然而，张量本身可以指向两个独立的存储，一个用于其数据属性，另一个用于其梯度属性。每个都需要自己的 <code>data_ptr()</code>。通常，不能保证 <code>torch.Tensor.data_ptr</code> 和 <code>torch.UntypedStorage.data_ptr</code> 匹配，也不应假设这一点成立。</p>
 <p>无类型存储在一定程度上独立于构建在其上的张量。实际上，这意味着具有不同 dtype 或形状的张量可以指向同一存储。 这也意味着张量存储可以被更改，如下例所示：</p>
 <blockquote>
 <p>&gt;&gt;&gt; t = torch.ones(3) &gt;&gt;&gt; s0 = t.untyped_storage() &gt;&gt;&gt; s0 0 0 128 63 0 0 128 63 0 0 128 63 [torch.storage.UntypedStorage(device=cpu) of size 12] &gt;&gt;&gt; s1 = s0.clone() &gt;&gt;&gt; <a href="">s1.fill</a>(0) 0 0 0 0 0 0 0 0 0 0 0 0 [torch.storage.UntypedStorage(device=cpu) of size 12] &gt;&gt;&gt; # 用归零的存储填充张量 &gt;&gt;&gt; <a href="">t.set</a>(s1, storage_offset=t.storage_offset(), stride=t.stride(), size=t.size()) tensor([0., 0., 0.])</p>
-</blockquote>
-<p>warning
- title
-Warning</p>
-<p>请注意，如本例所示直接修改张量的存储不是推荐的做法。 这种低级操作仅出于教育目的进行说明，以展示张量与其底层存储之间的关系。通常，使用标准的 <code>torch.Tensor</code> 方法（如 <code class="interpreted-text" role="meth">~torch.Tensor.clone</code> 和 <code class="interpreted-text" role="meth">~torch.Tensor.fill_</code>）来实现相同的结果更高效且更安全。</p>
-<p>除了 <code>data_ptr</code>，无类型存储还有其他属性，例如 <code class="interpreted-text" role="attr">~torch.UntypedStorage.filename</code>（如果存储指向磁盘上的文件）、<code class="interpreted-text" role="attr">~torch.UntypedStorage.device</code> 或用于设备检查的 <code class="interpreted-text" role="attr">~torch.UntypedStorage.is_cuda</code>。存储也可以通过方法如 <code class="interpreted-text" role="attr">~torch.UntypedStorage.copy_</code>、<code class="interpreted-text" role="attr">~torch.UntypedStorage.fill_</code> 或 <code class="interpreted-text" role="attr">~torch.UntypedStorage.pin_memory</code> 进行原地或非原地操作。更多信息，请查看下面的 API 参考。请记住，修改存储是低级 API，存在风险！ 这些 API 中的大多数也存在于张量级别：如果存在，应优先使用张量级别的 API 而非其存储对应项。</p>
+<p>⚠️ <strong>警告</strong>
+请注意，如本例所示直接修改张量的存储不是推荐的做法。 这种低级操作仅出于教育目的进行说明，以展示张量与其底层存储之间的关系。通常，使用标准的 <code>torch.Tensor</code> 方法（如 <code>torch.Tensor.clone</code> 和 <code>torch.Tensor.fill_</code>）来实现相同的结果更高效且更安全。</p>
+<p>除了 <code>data_ptr</code>，无类型存储还有其他属性，例如 <code>torch.UntypedStorage.filename</code>（如果存储指向磁盘上的文件）、<code>torch.UntypedStorage.device</code> 或用于设备检查的 <code>torch.UntypedStorage.is_cuda</code>。存储也可以通过方法如 <code>torch.UntypedStorage.copy_</code>、<code>torch.UntypedStorage.fill_</code> 或 <code>torch.UntypedStorage.pin_memory</code> 进行原地或非原地操作。更多信息，请查看下面的 API 参考。请记住，修改存储是低级 API，存在风险！ 这些 API 中的大多数也存在于张量级别：如果存在，应优先使用张量级别的 API 而非其存储对应项。</p>
 <h2 id="_1">特殊情况<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>我们提到，具有非 None <code>grad</code> 属性的张量实际上包含两部分数据。 在这种情况下，<code class="interpreted-text" role="meth">~torch.Tensor.untyped_storage</code> 将返回 <code class="interpreted-text" role="attr">~torch.Tensor.data</code> 属性的存储，而梯度的存储可以通过 <code>tensor.grad.untyped_storage()</code> 获得。</p>
+<p>我们提到，具有非 None <code>grad</code> 属性的张量实际上包含两部分数据。 在这种情况下，<code>torch.Tensor.untyped_storage</code> 将返回 <code>torch.Tensor.data</code> 属性的存储，而梯度的存储可以通过 <code>tensor.grad.untyped_storage()</code> 获得。</p>
 <blockquote>
 <p>&gt;&gt;&gt; t = torch.zeros(3, requires_grad=True) &gt;&gt;&gt; t.sum().backward() &gt;&gt;&gt; assert list(t.untyped_storage()) == [0] * 12 # 张量的存储仅为 0 &gt;&gt;&gt; assert list(t.grad.untyped_storage()) != [0] * 12 # 梯度的存储不是</p>
 </blockquote>
@@ -8095,53 +8092,33 @@ Warning</p>
 <p>:   - <code>"meta"</code> 设备上的张量：<code>"meta"</code> 设备上的张量用于形状推断，不保存实际数据。
     - 伪张量：PyTorch 编译器使用的另一个内部工具是 <a href="https://pytorch.org/docs/stable/torch.compiler_fake_tensor.html">FakeTensor</a>，它基于类似的概念。</p>
 <p>张量子类或类张量对象也可能表现出不寻常的行为。通常，我们不期望许多用例需要在存储级别进行操作！</p>
-<p>{.autoclass members="" undoc-members="" inherited-members=""}
-torch.UntypedStorage</p>
+<p>torch.UntypedStorage</p>
 <h2 id="_2">遗留类型化存储<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>warning
- title
-Warning</p>
-<p>出于历史原因，PyTorch 之前使用类型化的存储类，这些类现已弃用，应避免使用。以下内容详细介绍了该 API，以防您遇到它，但强烈不建议使用。 除 <code class="interpreted-text" role="class">torch.UntypedStorage</code> 之外的所有存储类都将在未来被移除，并且所有情况下都将使用 <code class="interpreted-text" role="class">torch.UntypedStorage</code>。</p>
-<p><code class="interpreted-text" role="class">torch.Storage</code> 是与默认数据类型 (<code class="interpreted-text" role="func">torch.get_default_dtype()</code>) 对应的存储类的别名。例如，如果默认数据类型是 <code class="interpreted-text" role="attr">torch.float</code>，则 <code class="interpreted-text" role="class">torch.Storage</code> 解析为 <code class="interpreted-text" role="class">torch.FloatStorage</code>。</p>
-<p><code class="interpreted-text" role="class">torch.&lt;type&gt;Storage</code> 和 <code class="interpreted-text" role="class">torch.cuda.&lt;type&gt;Storage</code> 类，如 <code class="interpreted-text" role="class">torch.FloatStorage</code>、<code class="interpreted-text" role="class">torch.IntStorage</code> 等，实际上从未被实例化。调用它们的构造函数会创建一个具有适当 <code class="interpreted-text" role="class">torch.dtype</code> 和 <code class="interpreted-text" role="class">torch.device</code> 的 <code class="interpreted-text" role="class">torch.TypedStorage</code>。<code class="interpreted-text" role="class">torch.&lt;type&gt;Storage</code> 类拥有与 <code class="interpreted-text" role="class">torch.TypedStorage</code> 相同的所有类方法。</p>
-<p><code class="interpreted-text" role="class">torch.TypedStorage</code> 是一个特定 <code class="interpreted-text" role="class">torch.dtype</code> 元素的连续一维数组。它可以被赋予任何 <code class="interpreted-text" role="class">torch.dtype</code>，内部数据将被相应地解释。<code class="interpreted-text" role="class">torch.TypedStorage</code> 包含一个 <code class="interpreted-text" role="class">torch.UntypedStorage</code>，后者将数据保存为无类型的字节数组。</p>
-<p>每个跨步的 <code class="interpreted-text" role="class">torch.Tensor</code> 都包含一个 <code class="interpreted-text" role="class">torch.TypedStorage</code>，它存储了 <code class="interpreted-text" role="class">torch.Tensor</code> 视图中的所有数据。</p>
-<p>{.autoclass members="" undoc-members="" inherited-members=""}
-torch.TypedStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.DoubleStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.FloatStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.HalfStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.LongStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.IntStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.ShortStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.CharStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.ByteStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.BoolStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.BFloat16Storage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.ComplexDoubleStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.ComplexFloatStorage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.QUInt8Storage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.QInt8Storage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.QInt32Storage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.QUInt4x2Storage</p>
-<p>{.autoclass members="" undoc-members=""}
-torch.QUInt2x4Storage</p>
+<p>⚠️ <strong>警告</strong>
+出于历史原因，PyTorch 之前使用类型化的存储类，这些类现已弃用，应避免使用。以下内容详细介绍了该 API，以防您遇到它，但强烈不建议使用。 除 <code>torch.UntypedStorage</code> 之外的所有存储类都将在未来被移除，并且所有情况下都将使用 <code>torch.UntypedStorage</code>。</p>
+<p><code>torch.Storage</code> 是与默认数据类型 (<code>torch.get_default_dtype()</code>) 对应的存储类的别名。例如，如果默认数据类型是 <code>torch.float</code>，则 <code>torch.Storage</code> 解析为 <code>torch.FloatStorage</code>。</p>
+<p><code>torch.&lt;type&gt;Storage</code> 和 <code>torch.cuda.&lt;type&gt;Storage</code> 类，如 <code>torch.FloatStorage</code>、<code>torch.IntStorage</code> 等，实际上从未被实例化。调用它们的构造函数会创建一个具有适当 <code>torch.dtype</code> 和 <code>torch.device</code> 的 <code>torch.TypedStorage</code>。<code>torch.&lt;type&gt;Storage</code> 类拥有与 <code>torch.TypedStorage</code> 相同的所有类方法。</p>
+<p><code>torch.TypedStorage</code> 是一个特定 <code>torch.dtype</code> 元素的连续一维数组。它可以被赋予任何 <code>torch.dtype</code>，内部数据将被相应地解释。<code>torch.TypedStorage</code> 包含一个 <code>torch.UntypedStorage</code>，后者将数据保存为无类型的字节数组。</p>
+<p>每个跨步的 <code>torch.Tensor</code> 都包含一个 <code>torch.TypedStorage</code>，它存储了 <code>torch.Tensor</code> 视图中的所有数据。</p>
+<p>torch.TypedStorage</p>
+<p>torch.DoubleStorage</p>
+<p>torch.FloatStorage</p>
+<p>torch.HalfStorage</p>
+<p>torch.LongStorage</p>
+<p>torch.IntStorage</p>
+<p>torch.ShortStorage</p>
+<p>torch.CharStorage</p>
+<p>torch.ByteStorage</p>
+<p>torch.BoolStorage</p>
+<p>torch.BFloat16Storage</p>
+<p>torch.ComplexDoubleStorage</p>
+<p>torch.ComplexFloatStorage</p>
+<p>torch.QUInt8Storage</p>
+<p>torch.QInt8Storage</p>
+<p>torch.QInt32Storage</p>
+<p>torch.QUInt4x2Storage</p>
+<p>torch.QUInt2x4Storage</p>
+</blockquote>
 
 
 

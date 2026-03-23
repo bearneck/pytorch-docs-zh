@@ -8266,10 +8266,10 @@
 <li>调用 <code>hub.set_dir(&lt;PATH_TO_HUB_DIR&gt;)</code></li>
 <li><code>$TORCH_HOME/hub</code>，如果设置了环境变量 <code>TORCH_HOME</code>。</li>
 <li><code>$XDG_CACHE_HOME/torch/hub</code>，如果设置了环境变量 <code>XDG_CACHE_HOME</code>。</li>
-<li><code>~/.cache/torch/hub</code></li>
+<li><code>/.cache/torch/hub</code></li>
 </ul>
 <h3 id="_6">缓存逻辑<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>默认情况下，我们加载文件后不会清理它们。如果文件已存在于 <code>~torch.hub.get_dir()</code> 返回的目录中，Hub 默认会使用缓存。</p>
+<p>默认情况下，我们加载文件后不会清理它们。如果文件已存在于 <code>torch.hub.get_dir()</code> 返回的目录中，Hub 默认会使用缓存。</p>
 <p>用户可以通过调用 <code>hub.load(..., force_reload=True)</code> 强制重新加载。这将删除现有的 GitHub 文件夹和下载的权重，并重新初始化一次新的下载。当更新发布到同一分支时，这很有用，用户可以跟上最新的发布。</p>
 <h3 id="_7">已知限制：<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>Torch hub 的工作原理是像安装包一样导入它。Python 导入会引入一些副作用。例如，您可以在 Python 缓存 <code>sys.modules</code> 和 <code>sys.path_importer_cache</code> 中看到新条目，这是正常的 Python 行为。

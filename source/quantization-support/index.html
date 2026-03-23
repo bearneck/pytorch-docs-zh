@@ -8666,18 +8666,18 @@
 <h2 id="torchaonnqatdynamic">torch.ao.nn.qat.dynamic<a class="headerlink" href="#torchaonnqatdynamic" title="Permanent link">&para;</a></h2>
 <p>此模块实现了关键 nn 模块（如 <strong>Linear()</strong>）的版本，这些模块在 FP32 下运行，但应用了舍入以模拟 INT8 量化的效果，并将在推理期间动态量化。</p>
 <h2 id="torchaonnquantized">torch.ao.nn.quantized<a class="headerlink" href="#torchaonnquantized" title="Permanent link">&para;</a></h2>
-<p>此模块实现了 nn 层（如 <code>~torch.nn.Conv2d</code> 和 <code>torch.nn.ReLU</code>）的量化版本。</p>
+<p>此模块实现了 nn 层（如 <code>torch.nn.Conv2d</code> 和 <code>torch.nn.ReLU</code>）的量化版本。</p>
 <h2 id="torchaonnquantizedfunctional">torch.ao.nn.quantized.functional<a class="headerlink" href="#torchaonnquantizedfunctional" title="Permanent link">&para;</a></h2>
 <h2 id="torchaonnquantizable">torch.ao.nn.quantizable<a class="headerlink" href="#torchaonnquantizable" title="Permanent link">&para;</a></h2>
 <p>此模块实现了部分 nn 层的可量化版本。
 这些模块可与自定义模块机制结合使用，通过为 prepare 和 convert 函数提供 <code>custom_module_config</code> 参数来实现。</p>
 <h2 id="torchaonnquantizeddynamic">torch.ao.nn.quantized.dynamic<a class="headerlink" href="#torchaonnquantizeddynamic" title="Permanent link">&para;</a></h2>
-<p>动态量化的 <code>~torch.nn.Linear</code>、<code>~torch.nn.LSTM</code>、
-<code>~torch.nn.LSTMCell</code>、<code>~torch.nn.GRUCell</code> 和
-<code>~torch.nn.RNNCell</code>。</p>
+<p>动态量化的 <code>torch.nn.Linear</code>、<code>torch.nn.LSTM</code>、
+<code>torch.nn.LSTMCell</code>、<code>torch.nn.GRUCell</code> 和
+<code>torch.nn.RNNCell</code>。</p>
 <h2 id="_3">量化数据类型与量化方案<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>请注意，当前算子实现仅支持 <strong>conv</strong> 和 <strong>linear</strong> 算子的权重进行逐通道量化。此外，输入数据与量化数据之间的映射关系如下：</p>
-<p>其中 :math:<code>[x_\text{min}, x_\text{max}]</code> 表示输入数据的范围，而 :math:<code>Q_\text{min}</code> 和 :math:<code>Q_\text{max}</code> 分别是量化数据类型的最小值和最大值。</p>
+<p>其中 :math:<code>[x_\text{min}, x_\text{max}]</code> 表示输入数据的范围，而 :math:<code>Q_\text</code> 和 :math:<code>Q_\text</code> 分别是量化数据类型的最小值和最大值。</p>
 <p>请注意，:math:<code>s</code> 和 :math:<code>z</code> 的选择意味着，只要零在输入数据范围内或使用对称量化，零的表示就不会引入量化误差。</p>
 <p>可以通过 <code>自定义算子机制 &lt;https://pytorch.org/tutorials/advanced/torch_script_custom_ops.html&gt;</code>_ 实现额外的数据类型和量化方案。</p>
 

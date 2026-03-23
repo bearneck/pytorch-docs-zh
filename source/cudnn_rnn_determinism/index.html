@@ -7943,13 +7943,13 @@
 
   <h1>cuDNN RNN 确定性</h1>
 
-<p>warning
- title
-Warning</p>
-<p>在某些版本的 cuDNN 和 CUDA 上，RNN 函数存在已知的非确定性问题。 您可以通过设置以下环境变量来强制实现确定性行为：</p>
+<blockquote>
+<p>⚠️ <strong>警告</strong>
+在某些版本的 cuDNN 和 CUDA 上，RNN 函数存在已知的非确定性问题。 您可以通过设置以下环境变量来强制实现确定性行为：</p>
 <p>在 CUDA 10.1 上，设置环境变量 <code>CUDA_LAUNCH_BLOCKING=1</code>。 这可能会影响性能。</p>
 <p>在 CUDA 10.2 或更高版本上，设置环境变量 （注意开头的冒号符号） <code>CUBLAS_WORKSPACE_CONFIG=:16:8</code> 或 <code>CUBLAS_WORKSPACE_CONFIG=:4096:2</code>。</p>
 <p>更多信息请参阅 <a href="https://docs.nvidia.com/deeplearning/cudnn/archives/cudnn-880/release-notes/rel_8.html">cuDNN 8 Release Notes</a>。</p>
+</blockquote>
 
 
 

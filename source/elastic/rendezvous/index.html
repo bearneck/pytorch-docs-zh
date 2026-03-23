@@ -86,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#rendezvous-api" class="md-skip">
+        <a href="#rendezvous" class="md-skip">
           跳转至
         </a>
       
@@ -8072,96 +8072,54 @@
   
 
 
-<h1 id="rendezvous-api">集合点 (Rendezvous)<a class="headerlink" href="#rendezvous-api" title="Permanent link">&para;</a></h1>
-<p>automodule
-torch.distributed.elastic.rendezvous</p>
+<h1 id="rendezvous">集合点 (Rendezvous)<a class="headerlink" href="#rendezvous" title="Permanent link">&para;</a></h1>
+<p>torch.distributed.elastic.rendezvous</p>
 <p>下方是一个描述集合点如何工作的状态图。</p>
 <p><img alt="image" src="etcd_rdzv_diagram.png" /></p>
 <h2 id="registry">注册表 (Registry)<a class="headerlink" href="#registry" title="Permanent link">&para;</a></h2>
-<p>{.autoclass members=""}
-RendezvousParameters</p>
-<p>autoclass
-RendezvousHandlerRegistry</p>
-<p>automodule
-torch.distributed.elastic.rendezvous.registry</p>
+<p>RendezvousParameters</p>
+<p>RendezvousHandlerRegistry</p>
+<p>torch.distributed.elastic.rendezvous.registry</p>
 <h2 id="handler">处理器 (Handler)<a class="headerlink" href="#handler" title="Permanent link">&para;</a></h2>
-<p>currentmodule
-torch.distributed.elastic.rendezvous</p>
-<p>{.autoclass members=""}
-RendezvousHandler</p>
+<p>RendezvousHandler</p>
 <h2 id="dataclasses">数据类 (Dataclasses)<a class="headerlink" href="#dataclasses" title="Permanent link">&para;</a></h2>
-<p>autoclass
-RendezvousInfo</p>
-<p>currentmodule
-torch.distributed.elastic.rendezvous.api</p>
-<p>autoclass
+<p>RendezvousInfo</p>
+<blockquote>
+<p><strong>AUTOCLASS</strong>
 RendezvousStoreInfo</p>
-<p>automethod
-build(rank, store)</p>
+<p>build(rank, store)</p>
 <h2 id="exceptions">异常 (Exceptions)<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h2>
-<p>autoclass
-RendezvousError</p>
-<p>autoclass
-RendezvousClosedError</p>
-<p>autoclass
-RendezvousTimeoutError</p>
-<p>autoclass
-RendezvousConnectionError</p>
-<p>autoclass
-RendezvousStateError</p>
-<p>autoclass
-RendezvousGracefulExitError</p>
+<p>RendezvousError</p>
+<p>RendezvousClosedError</p>
+<p>RendezvousTimeoutError</p>
+<p>RendezvousConnectionError</p>
+<p>RendezvousStateError</p>
+<p>RendezvousGracefulExitError</p>
 <h2 id="implementations">实现 (Implementations)<a class="headerlink" href="#implementations" title="Permanent link">&para;</a></h2>
 <h3 id="dynamic-rendezvous">动态集合点 (Dynamic Rendezvous)<a class="headerlink" href="#dynamic-rendezvous" title="Permanent link">&para;</a></h3>
-<p>currentmodule
-torch.distributed.elastic.rendezvous.dynamic_rendezvous</p>
-<p>autofunction
-create_handler</p>
-<p>{.autoclass members="from_backend"}
-DynamicRendezvousHandler()</p>
-<p>{.autoclass members=""}
-RendezvousBackend</p>
-<p>{.autoclass members=""}
-RendezvousTimeout</p>
+<p>create_handler</p>
+<p>DynamicRendezvousHandler()</p>
+<p>RendezvousBackend</p>
+<p>RendezvousTimeout</p>
 <h4 id="c10d-c10d-backend">C10d 后端 (C10d Backend)<a class="headerlink" href="#c10d-c10d-backend" title="Permanent link">&para;</a></h4>
-<p>currentmodule
-torch.distributed.elastic.rendezvous.c10d_rendezvous_backend</p>
-<p>autofunction
-create_backend</p>
-<p>{.autoclass members=""}
-C10dRendezvousBackend</p>
+<p>create_backend</p>
+<p>C10dRendezvousBackend</p>
 <h4 id="etcd-etcd-backend">Etcd 后端 (Etcd Backend)<a class="headerlink" href="#etcd-etcd-backend" title="Permanent link">&para;</a></h4>
-<p>currentmodule
-torch.distributed.elastic.rendezvous.etcd_rendezvous_backend</p>
-<p>autofunction
-create_backend</p>
-<p>{.autoclass members=""}
-EtcdRendezvousBackend</p>
+<p>create_backend</p>
+<p>EtcdRendezvousBackend</p>
 <h3 id="etcd-etcd-rendezvous-legacy">Etcd 集合点 (旧版) (Etcd Rendezvous (Legacy))<a class="headerlink" href="#etcd-etcd-rendezvous-legacy" title="Permanent link">&para;</a></h3>
-<p>warning
- title
-Warning</p>
-<p><code>DynamicRendezvousHandler</code> 类已取代 <code>EtcdRendezvousHandler</code> 类，推荐大多数用户使用。<code>EtcdRendezvousHandler</code> 目前处于维护模式，未来将被弃用。</p>
-<p>currentmodule
-torch.distributed.elastic.rendezvous.etcd_rendezvous</p>
-<p>autoclass
-EtcdRendezvousHandler</p>
+<p>⚠️ <strong>警告</strong>
+<code>DynamicRendezvousHandler</code> 类已取代 <code>EtcdRendezvousHandler</code> 类，推荐大多数用户使用。<code>EtcdRendezvousHandler</code> 目前处于维护模式，未来将被弃用。</p>
+<p>EtcdRendezvousHandler</p>
 <h3 id="etcd-etcd-store">Etcd 存储 (Etcd Store)<a class="headerlink" href="#etcd-etcd-store" title="Permanent link">&para;</a></h3>
 <p><code>EtcdStore</code> 是当使用 etcd 作为集合点后端时，由 <code>next_rendezvous()</code> 返回的 C10d <code>Store</code> 实例类型。</p>
-<p>currentmodule
-torch.distributed.elastic.rendezvous.etcd_store</p>
-<p>{.autoclass members=""}
-EtcdStore</p>
+<p>EtcdStore</p>
 <h3 id="etcd-etcd-server">Etcd 服务器 (Etcd Server)<a class="headerlink" href="#etcd-etcd-server" title="Permanent link">&para;</a></h3>
 <p><code>EtcdServer</code> 是一个便利类，可以让你轻松地在子进程中启动和停止一个 etcd 服务器。这对于测试或单节点（多工作进程）部署非常有用，因为手动在旁设置一个 etcd 服务器很麻烦。</p>
-<p>warning
- title
-Warning</p>
-<p>对于生产环境和多节点部署，请考虑正确部署一个高可用的 etcd 服务器，因为这是分布式作业的单一故障点。</p>
-<p>currentmodule
-torch.distributed.elastic.rendezvous.etcd_server</p>
-<p>autoclass
-EtcdServer</p>
+<p>⚠️ <strong>警告</strong>
+对于生产环境和多节点部署，请考虑正确部署一个高可用的 etcd 服务器，因为这是分布式作业的单一故障点。</p>
+<p>EtcdServer</p>
+</blockquote>
 
 
 
