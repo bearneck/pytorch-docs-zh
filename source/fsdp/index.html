@@ -9955,35 +9955,35 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.fsdp.FullyShardedDataParallel</code></td>
-<td>—</td>
+<td>A wrapper for sharding module parameters across data parallel workers.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.BackwardPrefetch</code></td>
-<td>—</td>
+<td>This configures explicit backward prefetching, which improves throughput by enabling communication and computation overlap in the backward pass at the</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.ShardingStrategy</code></td>
-<td>—</td>
+<td>This specifies the sharding strategy to be used for distributed training by FullyShardedDataParallel.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.MixedPrecision</code></td>
-<td>—</td>
+<td>This configures FSDP-native mixed precision training.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.CPUOffload</code></td>
-<td>—</td>
+<td>This configures CPU offloading.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.StateDictConfig</code></td>
-<td>—</td>
+<td>StateDictConfig is the base class for all state_dict configuration classes.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.FullStateDictConfig</code></td>
-<td>—</td>
+<td>FullStateDictConfig is a config class meant to be used with StateDictType.FULL_STATE_DICT.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.ShardedStateDictConfig</code></td>
-<td>—</td>
+<td>ShardedStateDictConfig is a config class meant to be used with StateDictType.SHARDED_STATE_DICT.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.LocalStateDictConfig</code></td>
@@ -9991,15 +9991,15 @@
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.OptimStateDictConfig</code></td>
-<td>—</td>
+<td>OptimStateDictConfig is the base class for all optim_state_dict configuration classes.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.FullOptimStateDictConfig</code></td>
-<td>—</td>
+<td>rank0_only (bool) – If True, then only rank 0 saves the full state dict, and nonzero ranks save an empty dict.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.ShardedOptimStateDictConfig</code></td>
-<td>—</td>
+<td>ShardedOptimStateDictConfig is a config class meant to be used with StateDictType.SHARDED_STATE_DICT.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.fsdp.LocalOptimStateDictConfig</code></td>

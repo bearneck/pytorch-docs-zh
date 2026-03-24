@@ -1444,6 +1444,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 参考
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -10206,6 +10217,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 参考
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -10433,6 +10455,97 @@
 </code></pre></div>
 <p>% 这些模块目前作为 torch/data 的一部分进行文档记录，在此列出
 % 直到我们有更清晰的解决方案</p>
+<h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>torch.utils.data.DataLoader</code></td>
+<td>Data loader combines a dataset and a sampler, and provides an iterable over the given dataset.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.Dataset</code></td>
+<td>An abstract class representing a Dataset.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.IterableDataset</code></td>
+<td>An iterable Dataset.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.TensorDataset</code></td>
+<td>Dataset wrapping tensors.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.StackDataset</code></td>
+<td>Dataset as a stacking of multiple datasets.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.ConcatDataset</code></td>
+<td>Dataset as a concatenation of multiple datasets.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.ChainDataset</code></td>
+<td>Dataset for chaining multiple IterableDataset s.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.Subset</code></td>
+<td>Subset of a dataset at specified indices.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data._utils.collate.collate</code></td>
+<td>General collate function that handles collection type of element within each batch.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.default_collate</code></td>
+<td>Take in a batch of data and put the elements within the batch into a tensor with an additional outer dimension - batch size.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.default_convert</code></td>
+<td>Convert each NumPy array element into a torch.Tensor.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.get_worker_info</code></td>
+<td>Returns the information about the current DataLoader iterator worker process.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.random_split</code></td>
+<td>Randomly split a dataset into non-overlapping new datasets of given lengths.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.Sampler</code></td>
+<td>Base class for all Samplers.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.SequentialSampler</code></td>
+<td>Samples elements sequentially, always in the same order.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.RandomSampler</code></td>
+<td>Samples elements randomly.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.SubsetRandomSampler</code></td>
+<td>Samples elements randomly from a given list of indices, without replacement.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.WeightedRandomSampler</code></td>
+<td>Samples elements from [0,..,len(weights)-1] with given probabilities (weights).</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.BatchSampler</code></td>
+<td>Wraps another sampler to yield a mini-batch of indices.</td>
+</tr>
+<tr>
+<td><code>torch.utils.data.distributed.DistributedSampler</code></td>
+<td>Sampler that restricts data loading to a subset of the dataset.</td>
+</tr>
+</tbody>
+</table>
 
 
 
