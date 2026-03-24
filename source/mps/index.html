@@ -10046,55 +10046,55 @@
 <tbody>
 <tr>
 <td><code>torch.mps.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.mps.device_count</code></td>
-<td>—</td>
+<td>Return the number of current accelerator available.</td>
 </tr>
 <tr>
 <td><code>torch.mps.synchronize</code></td>
-<td>—</td>
+<td>Wait for all kernels in all streams on the given device to complete.</td>
 </tr>
 <tr>
 <td><code>torch.mps.get_rng_state</code></td>
-<td>—</td>
+<td>Returns the random number generator state of the specified MTIA device as a ByteTensor.</td>
 </tr>
 <tr>
 <td><code>torch.mps.set_rng_state</code></td>
-<td>—</td>
+<td>Sets the random number generator state of the specified MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.mps.manual_seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.mps.seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.mps.empty_cache</code></td>
-<td>—</td>
+<td>Release all unoccupied cached memory currently held by the caching allocator so that those can be used in other application.</td>
 </tr>
 <tr>
 <td><code>torch.mps.set_per_process_memory_fraction</code></td>
-<td>—</td>
+<td>Set the memory fraction for a single process on XPU device.</td>
 </tr>
 <tr>
 <td><code>torch.mps.current_allocated_memory</code></td>
-<td>—</td>
+<td>Returns the current GPU memory occupied by tensors in bytes.</td>
 </tr>
 <tr>
 <td><code>torch.mps.driver_allocated_memory</code></td>
-<td>—</td>
+<td>Returns total GPU memory allocated by Metal driver for the process in bytes.</td>
 </tr>
 <tr>
 <td><code>torch.mps.recommended_max_memory</code></td>
-<td>—</td>
+<td>Returns recommended max Working set size for GPU memory in bytes.</td>
 </tr>
 <tr>
 <td><code>torch.mps.compile_shader</code></td>
-<td>—</td>
+<td>Compiles compute shader from source and allows one to invoke kernels defined there from the comfort of Python runtime Example.</td>
 </tr>
 </tbody>
 </table>
@@ -10110,27 +10110,27 @@
 <tbody>
 <tr>
 <td><code>profiler.start</code></td>
-<td>—</td>
+<td>Start OS Signpost tracing from MPS backend.</td>
 </tr>
 <tr>
 <td><code>profiler.stop</code></td>
-<td>—</td>
+<td>Stops generating OS Signpost tracing from MPS backend.</td>
 </tr>
 <tr>
 <td><code>profiler.profile</code></td>
-<td>—</td>
+<td>Context Manager to enabling generating OS Signpost tracing from MPS backend.</td>
 </tr>
 <tr>
 <td><code>profiler.is_capturing_metal</code></td>
-<td>—</td>
+<td>Checks if metal capture is in progress</td>
 </tr>
 <tr>
 <td><code>profiler.is_metal_capture_enabled</code></td>
-<td>—</td>
+<td>Checks if metal_capture context manager is usable To enable metal capture, set MTL_CAPTURE_ENABLED envvar</td>
 </tr>
 <tr>
 <td><code>profiler.metal_capture</code></td>
-<td>—</td>
+<td>Context manager that enables capturing of Metal calls into gputrace</td>
 </tr>
 </tbody>
 </table>
@@ -10146,7 +10146,7 @@
 <tbody>
 <tr>
 <td><code>event.Event</code></td>
-<td>—</td>
+<td>Wrapper around an MPS event.</td>
 </tr>
 </tbody>
 </table>

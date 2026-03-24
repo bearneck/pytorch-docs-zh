@@ -10029,11 +10029,11 @@
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.create_handler</code></td>
-<td>—</td>
+<td>Create a new DynamicRendezvousHandler from the specified parameters.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.create_backend</code></td>
-<td>—</td>
+<td>Create a new C10dRendezvousBackend from the specified parameters.</td>
 </tr>
 </tbody>
 </table>
@@ -10048,47 +10048,47 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousParameters</code></td>
-<td>—</td>
+<td>Hold the parameters to construct a RendezvousHandler.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousHandlerRegistry</code></td>
-<td>—</td>
+<td>Represent a registry of RendezvousHandler backends.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousHandler</code></td>
-<td>—</td>
+<td>Main rendezvous interface.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousInfo</code></td>
-<td>—</td>
+<td>Holds the information about the rendezvous.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousStoreInfo</code></td>
-<td>—</td>
+<td>Store address and port that can be used to bootstrap trainer distributed comms</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousError</code></td>
-<td>—</td>
+<td>Represents the base type for rendezvous errors.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousClosedError</code></td>
-<td>—</td>
+<td>Raised when a rendezvous is closed.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousTimeoutError</code></td>
-<td>—</td>
+<td>Raised when a rendezvous did not complete on time.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousConnectionError</code></td>
-<td>—</td>
+<td>Raised when the connection to a rendezvous backend has failed.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousStateError</code></td>
-<td>—</td>
+<td>Raised when the state of a rendezvous is corrupt.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousGracefulExitError</code></td>
-<td>—</td>
+<td>Raised when node wasn’t not included in rendezvous and gracefully exits.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.DynamicRendezvousHandler()</code></td>
@@ -10096,31 +10096,31 @@
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousBackend</code></td>
-<td>—</td>
+<td>Represent a backend that holds the rendezvous state.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.RendezvousTimeout</code></td>
-<td>—</td>
+<td>Hold the timeout configuration of a rendezvous.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.C10dRendezvousBackend</code></td>
-<td>—</td>
+<td>Represents a C10d-backed rendezvous backend.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.EtcdRendezvousBackend</code></td>
-<td>—</td>
+<td>Represents an etcd-based rendezvous backend.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.EtcdRendezvousHandler</code></td>
-<td>—</td>
+<td>Implements a torch.distributed.elastic.rendezvous.RendezvousHandler interface backed by torch.distributed.elastic.rendezvous.etcd_rendezvous.EtcdRende</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.EtcdStore</code></td>
-<td>—</td>
+<td>Implement a c10 Store interface by piggybacking on the rendezvous etcd instance.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.rendezvous.EtcdServer</code></td>
-<td>—</td>
+<td>Note</td>
 </tr>
 </tbody>
 </table>

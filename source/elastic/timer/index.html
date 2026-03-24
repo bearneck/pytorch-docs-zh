@@ -10001,11 +10001,11 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.elastic.timer.configure</code></td>
-<td>—</td>
+<td>Configures a timer client.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.expires</code></td>
-<td>—</td>
+<td>Acquires a countdown timer that expires in after seconds from now, unless the code-block that it wraps is finished within the timeframe.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.debug_info_logging.log_debug_info_for_expired_timers</code></td>
@@ -10024,31 +10024,31 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.elastic.timer.LocalTimerServer</code></td>
-<td>—</td>
+<td>Server that works with LocalTimerClient.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.LocalTimerClient</code></td>
-<td>—</td>
+<td>Client side of LocalTimerServer.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.FileTimerServer</code></td>
-<td>—</td>
+<td>Server that works with FileTimerClient.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.FileTimerClient</code></td>
-<td>—</td>
+<td>Client side of FileTimerServer.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.TimerRequest</code></td>
-<td>—</td>
+<td>Data object representing a countdown timer acquisition and release that is used between the TimerClient and TimerServer.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.TimerServer</code></td>
-<td>—</td>
+<td>Entity that monitors active timers and expires them in a timely fashion.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.elastic.timer.TimerClient</code></td>
-<td>—</td>
+<td>Client library to acquire and release countdown timers by communicating with the TimerServer.</td>
 </tr>
 </tbody>
 </table>

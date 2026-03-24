@@ -10156,91 +10156,91 @@
 <tbody>
 <tr>
 <td><code>torch.xpu.StreamContext</code></td>
-<td>—</td>
+<td>Context-manager that selects a given stream.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.can_device_access_peer</code></td>
-<td>—</td>
+<td>Query whether a device can access a peer device's memory.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.current_device</code></td>
-<td>—</td>
+<td>Return the index of a currently selected device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.current_stream</code></td>
-<td>—</td>
+<td>Return the currently selected stream for a given device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.device</code></td>
-<td>—</td>
+<td>Context-manager that changes the selected device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.device_count</code></td>
-<td>—</td>
+<td>Return the number of current accelerator available.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.device_of</code></td>
-<td>—</td>
+<td>Context-manager that changes the current device to that of given object.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_arch_list</code></td>
-<td>—</td>
+<td>Return list XPU architectures this library was compiled for.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_device_capability</code></td>
-<td>—</td>
+<td>Return capability of a given device as a tuple of (major version, minor version).</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_device_name</code></td>
-<td>—</td>
+<td>Get the name of a device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_device_properties</code></td>
-<td>—</td>
+<td>Get the properties of a device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_gencode_flags</code></td>
-<td>—</td>
+<td>Return XPU AOT(ahead-of-time) build flags this library was compiled with.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_stream_from_external</code></td>
-<td>—</td>
+<td>Return a Stream from an external SYCL queue.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.init</code></td>
-<td>—</td>
+<td>Initialize PyTorch's XPU state.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.is_bf16_supported</code></td>
-<td>—</td>
+<td>Return a bool indicating if the current MTIA device supports dtype bfloat16.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.is_initialized</code></td>
-<td>—</td>
+<td>Return whether PyTorch's MTIA state has been initialized.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.is_tf32_supported</code></td>
-<td>—</td>
+<td>Return a bool indicating if the current XPU device supports dtype tf32.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.set_device</code></td>
-<td>—</td>
+<td>Set the current device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.set_stream</code></td>
-<td>—</td>
+<td>Set the current stream to a given stream.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.stream</code></td>
-<td>—</td>
+<td>Wrap around the Context-manager StreamContext that selects a given stream.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.synchronize</code></td>
-<td>—</td>
+<td>Wait for all kernels in all streams on the given device to complete.</td>
 </tr>
 </tbody>
 </table>
@@ -10256,39 +10256,39 @@
 <tbody>
 <tr>
 <td><code>torch.xpu.get_rng_state</code></td>
-<td>—</td>
+<td>Returns the random number generator state of the specified MTIA device as a ByteTensor.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_rng_state_all</code></td>
-<td>—</td>
+<td>Returns a list of ByteTensor representing the random number states of all devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.initial_seed</code></td>
-<td>—</td>
+<td>Returns the current random seed of the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.manual_seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.manual_seed_all</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers on all MTIA devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.seed_all</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number on all MTIA devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.set_rng_state</code></td>
-<td>—</td>
+<td>Sets the random number generator state of the specified MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.set_rng_state_all</code></td>
-<td>—</td>
+<td>Sets the random number generator state of all devices.</td>
 </tr>
 </tbody>
 </table>
@@ -10304,11 +10304,11 @@
 <tbody>
 <tr>
 <td><code>torch.xpu.Event</code></td>
-<td>—</td>
+<td>Query and record Stream status to identify or control dependencies across Stream and measure timing.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.Stream</code></td>
-<td>—</td>
+<td>An in-order queue of executing the respective tasks asynchronously in first in first out (FIFO) order.</td>
 </tr>
 </tbody>
 </table>
@@ -10324,23 +10324,23 @@
 <tbody>
 <tr>
 <td><code>torch.xpu.is_current_stream_capturing</code></td>
-<td>—</td>
+<td>Return True if XPU graph capture is underway on the current XPU stream, False otherwise.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.graph_pool_handle</code></td>
-<td>—</td>
+<td>Return an opaque token representing the id of a graph memory pool.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.XPUGraph</code></td>
-<td>—</td>
+<td>Wrapper around a XPU graph.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.graph</code></td>
-<td>—</td>
+<td>Context-manager that captures XPU work into a torch.xpu.XPUGraph object for later replay.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.make_graphed_callables</code></td>
-<td>—</td>
+<td>Accept callables (functions or nn.Modules) and returns graphed versions.</td>
 </tr>
 </tbody>
 </table>
@@ -10356,67 +10356,67 @@
 <tbody>
 <tr>
 <td><code>torch.xpu.XPUPluggableAllocator</code></td>
-<td>—</td>
+<td>XPU memory allocator loaded dynamically from a shared library.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.change_current_allocator</code></td>
-<td>—</td>
+<td>Change the currently used memory allocator to be the one provided.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.empty_cache</code></td>
-<td>—</td>
+<td>Release all unoccupied cached memory currently held by the caching allocator so that those can be used in other application.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.get_per_process_memory_fraction</code></td>
-<td>—</td>
+<td>Retrieve the memory fraction currently set for a process on a given XPU device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.max_memory_allocated</code></td>
-<td>—</td>
+<td>Return the current accelerator maximum device memory occupied by tensors in bytes for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.max_memory_reserved</code></td>
-<td>—</td>
+<td>Return the current accelerator maximum device memory managed by the caching allocator in bytes for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.mem_get_info</code></td>
-<td>—</td>
+<td>Return the global free and total GPU memory for a given device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.memory_allocated</code></td>
-<td>—</td>
+<td>Return the current accelerator device memory occupied by tensors in bytes for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.memory_reserved</code></td>
-<td>—</td>
+<td>Return the current accelerator device memory managed by the caching allocator in bytes for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.memory_snapshot</code></td>
-<td>—</td>
+<td>Return a snapshot of the XPU memory allocator state across all devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.memory_stats</code></td>
-<td>—</td>
+<td>Return a dictionary of accelerator device memory allocator statistics for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.memory_stats_as_nested_dict</code></td>
-<td>—</td>
+<td>Return the result of memory_stats() as a nested dictionary.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.reset_accumulated_memory_stats</code></td>
-<td>—</td>
+<td>Reset the "accumulated" (historical) stats tracked by the current accelerator memory allocator for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.reset_peak_memory_stats</code></td>
-<td>—</td>
+<td>Reset the "peak" stats tracked by the current accelerator memory allocator for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.set_per_process_memory_fraction</code></td>
-<td>—</td>
+<td>Set the memory fraction for a single process on XPU device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.MemPool</code></td>
-<td>—</td>
+<td>MemPool represents a pool of memory in a caching allocator.</td>
 </tr>
 </tbody>
 </table>

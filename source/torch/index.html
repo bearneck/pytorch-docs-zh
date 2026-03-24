@@ -10395,43 +10395,43 @@
 <tbody>
 <tr>
 <td><code>torch.is_tensor</code></td>
-<td>—</td>
+<td>Returns True if obj is a PyTorch tensor.</td>
 </tr>
 <tr>
 <td><code>torch.is_storage</code></td>
-<td>—</td>
+<td>Returns True if obj is a PyTorch storage object.</td>
 </tr>
 <tr>
 <td><code>torch.is_complex</code></td>
-<td>—</td>
+<td>Returns True if the data type of input is a complex data type i.e., one of torch.complex64, and torch.complex128.</td>
 </tr>
 <tr>
 <td><code>torch.is_conj</code></td>
-<td>—</td>
+<td>Returns True if the input is a conjugated tensor, i.e.</td>
 </tr>
 <tr>
 <td><code>torch.is_floating_point</code></td>
-<td>—</td>
+<td>Returns True if the data type of input is a floating point data type i.e., one of torch.float64, torch.float32, torch.float16, and torch.bfloat16.</td>
 </tr>
 <tr>
 <td><code>torch.is_nonzero</code></td>
-<td>—</td>
+<td>Returns True if the input is a single element tensor which is not equal to zero after type conversions.</td>
 </tr>
 <tr>
 <td><code>torch.set_default_dtype</code></td>
-<td>—</td>
+<td>Sets the default floating point dtype to d.</td>
 </tr>
 <tr>
 <td><code>torch.get_default_dtype</code></td>
-<td>—</td>
+<td>Get the current default floating point torch.dtype.</td>
 </tr>
 <tr>
 <td><code>torch.set_default_device</code></td>
-<td>—</td>
+<td>Sets the default torch.Tensor to be allocated on device.</td>
 </tr>
 <tr>
 <td><code>torch.get_default_device</code></td>
-<td>—</td>
+<td>Gets the default torch.Tensor to be allocated on device</td>
 </tr>
 <tr>
 <td><code>torch.set_default_tensor_type</code></td>
@@ -10439,15 +10439,15 @@
 </tr>
 <tr>
 <td><code>torch.numel</code></td>
-<td>—</td>
+<td>Returns the total number of elements in the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.set_printoptions</code></td>
-<td>—</td>
+<td>Set options for printing.</td>
 </tr>
 <tr>
 <td><code>torch.set_flush_denormal</code></td>
-<td>—</td>
+<td>Disables denormal floating numbers on CPU.</td>
 </tr>
 </tbody>
 </table>
@@ -10462,135 +10462,135 @@
 <tbody>
 <tr>
 <td><code>torch.tensor</code></td>
-<td>—</td>
+<td>Constructs a tensor with no autograd history (also known as a "leaf tensor", see Autograd mechanics) by copying data.</td>
 </tr>
 <tr>
 <td><code>torch.sparse_coo_tensor</code></td>
-<td>—</td>
+<td>Constructs a sparse tensor in COO(rdinate) format with specified values at the given indices.</td>
 </tr>
 <tr>
 <td><code>torch.sparse_csr_tensor</code></td>
-<td>—</td>
+<td>Constructs a sparse tensor in CSR (Compressed Sparse Row) with specified values at the given crow_indices and col_indices.</td>
 </tr>
 <tr>
 <td><code>torch.sparse_csc_tensor</code></td>
-<td>—</td>
+<td>Constructs a sparse tensor in CSC (Compressed Sparse Column) with specified values at the given ccol_indices and row_indices.</td>
 </tr>
 <tr>
 <td><code>torch.sparse_bsr_tensor</code></td>
-<td>—</td>
+<td>Constructs a sparse tensor in BSR (Block Compressed Sparse Row)) with specified 2-dimensional blocks at the given crow_indices and col_indices.</td>
 </tr>
 <tr>
 <td><code>torch.sparse_bsc_tensor</code></td>
-<td>—</td>
+<td>Constructs a sparse tensor in BSC (Block Compressed Sparse Column)) with specified 2-dimensional blocks at the given ccol_indices and row_indices.</td>
 </tr>
 <tr>
 <td><code>torch.asarray</code></td>
-<td>—</td>
+<td>Converts obj to a tensor.</td>
 </tr>
 <tr>
 <td><code>torch.as_tensor</code></td>
-<td>—</td>
+<td>Converts data into a tensor, sharing data and preserving autograd history if possible.</td>
 </tr>
 <tr>
 <td><code>torch.as_strided</code></td>
-<td>—</td>
+<td>See torch.as_strided()</td>
 </tr>
 <tr>
 <td><code>torch.from_file</code></td>
-<td>—</td>
+<td>Creates a CPU tensor with a storage backed by a memory-mapped file.</td>
 </tr>
 <tr>
 <td><code>torch.from_numpy</code></td>
-<td>—</td>
+<td>Creates a Tensor from a numpy.ndarray.</td>
 </tr>
 <tr>
 <td><code>torch.from_dlpack</code></td>
-<td>—</td>
+<td>Converts a tensor from an external library into a torch.Tensor.</td>
 </tr>
 <tr>
 <td><code>torch.frombuffer</code></td>
-<td>—</td>
+<td>Creates a 1-dimensional Tensor from an object that implements the Python buffer protocol.</td>
 </tr>
 <tr>
 <td><code>torch.zeros</code></td>
-<td>—</td>
+<td>Returns a tensor filled with the scalar value 0, with the shape defined by the variable argument size.</td>
 </tr>
 <tr>
 <td><code>torch.zeros_like</code></td>
-<td>—</td>
+<td>Returns a tensor filled with the scalar value 0, with the same size as input.</td>
 </tr>
 <tr>
 <td><code>torch.ones</code></td>
-<td>—</td>
+<td>Returns a tensor filled with the scalar value 1, with the shape defined by the variable argument size.</td>
 </tr>
 <tr>
 <td><code>torch.ones_like</code></td>
-<td>—</td>
+<td>Returns a tensor filled with the scalar value 1, with the same size as input.</td>
 </tr>
 <tr>
 <td><code>torch.arange</code></td>
-<td>—</td>
+<td>Returns a 1-D tensor of size ⌈end−startstep⌉\left\lceil \frac{\text{end} - \text{start}}{\text{step}} \right\rceil⌈stepend−start​⌉ with values from...</td>
 </tr>
 <tr>
 <td><code>torch.range</code></td>
-<td>—</td>
+<td>Returns a 1-D tensor of size ⌊end−startstep⌋+1\left\lfloor \frac{\text{end} - \text{start}}{\text{step}} \right\rfloor + 1⌊stepend−start​⌋+1 with v...</td>
 </tr>
 <tr>
 <td><code>torch.linspace</code></td>
-<td>—</td>
+<td>Creates a one-dimensional tensor of size steps whose values are evenly spaced from start to end, inclusive.</td>
 </tr>
 <tr>
 <td><code>torch.logspace</code></td>
-<td>—</td>
+<td>Creates a one-dimensional tensor of size steps whose values are evenly spaced from basestart{{\text{{base}}}}^{{\text{{start}}}}basestart to baseen...</td>
 </tr>
 <tr>
 <td><code>torch.eye</code></td>
-<td>—</td>
+<td>Returns a 2-D tensor with ones on the diagonal and zeros elsewhere.</td>
 </tr>
 <tr>
 <td><code>torch.empty</code></td>
-<td>—</td>
+<td>Returns a tensor filled with uninitialized data.</td>
 </tr>
 <tr>
 <td><code>torch.empty_like</code></td>
-<td>—</td>
+<td>Returns an uninitialized tensor with the same size as input.</td>
 </tr>
 <tr>
 <td><code>torch.empty_strided</code></td>
-<td>—</td>
+<td>Creates a tensor with the specified size and stride and filled with undefined data.</td>
 </tr>
 <tr>
 <td><code>torch.full</code></td>
-<td>—</td>
+<td>Creates a tensor of size size filled with fill_value.</td>
 </tr>
 <tr>
 <td><code>torch.full_like</code></td>
-<td>—</td>
+<td>Returns a tensor with the same size as input filled with fill_value.</td>
 </tr>
 <tr>
 <td><code>torch.quantize_per_tensor</code></td>
-<td>—</td>
+<td>Converts a float tensor to a quantized tensor with given scale and zero point.</td>
 </tr>
 <tr>
 <td><code>torch.quantize_per_channel</code></td>
-<td>—</td>
+<td>Converts a float tensor to a per-channel quantized tensor with given scales and zero points.</td>
 </tr>
 <tr>
 <td><code>torch.dequantize</code></td>
-<td>—</td>
+<td>Given a quantized Tensor, dequantize it and return the dequantized float Tensor.</td>
 </tr>
 <tr>
 <td><code>torch.complex</code></td>
-<td>—</td>
+<td>Constructs a complex tensor with its real part equal to real and its imaginary part equal to imag.</td>
 </tr>
 <tr>
 <td><code>torch.polar</code></td>
-<td>—</td>
+<td>Constructs a complex tensor whose elements are Cartesian coordinates corresponding to the polar coordinates with absolute value abs and angle angle.</td>
 </tr>
 <tr>
 <td><code>torch.heaviside</code></td>
-<td>—</td>
+<td>Computes the Heaviside step function for each element in input.</td>
 </tr>
 </tbody>
 </table>
@@ -10605,91 +10605,91 @@
 <tbody>
 <tr>
 <td><code>torch.adjoint</code></td>
-<td>—</td>
+<td>Returns a view of the tensor conjugated and with the last two dimensions transposed.</td>
 </tr>
 <tr>
 <td><code>torch.argwhere</code></td>
-<td>—</td>
+<td>Returns a tensor containing the indices of all non-zero elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.cat</code></td>
-<td>—</td>
+<td>Concatenates the given sequence of tensors in tensors in the given dimension.</td>
 </tr>
 <tr>
 <td><code>torch.concat</code></td>
-<td>—</td>
+<td>Alias of torch.cat().</td>
 </tr>
 <tr>
 <td><code>torch.concatenate</code></td>
-<td>—</td>
+<td>Alias of torch.cat().</td>
 </tr>
 <tr>
 <td><code>torch.conj</code></td>
-<td>—</td>
+<td>Returns a view of input with a flipped conjugate bit.</td>
 </tr>
 <tr>
 <td><code>torch.chunk</code></td>
-<td>—</td>
+<td>Attempts to split a tensor into the specified number of chunks.</td>
 </tr>
 <tr>
 <td><code>torch.dsplit</code></td>
-<td>—</td>
+<td>Splits input, a tensor with three or more dimensions, into multiple tensors depthwise according to indices_or_sections.</td>
 </tr>
 <tr>
 <td><code>torch.column_stack</code></td>
-<td>—</td>
+<td>Creates a new tensor by horizontally stacking the tensors in tensors.</td>
 </tr>
 <tr>
 <td><code>torch.dstack</code></td>
-<td>—</td>
+<td>Stack tensors in sequence depthwise (along third axis).</td>
 </tr>
 <tr>
 <td><code>torch.gather</code></td>
-<td>—</td>
+<td>Gathers values along an axis specified by dim.</td>
 </tr>
 <tr>
 <td><code>torch.hsplit</code></td>
-<td>—</td>
+<td>Splits input, a tensor with one or more dimensions, into multiple tensors horizontally according to indices_or_sections.</td>
 </tr>
 <tr>
 <td><code>torch.hstack</code></td>
-<td>—</td>
+<td>Stack tensors in sequence horizontally (column wise).</td>
 </tr>
 <tr>
 <td><code>torch.index_add</code></td>
-<td>—</td>
+<td>See index_add_() for function description.</td>
 </tr>
 <tr>
 <td><code>torch.index_copy</code></td>
-<td>—</td>
+<td>See index_add_() for function description.</td>
 </tr>
 <tr>
 <td><code>torch.index_reduce</code></td>
-<td>—</td>
+<td>See index_reduce_() for function description.</td>
 </tr>
 <tr>
 <td><code>torch.index_select</code></td>
-<td>—</td>
+<td>Returns a new tensor which indexes the input tensor along dimension dim using the entries in index.</td>
 </tr>
 <tr>
 <td><code>torch.masked_select</code></td>
-<td>—</td>
+<td>Returns a new 1-D tensor which indexes the input tensor according to the boolean mask mask which is a BoolTensor.</td>
 </tr>
 <tr>
 <td><code>torch.movedim</code></td>
-<td>—</td>
+<td>Moves the dimension(s) of input at the position(s) in source to the position(s) in destination.</td>
 </tr>
 <tr>
 <td><code>torch.moveaxis</code></td>
-<td>—</td>
+<td>Alias for torch.movedim().</td>
 </tr>
 <tr>
 <td><code>torch.narrow</code></td>
-<td>—</td>
+<td>Returns a new tensor that is a narrowed version of input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.narrow_copy</code></td>
-<td>—</td>
+<td>Same as Tensor.narrow() except this returns a copy rather than shared storage.</td>
 </tr>
 <tr>
 <td><code>torch.nonzero</code></td>
@@ -10697,115 +10697,115 @@
 </tr>
 <tr>
 <td><code>torch.permute</code></td>
-<td>—</td>
+<td>Returns a view of the original tensor input with its dimensions permuted.</td>
 </tr>
 <tr>
 <td><code>torch.reshape</code></td>
-<td>—</td>
+<td>Returns a tensor with the same data and number of elements as input, but with the specified shape.</td>
 </tr>
 <tr>
 <td><code>torch.row_stack</code></td>
-<td>—</td>
+<td>Alias of torch.vstack().</td>
 </tr>
 <tr>
 <td><code>torch.select</code></td>
-<td>—</td>
+<td>See torch.select()</td>
 </tr>
 <tr>
 <td><code>torch.scatter</code></td>
-<td>—</td>
+<td>Out-of-place version of torch.Tensor.scatter_()</td>
 </tr>
 <tr>
 <td><code>torch.diagonal_scatter</code></td>
-<td>—</td>
+<td>Embeds the values of the src tensor into input along the diagonal elements of input, with respect to dim1 and dim2.</td>
 </tr>
 <tr>
 <td><code>torch.select_scatter</code></td>
-<td>—</td>
+<td>Embeds the values of the src tensor into input at the given index.</td>
 </tr>
 <tr>
 <td><code>torch.slice_scatter</code></td>
-<td>—</td>
+<td>Embeds the values of the src tensor into input at the given dimension.</td>
 </tr>
 <tr>
 <td><code>torch.scatter_add</code></td>
-<td>—</td>
+<td>Out-of-place version of torch.Tensor.scatter_add_()</td>
 </tr>
 <tr>
 <td><code>torch.scatter_reduce</code></td>
-<td>—</td>
+<td>Out-of-place version of torch.Tensor.scatter_reduce_()</td>
 </tr>
 <tr>
 <td><code>torch.segment_reduce</code></td>
-<td>—</td>
+<td>Perform a segment reduction operation on the input tensor along the specified axis.</td>
 </tr>
 <tr>
 <td><code>torch.split</code></td>
-<td>—</td>
+<td>Splits the tensor into chunks.</td>
 </tr>
 <tr>
 <td><code>torch.squeeze</code></td>
-<td>—</td>
+<td>Returns a tensor with all specified dimensions of input of size 1 removed.</td>
 </tr>
 <tr>
 <td><code>torch.stack</code></td>
-<td>—</td>
+<td>Concatenates a sequence of tensors along a new dimension.</td>
 </tr>
 <tr>
 <td><code>torch.swapaxes</code></td>
-<td>—</td>
+<td>Alias for torch.transpose().</td>
 </tr>
 <tr>
 <td><code>torch.swapdims</code></td>
-<td>—</td>
+<td>Alias for torch.transpose().</td>
 </tr>
 <tr>
 <td><code>torch.t</code></td>
-<td>—</td>
+<td>Expects input to be &lt;= 2-D tensor and transposes dimensions 0 and 1.</td>
 </tr>
 <tr>
 <td><code>torch.take</code></td>
-<td>—</td>
+<td>Returns a new tensor with the elements of input at the given indices.</td>
 </tr>
 <tr>
 <td><code>torch.take_along_dim</code></td>
-<td>—</td>
+<td>Selects values from input at the 1-dimensional indices from indices along the given dim.</td>
 </tr>
 <tr>
 <td><code>torch.tensor_split</code></td>
-<td>—</td>
+<td>Splits a tensor into multiple sub-tensors, all of which are views of input, along dimension dim according to the indices or number of sections spec...</td>
 </tr>
 <tr>
 <td><code>torch.tile</code></td>
-<td>—</td>
+<td>Constructs a tensor by repeating the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.transpose</code></td>
-<td>—</td>
+<td>Returns a tensor that is a transposed version of input.</td>
 </tr>
 <tr>
 <td><code>torch.unbind</code></td>
-<td>—</td>
+<td>Removes a tensor dimension.</td>
 </tr>
 <tr>
 <td><code>torch.unravel_index</code></td>
-<td>—</td>
+<td>Converts a tensor of flat indices into a tuple of coordinate tensors that index into an arbitrary tensor of the specified shape.</td>
 </tr>
 <tr>
 <td><code>torch.unsqueeze</code></td>
-<td>—</td>
+<td>Returns a new tensor with a dimension of size one inserted at the specified position.</td>
 </tr>
 <tr>
 <td><code>torch.vsplit</code></td>
-<td>—</td>
+<td>Splits input, a tensor with two or more dimensions, into multiple tensors vertically according to indices_or_sections.</td>
 </tr>
 <tr>
 <td><code>torch.vstack</code></td>
-<td>—</td>
+<td>Stack tensors in sequence vertically (row wise).</td>
 </tr>
 <tr>
 <td><code>torch.where</code></td>
-<td>—</td>
+<td>Return a tensor of elements selected from either input or other, depending on condition.</td>
 </tr>
 </tbody>
 </table>
@@ -10820,11 +10820,11 @@
 <tbody>
 <tr>
 <td><code>torch.Stream</code></td>
-<td>—</td>
+<td>An in-order queue of executing the respective tasks asynchronously in first in first out (FIFO) order.</td>
 </tr>
 <tr>
 <td><code>torch.Event</code></td>
-<td>—</td>
+<td>Query and record Stream status to identify or control dependencies across Stream and measure timing.</td>
 </tr>
 </tbody>
 </table>
@@ -10839,7 +10839,7 @@
 <tbody>
 <tr>
 <td><code>torch.Generator</code></td>
-<td>—</td>
+<td>Creates and returns a generator object that manages the state of the algorithm which produces pseudo random numbers.</td>
 </tr>
 </tbody>
 </table>
@@ -10854,23 +10854,23 @@
 <tbody>
 <tr>
 <td><code>torch.seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.manual_seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.initial_seed</code></td>
-<td>—</td>
+<td>Returns the current random seed of the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.get_rng_state</code></td>
-<td>—</td>
+<td>Returns the random number generator state of the specified MTIA device as a ByteTensor.</td>
 </tr>
 <tr>
 <td><code>torch.set_rng_state</code></td>
-<td>—</td>
+<td>Sets the random number generator state of the specified MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.default_generator</code></td>
@@ -10878,47 +10878,47 @@
 </tr>
 <tr>
 <td><code>torch.bernoulli</code></td>
-<td>—</td>
+<td>Draws binary random numbers (0 or 1) from a Bernoulli distribution.</td>
 </tr>
 <tr>
 <td><code>torch.multinomial</code></td>
-<td>—</td>
+<td>Returns a tensor where each row contains num_samples indices sampled from the multinomial (a stricter definition would be multivariate, refer to to...</td>
 </tr>
 <tr>
 <td><code>torch.normal</code></td>
-<td>—</td>
+<td>Returns a tensor of random numbers drawn from separate normal distributions whose mean and standard deviation are given.</td>
 </tr>
 <tr>
 <td><code>torch.poisson</code></td>
-<td>—</td>
+<td>Returns a tensor of the same size as input with each element sampled from a Poisson distribution with rate parameter given by the corresponding ele...</td>
 </tr>
 <tr>
 <td><code>torch.rand</code></td>
-<td>—</td>
+<td>Returns a tensor filled with random numbers from a uniform distribution on the interval [0,1)[0, 1)[0,1)</td>
 </tr>
 <tr>
 <td><code>torch.rand_like</code></td>
-<td>—</td>
+<td>Returns a tensor with the same size as input that is filled with random numbers from a uniform distribution on the interval [0,1)[0, 1)[0,1).</td>
 </tr>
 <tr>
 <td><code>torch.randint</code></td>
-<td>—</td>
+<td>Returns a tensor filled with random integers generated uniformly between low (inclusive) and high (exclusive).</td>
 </tr>
 <tr>
 <td><code>torch.randint_like</code></td>
-<td>—</td>
+<td>Returns a tensor with the same shape as Tensor input filled with random integers generated uniformly between low (inclusive) and high (exclusive).</td>
 </tr>
 <tr>
 <td><code>torch.randn</code></td>
-<td>—</td>
+<td>Returns a tensor filled with random numbers from a normal distribution with mean 0 and variance 1 (also called the standard normal distribution).</td>
 </tr>
 <tr>
 <td><code>torch.randn_like</code></td>
-<td>—</td>
+<td>Returns a tensor with the same size as input that is filled with random numbers from a normal distribution with mean 0 and variance 1.</td>
 </tr>
 <tr>
 <td><code>torch.randperm</code></td>
-<td>—</td>
+<td>Returns a random permutation of integers from 0 to n - 1.</td>
 </tr>
 </tbody>
 </table>
@@ -10933,7 +10933,7 @@
 <tbody>
 <tr>
 <td><code>quasirandom.SobolEngine</code></td>
-<td>—</td>
+<td>The torch.quasirandom.SobolEngine is an engine for generating (scrambled) Sobol sequences.</td>
 </tr>
 </tbody>
 </table>
@@ -10948,11 +10948,11 @@
 <tbody>
 <tr>
 <td><code>torch.save</code></td>
-<td>—</td>
+<td>Saves an object to a disk file.</td>
 </tr>
 <tr>
 <td><code>torch.load</code></td>
-<td>—</td>
+<td>Loads an object saved with torch.save() from a file.</td>
 </tr>
 </tbody>
 </table>
@@ -10967,19 +10967,19 @@
 <tbody>
 <tr>
 <td><code>torch.get_num_threads</code></td>
-<td>—</td>
+<td>Returns the number of threads used for parallelizing CPU operations</td>
 </tr>
 <tr>
 <td><code>torch.set_num_threads</code></td>
-<td>—</td>
+<td>Sets the number of threads used for intraop parallelism on CPU.</td>
 </tr>
 <tr>
 <td><code>torch.get_num_interop_threads</code></td>
-<td>—</td>
+<td>Returns the number of threads used for inter-op parallelism on CPU (e.g.</td>
 </tr>
 <tr>
 <td><code>torch.set_num_interop_threads</code></td>
-<td>—</td>
+<td>Sets the number of threads used for interop parallelism (e.g.</td>
 </tr>
 </tbody>
 </table>
@@ -10994,27 +10994,27 @@
 <tbody>
 <tr>
 <td><code>torch.no_grad</code></td>
-<td>—</td>
+<td>Context-manager that disables gradient calculation.</td>
 </tr>
 <tr>
 <td><code>torch.enable_grad</code></td>
-<td>—</td>
+<td>Context-manager that enables gradient calculation.</td>
 </tr>
 <tr>
 <td><code>autograd.grad_mode.set_grad_enabled</code></td>
-<td>—</td>
+<td>Context-manager that sets gradient calculation on or off.</td>
 </tr>
 <tr>
 <td><code>torch.is_grad_enabled</code></td>
-<td>—</td>
+<td>Returns True if grad mode is currently enabled.</td>
 </tr>
 <tr>
 <td><code>autograd.grad_mode.inference_mode</code></td>
-<td>—</td>
+<td>Context manager that enables or disables inference mode.</td>
 </tr>
 <tr>
 <td><code>torch.is_inference_mode_enabled</code></td>
-<td>—</td>
+<td>Returns True if inference mode is currently enabled.</td>
 </tr>
 </tbody>
 </table>
@@ -11029,195 +11029,195 @@
 <tbody>
 <tr>
 <td><code>torch.abs</code></td>
-<td>—</td>
+<td>Computes the absolute value of each element in input.</td>
 </tr>
 <tr>
 <td><code>torch.absolute</code></td>
-<td>—</td>
+<td>Alias for torch.abs()</td>
 </tr>
 <tr>
 <td><code>torch.acos</code></td>
-<td>—</td>
+<td>Returns a new tensor with the arccosine (in radians) of each element in input.</td>
 </tr>
 <tr>
 <td><code>torch.arccos</code></td>
-<td>—</td>
+<td>Alias for torch.acos().</td>
 </tr>
 <tr>
 <td><code>torch.acosh</code></td>
-<td>—</td>
+<td>Returns a new tensor with the inverse hyperbolic cosine of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.arccosh</code></td>
-<td>—</td>
+<td>Alias for torch.acosh().</td>
 </tr>
 <tr>
 <td><code>torch.add</code></td>
-<td>—</td>
+<td>Adds other, scaled by alpha, to input.</td>
 </tr>
 <tr>
 <td><code>torch.addcdiv</code></td>
-<td>—</td>
+<td>Performs the element-wise division of tensor1 by tensor2, multiplies the result by the scalar value and adds it to input.</td>
 </tr>
 <tr>
 <td><code>torch.addcmul</code></td>
-<td>—</td>
+<td>Performs the element-wise multiplication of tensor1 by tensor2, multiplies the result by the scalar value and adds it to input.</td>
 </tr>
 <tr>
 <td><code>torch.angle</code></td>
-<td>—</td>
+<td>Computes the element-wise angle (in radians) of the given input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.asin</code></td>
-<td>—</td>
+<td>Returns a new tensor with the arcsine of the elements (in radians) in the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.arcsin</code></td>
-<td>—</td>
+<td>Alias for torch.asin().</td>
 </tr>
 <tr>
 <td><code>torch.asinh</code></td>
-<td>—</td>
+<td>Returns a new tensor with the inverse hyperbolic sine of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.arcsinh</code></td>
-<td>—</td>
+<td>Alias for torch.asinh().</td>
 </tr>
 <tr>
 <td><code>torch.atan</code></td>
-<td>—</td>
+<td>Returns a new tensor with the arctangent of the elements (in radians) in the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.arctan</code></td>
-<td>—</td>
+<td>Alias for torch.atan().</td>
 </tr>
 <tr>
 <td><code>torch.atanh</code></td>
-<td>—</td>
+<td>Returns a new tensor with the inverse hyperbolic tangent of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.arctanh</code></td>
-<td>—</td>
+<td>Alias for torch.atanh().</td>
 </tr>
 <tr>
 <td><code>torch.atan2</code></td>
-<td>—</td>
+<td>Element-wise arctangent of inputi/otheri\text{input}<em i="i">{i} / \text{other}</em>inputi​/otheri​ with consideration of the quadrant.</td>
 </tr>
 <tr>
 <td><code>torch.arctan2</code></td>
-<td>—</td>
+<td>Alias for torch.atan2().</td>
 </tr>
 <tr>
 <td><code>torch.bitwise_not</code></td>
-<td>—</td>
+<td>Computes the bitwise NOT of the given input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.bitwise_and</code></td>
-<td>—</td>
+<td>Computes the bitwise AND of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.bitwise_or</code></td>
-<td>—</td>
+<td>Computes the bitwise OR of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.bitwise_xor</code></td>
-<td>—</td>
+<td>Computes the bitwise XOR of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.bitwise_left_shift</code></td>
-<td>—</td>
+<td>Computes the left arithmetic shift of input by other bits.</td>
 </tr>
 <tr>
 <td><code>torch.bitwise_right_shift</code></td>
-<td>—</td>
+<td>Computes the right arithmetic shift of input by other bits.</td>
 </tr>
 <tr>
 <td><code>torch.ceil</code></td>
-<td>—</td>
+<td>Returns a new tensor with the ceil of the elements of input, the smallest integer greater than or equal to each element.</td>
 </tr>
 <tr>
 <td><code>torch.clamp</code></td>
-<td>—</td>
+<td>float(input, min_, max_) -&gt; Tensor</td>
 </tr>
 <tr>
 <td><code>torch.clip</code></td>
-<td>—</td>
+<td>Alias for torch.clamp().</td>
 </tr>
 <tr>
 <td><code>torch.conj_physical</code></td>
-<td>—</td>
+<td>Computes the element-wise conjugate of the given input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.copysign</code></td>
-<td>—</td>
+<td>Create a new floating-point tensor with the magnitude of input and the sign of other, elementwise.</td>
 </tr>
 <tr>
 <td><code>torch.cos</code></td>
-<td>—</td>
+<td>Returns a new tensor with the cosine of the elements of input given in radians.</td>
 </tr>
 <tr>
 <td><code>torch.cosh</code></td>
-<td>—</td>
+<td>Returns a new tensor with the hyperbolic cosine  of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.deg2rad</code></td>
-<td>—</td>
+<td>Returns a new tensor with each of the elements of input converted from angles in degrees to radians.</td>
 </tr>
 <tr>
 <td><code>torch.div</code></td>
-<td>—</td>
+<td>Divides each element of the input input by the corresponding element of other.</td>
 </tr>
 <tr>
 <td><code>torch.divide</code></td>
-<td>—</td>
+<td>Alias for torch.div().</td>
 </tr>
 <tr>
 <td><code>torch.digamma</code></td>
-<td>—</td>
+<td>Alias for torch.special.digamma().</td>
 </tr>
 <tr>
 <td><code>torch.erf</code></td>
-<td>—</td>
+<td>Alias for torch.special.erf().</td>
 </tr>
 <tr>
 <td><code>torch.erfc</code></td>
-<td>—</td>
+<td>Alias for torch.special.erfc().</td>
 </tr>
 <tr>
 <td><code>torch.erfinv</code></td>
-<td>—</td>
+<td>Alias for torch.special.erfinv().</td>
 </tr>
 <tr>
 <td><code>torch.exp</code></td>
-<td>—</td>
+<td>Returns a new tensor with the exponential of the elements of the input tensor input.</td>
 </tr>
 <tr>
 <td><code>torch.exp2</code></td>
-<td>—</td>
+<td>Alias for torch.special.exp2().</td>
 </tr>
 <tr>
 <td><code>torch.expm1</code></td>
-<td>—</td>
+<td>Alias for torch.special.expm1().</td>
 </tr>
 <tr>
 <td><code>torch.fake_quantize_per_channel_affine</code></td>
-<td>—</td>
+<td>Returns a new tensor with the data in input fake quantized per channel using scale, zero_point, quant_min and quant_max, across the channel specifi...</td>
 </tr>
 <tr>
 <td><code>torch.fake_quantize_per_tensor_affine</code></td>
-<td>—</td>
+<td>Returns a new tensor with the data in input fake quantized using scale, zero_point, quant_min and quant_max.</td>
 </tr>
 <tr>
 <td><code>torch.fix</code></td>
-<td>—</td>
+<td>Alias for torch.trunc()</td>
 </tr>
 <tr>
 <td><code>torch.float_power</code></td>
-<td>—</td>
+<td>Raises input to the power of exponent, elementwise, in double precision.</td>
 </tr>
 <tr>
 <td><code>torch.floor</code></td>
-<td>—</td>
+<td>Returns a new tensor with the floor of the elements of input, the largest integer less than or equal to each element.</td>
 </tr>
 <tr>
 <td><code>torch.floor_divide</code></td>
@@ -11225,239 +11225,239 @@
 </tr>
 <tr>
 <td><code>torch.fmod</code></td>
-<td>—</td>
+<td>Applies C++'s std::fmod entrywise.</td>
 </tr>
 <tr>
 <td><code>torch.frac</code></td>
-<td>—</td>
+<td>Computes the fractional portion of each element in input.</td>
 </tr>
 <tr>
 <td><code>torch.frexp</code></td>
-<td>—</td>
+<td>Decomposes input into mantissa and exponent tensors such that input=mantissa×2exponent\text{input} = \text{mantissa} \times 2^{\text{exponent}}inpu...</td>
 </tr>
 <tr>
 <td><code>torch.gradient</code></td>
-<td>—</td>
+<td>Estimates the gradient of a function g:Rn→Rg : \mathbb{R}^n \rightarrow \mathbb{R}g:Rn→R in one or more dimensions using the second-order accurate ...</td>
 </tr>
 <tr>
 <td><code>torch.imag</code></td>
-<td>—</td>
+<td>Returns a new tensor containing imaginary values of the self tensor.</td>
 </tr>
 <tr>
 <td><code>torch.ldexp</code></td>
-<td>—</td>
+<td>Multiplies input by 2 ** other.</td>
 </tr>
 <tr>
 <td><code>torch.lerp</code></td>
-<td>—</td>
+<td>Does a linear interpolation of two tensors start (given by input) and end based on a scalar or tensor weight and returns the resulting out tensor.</td>
 </tr>
 <tr>
 <td><code>torch.lgamma</code></td>
-<td>—</td>
+<td>Computes the natural logarithm of the absolute value of the gamma function on input.</td>
 </tr>
 <tr>
 <td><code>torch.log</code></td>
-<td>—</td>
+<td>Returns a new tensor with the natural logarithm of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.log10</code></td>
-<td>—</td>
+<td>Returns a new tensor with the logarithm to the base 10 of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.log1p</code></td>
-<td>—</td>
+<td>Returns a new tensor with the natural logarithm of (1 + input).</td>
 </tr>
 <tr>
 <td><code>torch.log2</code></td>
-<td>—</td>
+<td>Returns a new tensor with the logarithm to the base 2 of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.logaddexp</code></td>
-<td>—</td>
+<td>Logarithm of the sum of exponentiations of the inputs.</td>
 </tr>
 <tr>
 <td><code>torch.logaddexp2</code></td>
-<td>—</td>
+<td>Logarithm of the sum of exponentiations of the inputs in base-2.</td>
 </tr>
 <tr>
 <td><code>torch.logical_and</code></td>
-<td>—</td>
+<td>Computes the element-wise logical AND of the given input tensors.</td>
 </tr>
 <tr>
 <td><code>torch.logical_not</code></td>
-<td>—</td>
+<td>Computes the element-wise logical NOT of the given input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.logical_or</code></td>
-<td>—</td>
+<td>Computes the element-wise logical OR of the given input tensors.</td>
 </tr>
 <tr>
 <td><code>torch.logical_xor</code></td>
-<td>—</td>
+<td>Computes the element-wise logical XOR of the given input tensors.</td>
 </tr>
 <tr>
 <td><code>torch.logit</code></td>
-<td>—</td>
+<td>Alias for torch.special.logit().</td>
 </tr>
 <tr>
 <td><code>torch.hypot</code></td>
-<td>—</td>
+<td>Given the legs of a right triangle, return its hypotenuse.</td>
 </tr>
 <tr>
 <td><code>torch.i0</code></td>
-<td>—</td>
+<td>Alias for torch.special.i0().</td>
 </tr>
 <tr>
 <td><code>torch.igamma</code></td>
-<td>—</td>
+<td>Alias for torch.special.gammainc().</td>
 </tr>
 <tr>
 <td><code>torch.igammac</code></td>
-<td>—</td>
+<td>Alias for torch.special.gammaincc().</td>
 </tr>
 <tr>
 <td><code>torch.mul</code></td>
-<td>—</td>
+<td>Multiplies input by other.</td>
 </tr>
 <tr>
 <td><code>torch.multiply</code></td>
-<td>—</td>
+<td>Alias for torch.mul().</td>
 </tr>
 <tr>
 <td><code>torch.mvlgamma</code></td>
-<td>—</td>
+<td>Alias for torch.special.multigammaln().</td>
 </tr>
 <tr>
 <td><code>torch.nan_to_num</code></td>
-<td>—</td>
+<td>Replaces NaN, positive infinity, and negative infinity values in input with the values specified by nan, posinf, and neginf, respectively.</td>
 </tr>
 <tr>
 <td><code>torch.neg</code></td>
-<td>—</td>
+<td>Returns a new tensor with the negative of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.negative</code></td>
-<td>—</td>
+<td>Alias for torch.neg()</td>
 </tr>
 <tr>
 <td><code>torch.nextafter</code></td>
-<td>—</td>
+<td>Return the next floating-point value after input towards other, elementwise.</td>
 </tr>
 <tr>
 <td><code>torch.polygamma</code></td>
-<td>—</td>
+<td>Alias for torch.special.polygamma().</td>
 </tr>
 <tr>
 <td><code>torch.positive</code></td>
-<td>—</td>
+<td>Returns input.</td>
 </tr>
 <tr>
 <td><code>torch.pow</code></td>
-<td>—</td>
+<td>Takes the power of each element in input with exponent and returns a tensor with the result.</td>
 </tr>
 <tr>
 <td><code>torch.quantized_batch_norm</code></td>
-<td>—</td>
+<td>Applies batch normalization on a 4D (NCHW) quantized tensor.</td>
 </tr>
 <tr>
 <td><code>torch.quantized_max_pool1d</code></td>
-<td>—</td>
+<td>Applies a 1D max pooling over an input quantized tensor composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.quantized_max_pool2d</code></td>
-<td>—</td>
+<td>Applies a 2D max pooling over an input quantized tensor composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.rad2deg</code></td>
-<td>—</td>
+<td>Returns a new tensor with each of the elements of input converted from angles in radians to degrees.</td>
 </tr>
 <tr>
 <td><code>torch.real</code></td>
-<td>—</td>
+<td>Returns a new tensor containing real values of the self tensor.</td>
 </tr>
 <tr>
 <td><code>torch.reciprocal</code></td>
-<td>—</td>
+<td>Returns a new tensor with the reciprocal of the elements of input</td>
 </tr>
 <tr>
 <td><code>torch.remainder</code></td>
-<td>—</td>
+<td>Computes Python's modulus operation entrywise.</td>
 </tr>
 <tr>
 <td><code>torch.round</code></td>
-<td>—</td>
+<td>Rounds elements of input to the nearest integer.</td>
 </tr>
 <tr>
 <td><code>torch.rsqrt</code></td>
-<td>—</td>
+<td>Returns a new tensor with the reciprocal of the square-root of each of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.sigmoid</code></td>
-<td>—</td>
+<td>Alias for torch.special.expit().</td>
 </tr>
 <tr>
 <td><code>torch.sign</code></td>
-<td>—</td>
+<td>Returns a new tensor with the signs of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.sgn</code></td>
-<td>—</td>
+<td>This function is an extension of torch.sign() to complex tensors.</td>
 </tr>
 <tr>
 <td><code>torch.signbit</code></td>
-<td>—</td>
+<td>Tests if each element of input has its sign bit set or not.</td>
 </tr>
 <tr>
 <td><code>torch.sin</code></td>
-<td>—</td>
+<td>Returns a new tensor with the sine of the elements in the input tensor, where each value in this input tensor is in radians.</td>
 </tr>
 <tr>
 <td><code>torch.sinc</code></td>
-<td>—</td>
+<td>Alias for torch.special.sinc().</td>
 </tr>
 <tr>
 <td><code>torch.sinh</code></td>
-<td>—</td>
+<td>Returns a new tensor with the hyperbolic sine of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.softmax</code></td>
-<td>—</td>
+<td>Apply a softmax function.</td>
 </tr>
 <tr>
 <td><code>torch.sqrt</code></td>
-<td>—</td>
+<td>Returns a new tensor with the square-root of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.square</code></td>
-<td>—</td>
+<td>Returns a new tensor with the square of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.sub</code></td>
-<td>—</td>
+<td>Subtracts other, scaled by alpha, from input.</td>
 </tr>
 <tr>
 <td><code>torch.subtract</code></td>
-<td>—</td>
+<td>Alias for torch.sub().</td>
 </tr>
 <tr>
 <td><code>torch.tan</code></td>
-<td>—</td>
+<td>Returns a new tensor with the tangent of the elements in the input tensor, where each value in this input tensor is in radians.</td>
 </tr>
 <tr>
 <td><code>torch.tanh</code></td>
-<td>—</td>
+<td>Returns a new tensor with the hyperbolic tangent of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.true_divide</code></td>
-<td>—</td>
+<td>Alias for torch.div() with rounding_mode=None.</td>
 </tr>
 <tr>
 <td><code>torch.trunc</code></td>
-<td>—</td>
+<td>Returns a new tensor with the truncated integer values of the elements of input.</td>
 </tr>
 <tr>
 <td><code>torch.xlogy</code></td>
-<td>—</td>
+<td>Alias for torch.special.xlogy().</td>
 </tr>
 </tbody>
 </table>
@@ -11472,123 +11472,123 @@
 <tbody>
 <tr>
 <td><code>torch.argmax</code></td>
-<td>—</td>
+<td>Returns the indices of the maximum value of all elements in the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.argmin</code></td>
-<td>—</td>
+<td>Returns the indices of the minimum value(s) of the flattened tensor or along a dimension</td>
 </tr>
 <tr>
 <td><code>torch.amax</code></td>
-<td>—</td>
+<td>Returns the maximum value of each slice of the input tensor in the given dimension(s) dim.</td>
 </tr>
 <tr>
 <td><code>torch.amin</code></td>
-<td>—</td>
+<td>Returns the minimum value of each slice of the input tensor in the given dimension(s) dim.</td>
 </tr>
 <tr>
 <td><code>torch.aminmax</code></td>
-<td>—</td>
+<td>Computes the minimum and maximum values of the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.all</code></td>
-<td>—</td>
+<td>Tests if all elements in input evaluate to True.</td>
 </tr>
 <tr>
 <td><code>torch.any</code></td>
-<td>—</td>
+<td>Tests if any element in input evaluates to True.</td>
 </tr>
 <tr>
 <td><code>torch.max</code></td>
-<td>—</td>
+<td>See torch.max()</td>
 </tr>
 <tr>
 <td><code>torch.min</code></td>
-<td>—</td>
+<td>See torch.min()</td>
 </tr>
 <tr>
 <td><code>torch.dist</code></td>
-<td>—</td>
+<td>Returns the p-norm of (input - other)</td>
 </tr>
 <tr>
 <td><code>torch.logsumexp</code></td>
-<td>—</td>
+<td>Returns the log of summed exponentials of each row of the input tensor in the given dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.mean</code></td>
-<td>—</td>
+<td>See torch.mean()</td>
 </tr>
 <tr>
 <td><code>torch.nanmean</code></td>
-<td>—</td>
+<td>Computes the mean of all non-NaN elements along the specified dimensions.</td>
 </tr>
 <tr>
 <td><code>torch.median</code></td>
-<td>—</td>
+<td>Returns the median of the values in input.</td>
 </tr>
 <tr>
 <td><code>torch.nanmedian</code></td>
-<td>—</td>
+<td>Returns the median of the values in input, ignoring NaN values.</td>
 </tr>
 <tr>
 <td><code>torch.mode</code></td>
-<td>—</td>
+<td>Returns a namedtuple (values, indices) where values is the mode value of each row of the input tensor in the given dimension dim, i.e.</td>
 </tr>
 <tr>
 <td><code>torch.norm</code></td>
-<td>—</td>
+<td>Returns the matrix norm or vector norm of a given tensor.</td>
 </tr>
 <tr>
 <td><code>torch.nansum</code></td>
-<td>—</td>
+<td>Returns the sum of all elements, treating Not a Numbers (NaNs) as zero.</td>
 </tr>
 <tr>
 <td><code>torch.prod</code></td>
-<td>—</td>
+<td>Returns the product of all elements in the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.quantile</code></td>
-<td>—</td>
+<td>Computes the q-th quantiles of each row of the input tensor along the dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.nanquantile</code></td>
-<td>—</td>
+<td>This is a variant of torch.quantile() that "ignores" NaN values, computing the quantiles q as if NaN values in input did not exist.</td>
 </tr>
 <tr>
 <td><code>torch.std</code></td>
-<td>—</td>
+<td>Calculates the standard deviation over the dimensions specified by dim.</td>
 </tr>
 <tr>
 <td><code>torch.std_mean</code></td>
-<td>—</td>
+<td>Calculates the standard deviation and mean over the dimensions specified by dim.</td>
 </tr>
 <tr>
 <td><code>torch.sum</code></td>
-<td>—</td>
+<td>Returns the sum of all elements in the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.unique</code></td>
-<td>—</td>
+<td>Returns the unique elements of the input tensor.</td>
 </tr>
 <tr>
 <td><code>torch.unique_consecutive</code></td>
-<td>—</td>
+<td>Eliminates all but the first element from every consecutive group of equivalent elements.</td>
 </tr>
 <tr>
 <td><code>torch.var</code></td>
-<td>—</td>
+<td>Calculates the variance over the dimensions specified by dim.</td>
 </tr>
 <tr>
 <td><code>torch.var_mean</code></td>
-<td>—</td>
+<td>Calculates the variance and mean over the dimensions specified by dim.</td>
 </tr>
 <tr>
 <td><code>torch.count_nonzero</code></td>
-<td>—</td>
+<td>Counts the number of non-zero values in the tensor input along the given dim.</td>
 </tr>
 <tr>
 <td><code>torch.hash_tensor</code></td>
-<td>—</td>
+<td>Returns a hash of all elements in the input tensor.</td>
 </tr>
 </tbody>
 </table>
@@ -11603,123 +11603,123 @@
 <tbody>
 <tr>
 <td><code>torch.allclose</code></td>
-<td>—</td>
+<td>This function checks if input and other satisfy the condition:</td>
 </tr>
 <tr>
 <td><code>torch.argsort</code></td>
-<td>—</td>
+<td>Returns the indices that sort a tensor along a given dimension in ascending order by value.</td>
 </tr>
 <tr>
 <td><code>torch.eq</code></td>
-<td>—</td>
+<td>See torch.eq()</td>
 </tr>
 <tr>
 <td><code>torch.equal</code></td>
-<td>—</td>
+<td>See torch.equal()</td>
 </tr>
 <tr>
 <td><code>torch.ge</code></td>
-<td>—</td>
+<td>See torch.ge().</td>
 </tr>
 <tr>
 <td><code>torch.greater_equal</code></td>
-<td>—</td>
+<td>Alias for torch.ge().</td>
 </tr>
 <tr>
 <td><code>torch.gt</code></td>
-<td>—</td>
+<td>See torch.gt().</td>
 </tr>
 <tr>
 <td><code>torch.greater</code></td>
-<td>—</td>
+<td>Alias for torch.gt().</td>
 </tr>
 <tr>
 <td><code>torch.isclose</code></td>
-<td>—</td>
+<td>Returns a new tensor with boolean elements representing if each element of input is "close" to the corresponding element of other.</td>
 </tr>
 <tr>
 <td><code>torch.isfinite</code></td>
-<td>—</td>
+<td>Returns a new tensor with boolean elements representing if each element is finite or not.</td>
 </tr>
 <tr>
 <td><code>torch.isin</code></td>
-<td>—</td>
+<td>Tests if each element of elements is in test_elements.</td>
 </tr>
 <tr>
 <td><code>torch.isinf</code></td>
-<td>—</td>
+<td>Tests if each element of input is infinite (positive or negative infinity) or not.</td>
 </tr>
 <tr>
 <td><code>torch.isposinf</code></td>
-<td>—</td>
+<td>Tests if each element of input is positive infinity or not.</td>
 </tr>
 <tr>
 <td><code>torch.isneginf</code></td>
-<td>—</td>
+<td>Tests if each element of input is negative infinity or not.</td>
 </tr>
 <tr>
 <td><code>torch.isnan</code></td>
-<td>—</td>
+<td>Returns a new tensor with boolean elements representing if each element of input is NaN or not.</td>
 </tr>
 <tr>
 <td><code>torch.isreal</code></td>
-<td>—</td>
+<td>Returns a new tensor with boolean elements representing if each element of input is real-valued or not.</td>
 </tr>
 <tr>
 <td><code>torch.kthvalue</code></td>
-<td>—</td>
+<td>Returns a namedtuple (values, indices) where values is the k th smallest element of each row of the input tensor in the given dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.le</code></td>
-<td>—</td>
+<td>See torch.le().</td>
 </tr>
 <tr>
 <td><code>torch.less_equal</code></td>
-<td>—</td>
+<td>Alias for torch.le().</td>
 </tr>
 <tr>
 <td><code>torch.lt</code></td>
-<td>—</td>
+<td>See torch.lt().</td>
 </tr>
 <tr>
 <td><code>torch.less</code></td>
-<td>—</td>
+<td>Alias for torch.lt().</td>
 </tr>
 <tr>
 <td><code>torch.maximum</code></td>
-<td>—</td>
+<td>Computes the element-wise maximum of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.minimum</code></td>
-<td>—</td>
+<td>Computes the element-wise minimum of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.fmax</code></td>
-<td>—</td>
+<td>Computes the element-wise maximum of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.fmin</code></td>
-<td>—</td>
+<td>Computes the element-wise minimum of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.ne</code></td>
-<td>—</td>
+<td>See torch.ne().</td>
 </tr>
 <tr>
 <td><code>torch.not_equal</code></td>
-<td>—</td>
+<td>Alias for torch.ne().</td>
 </tr>
 <tr>
 <td><code>torch.sort</code></td>
-<td>—</td>
+<td>See torch.sort()</td>
 </tr>
 <tr>
 <td><code>torch.topk</code></td>
-<td>—</td>
+<td>See torch.topk()</td>
 </tr>
 <tr>
 <td><code>torch.msort</code></td>
-<td>—</td>
+<td>Sorts the elements of the input tensor along its first dimension in ascending order by value.</td>
 </tr>
 </tbody>
 </table>
@@ -11734,31 +11734,31 @@
 <tbody>
 <tr>
 <td><code>torch.stft</code></td>
-<td>—</td>
+<td>Short-time Fourier transform (STFT).</td>
 </tr>
 <tr>
 <td><code>torch.istft</code></td>
-<td>—</td>
+<td>Inverse short time Fourier Transform.</td>
 </tr>
 <tr>
 <td><code>torch.bartlett_window</code></td>
-<td>—</td>
+<td>Bartlett window function.</td>
 </tr>
 <tr>
 <td><code>torch.blackman_window</code></td>
-<td>—</td>
+<td>Blackman window function.</td>
 </tr>
 <tr>
 <td><code>torch.hamming_window</code></td>
-<td>—</td>
+<td>Hamming window function.</td>
 </tr>
 <tr>
 <td><code>torch.hann_window</code></td>
-<td>—</td>
+<td>Hann window function.</td>
 </tr>
 <tr>
 <td><code>torch.kaiser_window</code></td>
-<td>—</td>
+<td>Computes the Kaiser window with window length window_length and shape parameter beta.</td>
 </tr>
 </tbody>
 </table>
@@ -11773,227 +11773,227 @@
 <tbody>
 <tr>
 <td><code>torch.atleast_1d</code></td>
-<td>—</td>
+<td>Returns a 1-dimensional view of each input tensor with zero dimensions.</td>
 </tr>
 <tr>
 <td><code>torch.atleast_2d</code></td>
-<td>—</td>
+<td>Returns a 2-dimensional view of each input tensor with zero dimensions.</td>
 </tr>
 <tr>
 <td><code>torch.atleast_3d</code></td>
-<td>—</td>
+<td>Returns a 3-dimensional view of each input tensor with zero dimensions.</td>
 </tr>
 <tr>
 <td><code>torch.bincount</code></td>
-<td>—</td>
+<td>Count the frequency of each value in an array of non-negative ints.</td>
 </tr>
 <tr>
 <td><code>torch.block_diag</code></td>
-<td>—</td>
+<td>Create a block diagonal matrix from provided tensors.</td>
 </tr>
 <tr>
 <td><code>torch.broadcast_tensors</code></td>
-<td>—</td>
+<td>Broadcasts the given tensors according to Broadcasting semantics.</td>
 </tr>
 <tr>
 <td><code>torch.broadcast_to</code></td>
-<td>—</td>
+<td>Broadcasts input to the shape shape.</td>
 </tr>
 <tr>
 <td><code>torch.broadcast_shapes</code></td>
-<td>—</td>
+<td>Similar to broadcast_tensors() but for shapes.</td>
 </tr>
 <tr>
 <td><code>torch.bucketize</code></td>
-<td>—</td>
+<td>Returns the indices of the buckets to which each value in the input belongs, where the boundaries of the buckets are set by boundaries.</td>
 </tr>
 <tr>
 <td><code>torch.cartesian_prod</code></td>
-<td>—</td>
+<td>Do cartesian product of the given sequence of tensors.</td>
 </tr>
 <tr>
 <td><code>torch.cdist</code></td>
-<td>—</td>
+<td>Computes batched the p-norm distance between each pair of the two collections of row vectors.</td>
 </tr>
 <tr>
 <td><code>torch.clone</code></td>
-<td>—</td>
+<td>See torch.clone()</td>
 </tr>
 <tr>
 <td><code>torch.combinations</code></td>
-<td>—</td>
+<td>Compute combinations of length rrr of the given tensor.</td>
 </tr>
 <tr>
 <td><code>torch.corrcoef</code></td>
-<td>—</td>
+<td>Estimates the Pearson product-moment correlation coefficient matrix of the variables given by the input matrix, where rows are the variables and co...</td>
 </tr>
 <tr>
 <td><code>torch.cov</code></td>
-<td>—</td>
+<td>Estimates the covariance matrix of the variables given by the input matrix, where rows are the variables and columns are the observations.</td>
 </tr>
 <tr>
 <td><code>torch.cross</code></td>
-<td>—</td>
+<td>Computes the cross product of two 3-dimensional vectors.</td>
 </tr>
 <tr>
 <td><code>torch.cummax</code></td>
-<td>—</td>
+<td>Returns a namedtuple (values, indices) where values is the cumulative maximum of elements of input in the dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.cummin</code></td>
-<td>—</td>
+<td>Returns a namedtuple (values, indices) where values is the cumulative minimum of elements of input in the dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.cumprod</code></td>
-<td>—</td>
+<td>Returns the cumulative product of elements of input in the dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.cumsum</code></td>
-<td>—</td>
+<td>Returns the cumulative sum of elements of input in the dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.diag</code></td>
-<td>—</td>
+<td>If input is a vector (1-D tensor), then returns a 2-D square tensor</td>
 </tr>
 <tr>
 <td><code>torch.diag_embed</code></td>
-<td>—</td>
+<td>Creates a tensor whose diagonals of certain 2D planes (specified by dim1 and dim2) are filled by input.</td>
 </tr>
 <tr>
 <td><code>torch.diagflat</code></td>
-<td>—</td>
+<td>If input is a vector (1-D tensor), then returns a 2-D square tensor</td>
 </tr>
 <tr>
 <td><code>torch.diagonal</code></td>
-<td>—</td>
+<td>Alias for torch.diagonal() with defaults dim1= -2, dim2= -1.</td>
 </tr>
 <tr>
 <td><code>torch.diff</code></td>
-<td>—</td>
+<td>Computes the n-th forward difference along the given dimension.</td>
 </tr>
 <tr>
 <td><code>torch.einsum</code></td>
-<td>—</td>
+<td>Sums the product of the elements of the input operands along dimensions specified using a notation based on the Einstein summation convention.</td>
 </tr>
 <tr>
 <td><code>torch.flatten</code></td>
-<td>—</td>
+<td>See torch.flatten()</td>
 </tr>
 <tr>
 <td><code>torch.flip</code></td>
-<td>—</td>
+<td>Reverse the order of an n-D tensor along given axis in dims.</td>
 </tr>
 <tr>
 <td><code>torch.fliplr</code></td>
-<td>—</td>
+<td>Flip tensor in the left/right direction, returning a new tensor.</td>
 </tr>
 <tr>
 <td><code>torch.flipud</code></td>
-<td>—</td>
+<td>Flip tensor in the up/down direction, returning a new tensor.</td>
 </tr>
 <tr>
 <td><code>torch.kron</code></td>
-<td>—</td>
+<td>Computes the Kronecker product, denoted by ⊗\otimes⊗, of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.rot90</code></td>
-<td>—</td>
+<td>Rotate an n-D tensor by 90 degrees in the plane specified by dims axis.</td>
 </tr>
 <tr>
 <td><code>torch.gcd</code></td>
-<td>—</td>
+<td>Computes the element-wise greatest common divisor (GCD) of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.histc</code></td>
-<td>—</td>
+<td>Computes the histogram of a tensor.</td>
 </tr>
 <tr>
 <td><code>torch.histogram</code></td>
-<td>—</td>
+<td>Computes a histogram of the values in a tensor.</td>
 </tr>
 <tr>
 <td><code>torch.histogramdd</code></td>
-<td>—</td>
+<td>Computes a multi-dimensional histogram of the values in a tensor.</td>
 </tr>
 <tr>
 <td><code>torch.meshgrid</code></td>
-<td>—</td>
+<td>Creates grids of coordinates specified by the 1D inputs in attr:tensors.</td>
 </tr>
 <tr>
 <td><code>torch.lcm</code></td>
-<td>—</td>
+<td>Computes the element-wise least common multiple (LCM) of input and other.</td>
 </tr>
 <tr>
 <td><code>torch.logcumsumexp</code></td>
-<td>—</td>
+<td>Returns the logarithm of the cumulative summation of the exponentiation of elements of input in the dimension dim.</td>
 </tr>
 <tr>
 <td><code>torch.ravel</code></td>
-<td>—</td>
+<td>Return a contiguous flattened tensor.</td>
 </tr>
 <tr>
 <td><code>torch.renorm</code></td>
-<td>—</td>
+<td>Returns a tensor where each sub-tensor of input along dimension dim is normalized such that the p-norm of the sub-tensor is lower than the value ma...</td>
 </tr>
 <tr>
 <td><code>torch.repeat_interleave</code></td>
-<td>—</td>
+<td>Repeat elements of a tensor.</td>
 </tr>
 <tr>
 <td><code>torch.roll</code></td>
-<td>—</td>
+<td>Roll the tensor input along the given dimension(s).</td>
 </tr>
 <tr>
 <td><code>torch.searchsorted</code></td>
-<td>—</td>
+<td>Find the indices from the innermost dimension of sorted_sequence such that, if the corresponding values in values were inserted before the indices,...</td>
 </tr>
 <tr>
 <td><code>torch.tensordot</code></td>
-<td>—</td>
+<td>Returns a contraction of a and b over multiple dimensions.</td>
 </tr>
 <tr>
 <td><code>torch.trace</code></td>
-<td>—</td>
+<td>Returns the sum of the elements of the diagonal of the input 2-D matrix.</td>
 </tr>
 <tr>
 <td><code>torch.tril</code></td>
-<td>—</td>
+<td>Returns the lower triangular part of the matrix (2-D tensor) or batch of matrices input, the other elements of the result tensor out are set to 0.</td>
 </tr>
 <tr>
 <td><code>torch.tril_indices</code></td>
-<td>—</td>
+<td>Returns the indices of the lower triangular part of a row-by- col matrix in a 2-by-N Tensor, where the first row contains row coordinates of all in...</td>
 </tr>
 <tr>
 <td><code>torch.triu</code></td>
-<td>—</td>
+<td>Returns the upper triangular part of a matrix (2-D tensor) or batch of matrices input, the other elements of the result tensor out are set to 0.</td>
 </tr>
 <tr>
 <td><code>torch.triu_indices</code></td>
-<td>—</td>
+<td>Returns the indices of the upper triangular part of a row by col matrix in a 2-by-N Tensor, where the first row contains row coordinates of all ind...</td>
 </tr>
 <tr>
 <td><code>torch.unflatten</code></td>
-<td>—</td>
+<td>Expands a dimension of the input tensor over multiple dimensions.</td>
 </tr>
 <tr>
 <td><code>torch.vander</code></td>
-<td>—</td>
+<td>Generates a Vandermonde matrix.</td>
 </tr>
 <tr>
 <td><code>torch.view_as_real</code></td>
-<td>—</td>
+<td>Returns a view of input as a real tensor.</td>
 </tr>
 <tr>
 <td><code>torch.view_as_complex</code></td>
-<td>—</td>
+<td>Returns a view of input as a complex tensor.</td>
 </tr>
 <tr>
 <td><code>torch.resolve_conj</code></td>
-<td>—</td>
+<td>Returns a new tensor with materialized conjugation if input's conjugate bit is set to True, else returns input.</td>
 </tr>
 <tr>
 <td><code>torch.resolve_neg</code></td>
-<td>—</td>
+<td>Returns a new tensor with materialized negation if input's negative bit is set to True, else returns input.</td>
 </tr>
 </tbody>
 </table>
@@ -12008,223 +12008,223 @@
 <tbody>
 <tr>
 <td><code>torch._foreach_abs</code></td>
-<td>—</td>
+<td>Apply torch.abs() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_abs_</code></td>
-<td>—</td>
+<td>Apply torch.abs() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_acos</code></td>
-<td>—</td>
+<td>Apply torch.acos() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_acos_</code></td>
-<td>—</td>
+<td>Apply torch.acos() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_asin</code></td>
-<td>—</td>
+<td>Apply torch.asin() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_asin_</code></td>
-<td>—</td>
+<td>Apply torch.asin() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_atan</code></td>
-<td>—</td>
+<td>Apply torch.atan() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_atan_</code></td>
-<td>—</td>
+<td>Apply torch.atan() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_ceil</code></td>
-<td>—</td>
+<td>Apply torch.ceil() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_ceil_</code></td>
-<td>—</td>
+<td>Apply torch.ceil() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_cos</code></td>
-<td>—</td>
+<td>Apply torch.cos() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_cos_</code></td>
-<td>—</td>
+<td>Apply torch.cos() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_cosh</code></td>
-<td>—</td>
+<td>Apply torch.cosh() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_cosh_</code></td>
-<td>—</td>
+<td>Apply torch.cosh() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_erf</code></td>
-<td>—</td>
+<td>Apply torch.erf() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_erf_</code></td>
-<td>—</td>
+<td>Apply torch.erf() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_erfc</code></td>
-<td>—</td>
+<td>Apply torch.erfc() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_erfc_</code></td>
-<td>—</td>
+<td>Apply torch.erfc() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_exp</code></td>
-<td>—</td>
+<td>Apply torch.exp() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_exp_</code></td>
-<td>—</td>
+<td>Apply torch.exp() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_expm1</code></td>
-<td>—</td>
+<td>Apply torch.expm1() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_expm1_</code></td>
-<td>—</td>
+<td>Apply torch.expm1() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_floor</code></td>
-<td>—</td>
+<td>Apply torch.floor() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_floor_</code></td>
-<td>—</td>
+<td>Apply torch.floor() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log</code></td>
-<td>—</td>
+<td>Apply torch.log() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log_</code></td>
-<td>—</td>
+<td>Apply torch.log() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log10</code></td>
-<td>—</td>
+<td>Apply torch.log10() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log10_</code></td>
-<td>—</td>
+<td>Apply torch.log10() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log1p</code></td>
-<td>—</td>
+<td>Apply torch.log1p() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log1p_</code></td>
-<td>—</td>
+<td>Apply torch.log1p() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log2</code></td>
-<td>—</td>
+<td>Apply torch.log2() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_log2_</code></td>
-<td>—</td>
+<td>Apply torch.log2() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_neg</code></td>
-<td>—</td>
+<td>Apply torch.neg() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_neg_</code></td>
-<td>—</td>
+<td>Apply torch.neg() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_tan</code></td>
-<td>—</td>
+<td>Apply torch.tan() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_tan_</code></td>
-<td>—</td>
+<td>Apply torch.tan() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sin</code></td>
-<td>—</td>
+<td>Apply torch.sin() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sin_</code></td>
-<td>—</td>
+<td>Apply torch.sin() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sinh</code></td>
-<td>—</td>
+<td>Apply torch.sinh() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sinh_</code></td>
-<td>—</td>
+<td>Apply torch.sinh() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_round</code></td>
-<td>—</td>
+<td>Apply torch.round() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_round_</code></td>
-<td>—</td>
+<td>Apply torch.round() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sqrt</code></td>
-<td>—</td>
+<td>Apply torch.sqrt() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sqrt_</code></td>
-<td>—</td>
+<td>Apply torch.sqrt() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_lgamma</code></td>
-<td>—</td>
+<td>Apply torch.lgamma() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_lgamma_</code></td>
-<td>—</td>
+<td>Apply torch.lgamma() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_frac</code></td>
-<td>—</td>
+<td>Apply torch.frac() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_frac_</code></td>
-<td>—</td>
+<td>Apply torch.frac() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_reciprocal</code></td>
-<td>—</td>
+<td>Apply torch.reciprocal() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_reciprocal_</code></td>
-<td>—</td>
+<td>Apply torch.reciprocal() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sigmoid</code></td>
-<td>—</td>
+<td>Apply torch.sigmoid() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_sigmoid_</code></td>
-<td>—</td>
+<td>Apply torch.sigmoid() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_trunc</code></td>
-<td>—</td>
+<td>Apply torch.trunc() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_trunc_</code></td>
-<td>—</td>
+<td>Apply torch.trunc() to each Tensor of the input list.</td>
 </tr>
 <tr>
 <td><code>torch._foreach_zero_</code></td>
-<td>—</td>
+<td>Apply torch.zero() to each Tensor of the input list.</td>
 </tr>
 </tbody>
 </table>
@@ -12239,67 +12239,67 @@
 <tbody>
 <tr>
 <td><code>torch.compiled_with_cxx11_abi</code></td>
-<td>—</td>
+<td>Returns whether PyTorch was built with _GLIBCXX_USE_CXX11_ABI=1</td>
 </tr>
 <tr>
 <td><code>torch.result_type</code></td>
-<td>—</td>
+<td>Returns the torch.dtype that would result from performing an arithmetic operation on the provided input tensors.</td>
 </tr>
 <tr>
 <td><code>torch.can_cast</code></td>
-<td>—</td>
+<td>Determines if a type conversion is allowed under PyTorch casting rules described in the type promotion documentation.</td>
 </tr>
 <tr>
 <td><code>torch.promote_types</code></td>
-<td>—</td>
+<td>Returns the torch.dtype with the smallest size and scalar kind that is not smaller nor of lower kind than either type1 or type2.</td>
 </tr>
 <tr>
 <td><code>torch.use_deterministic_algorithms</code></td>
-<td>—</td>
+<td>Sets whether PyTorch operations must use "deterministic" algorithms.</td>
 </tr>
 <tr>
 <td><code>torch.are_deterministic_algorithms_enabled</code></td>
-<td>—</td>
+<td>Returns True if the global deterministic flag is turned on.</td>
 </tr>
 <tr>
 <td><code>torch.is_deterministic_algorithms_warn_only_enabled</code></td>
-<td>—</td>
+<td>Returns True if the global deterministic flag is set to warn only.</td>
 </tr>
 <tr>
 <td><code>torch.set_deterministic_debug_mode</code></td>
-<td>—</td>
+<td>Sets the debug mode for deterministic operations.</td>
 </tr>
 <tr>
 <td><code>torch.get_deterministic_debug_mode</code></td>
-<td>—</td>
+<td>Returns the current value of the debug mode for deterministic operations.</td>
 </tr>
 <tr>
 <td><code>torch.set_float32_matmul_precision</code></td>
-<td>—</td>
+<td>Sets the internal precision of float32 matrix multiplications.</td>
 </tr>
 <tr>
 <td><code>torch.get_float32_matmul_precision</code></td>
-<td>—</td>
+<td>Returns the current value of float32 matrix multiplication precision.</td>
 </tr>
 <tr>
 <td><code>torch.set_warn_always</code></td>
-<td>—</td>
+<td>When this flag is False (default) then some PyTorch warnings may only appear once per process.</td>
 </tr>
 <tr>
 <td><code>torch.get_device_module</code></td>
-<td>—</td>
+<td>Returns the module associated with a given device(e.g., torch.device('cuda'), "mtia:0", "xpu", ...).</td>
 </tr>
 <tr>
 <td><code>torch.is_warn_always_enabled</code></td>
-<td>—</td>
+<td>Returns True if the global warn_always flag is turned on.</td>
 </tr>
 <tr>
 <td><code>torch.vmap</code></td>
-<td>—</td>
+<td>vmap is the vectorizing map; vmap(func) returns a new function that maps func over some dimension of the inputs.</td>
 </tr>
 <tr>
 <td><code>torch._assert</code></td>
-<td>—</td>
+<td>A wrapper around Python's assert which is symbolically traceable.</td>
 </tr>
 <tr>
 <td><code>torch.typename</code></td>
@@ -12330,7 +12330,7 @@
 </tr>
 <tr>
 <td><code>torch.sym_float</code></td>
-<td>—</td>
+<td>SymInt-aware utility for float casting.</td>
 </tr>
 <tr>
 <td><code>torch.sym_fresh_size</code></td>
@@ -12338,23 +12338,23 @@
 </tr>
 <tr>
 <td><code>torch.sym_int</code></td>
-<td>—</td>
+<td>SymInt-aware utility for int casting.</td>
 </tr>
 <tr>
 <td><code>torch.sym_max</code></td>
-<td>—</td>
+<td>SymInt-aware utility for max which avoids branching on a &lt; b.</td>
 </tr>
 <tr>
 <td><code>torch.sym_min</code></td>
-<td>—</td>
+<td>SymInt-aware utility for min().</td>
 </tr>
 <tr>
 <td><code>torch.sym_not</code></td>
-<td>—</td>
+<td>SymInt-aware utility for logical negation.</td>
 </tr>
 <tr>
 <td><code>torch.sym_ite</code></td>
-<td>—</td>
+<td>SymInt-aware utility for ternary operator (t if b else f.)</td>
 </tr>
 <tr>
 <td><code>torch.sym_sqrt</code></td>
@@ -12362,7 +12362,7 @@
 </tr>
 <tr>
 <td><code>torch.sym_sum</code></td>
-<td>—</td>
+<td>N-ary add which is faster to compute for long lists than iterated binary addition.</td>
 </tr>
 </tbody>
 </table>
@@ -12377,7 +12377,7 @@
 <tbody>
 <tr>
 <td><code>torch.cond</code></td>
-<td>—</td>
+<td>Computes the condition number of a matrix with respect to a matrix norm.</td>
 </tr>
 </tbody>
 </table>
@@ -12392,7 +12392,7 @@
 <tbody>
 <tr>
 <td><code>torch.compile</code></td>
-<td>—</td>
+<td>Optimizes given model/function using TorchDynamo and specified backend.</td>
 </tr>
 </tbody>
 </table>

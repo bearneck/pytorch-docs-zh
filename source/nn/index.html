@@ -10350,19 +10350,19 @@
 <tbody>
 <tr>
 <td><code>parameter.Buffer</code></td>
-<td>—</td>
+<td>A kind of Tensor that should not be considered a model parameter.</td>
 </tr>
 <tr>
 <td><code>parameter.Parameter</code></td>
-<td>—</td>
+<td>A kind of Tensor that is to be considered a module parameter.</td>
 </tr>
 <tr>
 <td><code>parameter.UninitializedParameter</code></td>
-<td>—</td>
+<td>A parameter that is not initialized.</td>
 </tr>
 <tr>
 <td><code>parameter.UninitializedBuffer</code></td>
-<td>—</td>
+<td>A buffer that is not initialized.</td>
 </tr>
 </tbody>
 </table>
@@ -10377,59 +10377,59 @@
 <tbody>
 <tr>
 <td><code>torch.nn.Module</code></td>
-<td>—</td>
+<td>Base class for all neural network modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.Sequential</code></td>
-<td>—</td>
+<td>A sequential container.</td>
 </tr>
 <tr>
 <td><code>torch.nn.ModuleList</code></td>
-<td>—</td>
+<td>Holds submodules in a list.</td>
 </tr>
 <tr>
 <td><code>torch.nn.ModuleDict</code></td>
-<td>—</td>
+<td>Holds submodules in a dictionary.</td>
 </tr>
 <tr>
 <td><code>torch.nn.ParameterList</code></td>
-<td>—</td>
+<td>Holds parameters in a list.</td>
 </tr>
 <tr>
 <td><code>torch.nn.ParameterDict</code></td>
-<td>—</td>
+<td>Holds parameters in a dictionary.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_forward_pre_hook</code></td>
-<td>—</td>
+<td>Register a forward pre-hook common to all modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_forward_hook</code></td>
-<td>—</td>
+<td>Register a global forward hook for all the modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_backward_hook</code></td>
-<td>—</td>
+<td>Register a backward hook common to all the modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_full_backward_pre_hook</code></td>
-<td>—</td>
+<td>Register a backward pre-hook common to all the modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_full_backward_hook</code></td>
-<td>—</td>
+<td>Register a backward hook common to all the modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_buffer_registration_hook</code></td>
-<td>—</td>
+<td>Register a buffer registration hook common to all modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_module_registration_hook</code></td>
-<td>—</td>
+<td>Register a module registration hook common to all modules.</td>
 </tr>
 <tr>
 <td><code>torch.nn.register_module_parameter_registration_hook</code></td>
-<td>—</td>
+<td>Register a parameter registration hook common to all modules.</td>
 </tr>
 </tbody>
 </table>
@@ -10444,59 +10444,59 @@
 <tbody>
 <tr>
 <td><code>nn.Conv1d</code></td>
-<td>—</td>
+<td>Applies a 1D convolution over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.Conv2d</code></td>
-<td>—</td>
+<td>Applies a 2D convolution over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.Conv3d</code></td>
-<td>—</td>
+<td>Applies a 3D convolution over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.ConvTranspose1d</code></td>
-<td>—</td>
+<td>Applies a 1D transposed convolution operator over an input image composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.ConvTranspose2d</code></td>
-<td>—</td>
+<td>Applies a 2D transposed convolution operator over an input image composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.ConvTranspose3d</code></td>
-<td>—</td>
+<td>Applies a 3D transposed convolution operator over an input image composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.LazyConv1d</code></td>
-<td>—</td>
+<td>A torch.nn.Conv1d module with lazy initialization of the in_channels argument.</td>
 </tr>
 <tr>
 <td><code>nn.LazyConv2d</code></td>
-<td>—</td>
+<td>A torch.nn.Conv2d module with lazy initialization of the in_channels argument.</td>
 </tr>
 <tr>
 <td><code>nn.LazyConv3d</code></td>
-<td>—</td>
+<td>A torch.nn.Conv3d module with lazy initialization of the in_channels argument.</td>
 </tr>
 <tr>
 <td><code>nn.LazyConvTranspose1d</code></td>
-<td>—</td>
+<td>A torch.nn.ConvTranspose1d module with lazy initialization of the in_channels argument.</td>
 </tr>
 <tr>
 <td><code>nn.LazyConvTranspose2d</code></td>
-<td>—</td>
+<td>A torch.nn.ConvTranspose2d module with lazy initialization of the in_channels argument.</td>
 </tr>
 <tr>
 <td><code>nn.LazyConvTranspose3d</code></td>
-<td>—</td>
+<td>A torch.nn.ConvTranspose3d module with lazy initialization of the in_channels argument.</td>
 </tr>
 <tr>
 <td><code>nn.Unfold</code></td>
-<td>—</td>
+<td>Extracts sliding local blocks from a batched input tensor.</td>
 </tr>
 <tr>
 <td><code>nn.Fold</code></td>
-<td>—</td>
+<td>Combines an array of sliding local blocks into a large containing tensor.</td>
 </tr>
 </tbody>
 </table>
@@ -10511,83 +10511,83 @@
 <tbody>
 <tr>
 <td><code>nn.MaxPool1d</code></td>
-<td>—</td>
+<td>Applies a 1D max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.MaxPool2d</code></td>
-<td>—</td>
+<td>Applies a 2D max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.MaxPool3d</code></td>
-<td>—</td>
+<td>Applies a 3D max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.MaxUnpool1d</code></td>
-<td>—</td>
+<td>Computes a partial inverse of MaxPool1d.</td>
 </tr>
 <tr>
 <td><code>nn.MaxUnpool2d</code></td>
-<td>—</td>
+<td>Computes a partial inverse of MaxPool2d.</td>
 </tr>
 <tr>
 <td><code>nn.MaxUnpool3d</code></td>
-<td>—</td>
+<td>Computes a partial inverse of MaxPool3d.</td>
 </tr>
 <tr>
 <td><code>nn.AvgPool1d</code></td>
-<td>—</td>
+<td>Applies a 1D average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AvgPool2d</code></td>
-<td>—</td>
+<td>Applies a 2D average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AvgPool3d</code></td>
-<td>—</td>
+<td>Applies a 3D average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.FractionalMaxPool2d</code></td>
-<td>—</td>
+<td>Applies a 2D fractional max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.FractionalMaxPool3d</code></td>
-<td>—</td>
+<td>Applies a 3D fractional max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.LPPool1d</code></td>
-<td>—</td>
+<td>Applies a 1D power-average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.LPPool2d</code></td>
-<td>—</td>
+<td>Applies a 2D power-average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.LPPool3d</code></td>
-<td>—</td>
+<td>Applies a 3D power-average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AdaptiveMaxPool1d</code></td>
-<td>—</td>
+<td>Applies a 1D adaptive max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AdaptiveMaxPool2d</code></td>
-<td>—</td>
+<td>Applies a 2D adaptive max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AdaptiveMaxPool3d</code></td>
-<td>—</td>
+<td>Applies a 3D adaptive max pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AdaptiveAvgPool1d</code></td>
-<td>—</td>
+<td>Applies a 1D adaptive average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AdaptiveAvgPool2d</code></td>
-<td>—</td>
+<td>Applies a 2D adaptive average pooling over an input signal composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>nn.AdaptiveAvgPool3d</code></td>
-<td>—</td>
+<td>Applies a 3D adaptive average pooling over an input signal composed of several input planes.</td>
 </tr>
 </tbody>
 </table>
@@ -10602,63 +10602,63 @@
 <tbody>
 <tr>
 <td><code>nn.ReflectionPad1d</code></td>
-<td>—</td>
+<td>Pads the input tensor using the reflection of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.ReflectionPad2d</code></td>
-<td>—</td>
+<td>Pads the input tensor using the reflection of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.ReflectionPad3d</code></td>
-<td>—</td>
+<td>Pads the input tensor using the reflection of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.ReplicationPad1d</code></td>
-<td>—</td>
+<td>Pads the input tensor using replication of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.ReplicationPad2d</code></td>
-<td>—</td>
+<td>Pads the input tensor using replication of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.ReplicationPad3d</code></td>
-<td>—</td>
+<td>Pads the input tensor using replication of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.ZeroPad1d</code></td>
-<td>—</td>
+<td>Pads the input tensor boundaries with zero.</td>
 </tr>
 <tr>
 <td><code>nn.ZeroPad2d</code></td>
-<td>—</td>
+<td>Pads the input tensor boundaries with zero.</td>
 </tr>
 <tr>
 <td><code>nn.ZeroPad3d</code></td>
-<td>—</td>
+<td>Pads the input tensor boundaries with zero.</td>
 </tr>
 <tr>
 <td><code>nn.ConstantPad1d</code></td>
-<td>—</td>
+<td>Pads the input tensor boundaries with a constant value.</td>
 </tr>
 <tr>
 <td><code>nn.ConstantPad2d</code></td>
-<td>—</td>
+<td>Pads the input tensor boundaries with a constant value.</td>
 </tr>
 <tr>
 <td><code>nn.ConstantPad3d</code></td>
-<td>—</td>
+<td>Pads the input tensor boundaries with a constant value.</td>
 </tr>
 <tr>
 <td><code>nn.CircularPad1d</code></td>
-<td>—</td>
+<td>Pads the input tensor using circular padding of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.CircularPad2d</code></td>
-<td>—</td>
+<td>Pads the input tensor using circular padding of the input boundary.</td>
 </tr>
 <tr>
 <td><code>nn.CircularPad3d</code></td>
-<td>—</td>
+<td>Pads the input tensor using circular padding of the input boundary.</td>
 </tr>
 </tbody>
 </table>
@@ -10673,103 +10673,103 @@
 <tbody>
 <tr>
 <td><code>nn.ELU</code></td>
-<td>—</td>
+<td>Applies the Exponential Linear Unit (ELU) function, element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Hardshrink</code></td>
-<td>—</td>
+<td>Applies the Hard Shrinkage (Hardshrink) function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Hardsigmoid</code></td>
-<td>—</td>
+<td>Applies the Hardsigmoid function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Hardtanh</code></td>
-<td>—</td>
+<td>Applies the HardTanh function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Hardswish</code></td>
-<td>—</td>
+<td>Applies the Hardswish function, element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.LeakyReLU</code></td>
-<td>—</td>
+<td>Applies the LeakyReLU function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.LogSigmoid</code></td>
-<td>—</td>
+<td>Applies the Logsigmoid function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.MultiheadAttention</code></td>
-<td>—</td>
+<td>Allows the model to jointly attend to information from different representation subspaces.</td>
 </tr>
 <tr>
 <td><code>nn.PReLU</code></td>
-<td>—</td>
+<td>Applies the element-wise PReLU function.</td>
 </tr>
 <tr>
 <td><code>nn.ReLU</code></td>
-<td>—</td>
+<td>Applies the rectified linear unit function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.ReLU6</code></td>
-<td>—</td>
+<td>Applies the ReLU6 function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.RReLU</code></td>
-<td>—</td>
+<td>Applies the randomized leaky rectified linear unit function, element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.SELU</code></td>
-<td>—</td>
+<td>Applies the SELU function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.CELU</code></td>
-<td>—</td>
+<td>Applies the CELU function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.GELU</code></td>
-<td>—</td>
+<td>Applies the Gaussian Error Linear Units function.</td>
 </tr>
 <tr>
 <td><code>nn.Sigmoid</code></td>
-<td>—</td>
+<td>Applies the Sigmoid function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.SiLU</code></td>
-<td>—</td>
+<td>Applies the Sigmoid Linear Unit (SiLU) function, element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Mish</code></td>
-<td>—</td>
+<td>Applies the Mish function, element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Softplus</code></td>
-<td>—</td>
+<td>Applies the Softplus function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Softshrink</code></td>
-<td>—</td>
+<td>Applies the soft shrinkage function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Softsign</code></td>
-<td>—</td>
+<td>Applies the element-wise Softsign function.</td>
 </tr>
 <tr>
 <td><code>nn.Tanh</code></td>
-<td>—</td>
+<td>Applies the Hyperbolic Tangent (Tanh) function element-wise.</td>
 </tr>
 <tr>
 <td><code>nn.Tanhshrink</code></td>
-<td>—</td>
+<td>Applies the element-wise Tanhshrink function.</td>
 </tr>
 <tr>
 <td><code>nn.Threshold</code></td>
-<td>—</td>
+<td>Thresholds each element of the input Tensor.</td>
 </tr>
 <tr>
 <td><code>nn.GLU</code></td>
-<td>—</td>
+<td>Applies the gated linear unit function.</td>
 </tr>
 </tbody>
 </table>
@@ -10784,23 +10784,23 @@
 <tbody>
 <tr>
 <td><code>nn.Softmin</code></td>
-<td>—</td>
+<td>Applies the Softmin function to an n-dimensional input Tensor.</td>
 </tr>
 <tr>
 <td><code>nn.Softmax</code></td>
-<td>—</td>
+<td>Applies the Softmax function to an n-dimensional input Tensor.</td>
 </tr>
 <tr>
 <td><code>nn.Softmax2d</code></td>
-<td>—</td>
+<td>Applies SoftMax over features to each spatial location.</td>
 </tr>
 <tr>
 <td><code>nn.LogSoftmax</code></td>
-<td>—</td>
+<td>Applies the log⁡(Softmax(x))\log(\text{Softmax}(x))log(Softmax(x)) function to an n-dimensional input Tensor.</td>
 </tr>
 <tr>
 <td><code>nn.AdaptiveLogSoftmaxWithLoss</code></td>
-<td>—</td>
+<td>Efficient softmax approximation.</td>
 </tr>
 </tbody>
 </table>
@@ -10815,71 +10815,71 @@
 <tbody>
 <tr>
 <td><code>nn.BatchNorm1d</code></td>
-<td>—</td>
+<td>Applies Batch Normalization over a 2D or 3D input.</td>
 </tr>
 <tr>
 <td><code>nn.BatchNorm2d</code></td>
-<td>—</td>
+<td>Applies Batch Normalization over a 4D input.</td>
 </tr>
 <tr>
 <td><code>nn.BatchNorm3d</code></td>
-<td>—</td>
+<td>Applies Batch Normalization over a 5D input.</td>
 </tr>
 <tr>
 <td><code>nn.LazyBatchNorm1d</code></td>
-<td>—</td>
+<td>A torch.nn.BatchNorm1d module with lazy initialization.</td>
 </tr>
 <tr>
 <td><code>nn.LazyBatchNorm2d</code></td>
-<td>—</td>
+<td>A torch.nn.BatchNorm2d module with lazy initialization.</td>
 </tr>
 <tr>
 <td><code>nn.LazyBatchNorm3d</code></td>
-<td>—</td>
+<td>A torch.nn.BatchNorm3d module with lazy initialization.</td>
 </tr>
 <tr>
 <td><code>nn.GroupNorm</code></td>
-<td>—</td>
+<td>Applies Group Normalization over a mini-batch of inputs.</td>
 </tr>
 <tr>
 <td><code>nn.SyncBatchNorm</code></td>
-<td>—</td>
+<td>Applies Batch Normalization over a N-Dimensional input.</td>
 </tr>
 <tr>
 <td><code>nn.InstanceNorm1d</code></td>
-<td>—</td>
+<td>Applies Instance Normalization.</td>
 </tr>
 <tr>
 <td><code>nn.InstanceNorm2d</code></td>
-<td>—</td>
+<td>Applies Instance Normalization.</td>
 </tr>
 <tr>
 <td><code>nn.InstanceNorm3d</code></td>
-<td>—</td>
+<td>Applies Instance Normalization.</td>
 </tr>
 <tr>
 <td><code>nn.LazyInstanceNorm1d</code></td>
-<td>—</td>
+<td>A torch.nn.InstanceNorm1d module with lazy initialization of the num_features argument.</td>
 </tr>
 <tr>
 <td><code>nn.LazyInstanceNorm2d</code></td>
-<td>—</td>
+<td>A torch.nn.InstanceNorm2d module with lazy initialization of the num_features argument.</td>
 </tr>
 <tr>
 <td><code>nn.LazyInstanceNorm3d</code></td>
-<td>—</td>
+<td>A torch.nn.InstanceNorm3d module with lazy initialization of the num_features argument.</td>
 </tr>
 <tr>
 <td><code>nn.LayerNorm</code></td>
-<td>—</td>
+<td>Applies Layer Normalization over a mini-batch of inputs.</td>
 </tr>
 <tr>
 <td><code>nn.LocalResponseNorm</code></td>
-<td>—</td>
+<td>Applies local response normalization over an input signal.</td>
 </tr>
 <tr>
 <td><code>nn.RMSNorm</code></td>
-<td>—</td>
+<td>Applies Root Mean Square Layer Normalization over a mini-batch of inputs.</td>
 </tr>
 </tbody>
 </table>
@@ -10894,31 +10894,31 @@
 <tbody>
 <tr>
 <td><code>nn.RNNBase</code></td>
-<td>—</td>
+<td>Base class for RNN modules (RNN, LSTM, GRU).</td>
 </tr>
 <tr>
 <td><code>nn.RNN</code></td>
-<td>—</td>
+<td>Apply a multi-layer Elman RNN with tanh⁡\tanhtanh or ReLU\text{ReLU}ReLU non-linearity to an input sequence.</td>
 </tr>
 <tr>
 <td><code>nn.LSTM</code></td>
-<td>—</td>
+<td>Apply a multi-layer long short-term memory (LSTM) RNN to an input sequence.</td>
 </tr>
 <tr>
 <td><code>nn.GRU</code></td>
-<td>—</td>
+<td>Apply a multi-layer gated recurrent unit (GRU) RNN to an input sequence.</td>
 </tr>
 <tr>
 <td><code>nn.RNNCell</code></td>
-<td>—</td>
+<td>An Elman RNN cell with tanh or ReLU non-linearity.</td>
 </tr>
 <tr>
 <td><code>nn.LSTMCell</code></td>
-<td>—</td>
+<td>A long short-term memory (LSTM) cell.</td>
 </tr>
 <tr>
 <td><code>nn.GRUCell</code></td>
-<td>—</td>
+<td>A gated recurrent unit (GRU) cell.</td>
 </tr>
 </tbody>
 </table>
@@ -10933,23 +10933,23 @@
 <tbody>
 <tr>
 <td><code>nn.Transformer</code></td>
-<td>—</td>
+<td>A basic transformer layer.</td>
 </tr>
 <tr>
 <td><code>nn.TransformerEncoder</code></td>
-<td>—</td>
+<td>TransformerEncoder is a stack of N encoder layers.</td>
 </tr>
 <tr>
 <td><code>nn.TransformerDecoder</code></td>
-<td>—</td>
+<td>TransformerDecoder is a stack of N decoder layers.</td>
 </tr>
 <tr>
 <td><code>nn.TransformerEncoderLayer</code></td>
-<td>—</td>
+<td>TransformerEncoderLayer is made up of self-attn and feedforward network.</td>
 </tr>
 <tr>
 <td><code>nn.TransformerDecoderLayer</code></td>
-<td>—</td>
+<td>TransformerDecoderLayer is made up of self-attn, multi-head-attn and feedforward network.</td>
 </tr>
 </tbody>
 </table>
@@ -10964,19 +10964,19 @@
 <tbody>
 <tr>
 <td><code>nn.Identity</code></td>
-<td>—</td>
+<td>A placeholder identity operator that is argument-insensitive.</td>
 </tr>
 <tr>
 <td><code>nn.Linear</code></td>
-<td>—</td>
+<td>Applies an affine linear transformation to the incoming data: y=xAT+by = xA^T + by=xAT+b.</td>
 </tr>
 <tr>
 <td><code>nn.Bilinear</code></td>
-<td>—</td>
+<td>Applies a bilinear transformation to the incoming data: y=x1TAx2+by = x_1^T A x_2 + by=x1T​Ax2​+b.</td>
 </tr>
 <tr>
 <td><code>nn.LazyLinear</code></td>
-<td>—</td>
+<td>A torch.nn.Linear module where in_features is inferred.</td>
 </tr>
 </tbody>
 </table>
@@ -10991,27 +10991,27 @@
 <tbody>
 <tr>
 <td><code>nn.Dropout</code></td>
-<td>—</td>
+<td>During training, randomly zeroes some of the elements of the input tensor with probability p.</td>
 </tr>
 <tr>
 <td><code>nn.Dropout1d</code></td>
-<td>—</td>
+<td>Randomly zero out entire channels.</td>
 </tr>
 <tr>
 <td><code>nn.Dropout2d</code></td>
-<td>—</td>
+<td>Randomly zero out entire channels.</td>
 </tr>
 <tr>
 <td><code>nn.Dropout3d</code></td>
-<td>—</td>
+<td>Randomly zero out entire channels.</td>
 </tr>
 <tr>
 <td><code>nn.AlphaDropout</code></td>
-<td>—</td>
+<td>Applies Alpha Dropout over the input.</td>
 </tr>
 <tr>
 <td><code>nn.FeatureAlphaDropout</code></td>
-<td>—</td>
+<td>Randomly masks out entire channels.</td>
 </tr>
 </tbody>
 </table>
@@ -11026,11 +11026,11 @@
 <tbody>
 <tr>
 <td><code>nn.Embedding</code></td>
-<td>—</td>
+<td>A simple lookup table that stores embeddings of a fixed dictionary and size.</td>
 </tr>
 <tr>
 <td><code>nn.EmbeddingBag</code></td>
-<td>—</td>
+<td>Compute sums or means of 'bags' of embeddings, without instantiating the intermediate embeddings.</td>
 </tr>
 </tbody>
 </table>
@@ -11045,11 +11045,11 @@
 <tbody>
 <tr>
 <td><code>nn.CosineSimilarity</code></td>
-<td>—</td>
+<td>Returns cosine similarity between x1x_1x1​ and x2x_2x2​, computed along dim.</td>
 </tr>
 <tr>
 <td><code>nn.PairwiseDistance</code></td>
-<td>—</td>
+<td>Computes the pairwise distance between input vectors, or between columns of input matrices.</td>
 </tr>
 </tbody>
 </table>
@@ -11064,87 +11064,87 @@
 <tbody>
 <tr>
 <td><code>nn.L1Loss</code></td>
-<td>—</td>
+<td>Creates a criterion that measures the mean absolute error (MAE) between each element in the input xxx and target yyy.</td>
 </tr>
 <tr>
 <td><code>nn.MSELoss</code></td>
-<td>—</td>
+<td>Creates a criterion that measures the mean squared error (squared L2 norm) between each element in the input xxx and target yyy.</td>
 </tr>
 <tr>
 <td><code>nn.CrossEntropyLoss</code></td>
-<td>—</td>
+<td>This criterion computes the cross entropy loss between input logits and target.</td>
 </tr>
 <tr>
 <td><code>nn.CTCLoss</code></td>
-<td>—</td>
+<td>The Connectionist Temporal Classification loss.</td>
 </tr>
 <tr>
 <td><code>nn.NLLLoss</code></td>
-<td>—</td>
+<td>The negative log likelihood loss.</td>
 </tr>
 <tr>
 <td><code>nn.PoissonNLLLoss</code></td>
-<td>—</td>
+<td>Negative log likelihood loss with Poisson distribution of target.</td>
 </tr>
 <tr>
 <td><code>nn.GaussianNLLLoss</code></td>
-<td>—</td>
+<td>Gaussian negative log likelihood loss.</td>
 </tr>
 <tr>
 <td><code>nn.KLDivLoss</code></td>
-<td>—</td>
+<td>The Kullback-Leibler divergence loss.</td>
 </tr>
 <tr>
 <td><code>nn.BCELoss</code></td>
-<td>—</td>
+<td>Creates a criterion that measures the Binary Cross Entropy between the target and the input probabilities:</td>
 </tr>
 <tr>
 <td><code>nn.BCEWithLogitsLoss</code></td>
-<td>—</td>
+<td>This loss combines a Sigmoid layer and the BCELoss in one single class.</td>
 </tr>
 <tr>
 <td><code>nn.MarginRankingLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that measures the loss given inputs x1x1x1, x2x2x2, two 1D mini-batch or 0D Tensors, and a label 1D mini-batch or 0D Tensor yyy...</td>
 </tr>
 <tr>
 <td><code>nn.HingeEmbeddingLoss</code></td>
-<td>—</td>
+<td>Measures the loss given an input tensor xxx and a labels tensor yyy (containing 1 or -1).</td>
 </tr>
 <tr>
 <td><code>nn.MultiLabelMarginLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that optimizes a multi-class multi-classification hinge loss (margin-based loss) between input xxx (a 2D mini-batch Tensor) and...</td>
 </tr>
 <tr>
 <td><code>nn.HuberLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that uses a squared term if the absolute element-wise error falls below delta and a delta-scaled L1 term otherwise.</td>
 </tr>
 <tr>
 <td><code>nn.SmoothL1Loss</code></td>
-<td>—</td>
+<td>Creates a criterion that uses a squared term if the absolute element-wise error falls below beta and an L1 term otherwise.</td>
 </tr>
 <tr>
 <td><code>nn.SoftMarginLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that optimizes a two-class classification logistic loss between input tensor xxx and target tensor yyy (containing 1 or -1).</td>
 </tr>
 <tr>
 <td><code>nn.MultiLabelSoftMarginLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that optimizes a multi-label one-versus-all loss based on max-entropy, between input xxx and target yyy of size (N,C)(N, C)(N,C).</td>
 </tr>
 <tr>
 <td><code>nn.CosineEmbeddingLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that measures the loss given input tensors x1x_1x1​, x2x_2x2​ and a Tensor label yyy with values 1 or -1.</td>
 </tr>
 <tr>
 <td><code>nn.MultiMarginLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that optimizes a multi-class classification hinge loss (margin-based loss) between input xxx (a 2D mini-batch Tensor) and outpu...</td>
 </tr>
 <tr>
 <td><code>nn.TripletMarginLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that measures the triplet loss given an input tensors x1x1x1, x2x2x2, x3x3x3 and a margin with a value greater than 000.</td>
 </tr>
 <tr>
 <td><code>nn.TripletMarginWithDistanceLoss</code></td>
-<td>—</td>
+<td>Creates a criterion that measures the triplet loss given input tensors aaa, ppp, and nnn (representing anchor, positive, and negative examples, res...</td>
 </tr>
 </tbody>
 </table>
@@ -11159,23 +11159,23 @@
 <tbody>
 <tr>
 <td><code>nn.PixelShuffle</code></td>
-<td>—</td>
+<td>Rearrange elements in a tensor according to an upscaling factor.</td>
 </tr>
 <tr>
 <td><code>nn.PixelUnshuffle</code></td>
-<td>—</td>
+<td>Reverse the PixelShuffle operation.</td>
 </tr>
 <tr>
 <td><code>nn.Upsample</code></td>
-<td>—</td>
+<td>Upsamples a given multi-channel 1D (temporal), 2D (spatial) or 3D (volumetric) data.</td>
 </tr>
 <tr>
 <td><code>nn.UpsamplingNearest2d</code></td>
-<td>—</td>
+<td>Applies a 2D nearest neighbor upsampling to an input signal composed of several input channels.</td>
 </tr>
 <tr>
 <td><code>nn.UpsamplingBilinear2d</code></td>
-<td>—</td>
+<td>Applies a 2D bilinear upsampling to an input signal composed of several input channels.</td>
 </tr>
 </tbody>
 </table>
@@ -11190,7 +11190,7 @@
 <tbody>
 <tr>
 <td><code>nn.ChannelShuffle</code></td>
-<td>—</td>
+<td>Divides and rearranges the channels in a tensor.</td>
 </tr>
 </tbody>
 </table>
@@ -11205,11 +11205,11 @@
 <tbody>
 <tr>
 <td><code>nn.DataParallel</code></td>
-<td>—</td>
+<td>Implements data parallelism at the module level.</td>
 </tr>
 <tr>
 <td><code>nn.parallel.DistributedDataParallel</code></td>
-<td>—</td>
+<td>Implement distributed data parallelism based on torch.distributed at module level.</td>
 </tr>
 </tbody>
 </table>
@@ -11224,103 +11224,103 @@
 <tbody>
 <tr>
 <td><code>torch.nn.utils.clip_grad_norm_</code></td>
-<td>—</td>
+<td>Clip the gradient norm of an iterable of parameters.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.clip_grad_norm</code></td>
-<td>—</td>
+<td>Clip the gradient norm of an iterable of parameters.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.clip_grad_value_</code></td>
-<td>—</td>
+<td>Clip the gradients of an iterable of parameters at specified value.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.get_total_norm</code></td>
-<td>—</td>
+<td>Compute the norm of an iterable of tensors.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.clip_grads_with_norm_</code></td>
-<td>—</td>
+<td>Scale the gradients of an iterable of parameters given a pre-calculated total norm and desired max norm.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.parameters_to_vector</code></td>
-<td>—</td>
+<td>Flatten an iterable of parameters into a single vector.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.vector_to_parameters</code></td>
-<td>—</td>
+<td>Copy slices of a vector into an iterable of parameters.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.fuse_conv_bn_eval</code></td>
-<td>—</td>
+<td>Fuse a convolutional module and a BatchNorm module into a single, new convolutional module.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.fuse_conv_bn_weights</code></td>
-<td>—</td>
+<td>Fuse convolutional module parameters and BatchNorm module parameters into new convolutional module parameters.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.fuse_linear_bn_eval</code></td>
-<td>—</td>
+<td>Fuse a linear module and a BatchNorm module into a single, new linear module.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.fuse_linear_bn_weights</code></td>
-<td>—</td>
+<td>Fuse linear module parameters and BatchNorm module parameters into new linear module parameters.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.convert_conv2d_weight_memory_format</code></td>
-<td>—</td>
+<td>Convert memory_format of nn.Conv2d.weight to memory_format.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.convert_conv3d_weight_memory_format</code></td>
-<td>—</td>
+<td>Convert memory_format of nn.Conv3d.weight to memory_format The conversion recursively applies to nested nn.Module, including module.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.weight_norm</code></td>
-<td>—</td>
+<td>Apply weight normalization to a parameter in the given module.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.remove_weight_norm</code></td>
-<td>—</td>
+<td>Remove the weight normalization reparameterization from a module.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.spectral_norm</code></td>
-<td>—</td>
+<td>Apply spectral normalization to a parameter in the given module.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.remove_spectral_norm</code></td>
-<td>—</td>
+<td>Remove the spectral normalization reparameterization from a module.</td>
 </tr>
 <tr>
 <td><code>torch.nn.utils.skip_init</code></td>
-<td>—</td>
+<td>Given a module class object and args / kwargs, instantiate the module without initializing parameters / buffers.</td>
 </tr>
 <tr>
 <td><code>prune.BasePruningMethod</code></td>
-<td>—</td>
+<td>Abstract base class for creation of new pruning techniques.</td>
 </tr>
 <tr>
 <td><code>prune.PruningContainer</code></td>
-<td>—</td>
+<td>Container holding a sequence of pruning methods for iterative pruning.</td>
 </tr>
 <tr>
 <td><code>prune.Identity</code></td>
-<td>—</td>
+<td>Utility pruning method that does not prune any units but generates the pruning parametrization with a mask of ones.</td>
 </tr>
 <tr>
 <td><code>prune.RandomUnstructured</code></td>
-<td>—</td>
+<td>Prune (currently unpruned) units in a tensor at random.</td>
 </tr>
 <tr>
 <td><code>prune.L1Unstructured</code></td>
-<td>—</td>
+<td>Prune (currently unpruned) units in a tensor by zeroing out the ones with the lowest L1-norm.</td>
 </tr>
 <tr>
 <td><code>prune.RandomStructured</code></td>
-<td>—</td>
+<td>Prune entire (currently unpruned) channels in a tensor at random.</td>
 </tr>
 <tr>
 <td><code>prune.LnStructured</code></td>
-<td>—</td>
+<td>Prune entire (currently unpruned) channels in a tensor based on their Ln-norm.</td>
 </tr>
 <tr>
 <td><code>prune.CustomFromMask</code></td>
@@ -11328,131 +11328,131 @@
 </tr>
 <tr>
 <td><code>prune.identity</code></td>
-<td>—</td>
+<td>Apply pruning reparameterization without pruning any units.</td>
 </tr>
 <tr>
 <td><code>prune.random_unstructured</code></td>
-<td>—</td>
+<td>Prune tensor by removing random (currently unpruned) units.</td>
 </tr>
 <tr>
 <td><code>prune.l1_unstructured</code></td>
-<td>—</td>
+<td>Prune tensor by removing units with the lowest L1-norm.</td>
 </tr>
 <tr>
 <td><code>prune.random_structured</code></td>
-<td>—</td>
+<td>Prune tensor by removing random channels along the specified dimension.</td>
 </tr>
 <tr>
 <td><code>prune.ln_structured</code></td>
-<td>—</td>
+<td>Prune tensor by removing channels with the lowest Ln-norm along the specified dimension.</td>
 </tr>
 <tr>
 <td><code>prune.global_unstructured</code></td>
-<td>—</td>
+<td>Globally prunes tensors corresponding to all parameters in parameters by applying the specified pruning_method.</td>
 </tr>
 <tr>
 <td><code>prune.custom_from_mask</code></td>
-<td>—</td>
+<td>Prune tensor corresponding to parameter called name in module by applying the pre-computed mask in mask.</td>
 </tr>
 <tr>
 <td><code>prune.remove</code></td>
-<td>—</td>
+<td>Remove the pruning reparameterization from a module and the pruning method from the forward hook.</td>
 </tr>
 <tr>
 <td><code>prune.is_pruned</code></td>
-<td>—</td>
+<td>Check if a module is pruned by looking for pruning pre-hooks.</td>
 </tr>
 <tr>
 <td><code>parametrizations.orthogonal</code></td>
-<td>—</td>
+<td>Apply an orthogonal or unitary parametrization to a matrix or a batch of matrices.</td>
 </tr>
 <tr>
 <td><code>parametrizations.weight_norm</code></td>
-<td>—</td>
+<td>Apply weight normalization to a parameter in the given module.</td>
 </tr>
 <tr>
 <td><code>parametrizations.spectral_norm</code></td>
-<td>—</td>
+<td>Apply spectral normalization to a parameter in the given module.</td>
 </tr>
 <tr>
 <td><code>parametrize.register_parametrization</code></td>
-<td>—</td>
+<td>Register a parametrization to a tensor in a module.</td>
 </tr>
 <tr>
 <td><code>parametrize.remove_parametrizations</code></td>
-<td>—</td>
+<td>Remove the parametrizations on a tensor in a module.</td>
 </tr>
 <tr>
 <td><code>parametrize.cached</code></td>
-<td>—</td>
+<td>Context manager that enables the caching system within parametrizations registered with register_parametrization().</td>
 </tr>
 <tr>
 <td><code>parametrize.is_parametrized</code></td>
-<td>—</td>
+<td>Determine if a module has a parametrization.</td>
 </tr>
 <tr>
 <td><code>parametrize.transfer_parametrizations_and_params</code></td>
-<td>—</td>
+<td>Transfer parametrizations and the parameters they parametrize from from_module to to_module.</td>
 </tr>
 <tr>
 <td><code>parametrize.type_before_parametrizations</code></td>
-<td>—</td>
+<td>Return the module type before parametrizations were applied and if not, then it returns the module type.</td>
 </tr>
 <tr>
 <td><code>parametrize.ParametrizationList</code></td>
-<td>—</td>
+<td>A sequential container that holds and manages the original parameters or buffers of a parametrized torch.nn.Module.</td>
 </tr>
 <tr>
 <td><code>stateless.functional_call</code></td>
-<td>—</td>
+<td>Perform a functional call on the module by replacing the module parameters and buffers with the provided ones.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.PackedSequence</code></td>
-<td>—</td>
+<td>Holds the data and list of batch_sizes of a packed sequence.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.pack_padded_sequence</code></td>
-<td>—</td>
+<td>Packs a Tensor containing padded sequences of variable length.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.pad_packed_sequence</code></td>
-<td>—</td>
+<td>Pad a packed batch of variable length sequences.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.pad_sequence</code></td>
-<td>—</td>
+<td>Pad a list of variable length Tensors with padding_value.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.pack_sequence</code></td>
-<td>—</td>
+<td>Packs a list of variable length Tensors.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.unpack_sequence</code></td>
-<td>—</td>
+<td>Unpack PackedSequence into a list of variable length Tensors.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.unpad_sequence</code></td>
-<td>—</td>
+<td>Unpad padded Tensor into a list of variable length Tensors.</td>
 </tr>
 <tr>
 <td><code>nn.utils.rnn.invert_permutation</code></td>
-<td>—</td>
+<td>Returns the inverse of permutation.</td>
 </tr>
 <tr>
 <td><code>nn.parameter.is_lazy</code></td>
-<td>—</td>
+<td>Returns whether param is an UninitializedParameter or UninitializedBuffer.</td>
 </tr>
 <tr>
 <td><code>nn.factory_kwargs</code></td>
-<td>—</td>
+<td>Return a canonicalized dict of factory kwargs.</td>
 </tr>
 <tr>
 <td><code>nn.modules.flatten.Flatten</code></td>
-<td>—</td>
+<td>Flattens a contiguous range of dims into a tensor.</td>
 </tr>
 <tr>
 <td><code>nn.modules.flatten.Unflatten</code></td>
-<td>—</td>
+<td>Unflattens a tensor dim expanding it to a desired shape.</td>
 </tr>
 </tbody>
 </table>
@@ -11467,7 +11467,7 @@
 <tbody>
 <tr>
 <td><code>nn.modules.lazy.LazyModuleMixin</code></td>
-<td>—</td>
+<td>A mixin for modules that lazily initialize parameters, also known as "lazy modules".</td>
 </tr>
 </tbody>
 </table>

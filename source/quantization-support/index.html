@@ -10550,27 +10550,27 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.utils.quantize</code></td>
-<td>—</td>
+<td>Quantize the input float model with post training static quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.quantize_dynamic</code></td>
-<td>—</td>
+<td>Converts a float model to dynamic (i.e.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.quantize_qat</code></td>
-<td>—</td>
+<td>Do quantization aware training and output a quantized model</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.prepare</code></td>
-<td>—</td>
+<td>Prepares a copy of the model for quantization calibration or quantization-aware training.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.prepare_qat</code></td>
-<td>—</td>
+<td>Prepares a copy of the model for quantization calibration or quantization-aware training and converts it to quantized version.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.convert</code></td>
-<td>—</td>
+<td>Converts submodules in input module to a different module according to mapping by calling from_float method on the target module class.</td>
 </tr>
 </tbody>
 </table>
@@ -10585,23 +10585,23 @@
 <tbody>
 <tr>
 <td><code>fuse_modules.fuse_modules</code></td>
-<td>—</td>
+<td>Fuse a list of modules into a single module.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.QuantStub</code></td>
-<td>—</td>
+<td>Quantize stub module, before calibration, this is same as an observer, it will be swapped as nnq.Quantize in convert.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.DeQuantStub</code></td>
-<td>—</td>
+<td>Dequantize stub module, before calibration, this is same as identity, this will be swapped as nnq.DeQuantize in convert.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.QuantWrapper</code></td>
-<td>—</td>
+<td>A wrapper class that wraps the input module, adds QuantStub and DeQuantStub and surround the call to module with call to quant and dequant modules.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.add_quant_dequant</code></td>
-<td>—</td>
+<td>Wrap the leaf child module in QuantWrapper if it has a valid qconfig Note that this function will modify the children of module inplace and it can ...</td>
 </tr>
 </tbody>
 </table>
@@ -10616,15 +10616,15 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.utils.swap_module</code></td>
-<td>—</td>
+<td>Swaps the module if it has a quantized counterpart and it has an observer attached.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.propagate_qconfig_</code></td>
-<td>—</td>
+<td>Propagate qconfig through the module hierarchy and assign qconfig attribute on each leaf module</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.default_eval_fn</code></td>
-<td>—</td>
+<td>Define the default evaluation function.</td>
 </tr>
 </tbody>
 </table>
@@ -10639,35 +10639,35 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.utils.activation_is_dynamically_quantized</code></td>
-<td>—</td>
+<td>Given a qconfig, decide if the activation needs to be dynamically quantized or not, this includes dynamically quantizing to quint8, qint8 and float16</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.activation_is_int32_quantized</code></td>
-<td>—</td>
+<td>Given a qconfig, decide if the activation needs to be quantized to int32 or not</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.activation_is_int8_quantized</code></td>
-<td>—</td>
+<td>Given a qconfig, decide if the activation needs to be quantized to int8 or not, this includes quantizing to quint8, qint8</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.activation_is_statically_quantized</code></td>
-<td>—</td>
+<td>Given a qconfig, decide if the activation needs to be quantized or not, this includes quantizing to quint8, qint8 and qint32 and float16</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.determine_qparams</code></td>
-<td>—</td>
+<td>Calculates the quantization parameters, given min and max value tensors.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.check_min_max_valid</code></td>
-<td>—</td>
+<td>Checks if the given minimum and maximum values are valid, meaning that they exist and the min value is less than the max value.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.calculate_qmin_qmax</code></td>
-<td>—</td>
+<td>Calculates actual qmin and qmax based on the quantization range, observer datatype and if range is reduced.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.utils.validate_qmin_qmax</code></td>
-<td>—</td>
+<td>Validates that the user-specified quantization range is properly initialized and within the given bound supported by the observer dtype.</td>
 </tr>
 </tbody>
 </table>
@@ -10682,19 +10682,19 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.quantize_fx.prepare_fx</code></td>
-<td>—</td>
+<td>Prepare a model for post training quantization</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.quantize_fx.prepare_qat_fx</code></td>
-<td>—</td>
+<td>Prepare a model for quantization aware training</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.quantize_fx.convert_fx</code></td>
-<td>—</td>
+<td>Convert a calibrated or trained model to a quantized model</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.quantize_fx.fuse_fx</code></td>
-<td>—</td>
+<td>Fuse modules like conv+bn, conv+bn+relu etc, model must be in eval mode.</td>
 </tr>
 </tbody>
 </table>
@@ -10709,15 +10709,15 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.qconfig_mapping.QConfigMapping</code></td>
-<td>—</td>
+<td>Mapping from model ops to torch.ao.quantization.QConfig s.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig_mapping.get_default_qconfig_mapping</code></td>
-<td>—</td>
+<td>Return the default QConfigMapping for post training quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig_mapping.get_default_qat_qconfig_mapping</code></td>
-<td>—</td>
+<td>Return the default QConfigMapping for quantization aware training.</td>
 </tr>
 </tbody>
 </table>
@@ -10732,23 +10732,23 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.backend_config.BackendConfig</code></td>
-<td>—</td>
+<td>Config that defines the set of patterns that can be quantized on a given backend, and how reference quantized models can be produced from these pat...</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.backend_config.BackendPatternConfig</code></td>
-<td>—</td>
+<td>Config object that specifies quantization behavior for a given operator pattern.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.backend_config.DTypeConfig</code></td>
-<td>—</td>
+<td>Config object that specifies the supported data types passed as arguments to quantize ops in the reference model spec, for input and output activat...</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.backend_config.DTypeWithConstraints</code></td>
-<td>—</td>
+<td>Config for specifying additional constraints for a given dtype, such as quantization value ranges, scale value ranges, and fixed quantization param...</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.backend_config.ObservationType</code></td>
-<td>—</td>
+<td>An enum that represents different ways of how an operator/operator pattern should be observed</td>
 </tr>
 </tbody>
 </table>
@@ -10763,7 +10763,7 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.backend_config.utils.entry_to_pretty_str</code></td>
-<td>—</td>
+<td>Given a backend_config_dict entry, returns a string with the human readable representation of it.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.backend_config.utils.pattern_to_human_readable</code></td>
@@ -10771,7 +10771,7 @@
 </tr>
 <tr>
 <td><code>torch.ao.quantization.backend_config.utils.remove_boolean_dispatch_from_name</code></td>
-<td>—</td>
+<td>Some ops have a default string representation such as '<function boolean_dispatch.\<locals>.fn at 0x7ff1106bf280>', this function replaces them with...</td>
 </tr>
 </tbody>
 </table>
@@ -10786,15 +10786,15 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.fx.custom_config.FuseCustomConfig</code></td>
-<td>—</td>
+<td>Custom configuration for fuse_fx().</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.custom_config.PrepareCustomConfig</code></td>
-<td>—</td>
+<td>Custom configuration for prepare_fx() and prepare_qat_fx().</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.custom_config.ConvertCustomConfig</code></td>
-<td>—</td>
+<td>Custom configuration for convert_fx().</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.custom_config.StandaloneModuleConfigEntry</code></td>
@@ -10813,43 +10813,43 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.all_node_args_except_first</code></td>
-<td>—</td>
+<td>Returns all node arg indices after first</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.all_node_args_have_no_tensors</code></td>
-<td>—</td>
+<td>If we know for sure that all of this node's args have no tensors (are primitives), return True.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.collect_producer_nodes</code></td>
-<td>—</td>
+<td>Starting from a target node, trace back until we hit input or getattr node.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.create_getattr_from_value</code></td>
-<td>—</td>
+<td>Given a value of any type, creates a getattr node corresponding to the value and registers the value as a buffer to the module.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.create_node_from_old_node_preserve_meta</code></td>
-<td>—</td>
+<td>Creates new_node and copies the necessary metadata to it from old_node.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.graph_module_from_producer_nodes</code></td>
-<td>—</td>
+<td>Construct a graph module from extracted producer nodes from collect_producer_nodes function :param root: the root module for the original graph :pa...</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.maybe_get_next_module</code></td>
-<td>—</td>
+<td>Gets the next module that matches what is needed in is_target_module_type if it exists</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.node_arg_is_bias</code></td>
-<td>—</td>
+<td>Returns if node arg is bias</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.node_arg_is_weight</code></td>
-<td>—</td>
+<td>Returns if node arg is weight</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fx.utils.return_arg_list</code></td>
-<td>—</td>
+<td>Constructs a function that takes a node as arg and returns the arg_indices that are valid for node.args</td>
 </tr>
 </tbody>
 </table>
@@ -10864,15 +10864,15 @@
 <tbody>
 <tr>
 <td><code>torch.quantize_per_tensor</code></td>
-<td>—</td>
+<td>Converts a float tensor to a quantized tensor with given scale and zero point.</td>
 </tr>
 <tr>
 <td><code>torch.quantize_per_channel</code></td>
-<td>—</td>
+<td>Converts a float tensor to a per-channel quantized tensor with given scales and zero points.</td>
 </tr>
 <tr>
 <td><code>torch.dequantize</code></td>
-<td>—</td>
+<td>Given a quantized Tensor, dequantize it and return the dequantized float Tensor.</td>
 </tr>
 </tbody>
 </table>
@@ -10887,111 +10887,111 @@
 <tbody>
 <tr>
 <td><code>torch.Tensor.view</code></td>
-<td>—</td>
+<td>Returns a new tensor with the same data as the self tensor but of a different shape.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.as_strided</code></td>
-<td>—</td>
+<td>See torch.as_strided()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.expand</code></td>
-<td>—</td>
+<td>Returns a new view of the self tensor with singleton dimensions expanded to a larger size.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.flatten</code></td>
-<td>—</td>
+<td>See torch.flatten()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.select</code></td>
-<td>—</td>
+<td>See torch.select()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.ne</code></td>
-<td>—</td>
+<td>See torch.ne().</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.eq</code></td>
-<td>—</td>
+<td>See torch.eq()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.ge</code></td>
-<td>—</td>
+<td>See torch.ge().</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.le</code></td>
-<td>—</td>
+<td>See torch.le().</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.gt</code></td>
-<td>—</td>
+<td>See torch.gt().</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.lt</code></td>
-<td>—</td>
+<td>See torch.lt().</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.copy_</code></td>
-<td>—</td>
+<td>Copies the elements from src into self tensor and returns self.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.clone</code></td>
-<td>—</td>
+<td>See torch.clone()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.dequantize</code></td>
-<td>—</td>
+<td>Given a quantized Tensor, dequantize it and return the dequantized float Tensor.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.equal</code></td>
-<td>—</td>
+<td>See torch.equal()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.int_repr</code></td>
-<td>—</td>
+<td>Given a quantized Tensor, self.int_repr() returns a CPU Tensor with uint8_t as data type that stores the underlying uint8_t values of the given Ten...</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.max</code></td>
-<td>—</td>
+<td>See torch.max()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.mean</code></td>
-<td>—</td>
+<td>See torch.mean()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.min</code></td>
-<td>—</td>
+<td>See torch.min()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.q_scale</code></td>
-<td>—</td>
+<td>Given a Tensor quantized by linear(affine) quantization, returns the scale of the underlying quantizer().</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.q_zero_point</code></td>
-<td>—</td>
+<td>Given a Tensor quantized by linear(affine) quantization, returns the zero_point of the underlying quantizer().</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.q_per_channel_scales</code></td>
-<td>—</td>
+<td>Given a Tensor quantized by linear (affine) per-channel quantization, returns a Tensor of scales of the underlying quantizer.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.q_per_channel_zero_points</code></td>
-<td>—</td>
+<td>Given a Tensor quantized by linear (affine) per-channel quantization, returns a tensor of zero_points of the underlying quantizer.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.q_per_channel_axis</code></td>
-<td>—</td>
+<td>Given a Tensor quantized by linear (affine) per-channel quantization, returns the index of dimension on which per-channel quantization is applied.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.resize_</code></td>
-<td>—</td>
+<td>Resizes self tensor to the specified size.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.sort</code></td>
-<td>—</td>
+<td>See torch.sort()</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.topk</code></td>
-<td>—</td>
+<td>See torch.topk()</td>
 </tr>
 </tbody>
 </table>
@@ -11006,127 +11006,127 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.observer.ObserverBase</code></td>
-<td>—</td>
+<td>Base observer Module.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.MinMaxObserver</code></td>
-<td>—</td>
+<td>Observer module for computing the quantization parameters based on the running min and max values.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.MovingAverageMinMaxObserver</code></td>
-<td>—</td>
+<td>Observer module for computing the quantization parameters based on the moving average of the min and max values.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PerChannelMinMaxObserver</code></td>
-<td>—</td>
+<td>Observer module for computing the quantization parameters based on the running per channel min and max values.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.MovingAveragePerChannelMinMaxObserver</code></td>
-<td>—</td>
+<td>Observer module for computing the quantization parameters based on the running per channel min and max values.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.HistogramObserver</code></td>
-<td>—</td>
+<td>The module records the running histogram of tensor values along with min/max values.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PlaceholderObserver</code></td>
-<td>—</td>
+<td>Observer that doesn't do anything and just passes its configuration to the quantized module's .from_float().</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.RecordingObserver</code></td>
-<td>—</td>
+<td>The module is mainly for debug and records the tensor values during runtime.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.NoopObserver</code></td>
-<td>—</td>
+<td>Observer that doesn't do anything and just passes its configuration to the quantized module's .from_float().</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.get_observer_state_dict</code></td>
-<td>—</td>
+<td>Returns the state dict corresponding to the observer stats.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.load_observer_state_dict</code></td>
-<td>—</td>
+<td>Given input model and a state_dict containing model observer stats, load the stats back into the model.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_observer</code></td>
-<td>—</td>
+<td>Default observer for static quantization, usually used for debugging.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_placeholder_observer</code></td>
-<td>—</td>
+<td>Default placeholder observer, usually used for quantization to torch.float16.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_debug_observer</code></td>
-<td>—</td>
+<td>Default debug-only observer.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_weight_observer</code></td>
-<td>—</td>
+<td>Default weight observer.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_histogram_observer</code></td>
-<td>—</td>
+<td>Default histogram observer, usually used for PTQ.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_per_channel_weight_observer</code></td>
-<td>—</td>
+<td>Default per-channel weight observer, usually used on backends where per-channel weight quantization is supported, such as fbgemm.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_dynamic_quant_observer</code></td>
-<td>—</td>
+<td>Default observer for dynamic quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.default_float_qparams_observer</code></td>
-<td>—</td>
+<td>Default observer for a floating point zero-point.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.AffineQuantizedObserverBase</code></td>
-<td>—</td>
+<td>Observer module for affine quantization (pytorch/ao)</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.Granularity</code></td>
-<td>—</td>
+<td>Base class for representing the granularity of quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.MappingType</code></td>
-<td>—</td>
+<td>How floating point number is mapped to integer number</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PerAxis</code></td>
-<td>—</td>
+<td>Represents per-axis granularity in quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PerBlock</code></td>
-<td>—</td>
+<td>Represents per-block granularity in quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PerGroup</code></td>
-<td>—</td>
+<td>Represents per-channel group granularity in quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PerRow</code></td>
-<td>—</td>
+<td>Represents row-wise granularity in quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PerTensor</code></td>
-<td>—</td>
+<td>Represents per-tensor granularity in quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.PerToken</code></td>
-<td>—</td>
+<td>Represents per-token granularity in quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.TorchAODType</code></td>
-<td>—</td>
+<td>Placeholder for dtypes that do not exist in PyTorch core yet.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.ZeroPointDomain</code></td>
-<td>—</td>
+<td>Enum that indicate whether zero_point is in integer domain or floating point domain</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.observer.get_block_size</code></td>
-<td>—</td>
+<td>Get the block size based on the input shape and granularity type.</td>
 </tr>
 </tbody>
 </table>
@@ -11141,63 +11141,63 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.FakeQuantizeBase</code></td>
-<td>—</td>
+<td>Base fake quantize module.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.FakeQuantize</code></td>
-<td>—</td>
+<td>Simulate the quantize and dequantize operations in training time.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.FixedQParamsFakeQuantize</code></td>
-<td>—</td>
+<td>Simulate quantize and dequantize in training time.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.FusedMovingAvgObsFakeQuantize</code></td>
-<td>—</td>
+<td>Define a fused module to observe the tensor.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.default_fake_quant</code></td>
-<td>—</td>
+<td>Default fake_quant for activations.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.default_weight_fake_quant</code></td>
-<td>—</td>
+<td>Default fake_quant for weights.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.default_per_channel_weight_fake_quant</code></td>
-<td>—</td>
+<td>Default fake_quant for per-channel weights.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.default_histogram_fake_quant</code></td>
-<td>—</td>
+<td>Fake_quant for activations using a histogram..</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.default_fused_act_fake_quant</code></td>
-<td>—</td>
+<td>Fused version of default_fake_quant, with improved performance.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.default_fused_wt_fake_quant</code></td>
-<td>—</td>
+<td>Fused version of default_weight_fake_quant, with improved performance.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.default_fused_per_channel_wt_fake_quant</code></td>
-<td>—</td>
+<td>Fused version of default_per_channel_weight_fake_quant, with improved performance.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.disable_fake_quant</code></td>
-<td>—</td>
+<td>Disable fake quantization for the module.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.enable_fake_quant</code></td>
-<td>—</td>
+<td>Enable fake quantization for the module.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.disable_observer</code></td>
-<td>—</td>
+<td>Disable observation for this module.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.fake_quantize.enable_observer</code></td>
-<td>—</td>
+<td>Enable observation for this module.</td>
 </tr>
 </tbody>
 </table>
@@ -11212,55 +11212,55 @@
 <tbody>
 <tr>
 <td><code>torch.ao.quantization.qconfig.QConfig</code></td>
-<td>—</td>
+<td>Describes how to quantize a layer or a part of the network by providing settings (observer classes) for activations and weights respectively.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_qconfig</code></td>
-<td>—</td>
+<td>Default qconfig configuration.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_debug_qconfig</code></td>
-<td>—</td>
+<td>Default qconfig configuration for debugging.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_per_channel_qconfig</code></td>
-<td>—</td>
+<td>Default qconfig configuration for per channel weight quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_dynamic_qconfig</code></td>
-<td>—</td>
+<td>Default dynamic qconfig.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.float16_dynamic_qconfig</code></td>
-<td>—</td>
+<td>Dynamic qconfig with weights quantized to torch.float16.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.float16_static_qconfig</code></td>
-<td>—</td>
+<td>Dynamic qconfig with both activations and weights quantized to torch.float16.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.per_channel_dynamic_qconfig</code></td>
-<td>—</td>
+<td>Dynamic qconfig with weights quantized per channel.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.float_qparams_weight_only_qconfig</code></td>
-<td>—</td>
+<td>Dynamic qconfig with weights quantized with a floating point zero_point.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_qat_qconfig</code></td>
-<td>—</td>
+<td>Default qconfig for QAT.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_weight_only_qconfig</code></td>
-<td>—</td>
+<td>Default qconfig for quantizing weights only.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_activation_only_qconfig</code></td>
-<td>—</td>
+<td>Default qconfig for quantizing activations only.</td>
 </tr>
 <tr>
 <td><code>torch.ao.quantization.qconfig.default_qat_qconfig_v2</code></td>
-<td>—</td>
+<td>Fused version of default_qat_config, has performance benefits.</td>
 </tr>
 </tbody>
 </table>
@@ -11290,51 +11290,51 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvReLU1d</code></td>
-<td>—</td>
+<td>A ConvReLU1d module is a fused module of Conv1d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvReLU2d</code></td>
-<td>—</td>
+<td>A ConvReLU2d module is a fused module of Conv2d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvReLU3d</code></td>
-<td>—</td>
+<td>A ConvReLU3d module is a fused module of Conv3d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.LinearReLU</code></td>
-<td>—</td>
+<td>A LinearReLU module fused from Linear and ReLU modules that can be used for dynamic quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvBn1d</code></td>
-<td>—</td>
+<td>A ConvBn1d module is a module fused from Conv1d and BatchNorm1d, attached with FakeQuantize modules for weight, used in quantization aware training.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvBn2d</code></td>
-<td>—</td>
+<td>A ConvBn2d module is a module fused from Conv2d and BatchNorm2d, attached with FakeQuantize modules for weight, used in quantization aware training.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvBn3d</code></td>
-<td>—</td>
+<td>A ConvBn3d module is a module fused from Conv3d and BatchNorm3d, attached with FakeQuantize modules for weight, used in quantization aware training.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvBnReLU1d</code></td>
-<td>—</td>
+<td>A ConvBnReLU1d module is a module fused from Conv1d, BatchNorm1d and ReLU, attached with FakeQuantize modules for weight, used in quantization awar...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvBnReLU2d</code></td>
-<td>—</td>
+<td>A ConvBnReLU2d module is a module fused from Conv2d, BatchNorm2d and ReLU, attached with FakeQuantize modules for weight, used in quantization awar...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.ConvBnReLU3d</code></td>
-<td>—</td>
+<td>A ConvBnReLU3d module is a module fused from Conv3d, BatchNorm3d and ReLU, attached with FakeQuantize modules for weight, used in quantization awar...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.BNReLU2d</code></td>
-<td>—</td>
+<td>A BNReLU2d module is a fused module of BatchNorm2d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.BNReLU3d</code></td>
-<td>—</td>
+<td>A BNReLU3d module is a fused module of BatchNorm3d and ReLU</td>
 </tr>
 </tbody>
 </table>
@@ -11349,39 +11349,39 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.LinearReLU</code></td>
-<td>—</td>
+<td>A LinearReLU module fused from Linear and ReLU modules that can be used for dynamic quantization.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvBn1d</code></td>
-<td>—</td>
+<td>A ConvBn1d module is a module fused from Conv1d and BatchNorm1d, attached with FakeQuantize modules for weight, used in quantization aware training.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvBnReLU1d</code></td>
-<td>—</td>
+<td>A ConvBnReLU1d module is a module fused from Conv1d, BatchNorm1d and ReLU, attached with FakeQuantize modules for weight, used in quantization awar...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvBn2d</code></td>
-<td>—</td>
+<td>A ConvBn2d module is a module fused from Conv2d and BatchNorm2d, attached with FakeQuantize modules for weight, used in quantization aware training.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvBnReLU2d</code></td>
-<td>—</td>
+<td>A ConvBnReLU2d module is a module fused from Conv2d, BatchNorm2d and ReLU, attached with FakeQuantize modules for weight, used in quantization awar...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvReLU2d</code></td>
-<td>—</td>
+<td>A ConvReLU2d module is a fused module of Conv2d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvBn3d</code></td>
-<td>—</td>
+<td>A ConvBn3d module is a module fused from Conv3d and BatchNorm3d, attached with FakeQuantize modules for weight, used in quantization aware training.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvBnReLU3d</code></td>
-<td>—</td>
+<td>A ConvBnReLU3d module is a module fused from Conv3d, BatchNorm3d and ReLU, attached with FakeQuantize modules for weight, used in quantization awar...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.ConvReLU3d</code></td>
-<td>—</td>
+<td>A ConvReLU3d module is a fused module of Conv3d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.qat.update_bn_stats</code></td>
@@ -11404,27 +11404,27 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.intrinsic.quantized.BNReLU2d</code></td>
-<td>—</td>
+<td>A BNReLU2d module is a fused module of BatchNorm2d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.quantized.BNReLU3d</code></td>
-<td>—</td>
+<td>A BNReLU3d module is a fused module of BatchNorm3d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.quantized.ConvReLU1d</code></td>
-<td>—</td>
+<td>A ConvReLU1d module is a fused module of Conv1d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.quantized.ConvReLU2d</code></td>
-<td>—</td>
+<td>A ConvReLU2d module is a fused module of Conv2d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.quantized.ConvReLU3d</code></td>
-<td>—</td>
+<td>A ConvReLU3d module is a fused module of Conv3d and ReLU</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.intrinsic.quantized.LinearReLU</code></td>
-<td>—</td>
+<td>A LinearReLU module fused from Linear and ReLU modules that can be used for dynamic quantization.</td>
 </tr>
 </tbody>
 </table>
@@ -11439,7 +11439,7 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.intrinsic.quantized.dynamic.LinearReLU</code></td>
-<td>—</td>
+<td>A LinearReLU module fused from Linear and ReLU modules that can be used for dynamic quantization.</td>
 </tr>
 </tbody>
 </table>
@@ -11454,15 +11454,15 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.qat.Conv2d</code></td>
-<td>—</td>
+<td>Applies a 2D convolution over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.qat.Conv3d</code></td>
-<td>—</td>
+<td>Applies a 3D convolution over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.qat.Linear</code></td>
-<td>—</td>
+<td>A dynamic quantized linear module with floating point tensor as inputs and outputs.</td>
 </tr>
 </tbody>
 </table>
@@ -11477,7 +11477,7 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.qat.dynamic.Linear</code></td>
-<td>—</td>
+<td>A dynamic quantized linear module with floating point tensor as inputs and outputs.</td>
 </tr>
 </tbody>
 </table>
@@ -11492,99 +11492,99 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.quantized.ReLU6</code></td>
-<td>—</td>
+<td>Applies the element-wise function:</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.Hardswish</code></td>
-<td>—</td>
+<td>This is the quantized version of Hardswish.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.ELU</code></td>
-<td>—</td>
+<td>This is the quantized equivalent of ELU.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.LeakyReLU</code></td>
-<td>—</td>
+<td>This is the quantized equivalent of LeakyReLU.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.Sigmoid</code></td>
-<td>—</td>
+<td>This is the quantized equivalent of Sigmoid.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.BatchNorm2d</code></td>
-<td>—</td>
+<td>This is the quantized version of BatchNorm2d.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.BatchNorm3d</code></td>
-<td>—</td>
+<td>This is the quantized version of BatchNorm3d.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.Conv1d</code></td>
-<td>—</td>
+<td>Applies a 1D convolution over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.Conv2d</code></td>
-<td>—</td>
+<td>Applies a 2D convolution over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.Conv3d</code></td>
-<td>—</td>
+<td>Applies a 3D convolution over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.ConvTranspose1d</code></td>
-<td>—</td>
+<td>Applies a 1D transposed convolution operator over an input image composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.ConvTranspose2d</code></td>
-<td>—</td>
+<td>Applies a 2D transposed convolution operator over an input image composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.ConvTranspose3d</code></td>
-<td>—</td>
+<td>Applies a 3D transposed convolution operator over an input image composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.Embedding</code></td>
-<td>—</td>
+<td>A quantized Embedding module with quantized packed weights as inputs.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.EmbeddingBag</code></td>
-<td>—</td>
+<td>A quantized EmbeddingBag module with quantized packed weights as inputs.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.FloatFunctional</code></td>
-<td>—</td>
+<td>State collector class for float operations.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.FXFloatFunctional</code></td>
-<td>—</td>
+<td>module to replace FloatFunctional module before FX graph mode quantization, since activation_post_process will be inserted in top level module dire...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.QFunctional</code></td>
-<td>—</td>
+<td>Wrapper class for quantized operations.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.Linear</code></td>
-<td>—</td>
+<td>A dynamic quantized linear module with floating point tensor as inputs and outputs.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.LayerNorm</code></td>
-<td>—</td>
+<td>This is the quantized version of LayerNorm.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.GroupNorm</code></td>
-<td>—</td>
+<td>This is the quantized version of GroupNorm.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.InstanceNorm1d</code></td>
-<td>—</td>
+<td>This is the quantized version of InstanceNorm1d.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.InstanceNorm2d</code></td>
-<td>—</td>
+<td>This is the quantized version of InstanceNorm2d.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.InstanceNorm3d</code></td>
-<td>—</td>
+<td>This is the quantized version of InstanceNorm3d.</td>
 </tr>
 </tbody>
 </table>
@@ -11599,91 +11599,91 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.avg_pool2d</code></td>
-<td>—</td>
+<td>Applies 2D average-pooling operation in kH×kWkH \times kWkH×kW regions by step size sH×sWsH \times sWsH×sW steps.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.avg_pool3d</code></td>
-<td>—</td>
+<td>Applies 3D average-pooling operation in kD timeskH×kWkD \ times kH \times kWkD timeskH×kW regions by step size sD×sH×sWsD \times sH \times sWsD×sH×...</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.adaptive_avg_pool2d</code></td>
-<td>—</td>
+<td>Applies a 2D adaptive average pooling over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.adaptive_avg_pool3d</code></td>
-<td>—</td>
+<td>Applies a 3D adaptive average pooling over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.conv1d</code></td>
-<td>—</td>
+<td>Applies a 1D convolution over a quantized 1D input composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.conv2d</code></td>
-<td>—</td>
+<td>Applies a 2D convolution over a quantized 2D input composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.conv3d</code></td>
-<td>—</td>
+<td>Applies a 3D convolution over a quantized 3D input composed of several input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.interpolate</code></td>
-<td>—</td>
+<td>Down/up samples the input to either the given size or the given scale_factor</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.linear</code></td>
-<td>—</td>
+<td>Applies a linear transformation to the incoming quantized data: y=xAT+by = xA^T + by=xAT+b.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.max_pool1d</code></td>
-<td>—</td>
+<td>Applies a 1D max pooling over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.max_pool2d</code></td>
-<td>—</td>
+<td>Applies a 2D max pooling over a quantized input signal composed of several quantized input planes.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.celu</code></td>
-<td>—</td>
+<td>Applies the quantized CELU function element-wise.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.leaky_relu</code></td>
-<td>—</td>
+<td>Quantized version of the.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.hardtanh</code></td>
-<td>—</td>
+<td>This is the quantized version of hardtanh().</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.hardswish</code></td>
-<td>—</td>
+<td>This is the quantized version of hardswish().</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.threshold</code></td>
-<td>—</td>
+<td>Applies the quantized version of the threshold function element-wise:</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.elu</code></td>
-<td>—</td>
+<td>This is the quantized version of elu().</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.hardsigmoid</code></td>
-<td>—</td>
+<td>This is the quantized version of hardsigmoid().</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.clamp</code></td>
-<td>—</td>
+<td>float(input, min_, max_) -&gt; Tensor</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.upsample</code></td>
-<td>—</td>
+<td>Upsamples the input to either the given size or the given scale_factor</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.upsample_bilinear</code></td>
-<td>—</td>
+<td>Upsamples the input, using bilinear upsampling.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.functional.upsample_nearest</code></td>
-<td>—</td>
+<td>Upsamples the input, using nearest neighbours' pixel values.</td>
 </tr>
 </tbody>
 </table>
@@ -11698,7 +11698,7 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.quantizable.LSTM</code></td>
-<td>—</td>
+<td>A dynamic quantized LSTM module with floating point tensor as inputs and outputs.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantizable.MultiheadAttention</code></td>
@@ -11717,27 +11717,27 @@
 <tbody>
 <tr>
 <td><code>torch.ao.nn.quantized.dynamic.Linear</code></td>
-<td>—</td>
+<td>A dynamic quantized linear module with floating point tensor as inputs and outputs.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.dynamic.LSTM</code></td>
-<td>—</td>
+<td>A dynamic quantized LSTM module with floating point tensor as inputs and outputs.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.dynamic.GRU</code></td>
-<td>—</td>
+<td>Applies a multi-layer gated recurrent unit (GRU) RNN to an input sequence.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.dynamic.RNNCell</code></td>
-<td>—</td>
+<td>An Elman RNN cell with tanh or ReLU non-linearity.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.dynamic.LSTMCell</code></td>
-<td>—</td>
+<td>A long short-term memory (LSTM) cell.</td>
 </tr>
 <tr>
 <td><code>torch.ao.nn.quantized.dynamic.GRUCell</code></td>
-<td>—</td>
+<td>A gated recurrent unit (GRU) cell</td>
 </tr>
 </tbody>
 </table>

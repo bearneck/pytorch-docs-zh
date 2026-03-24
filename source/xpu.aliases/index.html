@@ -9889,67 +9889,67 @@
 <tbody>
 <tr>
 <td><code>torch.xpu.random.get_rng_state</code></td>
-<td>—</td>
+<td>Returns the random number generator state of the specified MTIA device as a ByteTensor.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.get_rng_state_all</code></td>
-<td>—</td>
+<td>Returns a list of ByteTensor representing the random number states of all devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.initial_seed</code></td>
-<td>—</td>
+<td>Returns the current random seed of the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.manual_seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.manual_seed_all</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers on all MTIA devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.seed_all</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number on all MTIA devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.set_rng_state</code></td>
-<td>—</td>
+<td>Sets the random number generator state of the specified MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.set_rng_state_all</code></td>
-<td>—</td>
+<td>Sets the random number generator state of all devices.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.is_current_stream_capturing</code></td>
-<td>—</td>
+<td>Return True if XPU graph capture is underway on the current XPU stream, False otherwise.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.graph_pool_handle</code></td>
-<td>—</td>
+<td>Return an opaque token representing the id of a graph memory pool.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.XPUGraph</code></td>
-<td>—</td>
+<td>Wrapper around a XPU graph.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.graph</code></td>
-<td>—</td>
+<td>Context-manager that captures XPU work into a torch.xpu.XPUGraph object for later replay.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.make_graphed_callables</code></td>
-<td>—</td>
+<td>Accept callables (functions or nn.Modules) and returns graphed versions.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.Event</code></td>
-<td>—</td>
+<td>Query and record Stream status to identify or control dependencies across Stream and measure timing.</td>
 </tr>
 <tr>
 <td><code>torch.xpu.random.Stream</code></td>
-<td>—</td>
+<td>An in-order queue of executing the respective tasks asynchronously in first in first out (FIFO) order.</td>
 </tr>
 <tr>
 <td><code>以下是嵌套命名空间中定义的、对应</code>torch.xpu<code>中功能的别名。对于这些 API 中的任何一个，您都可以使用</code>torch.xpu<code>中的顶层版本，例如</code>torch.xpu.seed<code>，或使用嵌套版本</code>torch.xpu.random.seed<code>。</code></td>

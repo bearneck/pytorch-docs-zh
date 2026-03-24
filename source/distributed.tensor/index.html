@@ -10270,7 +10270,7 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.tensor.DTensor</code></td>
-<td>—</td>
+<td>DTensor (Distributed Tensor) is a subclass of torch.Tensor that provides single-device like abstraction to program with multi-device torch.Tensor.</td>
 </tr>
 </tbody>
 </table>
@@ -10286,27 +10286,27 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.tensor.placement_types.Shard</code></td>
-<td>—</td>
+<td>The Shard(dim) placement describes the DTensor sharding on tensor dimension dim over a corresponding DeviceMesh dimension, where each rank on the Devi</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.placement_types._StridedShard</code></td>
-<td>—</td>
+<td>_StridedShard is only introduced to support 2D FSDP2 + TP sharding where the tensor is sharded on the TP mesh dimension first, then sharded on the FSD</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.placement_types.Replicate</code></td>
-<td>—</td>
+<td>The Replicate() placement describes the DTensor replicating on a corresponding DeviceMesh dimension, where each rank on the DeviceMesh dimension holds</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.placement_types.Partial</code></td>
-<td>—</td>
+<td>The Partial(reduce_op) placement describes the DTensor that is pending reduction on a specified DeviceMesh dimension, where each rank on the DeviceMes</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.placement_types._MaskPartial</code></td>
-<td>—</td>
+<td>A partial mask placement devised for rowwise sharded embedding op, where we need to mask and adjust the indices to the local embedding shard, embeddin</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.placement_types.Placement</code></td>
-<td>—</td>
+<td>The base class for the Placement type, where it describes how a DTensor is placed onto the DeviceMesh.</td>
 </tr>
 </tbody>
 </table>
@@ -10322,11 +10322,11 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.tensor.distribute_tensor</code></td>
-<td>—</td>
+<td>Distribute a leaf torch.Tensor (i.e.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.distribute_module</code></td>
-<td>—</td>
+<td>This function expose three functions to control the parameters/inputs/outputs of the module:</td>
 </tr>
 </tbody>
 </table>
@@ -10341,27 +10341,27 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.tensor.zeros</code></td>
-<td>—</td>
+<td>Returns a tensor filled with the scalar value 0, with the shape defined by the variable argument size.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.ones</code></td>
-<td>—</td>
+<td>Returns a tensor filled with the scalar value 1, with the shape defined by the variable argument size.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.empty</code></td>
-<td>—</td>
+<td>Returns a tensor filled with uninitialized data.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.full</code></td>
-<td>—</td>
+<td>Creates a tensor of size size filled with fill_value.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.rand</code></td>
-<td>—</td>
+<td>Returns a tensor filled with random numbers from a uniform distribution on the interval [0,1)[0, 1)[0,1)</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.randn</code></td>
-<td>—</td>
+<td>Returns a tensor filled with random numbers from a normal distribution with mean 0 and variance 1 (also called the standard normal distribution).</td>
 </tr>
 </tbody>
 </table>
@@ -10379,11 +10379,11 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.tensor.CommDebugMode</code></td>
-<td>—</td>
+<td>CommDebugMode is a context manager that counts the number of functional collectives within its context.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.visualize_sharding</code></td>
-<td>—</td>
+<td>Visualizes sharding in the terminal for DTensor that are 1D or 2D.</td>
 </tr>
 </tbody>
 </table>
@@ -10398,15 +10398,15 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.tensor.experimental.context_parallel</code></td>
-<td>—</td>
+<td>context_parallel is an experimental API to enable context parallelism (CP).</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.experimental.local_map</code></td>
-<td>—</td>
+<td>local_map() is an experimental API that allows users to pass DTensor s to a function that is written to be applied on torch.Tensor s.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.tensor.experimental.register_sharding</code></td>
-<td>—</td>
+<td>register_sharding() is an experimental API that allows users to register sharding strategies for an operator when the tensor inputs and outputs are DT</td>
 </tr>
 </tbody>
 </table>

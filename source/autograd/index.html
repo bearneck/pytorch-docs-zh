@@ -10284,11 +10284,11 @@
 <tbody>
 <tr>
 <td><code>torch.autograd.backward</code></td>
-<td>—</td>
+<td>Compute the sum of gradients of given tensors with respect to graph leaves.</td>
 </tr>
 <tr>
 <td><code>torch.autograd.grad</code></td>
-<td>—</td>
+<td>Compute and return the sum of gradients of outputs with respect to the inputs.</td>
 </tr>
 </tbody>
 </table>
@@ -10303,27 +10303,27 @@
 <tbody>
 <tr>
 <td><code>forward_ad.dual_level</code></td>
-<td>—</td>
+<td>Context-manager for forward AD, where all forward AD computation must occur within the dual_level context.</td>
 </tr>
 <tr>
 <td><code>forward_ad.make_dual</code></td>
-<td>—</td>
+<td>Associate a tensor value with its tangent to create a "dual tensor" for forward AD gradient computation.</td>
 </tr>
 <tr>
 <td><code>forward_ad.unpack_dual</code></td>
-<td>—</td>
+<td>Unpack a "dual tensor" to get both its Tensor value and its forward AD gradient.</td>
 </tr>
 <tr>
 <td><code>forward_ad.enter_dual_level</code></td>
-<td>—</td>
+<td>Enter a new forward grad level.</td>
 </tr>
 <tr>
 <td><code>forward_ad.exit_dual_level</code></td>
-<td>—</td>
+<td>Exit a forward grad level.</td>
 </tr>
 <tr>
 <td><code>forward_ad.UnpackedDualTensor</code></td>
-<td>—</td>
+<td>Namedtuple returned by unpack_dual() containing the primal and tangent components of the dual tensor.</td>
 </tr>
 </tbody>
 </table>
@@ -10338,27 +10338,27 @@
 <tbody>
 <tr>
 <td><code>functional.jacobian</code></td>
-<td>—</td>
+<td>Compute the Jacobian of a given function.</td>
 </tr>
 <tr>
 <td><code>functional.hessian</code></td>
-<td>—</td>
+<td>Compute the Hessian of a given scalar function.</td>
 </tr>
 <tr>
 <td><code>functional.vjp</code></td>
-<td>—</td>
+<td>Compute the dot product between a vector v and the Jacobian of the given function at the point given by the inputs.</td>
 </tr>
 <tr>
 <td><code>functional.jvp</code></td>
-<td>—</td>
+<td>Compute the dot product between the Jacobian of the given function at the point given by the inputs and a vector v.</td>
 </tr>
 <tr>
 <td><code>functional.vhp</code></td>
-<td>—</td>
+<td>Compute the dot product between vector v and Hessian of a  given scalar function at a specified point.</td>
 </tr>
 <tr>
 <td><code>functional.hvp</code></td>
-<td>—</td>
+<td>Compute the dot product between the scalar function's Hessian and a vector v at a specified point.</td>
 </tr>
 </tbody>
 </table>
@@ -10373,27 +10373,27 @@
 <tbody>
 <tr>
 <td><code>torch.no_grad</code></td>
-<td>—</td>
+<td>Context-manager that disables gradient calculation.</td>
 </tr>
 <tr>
 <td><code>torch.enable_grad</code></td>
-<td>—</td>
+<td>Context-manager that enables gradient calculation.</td>
 </tr>
 <tr>
 <td><code>torch.autograd.grad_mode.set_grad_enabled</code></td>
-<td>—</td>
+<td>Context-manager that sets gradient calculation on or off.</td>
 </tr>
 <tr>
 <td><code>torch.is_grad_enabled</code></td>
-<td>—</td>
+<td>Returns True if grad mode is currently enabled.</td>
 </tr>
 <tr>
 <td><code>torch.autograd.grad_mode.inference_mode</code></td>
-<td>—</td>
+<td>Context manager that enables or disables inference mode.</td>
 </tr>
 <tr>
 <td><code>torch.is_inference_mode_enabled</code></td>
-<td>—</td>
+<td>Returns True if inference mode is currently enabled.</td>
 </tr>
 </tbody>
 </table>
@@ -10413,27 +10413,27 @@
 <tbody>
 <tr>
 <td><code>torch.Tensor.grad</code></td>
-<td>—</td>
+<td>This attribute is None by default and becomes a Tensor the first time a call to backward() computes gradients for self.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.requires_grad</code></td>
-<td>—</td>
+<td>Is True if gradients need to be computed for this Tensor, False otherwise.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.is_leaf</code></td>
-<td>—</td>
+<td>All Tensors that have requires_grad which is False will be leaf Tensors by convention.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.backward</code></td>
-<td>—</td>
+<td>Compute the sum of gradients of given tensors with respect to graph leaves.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.detach</code></td>
-<td>—</td>
+<td>Returns a new Tensor, detached from the current graph.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.detach_</code></td>
-<td>—</td>
+<td>Detaches the Tensor from the graph that created it, making it a leaf.</td>
 </tr>
 <tr>
 <td><code>torch.Tensor.register_hook</code></td>
@@ -10464,19 +10464,19 @@
 </tr>
 <tr>
 <td><code>Function.forward</code></td>
-<td>—</td>
+<td>Define the forward of the custom autograd Function.</td>
 </tr>
 <tr>
 <td><code>Function.backward</code></td>
-<td>—</td>
+<td>Define a formula for differentiating the operation with backward mode automatic differentiation.</td>
 </tr>
 <tr>
 <td><code>Function.jvp</code></td>
-<td>—</td>
+<td>Define a formula for differentiating the operation with forward mode automatic differentiation.</td>
 </tr>
 <tr>
 <td><code>Function.vmap</code></td>
-<td>—</td>
+<td>Define the behavior for this autograd.Function underneath torch.vmap().</td>
 </tr>
 </tbody>
 </table>
@@ -10491,19 +10491,19 @@
 <tbody>
 <tr>
 <td><code>function.FunctionCtx.mark_dirty</code></td>
-<td>—</td>
+<td>Mark given tensors as modified in an in-place operation.</td>
 </tr>
 <tr>
 <td><code>function.FunctionCtx.mark_non_differentiable</code></td>
-<td>—</td>
+<td>Mark outputs as non-differentiable.</td>
 </tr>
 <tr>
 <td><code>function.FunctionCtx.save_for_backward</code></td>
-<td>—</td>
+<td>Save given tensors for a future call to backward().</td>
 </tr>
 <tr>
 <td><code>function.FunctionCtx.set_materialize_grads</code></td>
-<td>—</td>
+<td>Set whether to materialize grad tensors.</td>
 </tr>
 </tbody>
 </table>
@@ -10522,15 +10522,15 @@
 </tr>
 <tr>
 <td><code>function.BackwardCFunction</code></td>
-<td>—</td>
+<td>This class is used for internal autograd work.</td>
 </tr>
 <tr>
 <td><code>function.InplaceFunction</code></td>
-<td>—</td>
+<td>This class is here only for backward compatibility reasons.</td>
 </tr>
 <tr>
 <td><code>function.NestedIOFunction</code></td>
-<td>—</td>
+<td>This class is here only for backward compatibility reasons.</td>
 </tr>
 </tbody>
 </table>
@@ -10545,15 +10545,15 @@
 <tbody>
 <tr>
 <td><code>torch.autograd.gradcheck.gradcheck</code></td>
-<td>—</td>
+<td>Check gradients computed via small finite differences against analytical gradients wrt tensors in inputs that are of floating point or complex type...</td>
 </tr>
 <tr>
 <td><code>torch.autograd.gradcheck.gradgradcheck</code></td>
-<td>—</td>
+<td>Check gradients of gradients computed via small finite differences against analytical gradients wrt tensors in inputs and grad_outputs that are of ...</td>
 </tr>
 <tr>
 <td><code>torch.autograd.gradcheck.GradcheckError</code></td>
-<td>—</td>
+<td>Error raised by gradcheck() and gradgradcheck().</td>
 </tr>
 </tbody>
 </table>
@@ -10568,7 +10568,7 @@
 <tbody>
 <tr>
 <td><code>torch.autograd.profiler.profile</code></td>
-<td>—</td>
+<td>Profiler context manager.</td>
 </tr>
 <tr>
 <td><code>torch.autograd.profiler.emit_nvtx</code></td>
@@ -10580,19 +10580,19 @@
 </tr>
 <tr>
 <td><code>profiler.profile.export_chrome_trace</code></td>
-<td>—</td>
+<td>Export an EventList as a Chrome tracing tools file.</td>
 </tr>
 <tr>
 <td><code>profiler.profile.key_averages</code></td>
-<td>—</td>
+<td>Averages all function events over their keys.</td>
 </tr>
 <tr>
 <td><code>profiler.profile.self_cpu_time_total</code></td>
-<td>—</td>
+<td>Returns total time spent on CPU.</td>
 </tr>
 <tr>
 <td><code>profiler.profile.total_average</code></td>
-<td>—</td>
+<td>Compute aggregate statistics across all events.</td>
 </tr>
 <tr>
 <td><code>profiler.parse_nvprof_trace</code></td>
@@ -10600,15 +10600,15 @@
 </tr>
 <tr>
 <td><code>profiler.EnforceUnique</code></td>
-<td>—</td>
+<td>Raises an error if a key is seen more than once.</td>
 </tr>
 <tr>
 <td><code>profiler.KinetoStepTracker</code></td>
-<td>—</td>
+<td>Provides an abstraction for incrementing the step count globally.</td>
 </tr>
 <tr>
 <td><code>profiler.record_function</code></td>
-<td>—</td>
+<td>Context manager/function decorator that adds a label to a code block/function when running autograd profiler.</td>
 </tr>
 <tr>
 <td><code>profiler_util.Interval</code></td>
@@ -10620,7 +10620,7 @@
 </tr>
 <tr>
 <td><code>profiler_util.MemRecordsAcc</code></td>
-<td>—</td>
+<td>Acceleration structure for accessing mem_records in interval.</td>
 </tr>
 <tr>
 <td><code>profiler_util.StringTable</code></td>
@@ -10628,7 +10628,7 @@
 </tr>
 <tr>
 <td><code>profiler.load_nvprof</code></td>
-<td>—</td>
+<td>Open an nvprof trace file and parses autograd annotations.</td>
 </tr>
 </tbody>
 </table>
@@ -10651,7 +10651,7 @@
 </tr>
 <tr>
 <td><code>grad_mode.set_multithreading_enabled</code></td>
-<td>—</td>
+<td>Context-manager that enables or disables multithreaded backward.</td>
 </tr>
 </tbody>
 </table>
@@ -10698,11 +10698,11 @@
 </tr>
 <tr>
 <td><code>graph.Node.name</code></td>
-<td>—</td>
+<td>Return the name.</td>
 </tr>
 <tr>
 <td><code>graph.Node.metadata</code></td>
-<td>—</td>
+<td>Return the metadata.</td>
 </tr>
 <tr>
 <td><code>graph.Node.next_functions</code></td>
@@ -10710,15 +10710,15 @@
 </tr>
 <tr>
 <td><code>graph.Node.register_hook</code></td>
-<td>—</td>
+<td>Register a backward hook.</td>
 </tr>
 <tr>
 <td><code>graph.Node.register_prehook</code></td>
-<td>—</td>
+<td>Register a backward pre-hook.</td>
 </tr>
 <tr>
 <td><code>graph.increment_version</code></td>
-<td>—</td>
+<td>Update autograd metadata tracking whether the given Tensor was modified in place.</td>
 </tr>
 </tbody>
 </table>

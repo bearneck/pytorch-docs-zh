@@ -10667,55 +10667,55 @@
 <tbody>
 <tr>
 <td><code>torch.fx.symbolic_trace</code></td>
-<td>—</td>
+<td>Symbolic tracing API</td>
 </tr>
 <tr>
 <td><code>torch.fx.wrap</code></td>
-<td>—</td>
+<td>This function can be called at module-level scope to register fn_or_name as a “leaf function”.</td>
 </tr>
 <tr>
 <td><code>torch.fx.GraphModule</code></td>
-<td>—</td>
+<td>GraphModule is an nn.Module generated from an fx.Graph.</td>
 </tr>
 <tr>
 <td><code>torch.fx.__init__</code></td>
-<td>—</td>
+<td>Construct a GraphModule.</td>
 </tr>
 <tr>
 <td><code>torch.fx.Graph</code></td>
-<td>—</td>
+<td>Graph is the main data structure used in the FX Intermediate Representation.</td>
 </tr>
 <tr>
 <td><code>torch.fx.Node</code></td>
-<td>—</td>
+<td>Node is the data structure that represents individual operations within a Graph.</td>
 </tr>
 <tr>
 <td><code>torch.fx.Tracer</code></td>
-<td>—</td>
+<td>Tracer is the class that implements the symbolic tracing functionality of torch.fx.symbolic_trace.</td>
 </tr>
 <tr>
 <td><code>torch.fx.Proxy</code></td>
-<td>—</td>
+<td>Proxy objects are Node wrappers that flow through the program during symbolic tracing and record all the operations (torch function calls, method call</td>
 </tr>
 <tr>
 <td><code>torch.fx.Interpreter</code></td>
-<td>—</td>
+<td>An Interpreter executes an FX graph Node-by-Node.</td>
 </tr>
 <tr>
 <td><code>torch.fx.Transformer</code></td>
-<td>—</td>
+<td>Transformer is a special type of interpreter that produces a new Module.</td>
 </tr>
 <tr>
 <td><code>torch.fx.replace_pattern</code></td>
-<td>—</td>
+<td>Matches all possible non-overlapping sets of operators and their data dependencies (pattern) in the Graph of a GraphModule (gm), then replaces each of</td>
 </tr>
 <tr>
 <td><code>torch.fx.traceback.annotate</code></td>
-<td>—</td>
+<td>Temporarily adds custom annotations to the current tracing context.</td>
 </tr>
 <tr>
 <td><code>torch.fx.passes.tools_common.stable_topological_sort</code></td>
-<td>—</td>
+<td>Replace the graph of the given GraphModule with one that contains the same nodes as the original, but in topologically sorted order while preserving t</td>
 </tr>
 </tbody>
 </table>
@@ -10730,7 +10730,7 @@
 <tbody>
 <tr>
 <td><code>torch.fx.annotate.annotate</code></td>
-<td>—</td>
+<td>Temporarily adds custom annotations to the current tracing context.</td>
 </tr>
 </tbody>
 </table>
@@ -10791,7 +10791,7 @@
 <tbody>
 <tr>
 <td><code>torch.fx.passes.split_utils.move_non_tensor_nodes_on_boundary</code></td>
-<td>—</td>
+<td>Move non-tensor nodes on the boundary between subgraphs.</td>
 </tr>
 <tr>
 <td><code>torch.fx.traceback.annotate_fn</code></td>

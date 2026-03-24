@@ -10003,119 +10003,119 @@
 <tbody>
 <tr>
 <td><code>torch.mtia.StreamContext</code></td>
-<td>—</td>
+<td>Context-manager that selects a given stream.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.current_device</code></td>
-<td>—</td>
+<td>Return the index of a currently selected device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.current_stream</code></td>
-<td>—</td>
+<td>Return the currently selected stream for a given device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.default_stream</code></td>
-<td>—</td>
+<td>Return the default Stream for a given device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.device_count</code></td>
-<td>—</td>
+<td>Return the number of current accelerator available.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.init</code></td>
-<td>—</td>
+<td>Initialize PyTorch's XPU state.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.is_bf16_supported</code></td>
-<td>—</td>
+<td>Return a bool indicating if the current MTIA device supports dtype bfloat16.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.is_initialized</code></td>
-<td>—</td>
+<td>Return whether PyTorch's MTIA state has been initialized.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.memory_stats</code></td>
-<td>—</td>
+<td>Return a dictionary of accelerator device memory allocator statistics for a given device index.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.get_device_capability</code></td>
-<td>—</td>
+<td>Return capability of a given device as a tuple of (major version, minor version).</td>
 </tr>
 <tr>
 <td><code>torch.mtia.empty_cache</code></td>
-<td>—</td>
+<td>Release all unoccupied cached memory currently held by the caching allocator so that those can be used in other application.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.record_memory_history</code></td>
-<td>—</td>
+<td>Enable/Disable the memory profiler on MTIA allocator</td>
 </tr>
 <tr>
 <td><code>torch.mtia.snapshot</code></td>
-<td>—</td>
+<td>Return a dictionary of MTIA memory allocator history</td>
 </tr>
 <tr>
 <td><code>torch.mtia.attach_out_of_memory_observer</code></td>
-<td>—</td>
+<td>Attach an out-of-memory observer to MTIA memory allocator</td>
 </tr>
 <tr>
 <td><code>torch.mtia.set_device</code></td>
-<td>—</td>
+<td>Set the current device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.set_stream</code></td>
-<td>—</td>
+<td>Set the current stream to a given stream.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.stream</code></td>
-<td>—</td>
+<td>Wrap around the Context-manager StreamContext that selects a given stream.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.synchronize</code></td>
-<td>—</td>
+<td>Wait for all kernels in all streams on the given device to complete.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.device</code></td>
-<td>—</td>
+<td>Context-manager that changes the selected device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.set_rng_state</code></td>
-<td>—</td>
+<td>Sets the random number generator state of the specified MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.get_rng_state</code></td>
-<td>—</td>
+<td>Returns the random number generator state of the specified MTIA device as a ByteTensor.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.set_rng_state_all</code></td>
-<td>—</td>
+<td>Sets the random number generator state of all devices.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.get_rng_state_all</code></td>
-<td>—</td>
+<td>Returns a list of ByteTensor representing the random number states of all devices.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.manual_seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.manual_seed_all</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers on all MTIA devices.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.seed</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number for the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.seed_all</code></td>
-<td>—</td>
+<td>Sets the seed for generating random numbers to a random number on all MTIA devices.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.initial_seed</code></td>
-<td>—</td>
+<td>Returns the current random seed of the current MTIA device.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.DeferredMtiaCallError</code></td>
@@ -10135,11 +10135,11 @@
 <tbody>
 <tr>
 <td><code>torch.mtia.Event</code></td>
-<td>—</td>
+<td>Query and record Stream status to identify or control dependencies across Stream and measure timing.</td>
 </tr>
 <tr>
 <td><code>torch.mtia.Stream</code></td>
-<td>—</td>
+<td>An in-order queue of executing the respective tasks asynchronously in first in first out (FIFO) order.</td>
 </tr>
 </tbody>
 </table>

@@ -9999,43 +9999,43 @@
 <tbody>
 <tr>
 <td><code>torch.func.vmap</code></td>
-<td>—</td>
+<td>vmap is the vectorizing map; vmap(func) returns a new function that maps func over some dimension of the inputs.</td>
 </tr>
 <tr>
 <td><code>torch.func.grad</code></td>
-<td>—</td>
+<td>Compute and return the sum of gradients of outputs with respect to the inputs.</td>
 </tr>
 <tr>
 <td><code>torch.func.grad_and_value</code></td>
-<td>—</td>
+<td>Returns a function to compute a tuple of the gradient and primal, or forward, computation.</td>
 </tr>
 <tr>
 <td><code>torch.func.vjp</code></td>
-<td>—</td>
+<td>Standing for the vector-Jacobian product, returns a tuple containing the results of func applied to primals and a function that, when given cotangents</td>
 </tr>
 <tr>
 <td><code>torch.func.jvp</code></td>
-<td>—</td>
+<td>Standing for the Jacobian-vector product, returns a tuple containing the output of func(*primals) and the "Jacobian of func evaluated at primals" time</td>
 </tr>
 <tr>
 <td><code>torch.func.linearize</code></td>
-<td>—</td>
+<td>Returns the value of func at primals and linear approximation at primals.</td>
 </tr>
 <tr>
 <td><code>torch.func.jacrev</code></td>
-<td>—</td>
+<td>Computes the Jacobian of func with respect to the arg(s) at index argnum using reverse mode autodiff</td>
 </tr>
 <tr>
 <td><code>torch.func.jacfwd</code></td>
-<td>—</td>
+<td>Computes the Jacobian of func with respect to the arg(s) at index argnum using forward-mode autodiff</td>
 </tr>
 <tr>
 <td><code>torch.func.hessian</code></td>
-<td>—</td>
+<td>Computes the Hessian of func with respect to the arg(s) at index argnum via a forward-over-reverse strategy.</td>
 </tr>
 <tr>
 <td><code>torch.func.functionalize</code></td>
-<td>—</td>
+<td>functionalize is a transform that can be used to remove (intermediate) mutations and aliasing from a function, while preserving the function's semanti</td>
 </tr>
 </tbody>
 </table>
@@ -10050,15 +10050,15 @@
 <tbody>
 <tr>
 <td><code>torch.func.functional_call</code></td>
-<td>—</td>
+<td>Performs a functional call on the module by replacing the module parameters and buffers with the provided ones.</td>
 </tr>
 <tr>
 <td><code>torch.func.stack_module_state</code></td>
-<td>—</td>
+<td>Prepares a list of torch.nn.Modules for ensembling with vmap().</td>
 </tr>
 <tr>
 <td><code>torch.func.replace_all_batch_norm_modules_</code></td>
-<td>—</td>
+<td>In place updates root by setting the running_mean and running_var to be None and setting track_running_stats to be False for any nn.BatchNorm module i</td>
 </tr>
 </tbody>
 </table>
@@ -10073,7 +10073,7 @@
 <tbody>
 <tr>
 <td><code>torch.func.debug_unwrap</code></td>
-<td>—</td>
+<td>Unwraps a functorch tensor (e.g.</td>
 </tr>
 </tbody>
 </table>

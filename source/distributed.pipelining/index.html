@@ -10326,11 +10326,11 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.pipelining.SplitPoint</code></td>
-<td>—</td>
+<td>Enum representing the points at which a split can occur in the execution of a submodule.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.pipeline</code></td>
-<td>—</td>
+<td>Split a module based on a specification.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.Pipe</code></td>
@@ -10338,7 +10338,7 @@
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.pipe_split</code></td>
-<td>—</td>
+<td>pipe_split is a special operator that is used to mark the boundary between stages in a module.</td>
 </tr>
 </tbody>
 </table>
@@ -10353,15 +10353,15 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.pipelining.microbatch.TensorChunkSpec</code></td>
-<td>—</td>
+<td>Class used to specify chunking of inputs</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.microbatch.split_args_kwargs_into_chunks</code></td>
-<td>—</td>
+<td>Given a sequence of args and kwargs, split them into a number of chunks according to their respective chunking specs.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.microbatch.merge_chunks</code></td>
-<td>—</td>
+<td>Given a list of chunks, merge them into a single value according to the chunk spec.</td>
 </tr>
 </tbody>
 </table>
@@ -10376,11 +10376,11 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.pipelining.stage.PipelineStage</code></td>
-<td>—</td>
+<td>A class representing a pipeline stage in a pipeline parallelism setup.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.stage.build_stage</code></td>
-<td>—</td>
+<td>Create a pipeline stage given a stage_module to be wrapped by this stage and pipeline information.</td>
 </tr>
 </tbody>
 </table>
@@ -10395,39 +10395,39 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.ScheduleGPipe</code></td>
-<td>—</td>
+<td>The GPipe schedule.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.Schedule1F1B</code></td>
-<td>—</td>
+<td>The 1F1B schedule.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.ScheduleInterleaved1F1B</code></td>
-<td>—</td>
+<td>The Interleaved 1F1B schedule.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.ScheduleLoopedBFS</code></td>
-<td>—</td>
+<td>Breadth-First Pipeline Parallelism.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.ScheduleInterleavedZeroBubble</code></td>
-<td>—</td>
+<td>The Interleaved Zero Bubble schedule.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.ScheduleZBVZeroBubble</code></td>
-<td>—</td>
+<td>The Zero Bubble schedule (ZBV variant).</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.ScheduleDualPipeV</code></td>
-<td>—</td>
+<td>The DualPipeV schedule.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.PipelineScheduleSingle</code></td>
-<td>—</td>
+<td>Base class for single-stage schedules.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.pipelining.schedules.PipelineScheduleMulti</code></td>
-<td>—</td>
+<td>Base class for multi-stage schedules.</td>
 </tr>
 </tbody>
 </table>

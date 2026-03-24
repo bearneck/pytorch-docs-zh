@@ -10178,39 +10178,39 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.rpc.init_rpc</code></td>
-<td>—</td>
+<td>Initializes RPC primitives such as the local RPC agent and distributed autograd, which immediately makes the current process ready to send and receive</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.rpc_sync</code></td>
-<td>—</td>
+<td>Make a blocking RPC call to run function func on worker to.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.rpc_async</code></td>
-<td>—</td>
+<td>Make a non-blocking RPC call to run function func on worker to.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.remote</code></td>
-<td>—</td>
+<td>Make a remote call to run func on worker to and return an RRef to the result value immediately.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.get_worker_info</code></td>
-<td>—</td>
+<td>Get WorkerInfo of a given worker name.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.shutdown</code></td>
-<td>—</td>
+<td>Perform a shutdown of the RPC agent, and then destroy the RPC agent.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.WorkerInfo</code></td>
-<td>—</td>
+<td>A structure that encapsulates information of a worker in the system.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.functions.async_execution</code></td>
-<td>—</td>
+<td>A decorator for a function indicating that the return value of the function is guaranteed to be a Future object and this function can run asynchronous</td>
 </tr>
 </tbody>
 </table>
@@ -10225,11 +10225,11 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.rpc.BackendType</code></td>
-<td>—</td>
+<td>An enum class of available backends.</td>
 </tr>
 <tr>
 <td><code>torch.distributed.rpc.RpcBackendOptions</code></td>
-<td>—</td>
+<td>An abstract structure encapsulating the options passed into the RPC backend.</td>
 </tr>
 </tbody>
 </table>
@@ -10244,7 +10244,7 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.rpc.TensorPipeRpcBackendOptions</code></td>
-<td>—</td>
+<td>The backend options for TensorPipeAgent, derived from RpcBackendOptions.</td>
 </tr>
 </tbody>
 </table>
@@ -10274,7 +10274,7 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.nn.api.remote_module.RemoteModule</code></td>
-<td>—</td>
+<td>A RemoteModule instance can only be created after RPC initialization.</td>
 </tr>
 </tbody>
 </table>
@@ -10289,7 +10289,7 @@
 <tbody>
 <tr>
 <td><code>torch.distributed.autograd.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 </tbody>
 </table>

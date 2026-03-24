@@ -9978,7 +9978,7 @@
 <tbody>
 <tr>
 <td><code>torch.backends.cpu.get_cpu_capability</code></td>
-<td>—</td>
+<td>Return cpu capability as a string value.</td>
 </tr>
 </tbody>
 </table>
@@ -9993,19 +9993,19 @@
 <tbody>
 <tr>
 <td><code>torch.backends.cuda.is_built</code></td>
-<td>—</td>
+<td>Return whether PyTorch is built with CUDA support.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.preferred_blas_library</code></td>
-<td>—</td>
+<td>Override the library PyTorch uses for BLAS operations.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.preferred_rocm_fa_library</code></td>
-<td>—</td>
+<td>[ROCm-only] Override the backend PyTorch uses in ROCm environments for Flash Attention.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.preferred_linalg_library</code></td>
-<td>—</td>
+<td>Override the heuristic PyTorch uses to choose between cuSOLVER and MAGMA for CUDA linear algebra operations.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.SDPAParams</code></td>
@@ -10013,63 +10013,63 @@
 </tr>
 <tr>
 <td><code>torch.backends.cuda.flash_sdp_enabled</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.enable_mem_efficient_sdp</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.mem_efficient_sdp_enabled</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.enable_flash_sdp</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.math_sdp_enabled</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.enable_math_sdp</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.fp16_bf16_reduction_math_sdp_allowed</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.allow_fp16_bf16_reduction_math_sdp</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.cudnn_sdp_enabled</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.enable_cudnn_sdp</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.is_flash_attention_available</code></td>
-<td>—</td>
+<td>Check if PyTorch was built with FlashAttention for scaled_dot_product_attention.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.can_use_flash_attention</code></td>
-<td>—</td>
+<td>Check if FlashAttention can be utilized in scaled_dot_product_attention.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.can_use_efficient_attention</code></td>
-<td>—</td>
+<td>Check if efficient_attention can be utilized in scaled_dot_product_attention.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.can_use_cudnn_attention</code></td>
-<td>—</td>
+<td>Check if cudnn_attention can be utilized in scaled_dot_product_attention.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cuda.sdp_kernel</code></td>
-<td>—</td>
+<td>Warning</td>
 </tr>
 </tbody>
 </table>
@@ -10084,11 +10084,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.cudnn.version</code></td>
-<td>—</td>
+<td>Return the version of cuDNN.</td>
 </tr>
 <tr>
 <td><code>torch.backends.cudnn.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 </tbody>
 </table>
@@ -10103,11 +10103,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.cusparselt.version</code></td>
-<td>—</td>
+<td>Return the version of cuSPARSELt</td>
 </tr>
 <tr>
 <td><code>torch.backends.cusparselt.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 </tbody>
 </table>
@@ -10122,11 +10122,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.mha.get_fastpath_enabled</code></td>
-<td>—</td>
+<td>Returns whether fast path for TransformerEncoder and MultiHeadAttention is enabled, or True if jit is scripting.</td>
 </tr>
 <tr>
 <td><code>torch.backends.mha.set_fastpath_enabled</code></td>
-<td>—</td>
+<td>Sets whether fast path is enabled</td>
 </tr>
 </tbody>
 </table>
@@ -10142,11 +10142,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.mps.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.backends.mps.is_built</code></td>
-<td>—</td>
+<td>Return whether PyTorch is built with MPS support.</td>
 </tr>
 </tbody>
 </table>
@@ -10161,11 +10161,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.mkl.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.backends.mkl.verbose</code></td>
-<td>—</td>
+<td>On-demand oneMKL verbosing functionality.</td>
 </tr>
 </tbody>
 </table>
@@ -10180,11 +10180,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.mkldnn.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.backends.mkldnn.verbose</code></td>
-<td>—</td>
+<td>On-demand oneDNN (former MKL-DNN) verbosing functionality.</td>
 </tr>
 </tbody>
 </table>
@@ -10199,15 +10199,15 @@
 <tbody>
 <tr>
 <td><code>torch.backends.nnpack.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.backends.nnpack.flags</code></td>
-<td>—</td>
+<td>Context manager for setting if nnpack is enabled globally</td>
 </tr>
 <tr>
 <td><code>torch.backends.nnpack.set_flags</code></td>
-<td>—</td>
+<td>Set if nnpack is enabled globally</td>
 </tr>
 </tbody>
 </table>
@@ -10222,11 +10222,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.openmp.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.backends.kleidiai.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 </tbody>
 </table>
@@ -10241,11 +10241,11 @@
 <tbody>
 <tr>
 <td><code>torch.backends.opt_einsum.is_available</code></td>
-<td>—</td>
+<td>Check if the current accelerator is available at runtime: it was build, all the required drivers are available and at least one device is visible.</td>
 </tr>
 <tr>
 <td><code>torch.backends.opt_einsum.get_opt_einsum</code></td>
-<td>—</td>
+<td>Return the opt_einsum package if opt_einsum is currently available, else None.</td>
 </tr>
 </tbody>
 </table>
