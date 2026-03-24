@@ -9963,60 +9963,62 @@
 
 
 <h1 id="torchtensor">torch.Tensor<a class="headerlink" href="#torchtensor" title="Permanent link">&para;</a></h1>
-<p><code>torch.Tensor</code> 是一个包含单一数据类型元素的多维矩阵。有关 dtype 支持的更多详细信息，请参阅 <code>dtype-doc</code>。</p>
+<p><code>torch.Tensor</code> 是一个包含单一数据类型元素的多维矩阵。有关 dtype 支持的更多详细信息，请参阅 <em>dtype-doc</em>。</p>
 <h2 id="_1">初始化和基本操作<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>可以使用 <code>torch.tensor</code> 构造函数从 Python <code>list</code> 或序列构造张量：</p>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; torch.tensor([[1., -1.], [1., -1.]])
-tensor([[ 1.0000, -1.0000],
-        [ 1.0000, -1.0000]])
-&gt;&gt;&gt; torch.tensor(np.array([[1, 2, 3], [4, 5, 6]]))
-tensor([[ 1,  2,  3],
-        [ 4,  5,  6]])
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]])</span>
+<span class="n">tensor</span><span class="p">([[</span> <span class="mf">1.0000</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0000</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">1.0000</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0000</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]))</span>
+<span class="n">tensor</span><span class="p">([[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mi">4</span><span class="p">,</span>  <span class="mi">5</span><span class="p">,</span>  <span class="mi">6</span><span class="p">]])</span>
 </code></pre></div>
 <blockquote>
 <p>⚠️ <strong>警告</strong>
 <code>torch.tensor</code> 总是复制 <code>data</code>。如果你有一个 Tensor <code>data</code> 并且只想更改其 <code>requires_grad</code> 标志，请使用 <code>torch.Tensor.requires_grad_</code> 或 <code>torch.Tensor.detach</code> 来避免复制。 如果你有一个 numpy 数组并且想避免复制，请使用 <code>torch.as_tensor</code>。</p>
+</blockquote>
 <p>可以通过向构造函数或张量创建操作传递 <code>torch.dtype</code> 和/或 <code>torch.device</code> 来构造特定数据类型的张量：</p>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; torch.zeros([2, 4], dtype=torch.int32)
-tensor([[ 0,  0,  0,  0],
-        [ 0,  0,  0,  0]], dtype=torch.int32)
-&gt;&gt;&gt; cuda0 = torch.device(&#39;cuda:0&#39;)
-&gt;&gt;&gt; torch.ones([2, 4], dtype=torch.float64, device=cuda0)
-tensor([[ 1.0000,  1.0000,  1.0000,  1.0000],
-        [ 1.0000,  1.0000,  1.0000,  1.0000]], dtype=torch.float64, device=&#39;cuda:0&#39;)
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">cuda0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">cuda0</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([[</span> <span class="mf">1.0000</span><span class="p">,</span>  <span class="mf">1.0000</span><span class="p">,</span>  <span class="mf">1.0000</span><span class="p">,</span>  <span class="mf">1.0000</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">1.0000</span><span class="p">,</span>  <span class="mf">1.0000</span><span class="p">,</span>  <span class="mf">1.0000</span><span class="p">,</span>  <span class="mf">1.0000</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
 </code></pre></div>
-<p>有关构建张量的更多信息，请参阅 <code>tensor-creation-ops</code></p>
+<p>有关构建张量的更多信息，请参阅 <em>tensor-creation-ops</em></p>
 <p>可以使用 Python 的索引和切片表示法访问和修改张量的内容：</p>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; x = torch.tensor([[1, 2, 3], [4, 5, 6]])
-&gt;&gt;&gt; print(x[1][2])
-tensor(6)
-&gt;&gt;&gt; x[0][1] = 8
-&gt;&gt;&gt; print(x)
-tensor([[ 1,  8,  3],
-        [ 4,  5,  6]])
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">tensor</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">8</span><span class="p">,</span>  <span class="mi">3</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mi">4</span><span class="p">,</span>  <span class="mi">5</span><span class="p">,</span>  <span class="mi">6</span><span class="p">]])</span>
 </code></pre></div>
 <p>使用 <code>torch.Tensor.item</code> 从包含单个值的张量中获取一个 Python 数字：</p>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; x = torch.tensor([[1]])
-&gt;&gt;&gt; x
-tensor([[ 1]])
-&gt;&gt;&gt; x.item()
-1
-&gt;&gt;&gt; x = torch.tensor(2.5)
-&gt;&gt;&gt; x
-tensor(2.5000)
-&gt;&gt;&gt; x.item()
-2.5
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span>
+<span class="n">tensor</span><span class="p">([[</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span>
+<span class="n">tensor</span><span class="p">(</span><span class="mf">2.5000</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="mf">2.5</span>
 </code></pre></div>
-<p>有关索引的更多信息，请参阅 <code>indexing-slicing-joining</code></p>
+<p>有关索引的更多信息，请参阅 <em>indexing-slicing-joining</em></p>
 <p>可以创建具有 <code>requires_grad=True</code> 的张量，以便 <code>torch.autograd</code> 记录对其的操作以进行自动微分。</p>
-<div class="highlight"><pre><span></span><code>&gt;&gt;&gt; x = torch.tensor([[1., -1.], [1., 1.]], requires_grad=True)
-&gt;&gt;&gt; out = x.pow(2).sum()
-&gt;&gt;&gt; out.backward()
-&gt;&gt;&gt; x.grad
-tensor([[ 2.0000, -2.0000],
-        [ 2.0000,  2.0000]])
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">out</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span>
+<span class="n">tensor</span><span class="p">([[</span> <span class="mf">2.0000</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0000</span><span class="p">],</span>
+        <span class="p">[</span> <span class="mf">2.0000</span><span class="p">,</span>  <span class="mf">2.0000</span><span class="p">]])</span>
 </code></pre></div>
-<p>每个张量都有一个关联的 <code>torch.Storage</code>，用于保存其数据。张量类还提供了存储的多维、`跨步 \&lt;https://en.wikipedia.org/wiki/Stride_of_an_array&gt;`_ 视图，并定义了其上的数值操作。</p>
+<p>每个张量都有一个关联的 <code>torch.Storage</code>，用于保存其数据。张量类还提供了存储的多维、<a href="https://en.wikipedia.org/wiki/Stride_of_an_array">跨步 </a> 视图，并定义了其上的数值操作。</p>
+<blockquote>
 <p>📝 <strong>注意</strong>
 有关张量视图的更多信息，请参阅 <code>tensor-view-doc</code>。</p>
 <p>📝 <strong>注意</strong>
@@ -10027,40 +10029,2142 @@ tensor([[ 2.0000, -2.0000],
 要更改现有张量的 <code>torch.device</code> 和/或 <code>torch.dtype</code>，请考虑在张量上使用 <code>torch.Tensor.to</code> 方法。</p>
 <p>⚠️ <strong>警告</strong>
 <code>torch.Tensor</code> 的当前实现引入了内存开销，因此在具有许多微小张量的应用程序中可能导致意外的高内存使用。如果这是你的情况，请考虑使用一个大型结构。</p>
-<h2 id="_2">张量类参考<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 </blockquote>
-<p>::: Tensor()
-根据你的使用场景，有几种主要的创建张量的方法。</p>
-<ul>
-<li>要使用现有数据创建张量，请使用 <code>torch.tensor</code>。</li>
-<li>要创建具有特定大小的张量，请使用 <code>torch.*</code> 张量创建操作（参见 <code>tensor-creation-ops</code>）。</li>
-<li>要创建与另一个张量具有相同大小（和相似类型）的张量，请使用 <code>torch.*_like</code> 张量创建操作（参见 <code>tensor-creation-ops</code>）。</li>
-<li>要创建与另一个张量类型相似但大小不同的张量，请使用 <code>tensor.new_*</code> 创建操作。</li>
-<li>有一个遗留的构造函数 <code>torch.Tensor</code>，不鼓励使用。请改用 <code>torch.tensor</code>。</li>
-</ul>
-<p>Tensor.__init__(self, data)</p>
-<p>此构造函数已弃用，我们建议改用 <code>torch.tensor</code>。此构造函数的行为取决于 <code>data</code> 的类型。</p>
-<ul>
-<li>如果 <code>data</code> 是一个 Tensor，则返回原始 Tensor 的别名。与 <code>torch.tensor</code> 不同，这会跟踪自动微分，并将梯度传播到原始 Tensor。对于这种 <code>data</code> 类型，不支持 <code>device</code> 关键字参数。</li>
-<li>如果 <code>data</code> 是一个序列或嵌套序列，则创建一个默认 dtype（通常是 <code>torch.float32</code>）的张量，其数据是序列中的值，必要时执行强制转换。值得注意的是，这与 <code>torch.tensor</code> 不同，因为此构造函数总是构造一个浮点张量，即使输入全是整数。</li>
-<li>如果 <code>data</code> 是一个 <code>torch.Size</code>，则返回一个该大小的空张量。</li>
-</ul>
-<p>此构造函数不支持显式指定返回张量的 <code>dtype</code> 或 <code>device</code>。我们建议使用提供此功能的 <code>torch.tensor</code>。</p>
-<p>Args:</p>
-<p>:   data (array_like): 用于构造张量的数据。</p>
-<p>Keyword args:</p>
-<p>:   </p>
-<div class="highlight"><pre><span></span><code>device (`torch.device`, optional): 返回张量的期望设备。
-
-:   默认值：如果为 None，则与此张量相同的 `torch.device`。
-</code></pre></div>
-<p>Tensor.T</p>
-<p>Tensor.H</p>
-<p>Tensor.mT</p>
-<p>Tensor.mH</p>
-<p>Tensor.new_tensor Tensor.new_full Tensor.new_empty Tensor.new_ones Tensor.new_zeros</p>
-<p>Tensor.is_cuda Tensor.is_quantized Tensor.is_meta Tensor.device Tensor.grad Tensor.ndim Tensor.real Tensor.imag Tensor.nbytes Tensor.itemsize</p>
-<p>Tensor.abs <a href="">Tensor.abs</a> Tensor.absolute <a href="">Tensor.absolute</a> Tensor.acos <a href="">Tensor.acos</a> Tensor.arccos <a href="">Tensor.arccos</a> Tensor.add <a href="">Tensor.add</a> Tensor.addbmm <a href="">Tensor.addbmm</a> Tensor.addcdiv <a href="">Tensor.addcdiv</a> Tensor.addcmul <a href="">Tensor.addcmul</a> Tensor.addmm <a href="">Tensor.addmm</a> Tensor.sspaddmm Tensor.addmv <a href="">Tensor.addmv</a> Tensor.addr <a href="">Tensor.addr</a> Tensor.adjoint Tensor.allclose Tensor.amax Tensor.amin Tensor.aminmax Tensor.angle <a href="">Tensor.apply</a> Tensor.argmax Tensor.argmin Tensor.argsort Tensor.argwhere Tensor.asin <a href="">Tensor.asin</a> Tensor.arcsin <a href="">Tensor.arcsin</a> Tensor.as_strided Tensor.atan <a href="">Tensor.atan</a> Tensor.arctan <a href="">Tensor.arctan</a> Tensor.atan2 <a href="">Tensor.atan2</a> Tensor.arctan2 <a href="">Tensor.arctan2</a> Tensor.all Tensor.any Tensor.backward Tensor.baddbmm <a href="">Tensor.baddbmm</a> Tensor.bernoulli <a href="">Tensor.bernoulli</a> Tensor.bfloat16 Tensor.bincount Tensor.bitwise_not <a href="">Tensor.bitwise_not</a> Tensor.bitwise_and <a href="">Tensor.bitwise_and</a> Tensor.bitwise_or <a href="">Tensor.bitwise_or</a> Tensor.bitwise_xor <a href="">Tensor.bitwise_xor</a> Tensor.bitwise_left_shift <a href="">Tensor.bitwise_left_shift</a> Tensor.bitwise_right_shift <a href="">Tensor.bitwise_right_shift</a> Tensor.bmm Tensor.bool Tensor.byte Tensor.broadcast_to <a href="">Tensor.cauchy</a> Tensor.ceil <a href="">Tensor.ceil</a> Tensor.char Tensor.cholesky Tensor.cholesky_inverse Tensor.cholesky_solve Tensor.chunk Tensor.clamp <a href="">Tensor.clamp</a> Tensor.clip <a href="">Tensor.clip</a> Tensor.clone Tensor.contiguous <a href="">Tensor.copy</a> Tensor.conj Tensor.conj_physical <a href="">Tensor.conj_physical</a> Tensor.resolve_conj Tensor.resolve_neg Tensor.copysign <a href="">Tensor.copysign</a> Tensor.cos <a href="">Tensor.cos</a> Tensor.cosh <a href="">Tensor.cosh</a> Tensor.corrcoef Tensor.count_nonzero Tensor.cov Tensor.acosh <a href="">Tensor.acosh</a> Tensor.arccosh <a href="">Tensor.arccosh</a> Tensor.cpu Tensor.cross Tensor.cuda Tensor.logcumsumexp Tensor.cummax Tensor.cummin Tensor.cumprod <a href="">Tensor.cumprod</a> Tensor.cumsum <a href="">Tensor.cumsum</a> Tensor.chalf Tensor.cfloat Tensor.cdouble Tensor.data_ptr Tensor.deg2rad Tensor.dequantize Tensor.det Tensor.dense_dim Tensor.detach <a href="">Tensor.detach</a> Tensor.diag Tensor.diag_embed Tensor.diagflat Tensor.diagonal Tensor.diagonal_scatter <a href="">Tensor.fill_diagonal</a> Tensor.fmax Tensor.fmin Tensor.diff Tensor.digamma <a href="">Tensor.digamma</a> Tensor.dim Tensor.dim_order Tensor.dist Tensor.div <a href="">Tensor.div</a> Tensor.divide <a href="">Tensor.divide</a> Tensor.dot Tensor.double Tensor.dsplit Tensor.element_size Tensor.eq <a href="">Tensor.eq</a> Tensor.equal Tensor.erf <a href="">Tensor.erf</a> Tensor.erfc <a href="">Tensor.erfc</a> Tensor.erfinv <a href="">Tensor.erfinv</a> Tensor.exp <a href="">Tensor.exp</a> Tensor.expm1 <a href="">Tensor.expm1</a> Tensor.expand Tensor.expand_as <a href="">Tensor.exponential</a> Tensor.fix <a href="">Tensor.fix</a> <a href="">Tensor.fill</a> Tensor.flatten Tensor.flip Tensor.fliplr Tensor.flipud Tensor.float Tensor.float_power <a href="">Tensor.float_power</a> Tensor.floor <a href="">Tensor.floor</a> Tensor.floor_divide <a href="">Tensor.floor_divide</a> Tensor.fmod <a href="">Tensor.fmod</a> Tensor.frac <a href="">Tensor.frac</a> Tensor.frexp Tensor.gather Tensor.gcd <a href="">Tensor.gcd</a> Tensor.ge <a href="">Tensor.ge</a> Tensor.greater_equal <a href="">Tensor.greater_equal</a> <a href="">Tensor.geometric</a> Tensor.geqrf Tensor.ger Tensor.get_device Tensor.gt <a href="">Tensor.gt</a> Tensor.greater <a href="">Tensor.greater</a> Tensor.half Tensor.hardshrink Tensor.heaviside Tensor.histc Tensor.histogram Tensor.hsplit Tensor.hypot <a href="">Tensor.hypot</a> Tensor.i0 <a href="">Tensor.i0</a> Tensor.igamma <a href="">Tensor.igamma</a> Tensor.igammac <a href="">Tensor.igammac</a> <a href="">Tensor.index_add</a> Tensor.index_add <a href="">Tensor.index_copy</a> Tensor.index_copy <a href="">Tensor.index_fill</a> Tensor.index_fill <a href="">Tensor.index_put</a> Tensor.index_put <a href="">Tensor.index_reduce</a> Tensor.index_reduce Tensor.index_select Tensor.indices Tensor.inner Tensor.int Tensor.int_repr Tensor.inverse Tensor.isclose Tensor.isfinite Tensor.isinf Tensor.isposinf Tensor.isneginf Tensor.isnan Tensor.is_contiguous Tensor.is_complex Tensor.is_conj Tensor.is_floating_point Tensor.is_inference Tensor.is_leaf Tensor.is_pinned Tensor.is_set_to Tensor.is_shared Tensor.is_signed Tensor.is_sparse Tensor.istft Tensor.isreal Tensor.item Tensor.kthvalue Tensor.lcm <a href="">Tensor.lcm</a> Tensor.ldexp <a href="">Tensor.ldexp</a> Tensor.le <a href="">Tensor.le</a> Tensor.less_equal <a href="">Tensor.less_equal</a> Tensor.lerp <a href="">Tensor.lerp</a> Tensor.lgamma <a href="">Tensor.lgamma</a> Tensor.log <a href="">Tensor.log</a> Tensor.logdet Tensor.log10 <a href="">Tensor.log10</a> Tensor.log1p <a href="">Tensor.log1p</a> Tensor.log2 <a href="">Tensor.log2</a> <a href="">Tensor.log_normal</a> Tensor.logaddexp Tensor.logaddexp2 Tensor.logsumexp Tensor.logical_and <a href="">Tensor.logical_and</a> Tensor.logical_not <a href="">Tensor.logical_not</a> Tensor.logical_or <a href="">Tensor.logical_or</a> Tensor.logical_xor <a href="">Tensor.logical_xor</a> Tensor.logit <a href="">Tensor.logit</a> Tensor.long Tensor.lt <a href="">Tensor.lt</a> Tensor.less <a href="">Tensor.less</a> Tensor.lu Tensor.lu_solve Tensor.as_subclass <a href="">Tensor.map</a> <a href="">Tensor.masked_scatter</a> Tensor.masked_scatter <a href="">Tensor.masked_fill</a> Tensor.masked_fill Tensor.masked_select Tensor.matmul Tensor.matrix_power Tensor.matrix_exp Tensor.max Tensor.maximum Tensor.mean Tensor.module_load Tensor.nanmean Tensor.median Tensor.nanmedian Tensor.min Tensor.minimum Tensor.mm Tensor.smm Tensor.mode Tensor.movedim Tensor.moveaxis Tensor.msort Tensor.mul <a href="">Tensor.mul</a> Tensor.multiply <a href="">Tensor.multiply</a> Tensor.multinomial Tensor.mv Tensor.mvlgamma <a href="">Tensor.mvlgamma</a> Tensor.nansum Tensor.narrow Tensor.narrow_copy Tensor.ndimension Tensor.nan_to_num <a href="">Tensor.nan_to_num</a> Tensor.ne <a href="">Tensor.ne</a> Tensor.not_equal <a href="">Tensor.not_equal</a> Tensor.neg <a href="">Tensor.neg</a> Tensor.negative <a href="">Tensor.negative</a> Tensor.nelement Tensor.nextafter <a href="">Tensor.nextafter</a> Tensor.nonzero Tensor.norm <a href="">Tensor.normal</a> Tensor.numel Tensor.numpy Tensor.orgqr Tensor.ormqr Tensor.outer Tensor.permute Tensor.pin_memory Tensor.pinverse Tensor.polygamma <a href="">Tensor.polygamma</a> Tensor.positive Tensor.pow <a href="">Tensor.pow</a> Tensor.prod <a href="">Tensor.put</a> Tensor.qr Tensor.qscheme Tensor.quantile Tensor.nanquantile Tensor.q_scale Tensor.q_zero_point Tensor.q_per_channel_scales Tensor.q_per_channel_zero_points Tensor.q_per_channel_axis Tensor.rad2deg <a href="">Tensor.random</a> Tensor.ravel Tensor.reciprocal <a href="">Tensor.reciprocal</a> Tensor.record_stream Tensor.register_hook Tensor.register_post_accumulate_grad_hook Tensor.remainder <a href="">Tensor.remainder</a> Tensor.renorm <a href="">Tensor.renorm</a> Tensor.repeat Tensor.repeat_interleave Tensor.requires_grad <a href="">Tensor.requires_grad</a> Tensor.reshape Tensor.reshape_as <a href="">Tensor.resize</a> <a href="">Tensor.resize_as</a> Tensor.retain_grad Tensor.retains_grad Tensor.roll Tensor.rot90 Tensor.round <a href="">Tensor.round</a> Tensor.rsqrt <a href="">Tensor.rsqrt</a> Tensor.scatter <a href="">Tensor.scatter</a> <a href="">Tensor.scatter_add</a> Tensor.scatter_add <a href="">Tensor.scatter_reduce</a> Tensor.scatter_reduce Tensor.select Tensor.select_scatter <a href="">Tensor.set</a> <a href="">Tensor.share_memory</a> Tensor.short Tensor.sigmoid <a href="">Tensor.sigmoid</a> Tensor.sign <a href="">Tensor.sign</a> Tensor.signbit Tensor.sgn <a href="">Tensor.sgn</a> Tensor.sin <a href="">Tensor.sin</a> Tensor.sinc <a href="">Tensor.sinc</a> Tensor.sinh <a href="">Tensor.sinh</a> Tensor.asinh <a href="">Tensor.asinh</a> Tensor.arcsinh <a href="">Tensor.arcsinh</a> Tensor.shape Tensor.size Tensor.slogdet Tensor.slice_scatter Tensor.softmax Tensor.sort Tensor.split Tensor.sparse_mask Tensor.sparse_dim Tensor.sqrt <a href="">Tensor.sqrt</a> Tensor.square <a href="">Tensor.square</a> Tensor.squeeze <a href="">Tensor.squeeze</a> Tensor.std Tensor.stft Tensor.storage Tensor.untyped_storage Tensor.storage_offset Tensor.storage_type Tensor.stride Tensor.sub <a href="">Tensor.sub</a> Tensor.subtract <a href="">Tensor.subtract</a> Tensor.sum Tensor.sum_to_size Tensor.svd Tensor.swapaxes Tensor.swapdims Tensor.t <a href="">Tensor.t</a> Tensor.tensor_split Tensor.tile Tensor.to Tensor.to_mkldnn Tensor.take Tensor.take_along_dim Tensor.tan <a href="">Tensor.tan</a> Tensor.tanh <a href="">Tensor.tanh</a> Tensor.atanh <a href="">Tensor.atanh</a> Tensor.arctanh <a href="">Tensor.arctanh</a> Tensor.tolist Tensor.topk Tensor.to_dense Tensor.to_sparse Tensor.to_sparse_csr Tensor.to_sparse_csc Tensor.to_sparse_bsr Tensor.to_sparse_bsc Tensor.trace Tensor.transpose <a href="">Tensor.transpose</a> Tensor.triangular_solve Tensor.tril <a href="">Tensor.tril</a> Tensor.triu <a href="">Tensor.triu</a> Tensor.true_divide <a href="">Tensor.true_divide</a> Tensor.trunc <a href="">Tensor.trunc</a> Tensor.type Tensor.type_as Tensor.unbind Tensor.unflatten Tensor.unfold <a href="">Tensor.uniform</a> Tensor.unique Tensor.unique_consecutive Tensor.unsqueeze <a href="">Tensor.unsqueeze</a> Tensor.values Tensor.var Tensor.vdot Tensor.view Tensor.view_as Tensor.vsplit Tensor.where Tensor.xlogy <a href="">Tensor.xlogy</a> Tensor.xpu <a href="">Tensor.zero</a></p>
+<h2 id="_2">张量类参考<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>方法/属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Tensor.T</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.H</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.mT</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.mH</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.new_tensor</code></td>
+<td>Returns a new Tensor with data as the tensor data.</td>
+</tr>
+<tr>
+<td><code>Tensor.new_full</code></td>
+<td>Returns a Tensor of size size filled with fill_value.</td>
+</tr>
+<tr>
+<td><code>Tensor.new_empty</code></td>
+<td>Returns a Tensor of size size filled with uninitialized data.</td>
+</tr>
+<tr>
+<td><code>Tensor.new_ones</code></td>
+<td>Returns a Tensor of size size filled with 1.</td>
+</tr>
+<tr>
+<td><code>Tensor.new_zeros</code></td>
+<td>Returns a Tensor of size size filled with 0.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_cuda</code></td>
+<td>Is True if the Tensor is stored on the GPU, False otherwise.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_quantized</code></td>
+<td>Is True if the Tensor is quantized, False otherwise.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_meta</code></td>
+<td>Is True if the Tensor is a meta tensor, False otherwise.</td>
+</tr>
+<tr>
+<td><code>Tensor.device</code></td>
+<td>Is the torch.device where this Tensor is.</td>
+</tr>
+<tr>
+<td><code>Tensor.grad</code></td>
+<td>This attribute is None by default and becomes a Tensor the first time a call to backward() computes gradients for self.</td>
+</tr>
+<tr>
+<td><code>Tensor.ndim</code></td>
+<td>Alias for dim()</td>
+</tr>
+<tr>
+<td><code>Tensor.real</code></td>
+<td>Returns a new tensor containing real values of the self tensor for a complex-valued input tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.imag</code></td>
+<td>Returns a new tensor containing imaginary values of the self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.nbytes</code></td>
+<td>Returns the number of bytes consumed by the "view" of elements of the Tensor if the Tensor does not use sparse storage layout.</td>
+</tr>
+<tr>
+<td><code>Tensor.itemsize</code></td>
+<td>Alias for element_size()</td>
+</tr>
+<tr>
+<td><code>Tensor.abs</code></td>
+<td>See torch.abs()</td>
+</tr>
+<tr>
+<td><code>Tensor.abs_</code></td>
+<td>In-place version of abs()</td>
+</tr>
+<tr>
+<td><code>Tensor.absolute</code></td>
+<td>Alias for abs()</td>
+</tr>
+<tr>
+<td><code>Tensor.absolute_</code></td>
+<td>In-place version of absolute() Alias for abs_()</td>
+</tr>
+<tr>
+<td><code>Tensor.acos</code></td>
+<td>See torch.acos()</td>
+</tr>
+<tr>
+<td><code>Tensor.acos_</code></td>
+<td>In-place version of acos()</td>
+</tr>
+<tr>
+<td><code>Tensor.arccos</code></td>
+<td>See torch.arccos()</td>
+</tr>
+<tr>
+<td><code>Tensor.arccos_</code></td>
+<td>In-place version of arccos()</td>
+</tr>
+<tr>
+<td><code>Tensor.add</code></td>
+<td>Add a scalar or tensor to self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.add_</code></td>
+<td>In-place version of add()</td>
+</tr>
+<tr>
+<td><code>Tensor.addbmm</code></td>
+<td>See torch.addbmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.addbmm_</code></td>
+<td>In-place version of addbmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.addcdiv</code></td>
+<td>See torch.addcdiv()</td>
+</tr>
+<tr>
+<td><code>Tensor.addcdiv_</code></td>
+<td>In-place version of addcdiv()</td>
+</tr>
+<tr>
+<td><code>Tensor.addcmul</code></td>
+<td>See torch.addcmul()</td>
+</tr>
+<tr>
+<td><code>Tensor.addcmul_</code></td>
+<td>In-place version of addcmul()</td>
+</tr>
+<tr>
+<td><code>Tensor.addmm</code></td>
+<td>See torch.addmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.addmm_</code></td>
+<td>In-place version of addmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.sspaddmm</code></td>
+<td>See torch.sspaddmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.addmv</code></td>
+<td>See torch.addmv()</td>
+</tr>
+<tr>
+<td><code>Tensor.addmv_</code></td>
+<td>In-place version of addmv()</td>
+</tr>
+<tr>
+<td><code>Tensor.addr</code></td>
+<td>See torch.addr()</td>
+</tr>
+<tr>
+<td><code>Tensor.addr_</code></td>
+<td>In-place version of addr()</td>
+</tr>
+<tr>
+<td><code>Tensor.adjoint</code></td>
+<td>Alias for adjoint()</td>
+</tr>
+<tr>
+<td><code>Tensor.allclose</code></td>
+<td>See torch.allclose()</td>
+</tr>
+<tr>
+<td><code>Tensor.amax</code></td>
+<td>See torch.amax()</td>
+</tr>
+<tr>
+<td><code>Tensor.amin</code></td>
+<td>See torch.amin()</td>
+</tr>
+<tr>
+<td><code>Tensor.aminmax</code></td>
+<td>See torch.aminmax()</td>
+</tr>
+<tr>
+<td><code>Tensor.angle</code></td>
+<td>See torch.angle()</td>
+</tr>
+<tr>
+<td><code>Tensor.apply_</code></td>
+<td>Applies the function callable to each element in the tensor, replacing each element with the value returned by callable.</td>
+</tr>
+<tr>
+<td><code>Tensor.argmax</code></td>
+<td>See torch.argmax()</td>
+</tr>
+<tr>
+<td><code>Tensor.argmin</code></td>
+<td>See torch.argmin()</td>
+</tr>
+<tr>
+<td><code>Tensor.argsort</code></td>
+<td>See torch.argsort()</td>
+</tr>
+<tr>
+<td><code>Tensor.argwhere</code></td>
+<td>See torch.argwhere()</td>
+</tr>
+<tr>
+<td><code>Tensor.asin</code></td>
+<td>See torch.asin()</td>
+</tr>
+<tr>
+<td><code>Tensor.asin_</code></td>
+<td>In-place version of asin()</td>
+</tr>
+<tr>
+<td><code>Tensor.arcsin</code></td>
+<td>See torch.arcsin()</td>
+</tr>
+<tr>
+<td><code>Tensor.arcsin_</code></td>
+<td>In-place version of arcsin()</td>
+</tr>
+<tr>
+<td><code>Tensor.as_strided</code></td>
+<td>See torch.as_strided()</td>
+</tr>
+<tr>
+<td><code>Tensor.atan</code></td>
+<td>See torch.atan()</td>
+</tr>
+<tr>
+<td><code>Tensor.atan_</code></td>
+<td>In-place version of atan()</td>
+</tr>
+<tr>
+<td><code>Tensor.arctan</code></td>
+<td>See torch.arctan()</td>
+</tr>
+<tr>
+<td><code>Tensor.arctan_</code></td>
+<td>In-place version of arctan()</td>
+</tr>
+<tr>
+<td><code>Tensor.atan2</code></td>
+<td>See torch.atan2()</td>
+</tr>
+<tr>
+<td><code>Tensor.atan2_</code></td>
+<td>In-place version of atan2()</td>
+</tr>
+<tr>
+<td><code>Tensor.arctan2</code></td>
+<td>See torch.arctan2()</td>
+</tr>
+<tr>
+<td><code>Tensor.arctan2_</code></td>
+<td>atan2_(other) -&gt; Tensor</td>
+</tr>
+<tr>
+<td><code>Tensor.all</code></td>
+<td>See torch.all()</td>
+</tr>
+<tr>
+<td><code>Tensor.any</code></td>
+<td>See torch.any()</td>
+</tr>
+<tr>
+<td><code>Tensor.backward</code></td>
+<td>Computes the gradient of current tensor wrt graph leaves.</td>
+</tr>
+<tr>
+<td><code>Tensor.baddbmm</code></td>
+<td>See torch.baddbmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.baddbmm_</code></td>
+<td>In-place version of baddbmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.bernoulli</code></td>
+<td>Returns a result tensor where each result[i]\texttt{result[i]}result[i] is independently sampled from Bernoulli(self[i])\text{Bernoulli}(\texttt{se...</td>
+</tr>
+<tr>
+<td><code>Tensor.bernoulli_</code></td>
+<td>Fills each location of self with an independent sample from Bernoulli(p)\text{Bernoulli}(\texttt{p})Bernoulli(p).</td>
+</tr>
+<tr>
+<td><code>Tensor.bfloat16</code></td>
+<td>self.bfloat16() is equivalent to self.to(torch.bfloat16).</td>
+</tr>
+<tr>
+<td><code>Tensor.bincount</code></td>
+<td>See torch.bincount()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_not</code></td>
+<td>See torch.bitwise_not()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_not_</code></td>
+<td>In-place version of bitwise_not()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_and</code></td>
+<td>See torch.bitwise_and()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_and_</code></td>
+<td>In-place version of bitwise_and()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_or</code></td>
+<td>See torch.bitwise_or()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_or_</code></td>
+<td>In-place version of bitwise_or()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_xor</code></td>
+<td>See torch.bitwise_xor()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_xor_</code></td>
+<td>In-place version of bitwise_xor()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_left_shift</code></td>
+<td>See torch.bitwise_left_shift()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_left_shift_</code></td>
+<td>In-place version of bitwise_left_shift()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_right_shift</code></td>
+<td>See torch.bitwise_right_shift()</td>
+</tr>
+<tr>
+<td><code>Tensor.bitwise_right_shift_</code></td>
+<td>In-place version of bitwise_right_shift()</td>
+</tr>
+<tr>
+<td><code>Tensor.bmm</code></td>
+<td>See torch.bmm()</td>
+</tr>
+<tr>
+<td><code>Tensor.bool</code></td>
+<td>self.bool() is equivalent to self.to(torch.bool).</td>
+</tr>
+<tr>
+<td><code>Tensor.byte</code></td>
+<td>self.byte() is equivalent to self.to(torch.uint8).</td>
+</tr>
+<tr>
+<td><code>Tensor.broadcast_to</code></td>
+<td>See torch.broadcast_to().</td>
+</tr>
+<tr>
+<td><code>Tensor.cauchy_</code></td>
+<td>Fills the tensor with numbers drawn from the Cauchy distribution:</td>
+</tr>
+<tr>
+<td><code>Tensor.ceil</code></td>
+<td>See torch.ceil()</td>
+</tr>
+<tr>
+<td><code>Tensor.ceil_</code></td>
+<td>In-place version of ceil()</td>
+</tr>
+<tr>
+<td><code>Tensor.char</code></td>
+<td>self.char() is equivalent to self.to(torch.int8).</td>
+</tr>
+<tr>
+<td><code>Tensor.cholesky</code></td>
+<td>See torch.cholesky()</td>
+</tr>
+<tr>
+<td><code>Tensor.cholesky_inverse</code></td>
+<td>See torch.cholesky_inverse()</td>
+</tr>
+<tr>
+<td><code>Tensor.cholesky_solve</code></td>
+<td>See torch.cholesky_solve()</td>
+</tr>
+<tr>
+<td><code>Tensor.chunk</code></td>
+<td>See torch.chunk()</td>
+</tr>
+<tr>
+<td><code>Tensor.clamp</code></td>
+<td>See torch.clamp()</td>
+</tr>
+<tr>
+<td><code>Tensor.clamp_</code></td>
+<td>In-place version of clamp()</td>
+</tr>
+<tr>
+<td><code>Tensor.clip</code></td>
+<td>Alias for clamp().</td>
+</tr>
+<tr>
+<td><code>Tensor.clip_</code></td>
+<td>Alias for clamp_().</td>
+</tr>
+<tr>
+<td><code>Tensor.clone</code></td>
+<td>See torch.clone()</td>
+</tr>
+<tr>
+<td><code>Tensor.contiguous</code></td>
+<td>Returns a contiguous in memory tensor containing the same data as self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.copy_</code></td>
+<td>Copies the elements from src into self tensor and returns self.</td>
+</tr>
+<tr>
+<td><code>Tensor.conj</code></td>
+<td>See torch.conj()</td>
+</tr>
+<tr>
+<td><code>Tensor.conj_physical</code></td>
+<td>See torch.conj_physical()</td>
+</tr>
+<tr>
+<td><code>Tensor.conj_physical_</code></td>
+<td>In-place version of conj_physical()</td>
+</tr>
+<tr>
+<td><code>Tensor.resolve_conj</code></td>
+<td>See torch.resolve_conj()</td>
+</tr>
+<tr>
+<td><code>Tensor.resolve_neg</code></td>
+<td>See torch.resolve_neg()</td>
+</tr>
+<tr>
+<td><code>Tensor.copysign</code></td>
+<td>See torch.copysign()</td>
+</tr>
+<tr>
+<td><code>Tensor.copysign_</code></td>
+<td>In-place version of copysign()</td>
+</tr>
+<tr>
+<td><code>Tensor.cos</code></td>
+<td>See torch.cos()</td>
+</tr>
+<tr>
+<td><code>Tensor.cos_</code></td>
+<td>In-place version of cos()</td>
+</tr>
+<tr>
+<td><code>Tensor.cosh</code></td>
+<td>See torch.cosh()</td>
+</tr>
+<tr>
+<td><code>Tensor.cosh_</code></td>
+<td>In-place version of cosh()</td>
+</tr>
+<tr>
+<td><code>Tensor.corrcoef</code></td>
+<td>See torch.corrcoef()</td>
+</tr>
+<tr>
+<td><code>Tensor.count_nonzero</code></td>
+<td>See torch.count_nonzero()</td>
+</tr>
+<tr>
+<td><code>Tensor.cov</code></td>
+<td>See torch.cov()</td>
+</tr>
+<tr>
+<td><code>Tensor.acosh</code></td>
+<td>See torch.acosh()</td>
+</tr>
+<tr>
+<td><code>Tensor.acosh_</code></td>
+<td>In-place version of acosh()</td>
+</tr>
+<tr>
+<td><code>Tensor.arccosh</code></td>
+<td>acosh() -&gt; Tensor</td>
+</tr>
+<tr>
+<td><code>Tensor.arccosh_</code></td>
+<td>acosh_() -&gt; Tensor</td>
+</tr>
+<tr>
+<td><code>Tensor.cpu</code></td>
+<td>Returns a copy of this object in CPU memory.</td>
+</tr>
+<tr>
+<td><code>Tensor.cross</code></td>
+<td>See torch.cross()</td>
+</tr>
+<tr>
+<td><code>Tensor.cuda</code></td>
+<td>Returns a copy of this object in CUDA memory.</td>
+</tr>
+<tr>
+<td><code>Tensor.logcumsumexp</code></td>
+<td>See torch.logcumsumexp()</td>
+</tr>
+<tr>
+<td><code>Tensor.cummax</code></td>
+<td>See torch.cummax()</td>
+</tr>
+<tr>
+<td><code>Tensor.cummin</code></td>
+<td>See torch.cummin()</td>
+</tr>
+<tr>
+<td><code>Tensor.cumprod</code></td>
+<td>See torch.cumprod()</td>
+</tr>
+<tr>
+<td><code>Tensor.cumprod_</code></td>
+<td>In-place version of cumprod()</td>
+</tr>
+<tr>
+<td><code>Tensor.cumsum</code></td>
+<td>See torch.cumsum()</td>
+</tr>
+<tr>
+<td><code>Tensor.cumsum_</code></td>
+<td>In-place version of cumsum()</td>
+</tr>
+<tr>
+<td><code>Tensor.chalf</code></td>
+<td>self.chalf() is equivalent to self.to(torch.complex32).</td>
+</tr>
+<tr>
+<td><code>Tensor.cfloat</code></td>
+<td>self.cfloat() is equivalent to self.to(torch.complex64).</td>
+</tr>
+<tr>
+<td><code>Tensor.cdouble</code></td>
+<td>self.cdouble() is equivalent to self.to(torch.complex128).</td>
+</tr>
+<tr>
+<td><code>Tensor.data_ptr</code></td>
+<td>Returns the address of the first element of self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.deg2rad</code></td>
+<td>See torch.deg2rad()</td>
+</tr>
+<tr>
+<td><code>Tensor.dequantize</code></td>
+<td>Given a quantized Tensor, dequantize it and return the dequantized float Tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.det</code></td>
+<td>See torch.det()</td>
+</tr>
+<tr>
+<td><code>Tensor.dense_dim</code></td>
+<td>Return the number of dense dimensions in a sparse tensor self.</td>
+</tr>
+<tr>
+<td><code>Tensor.detach</code></td>
+<td>Returns a new Tensor, detached from the current graph.</td>
+</tr>
+<tr>
+<td><code>Tensor.detach_</code></td>
+<td>Detaches the Tensor from the graph that created it, making it a leaf.</td>
+</tr>
+<tr>
+<td><code>Tensor.diag</code></td>
+<td>See torch.diag()</td>
+</tr>
+<tr>
+<td><code>Tensor.diag_embed</code></td>
+<td>See torch.diag_embed()</td>
+</tr>
+<tr>
+<td><code>Tensor.diagflat</code></td>
+<td>See torch.diagflat()</td>
+</tr>
+<tr>
+<td><code>Tensor.diagonal</code></td>
+<td>See torch.diagonal()</td>
+</tr>
+<tr>
+<td><code>Tensor.diagonal_scatter</code></td>
+<td>See torch.diagonal_scatter()</td>
+</tr>
+<tr>
+<td><code>Tensor.fill_diagonal_</code></td>
+<td>Fill the main diagonal of a tensor that has at least 2-dimensions.</td>
+</tr>
+<tr>
+<td><code>Tensor.fmax</code></td>
+<td>See torch.fmax()</td>
+</tr>
+<tr>
+<td><code>Tensor.fmin</code></td>
+<td>See torch.fmin()</td>
+</tr>
+<tr>
+<td><code>Tensor.diff</code></td>
+<td>See torch.diff()</td>
+</tr>
+<tr>
+<td><code>Tensor.digamma</code></td>
+<td>See torch.digamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.digamma_</code></td>
+<td>In-place version of digamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.dim</code></td>
+<td>Returns the number of dimensions of self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.dim_order</code></td>
+<td>Returns the uniquely determined tuple of int describing the dim order or physical layout of self.</td>
+</tr>
+<tr>
+<td><code>Tensor.dist</code></td>
+<td>See torch.dist()</td>
+</tr>
+<tr>
+<td><code>Tensor.div</code></td>
+<td>See torch.div()</td>
+</tr>
+<tr>
+<td><code>Tensor.div_</code></td>
+<td>In-place version of div()</td>
+</tr>
+<tr>
+<td><code>Tensor.divide</code></td>
+<td>See torch.divide()</td>
+</tr>
+<tr>
+<td><code>Tensor.divide_</code></td>
+<td>In-place version of divide()</td>
+</tr>
+<tr>
+<td><code>Tensor.dot</code></td>
+<td>See torch.dot()</td>
+</tr>
+<tr>
+<td><code>Tensor.double</code></td>
+<td>self.double() is equivalent to self.to(torch.float64).</td>
+</tr>
+<tr>
+<td><code>Tensor.dsplit</code></td>
+<td>See torch.dsplit()</td>
+</tr>
+<tr>
+<td><code>Tensor.element_size</code></td>
+<td>Returns the size in bytes of an individual element.</td>
+</tr>
+<tr>
+<td><code>Tensor.eq</code></td>
+<td>See torch.eq()</td>
+</tr>
+<tr>
+<td><code>Tensor.eq_</code></td>
+<td>In-place version of eq()</td>
+</tr>
+<tr>
+<td><code>Tensor.equal</code></td>
+<td>See torch.equal()</td>
+</tr>
+<tr>
+<td><code>Tensor.erf</code></td>
+<td>See torch.erf()</td>
+</tr>
+<tr>
+<td><code>Tensor.erf_</code></td>
+<td>In-place version of erf()</td>
+</tr>
+<tr>
+<td><code>Tensor.erfc</code></td>
+<td>See torch.erfc()</td>
+</tr>
+<tr>
+<td><code>Tensor.erfc_</code></td>
+<td>In-place version of erfc()</td>
+</tr>
+<tr>
+<td><code>Tensor.erfinv</code></td>
+<td>See torch.erfinv()</td>
+</tr>
+<tr>
+<td><code>Tensor.erfinv_</code></td>
+<td>In-place version of erfinv()</td>
+</tr>
+<tr>
+<td><code>Tensor.exp</code></td>
+<td>See torch.exp()</td>
+</tr>
+<tr>
+<td><code>Tensor.exp_</code></td>
+<td>In-place version of exp()</td>
+</tr>
+<tr>
+<td><code>Tensor.expm1</code></td>
+<td>See torch.expm1()</td>
+</tr>
+<tr>
+<td><code>Tensor.expm1_</code></td>
+<td>In-place version of expm1()</td>
+</tr>
+<tr>
+<td><code>Tensor.expand</code></td>
+<td>Returns a new view of the self tensor with singleton dimensions expanded to a larger size.</td>
+</tr>
+<tr>
+<td><code>Tensor.expand_as</code></td>
+<td>Expand this tensor to the same size as other.</td>
+</tr>
+<tr>
+<td><code>Tensor.exponential_</code></td>
+<td>Fills self tensor with elements drawn from the PDF (probability density function):</td>
+</tr>
+<tr>
+<td><code>Tensor.fix</code></td>
+<td>See torch.fix().</td>
+</tr>
+<tr>
+<td><code>Tensor.fix_</code></td>
+<td>In-place version of fix()</td>
+</tr>
+<tr>
+<td><code>Tensor.fill_</code></td>
+<td>Fills self tensor with the specified value.</td>
+</tr>
+<tr>
+<td><code>Tensor.flatten</code></td>
+<td>See torch.flatten()</td>
+</tr>
+<tr>
+<td><code>Tensor.flip</code></td>
+<td>See torch.flip()</td>
+</tr>
+<tr>
+<td><code>Tensor.fliplr</code></td>
+<td>See torch.fliplr()</td>
+</tr>
+<tr>
+<td><code>Tensor.flipud</code></td>
+<td>See torch.flipud()</td>
+</tr>
+<tr>
+<td><code>Tensor.float</code></td>
+<td>self.float() is equivalent to self.to(torch.float32).</td>
+</tr>
+<tr>
+<td><code>Tensor.float_power</code></td>
+<td>See torch.float_power()</td>
+</tr>
+<tr>
+<td><code>Tensor.float_power_</code></td>
+<td>In-place version of float_power()</td>
+</tr>
+<tr>
+<td><code>Tensor.floor</code></td>
+<td>See torch.floor()</td>
+</tr>
+<tr>
+<td><code>Tensor.floor_</code></td>
+<td>In-place version of floor()</td>
+</tr>
+<tr>
+<td><code>Tensor.floor_divide</code></td>
+<td>See torch.floor_divide()</td>
+</tr>
+<tr>
+<td><code>Tensor.floor_divide_</code></td>
+<td>In-place version of floor_divide()</td>
+</tr>
+<tr>
+<td><code>Tensor.fmod</code></td>
+<td>See torch.fmod()</td>
+</tr>
+<tr>
+<td><code>Tensor.fmod_</code></td>
+<td>In-place version of fmod()</td>
+</tr>
+<tr>
+<td><code>Tensor.frac</code></td>
+<td>See torch.frac()</td>
+</tr>
+<tr>
+<td><code>Tensor.frac_</code></td>
+<td>In-place version of frac()</td>
+</tr>
+<tr>
+<td><code>Tensor.frexp</code></td>
+<td>See torch.frexp()</td>
+</tr>
+<tr>
+<td><code>Tensor.gather</code></td>
+<td>See torch.gather()</td>
+</tr>
+<tr>
+<td><code>Tensor.gcd</code></td>
+<td>See torch.gcd()</td>
+</tr>
+<tr>
+<td><code>Tensor.gcd_</code></td>
+<td>In-place version of gcd()</td>
+</tr>
+<tr>
+<td><code>Tensor.ge</code></td>
+<td>See torch.ge().</td>
+</tr>
+<tr>
+<td><code>Tensor.ge_</code></td>
+<td>In-place version of ge().</td>
+</tr>
+<tr>
+<td><code>Tensor.greater_equal</code></td>
+<td>See torch.greater_equal().</td>
+</tr>
+<tr>
+<td><code>Tensor.greater_equal_</code></td>
+<td>In-place version of greater_equal().</td>
+</tr>
+<tr>
+<td><code>Tensor.geometric_</code></td>
+<td>Fills self tensor with elements drawn from the geometric distribution:</td>
+</tr>
+<tr>
+<td><code>Tensor.geqrf</code></td>
+<td>See torch.geqrf()</td>
+</tr>
+<tr>
+<td><code>Tensor.ger</code></td>
+<td>See torch.ger()</td>
+</tr>
+<tr>
+<td><code>Tensor.get_device</code></td>
+<td>For CUDA tensors, this function returns the device ordinal of the GPU on which the tensor resides.</td>
+</tr>
+<tr>
+<td><code>Tensor.gt</code></td>
+<td>See torch.gt().</td>
+</tr>
+<tr>
+<td><code>Tensor.gt_</code></td>
+<td>In-place version of gt().</td>
+</tr>
+<tr>
+<td><code>Tensor.greater</code></td>
+<td>See torch.greater().</td>
+</tr>
+<tr>
+<td><code>Tensor.greater_</code></td>
+<td>In-place version of greater().</td>
+</tr>
+<tr>
+<td><code>Tensor.half</code></td>
+<td>self.half() is equivalent to self.to(torch.float16).</td>
+</tr>
+<tr>
+<td><code>Tensor.hardshrink</code></td>
+<td>See torch.nn.functional.hardshrink()</td>
+</tr>
+<tr>
+<td><code>Tensor.heaviside</code></td>
+<td>See torch.heaviside()</td>
+</tr>
+<tr>
+<td><code>Tensor.histc</code></td>
+<td>See torch.histc()</td>
+</tr>
+<tr>
+<td><code>Tensor.histogram</code></td>
+<td>See torch.histogram()</td>
+</tr>
+<tr>
+<td><code>Tensor.hsplit</code></td>
+<td>See torch.hsplit()</td>
+</tr>
+<tr>
+<td><code>Tensor.hypot</code></td>
+<td>See torch.hypot()</td>
+</tr>
+<tr>
+<td><code>Tensor.hypot_</code></td>
+<td>In-place version of hypot()</td>
+</tr>
+<tr>
+<td><code>Tensor.i0</code></td>
+<td>See torch.i0()</td>
+</tr>
+<tr>
+<td><code>Tensor.i0_</code></td>
+<td>In-place version of i0()</td>
+</tr>
+<tr>
+<td><code>Tensor.igamma</code></td>
+<td>See torch.igamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.igamma_</code></td>
+<td>In-place version of igamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.igammac</code></td>
+<td>See torch.igammac()</td>
+</tr>
+<tr>
+<td><code>Tensor.igammac_</code></td>
+<td>In-place version of igammac()</td>
+</tr>
+<tr>
+<td><code>Tensor.index_add_</code></td>
+<td>Accumulate the elements of alpha times source into the self tensor by adding to the indices in the order given in index.</td>
+</tr>
+<tr>
+<td><code>Tensor.index_add</code></td>
+<td>Out-of-place version of torch.Tensor.index_add_().</td>
+</tr>
+<tr>
+<td><code>Tensor.index_copy_</code></td>
+<td>Copies the elements of tensor into the self tensor by selecting the indices in the order given in index.</td>
+</tr>
+<tr>
+<td><code>Tensor.index_copy</code></td>
+<td>Out-of-place version of torch.Tensor.index_copy_().</td>
+</tr>
+<tr>
+<td><code>Tensor.index_fill_</code></td>
+<td>Fills the elements of the self tensor with value value by selecting the indices in the order given in index.</td>
+</tr>
+<tr>
+<td><code>Tensor.index_fill</code></td>
+<td>Out-of-place version of torch.Tensor.index_fill_().</td>
+</tr>
+<tr>
+<td><code>Tensor.index_put_</code></td>
+<td>Puts values from the tensor values into the tensor self using the indices specified in indices (which is a tuple of Tensors).</td>
+</tr>
+<tr>
+<td><code>Tensor.index_put</code></td>
+<td>Out-place version of index_put_().</td>
+</tr>
+<tr>
+<td><code>Tensor.index_reduce_</code></td>
+<td>Accumulate the elements of source into the self tensor by accumulating to the indices in the order given in index using the reduction given by the ...</td>
+</tr>
+<tr>
+<td><code>Tensor.index_reduce</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Tensor.index_select</code></td>
+<td>See torch.index_select()</td>
+</tr>
+<tr>
+<td><code>Tensor.indices</code></td>
+<td>Return the indices tensor of a sparse COO tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.inner</code></td>
+<td>See torch.inner().</td>
+</tr>
+<tr>
+<td><code>Tensor.int</code></td>
+<td>self.int() is equivalent to self.to(torch.int32).</td>
+</tr>
+<tr>
+<td><code>Tensor.int_repr</code></td>
+<td>Given a quantized Tensor, self.int_repr() returns a CPU Tensor with uint8_t as data type that stores the underlying uint8_t values of the given Ten...</td>
+</tr>
+<tr>
+<td><code>Tensor.inverse</code></td>
+<td>See torch.inverse()</td>
+</tr>
+<tr>
+<td><code>Tensor.isclose</code></td>
+<td>See torch.isclose()</td>
+</tr>
+<tr>
+<td><code>Tensor.isfinite</code></td>
+<td>See torch.isfinite()</td>
+</tr>
+<tr>
+<td><code>Tensor.isinf</code></td>
+<td>See torch.isinf()</td>
+</tr>
+<tr>
+<td><code>Tensor.isposinf</code></td>
+<td>See torch.isposinf()</td>
+</tr>
+<tr>
+<td><code>Tensor.isneginf</code></td>
+<td>See torch.isneginf()</td>
+</tr>
+<tr>
+<td><code>Tensor.isnan</code></td>
+<td>See torch.isnan()</td>
+</tr>
+<tr>
+<td><code>Tensor.is_contiguous</code></td>
+<td>Returns True if self tensor is contiguous in memory in the order specified by memory format.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_complex</code></td>
+<td>Returns True if the data type of self is a complex data type.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_conj</code></td>
+<td>Returns True if the conjugate bit of self is set to true.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_floating_point</code></td>
+<td>Returns True if the data type of self is a floating point data type.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_inference</code></td>
+<td>See torch.is_inference()</td>
+</tr>
+<tr>
+<td><code>Tensor.is_leaf</code></td>
+<td>All Tensors that have requires_grad which is False will be leaf Tensors by convention.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_pinned</code></td>
+<td>Returns true if this tensor resides in pinned memory.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_set_to</code></td>
+<td>Returns True if both tensors are pointing to the exact same memory (same storage, offset, size and stride).</td>
+</tr>
+<tr>
+<td><code>Tensor.is_shared</code></td>
+<td>Checks if tensor is in shared memory.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_signed</code></td>
+<td>Returns True if the data type of self is a signed data type.</td>
+</tr>
+<tr>
+<td><code>Tensor.is_sparse</code></td>
+<td>Is True if the Tensor uses sparse COO storage layout, False otherwise.</td>
+</tr>
+<tr>
+<td><code>Tensor.istft</code></td>
+<td>See torch.istft()</td>
+</tr>
+<tr>
+<td><code>Tensor.isreal</code></td>
+<td>See torch.isreal()</td>
+</tr>
+<tr>
+<td><code>Tensor.item</code></td>
+<td>Returns the value of this tensor as a standard Python number.</td>
+</tr>
+<tr>
+<td><code>Tensor.kthvalue</code></td>
+<td>See torch.kthvalue()</td>
+</tr>
+<tr>
+<td><code>Tensor.lcm</code></td>
+<td>See torch.lcm()</td>
+</tr>
+<tr>
+<td><code>Tensor.lcm_</code></td>
+<td>In-place version of lcm()</td>
+</tr>
+<tr>
+<td><code>Tensor.ldexp</code></td>
+<td>See torch.ldexp()</td>
+</tr>
+<tr>
+<td><code>Tensor.ldexp_</code></td>
+<td>In-place version of ldexp()</td>
+</tr>
+<tr>
+<td><code>Tensor.le</code></td>
+<td>See torch.le().</td>
+</tr>
+<tr>
+<td><code>Tensor.le_</code></td>
+<td>In-place version of le().</td>
+</tr>
+<tr>
+<td><code>Tensor.less_equal</code></td>
+<td>See torch.less_equal().</td>
+</tr>
+<tr>
+<td><code>Tensor.less_equal_</code></td>
+<td>In-place version of less_equal().</td>
+</tr>
+<tr>
+<td><code>Tensor.lerp</code></td>
+<td>See torch.lerp()</td>
+</tr>
+<tr>
+<td><code>Tensor.lerp_</code></td>
+<td>In-place version of lerp()</td>
+</tr>
+<tr>
+<td><code>Tensor.lgamma</code></td>
+<td>See torch.lgamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.lgamma_</code></td>
+<td>In-place version of lgamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.log</code></td>
+<td>See torch.log()</td>
+</tr>
+<tr>
+<td><code>Tensor.log_</code></td>
+<td>In-place version of log()</td>
+</tr>
+<tr>
+<td><code>Tensor.logdet</code></td>
+<td>See torch.logdet()</td>
+</tr>
+<tr>
+<td><code>Tensor.log10</code></td>
+<td>See torch.log10()</td>
+</tr>
+<tr>
+<td><code>Tensor.log10_</code></td>
+<td>In-place version of log10()</td>
+</tr>
+<tr>
+<td><code>Tensor.log1p</code></td>
+<td>See torch.log1p()</td>
+</tr>
+<tr>
+<td><code>Tensor.log1p_</code></td>
+<td>In-place version of log1p()</td>
+</tr>
+<tr>
+<td><code>Tensor.log2</code></td>
+<td>See torch.log2()</td>
+</tr>
+<tr>
+<td><code>Tensor.log2_</code></td>
+<td>In-place version of log2()</td>
+</tr>
+<tr>
+<td><code>Tensor.log_normal_</code></td>
+<td>Fills self tensor with numbers samples from the log-normal distribution parameterized by the given mean μ\muμ and standard deviation σ\sigmaσ.</td>
+</tr>
+<tr>
+<td><code>Tensor.logaddexp</code></td>
+<td>See torch.logaddexp()</td>
+</tr>
+<tr>
+<td><code>Tensor.logaddexp2</code></td>
+<td>See torch.logaddexp2()</td>
+</tr>
+<tr>
+<td><code>Tensor.logsumexp</code></td>
+<td>See torch.logsumexp()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_and</code></td>
+<td>See torch.logical_and()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_and_</code></td>
+<td>In-place version of logical_and()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_not</code></td>
+<td>See torch.logical_not()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_not_</code></td>
+<td>In-place version of logical_not()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_or</code></td>
+<td>See torch.logical_or()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_or_</code></td>
+<td>In-place version of logical_or()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_xor</code></td>
+<td>See torch.logical_xor()</td>
+</tr>
+<tr>
+<td><code>Tensor.logical_xor_</code></td>
+<td>In-place version of logical_xor()</td>
+</tr>
+<tr>
+<td><code>Tensor.logit</code></td>
+<td>See torch.logit()</td>
+</tr>
+<tr>
+<td><code>Tensor.logit_</code></td>
+<td>In-place version of logit()</td>
+</tr>
+<tr>
+<td><code>Tensor.long</code></td>
+<td>self.long() is equivalent to self.to(torch.int64).</td>
+</tr>
+<tr>
+<td><code>Tensor.lt</code></td>
+<td>See torch.lt().</td>
+</tr>
+<tr>
+<td><code>Tensor.lt_</code></td>
+<td>In-place version of lt().</td>
+</tr>
+<tr>
+<td><code>Tensor.less</code></td>
+<td>lt(other) -&gt; Tensor</td>
+</tr>
+<tr>
+<td><code>Tensor.less_</code></td>
+<td>In-place version of less().</td>
+</tr>
+<tr>
+<td><code>Tensor.lu</code></td>
+<td>See torch.lu()</td>
+</tr>
+<tr>
+<td><code>Tensor.lu_solve</code></td>
+<td>See torch.lu_solve()</td>
+</tr>
+<tr>
+<td><code>Tensor.as_subclass</code></td>
+<td>Makes a cls instance with the same data pointer as self.</td>
+</tr>
+<tr>
+<td><code>Tensor.map_</code></td>
+<td>Applies callable for each element in self tensor and the given tensor and stores the results in self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.masked_scatter_</code></td>
+<td>Copies elements from source into self tensor at positions where the mask is True.</td>
+</tr>
+<tr>
+<td><code>Tensor.masked_scatter</code></td>
+<td>Out-of-place version of torch.Tensor.masked_scatter_()</td>
+</tr>
+<tr>
+<td><code>Tensor.masked_fill_</code></td>
+<td>Fills elements of self tensor with value where mask is True.</td>
+</tr>
+<tr>
+<td><code>Tensor.masked_fill</code></td>
+<td>Out-of-place version of torch.Tensor.masked_fill_()</td>
+</tr>
+<tr>
+<td><code>Tensor.masked_select</code></td>
+<td>See torch.masked_select()</td>
+</tr>
+<tr>
+<td><code>Tensor.matmul</code></td>
+<td>See torch.matmul()</td>
+</tr>
+<tr>
+<td><code>Tensor.matrix_power</code></td>
+<td>Note</td>
+</tr>
+<tr>
+<td>matrix_power() is deprecated, use torch.linalg.matrix_power() instead.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>Tensor.matrix_exp</code></td>
+<td>See torch.matrix_exp()</td>
+</tr>
+<tr>
+<td><code>Tensor.max</code></td>
+<td>See torch.max()</td>
+</tr>
+<tr>
+<td><code>Tensor.maximum</code></td>
+<td>See torch.maximum()</td>
+</tr>
+<tr>
+<td><code>Tensor.mean</code></td>
+<td>See torch.mean()</td>
+</tr>
+<tr>
+<td><code>Tensor.module_load</code></td>
+<td>Defines how to transform other when loading it into self in load_state_dict().</td>
+</tr>
+<tr>
+<td><code>Tensor.nanmean</code></td>
+<td>See torch.nanmean()</td>
+</tr>
+<tr>
+<td><code>Tensor.median</code></td>
+<td>See torch.median()</td>
+</tr>
+<tr>
+<td><code>Tensor.nanmedian</code></td>
+<td>See torch.nanmedian()</td>
+</tr>
+<tr>
+<td><code>Tensor.min</code></td>
+<td>See torch.min()</td>
+</tr>
+<tr>
+<td><code>Tensor.minimum</code></td>
+<td>See torch.minimum()</td>
+</tr>
+<tr>
+<td><code>Tensor.mm</code></td>
+<td>See torch.mm()</td>
+</tr>
+<tr>
+<td><code>Tensor.smm</code></td>
+<td>See torch.smm()</td>
+</tr>
+<tr>
+<td><code>Tensor.mode</code></td>
+<td>See torch.mode()</td>
+</tr>
+<tr>
+<td><code>Tensor.movedim</code></td>
+<td>See torch.movedim()</td>
+</tr>
+<tr>
+<td><code>Tensor.moveaxis</code></td>
+<td>See torch.moveaxis()</td>
+</tr>
+<tr>
+<td><code>Tensor.msort</code></td>
+<td>See torch.msort()</td>
+</tr>
+<tr>
+<td><code>Tensor.mul</code></td>
+<td>See torch.mul().</td>
+</tr>
+<tr>
+<td><code>Tensor.mul_</code></td>
+<td>In-place version of mul().</td>
+</tr>
+<tr>
+<td><code>Tensor.multiply</code></td>
+<td>See torch.multiply().</td>
+</tr>
+<tr>
+<td><code>Tensor.multiply_</code></td>
+<td>In-place version of multiply().</td>
+</tr>
+<tr>
+<td><code>Tensor.multinomial</code></td>
+<td>See torch.multinomial()</td>
+</tr>
+<tr>
+<td><code>Tensor.mv</code></td>
+<td>See torch.mv()</td>
+</tr>
+<tr>
+<td><code>Tensor.mvlgamma</code></td>
+<td>See torch.mvlgamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.mvlgamma_</code></td>
+<td>In-place version of mvlgamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.nansum</code></td>
+<td>See torch.nansum()</td>
+</tr>
+<tr>
+<td><code>Tensor.narrow</code></td>
+<td>See torch.narrow().</td>
+</tr>
+<tr>
+<td><code>Tensor.narrow_copy</code></td>
+<td>See torch.narrow_copy().</td>
+</tr>
+<tr>
+<td><code>Tensor.ndimension</code></td>
+<td>Alias for dim()</td>
+</tr>
+<tr>
+<td><code>Tensor.nan_to_num</code></td>
+<td>See torch.nan_to_num().</td>
+</tr>
+<tr>
+<td><code>Tensor.nan_to_num_</code></td>
+<td>In-place version of nan_to_num().</td>
+</tr>
+<tr>
+<td><code>Tensor.ne</code></td>
+<td>See torch.ne().</td>
+</tr>
+<tr>
+<td><code>Tensor.ne_</code></td>
+<td>In-place version of ne().</td>
+</tr>
+<tr>
+<td><code>Tensor.not_equal</code></td>
+<td>See torch.not_equal().</td>
+</tr>
+<tr>
+<td><code>Tensor.not_equal_</code></td>
+<td>In-place version of not_equal().</td>
+</tr>
+<tr>
+<td><code>Tensor.neg</code></td>
+<td>See torch.neg()</td>
+</tr>
+<tr>
+<td><code>Tensor.neg_</code></td>
+<td>In-place version of neg()</td>
+</tr>
+<tr>
+<td><code>Tensor.negative</code></td>
+<td>See torch.negative()</td>
+</tr>
+<tr>
+<td><code>Tensor.negative_</code></td>
+<td>In-place version of negative()</td>
+</tr>
+<tr>
+<td><code>Tensor.nelement</code></td>
+<td>Alias for numel()</td>
+</tr>
+<tr>
+<td><code>Tensor.nextafter</code></td>
+<td>See torch.nextafter()</td>
+</tr>
+<tr>
+<td><code>Tensor.nextafter_</code></td>
+<td>In-place version of nextafter()</td>
+</tr>
+<tr>
+<td><code>Tensor.nonzero</code></td>
+<td>See torch.nonzero()</td>
+</tr>
+<tr>
+<td><code>Tensor.norm</code></td>
+<td>See torch.norm()</td>
+</tr>
+<tr>
+<td><code>Tensor.normal_</code></td>
+<td>Fills self tensor with elements samples from the normal distribution parameterized by mean and std.</td>
+</tr>
+<tr>
+<td><code>Tensor.numel</code></td>
+<td>See torch.numel()</td>
+</tr>
+<tr>
+<td><code>Tensor.numpy</code></td>
+<td>Returns the tensor as a NumPy ndarray.</td>
+</tr>
+<tr>
+<td><code>Tensor.orgqr</code></td>
+<td>See torch.orgqr()</td>
+</tr>
+<tr>
+<td><code>Tensor.ormqr</code></td>
+<td>See torch.ormqr()</td>
+</tr>
+<tr>
+<td><code>Tensor.outer</code></td>
+<td>See torch.outer().</td>
+</tr>
+<tr>
+<td><code>Tensor.permute</code></td>
+<td>Returns a view of the tensor with its dimensions permuted.</td>
+</tr>
+<tr>
+<td><code>Tensor.pin_memory</code></td>
+<td>Copies the tensor to pinned memory, if it's not already pinned.</td>
+</tr>
+<tr>
+<td><code>Tensor.pinverse</code></td>
+<td>See torch.pinverse()</td>
+</tr>
+<tr>
+<td><code>Tensor.polygamma</code></td>
+<td>See torch.polygamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.polygamma_</code></td>
+<td>In-place version of polygamma()</td>
+</tr>
+<tr>
+<td><code>Tensor.positive</code></td>
+<td>See torch.positive()</td>
+</tr>
+<tr>
+<td><code>Tensor.pow</code></td>
+<td>See torch.pow()</td>
+</tr>
+<tr>
+<td><code>Tensor.pow_</code></td>
+<td>In-place version of pow()</td>
+</tr>
+<tr>
+<td><code>Tensor.prod</code></td>
+<td>See torch.prod()</td>
+</tr>
+<tr>
+<td><code>Tensor.put_</code></td>
+<td>Copies the elements from source into the positions specified by index.</td>
+</tr>
+<tr>
+<td><code>Tensor.qr</code></td>
+<td>See torch.qr()</td>
+</tr>
+<tr>
+<td><code>Tensor.qscheme</code></td>
+<td>Returns the quantization scheme of a given QTensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.quantile</code></td>
+<td>See torch.quantile()</td>
+</tr>
+<tr>
+<td><code>Tensor.nanquantile</code></td>
+<td>See torch.nanquantile()</td>
+</tr>
+<tr>
+<td><code>Tensor.q_scale</code></td>
+<td>Given a Tensor quantized by linear(affine) quantization, returns the scale of the underlying quantizer().</td>
+</tr>
+<tr>
+<td><code>Tensor.q_zero_point</code></td>
+<td>Given a Tensor quantized by linear(affine) quantization, returns the zero_point of the underlying quantizer().</td>
+</tr>
+<tr>
+<td><code>Tensor.q_per_channel_scales</code></td>
+<td>Given a Tensor quantized by linear (affine) per-channel quantization, returns a Tensor of scales of the underlying quantizer.</td>
+</tr>
+<tr>
+<td><code>Tensor.q_per_channel_zero_points</code></td>
+<td>Given a Tensor quantized by linear (affine) per-channel quantization, returns a tensor of zero_points of the underlying quantizer.</td>
+</tr>
+<tr>
+<td><code>Tensor.q_per_channel_axis</code></td>
+<td>Given a Tensor quantized by linear (affine) per-channel quantization, returns the index of dimension on which per-channel quantization is applied.</td>
+</tr>
+<tr>
+<td><code>Tensor.rad2deg</code></td>
+<td>See torch.rad2deg()</td>
+</tr>
+<tr>
+<td><code>Tensor.random_</code></td>
+<td>Fills self tensor with numbers sampled from the discrete uniform distribution over [from, to - 1].</td>
+</tr>
+<tr>
+<td><code>Tensor.ravel</code></td>
+<td>see torch.ravel()</td>
+</tr>
+<tr>
+<td><code>Tensor.reciprocal</code></td>
+<td>See torch.reciprocal()</td>
+</tr>
+<tr>
+<td><code>Tensor.reciprocal_</code></td>
+<td>In-place version of reciprocal()</td>
+</tr>
+<tr>
+<td><code>Tensor.record_stream</code></td>
+<td>Marks the tensor as having been used by this stream.</td>
+</tr>
+<tr>
+<td><code>Tensor.register_hook</code></td>
+<td>Registers a backward hook.</td>
+</tr>
+<tr>
+<td><code>Tensor.register_post_accumulate_grad_hook</code></td>
+<td>Registers a backward hook that runs after grad accumulation.</td>
+</tr>
+<tr>
+<td><code>Tensor.remainder</code></td>
+<td>See torch.remainder()</td>
+</tr>
+<tr>
+<td><code>Tensor.remainder_</code></td>
+<td>In-place version of remainder()</td>
+</tr>
+<tr>
+<td><code>Tensor.renorm</code></td>
+<td>See torch.renorm()</td>
+</tr>
+<tr>
+<td><code>Tensor.renorm_</code></td>
+<td>In-place version of renorm()</td>
+</tr>
+<tr>
+<td><code>Tensor.repeat</code></td>
+<td>Repeats this tensor along the specified dimensions.</td>
+</tr>
+<tr>
+<td><code>Tensor.repeat_interleave</code></td>
+<td>See torch.repeat_interleave().</td>
+</tr>
+<tr>
+<td><code>Tensor.requires_grad</code></td>
+<td>Is True if gradients need to be computed for this Tensor, False otherwise.</td>
+</tr>
+<tr>
+<td><code>Tensor.requires_grad_</code></td>
+<td>Change if autograd should record operations on this tensor: sets this tensor's requires_grad attribute in-place.</td>
+</tr>
+<tr>
+<td><code>Tensor.reshape</code></td>
+<td>Returns a tensor with the same data and number of elements as self but with the specified shape.</td>
+</tr>
+<tr>
+<td><code>Tensor.reshape_as</code></td>
+<td>Returns this tensor as the same shape as other.</td>
+</tr>
+<tr>
+<td><code>Tensor.resize_</code></td>
+<td>Resizes self tensor to the specified size.</td>
+</tr>
+<tr>
+<td><code>Tensor.resize_as_</code></td>
+<td>Resizes the self tensor to be the same size as the specified tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.retain_grad</code></td>
+<td>Enables this Tensor to have their grad populated during backward().</td>
+</tr>
+<tr>
+<td><code>Tensor.retains_grad</code></td>
+<td>Is True if this Tensor is non-leaf and its grad is enabled to be populated during backward(), False otherwise.</td>
+</tr>
+<tr>
+<td><code>Tensor.roll</code></td>
+<td>See torch.roll()</td>
+</tr>
+<tr>
+<td><code>Tensor.rot90</code></td>
+<td>See torch.rot90()</td>
+</tr>
+<tr>
+<td><code>Tensor.round</code></td>
+<td>See torch.round()</td>
+</tr>
+<tr>
+<td><code>Tensor.round_</code></td>
+<td>In-place version of round()</td>
+</tr>
+<tr>
+<td><code>Tensor.rsqrt</code></td>
+<td>See torch.rsqrt()</td>
+</tr>
+<tr>
+<td><code>Tensor.rsqrt_</code></td>
+<td>In-place version of rsqrt()</td>
+</tr>
+<tr>
+<td><code>Tensor.scatter</code></td>
+<td>Out-of-place version of torch.Tensor.scatter_()</td>
+</tr>
+<tr>
+<td><code>Tensor.scatter_</code></td>
+<td>Writes all values from the tensor src into self at the indices specified in the index tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.scatter_add_</code></td>
+<td>Adds all values from the tensor src into self at the indices specified in the index tensor in a similar fashion as scatter_().</td>
+</tr>
+<tr>
+<td><code>Tensor.scatter_add</code></td>
+<td>Out-of-place version of torch.Tensor.scatter_add_()</td>
+</tr>
+<tr>
+<td><code>Tensor.scatter_reduce_</code></td>
+<td>Reduces all values from the src tensor to the indices specified in the index tensor in the self tensor using the applied reduction defined via the ...</td>
+</tr>
+<tr>
+<td><code>Tensor.scatter_reduce</code></td>
+<td>Out-of-place version of torch.Tensor.scatter_reduce_()</td>
+</tr>
+<tr>
+<td><code>Tensor.select</code></td>
+<td>See torch.select()</td>
+</tr>
+<tr>
+<td><code>Tensor.select_scatter</code></td>
+<td>See torch.select_scatter()</td>
+</tr>
+<tr>
+<td><code>Tensor.set_</code></td>
+<td>Sets the underlying storage, size, and strides.</td>
+</tr>
+<tr>
+<td><code>Tensor.share_memory_</code></td>
+<td>Moves the underlying storage to shared memory.</td>
+</tr>
+<tr>
+<td><code>Tensor.short</code></td>
+<td>self.short() is equivalent to self.to(torch.int16).</td>
+</tr>
+<tr>
+<td><code>Tensor.sigmoid</code></td>
+<td>See torch.sigmoid()</td>
+</tr>
+<tr>
+<td><code>Tensor.sigmoid_</code></td>
+<td>In-place version of sigmoid()</td>
+</tr>
+<tr>
+<td><code>Tensor.sign</code></td>
+<td>See torch.sign()</td>
+</tr>
+<tr>
+<td><code>Tensor.sign_</code></td>
+<td>In-place version of sign()</td>
+</tr>
+<tr>
+<td><code>Tensor.signbit</code></td>
+<td>See torch.signbit()</td>
+</tr>
+<tr>
+<td><code>Tensor.sgn</code></td>
+<td>See torch.sgn()</td>
+</tr>
+<tr>
+<td><code>Tensor.sgn_</code></td>
+<td>In-place version of sgn()</td>
+</tr>
+<tr>
+<td><code>Tensor.sin</code></td>
+<td>See torch.sin()</td>
+</tr>
+<tr>
+<td><code>Tensor.sin_</code></td>
+<td>In-place version of sin()</td>
+</tr>
+<tr>
+<td><code>Tensor.sinc</code></td>
+<td>See torch.sinc()</td>
+</tr>
+<tr>
+<td><code>Tensor.sinc_</code></td>
+<td>In-place version of sinc()</td>
+</tr>
+<tr>
+<td><code>Tensor.sinh</code></td>
+<td>See torch.sinh()</td>
+</tr>
+<tr>
+<td><code>Tensor.sinh_</code></td>
+<td>In-place version of sinh()</td>
+</tr>
+<tr>
+<td><code>Tensor.asinh</code></td>
+<td>See torch.asinh()</td>
+</tr>
+<tr>
+<td><code>Tensor.asinh_</code></td>
+<td>In-place version of asinh()</td>
+</tr>
+<tr>
+<td><code>Tensor.arcsinh</code></td>
+<td>See torch.arcsinh()</td>
+</tr>
+<tr>
+<td><code>Tensor.arcsinh_</code></td>
+<td>In-place version of arcsinh()</td>
+</tr>
+<tr>
+<td><code>Tensor.shape</code></td>
+<td>Returns the size of the self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.size</code></td>
+<td>Returns the size of the self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.slogdet</code></td>
+<td>See torch.slogdet()</td>
+</tr>
+<tr>
+<td><code>Tensor.slice_scatter</code></td>
+<td>See torch.slice_scatter()</td>
+</tr>
+<tr>
+<td><code>Tensor.softmax</code></td>
+<td>Alias for torch.nn.functional.softmax().</td>
+</tr>
+<tr>
+<td><code>Tensor.sort</code></td>
+<td>See torch.sort()</td>
+</tr>
+<tr>
+<td><code>Tensor.split</code></td>
+<td>See torch.split()</td>
+</tr>
+<tr>
+<td><code>Tensor.sparse_mask</code></td>
+<td>Returns a new sparse tensor with values from a strided tensor self filtered by the indices of the sparse tensor mask.</td>
+</tr>
+<tr>
+<td><code>Tensor.sparse_dim</code></td>
+<td>Return the number of sparse dimensions in a sparse tensor self.</td>
+</tr>
+<tr>
+<td><code>Tensor.sqrt</code></td>
+<td>See torch.sqrt()</td>
+</tr>
+<tr>
+<td><code>Tensor.sqrt_</code></td>
+<td>In-place version of sqrt()</td>
+</tr>
+<tr>
+<td><code>Tensor.square</code></td>
+<td>See torch.square()</td>
+</tr>
+<tr>
+<td><code>Tensor.square_</code></td>
+<td>In-place version of square()</td>
+</tr>
+<tr>
+<td><code>Tensor.squeeze</code></td>
+<td>See torch.squeeze()</td>
+</tr>
+<tr>
+<td><code>Tensor.squeeze_</code></td>
+<td>In-place version of squeeze()</td>
+</tr>
+<tr>
+<td><code>Tensor.std</code></td>
+<td>See torch.std()</td>
+</tr>
+<tr>
+<td><code>Tensor.stft</code></td>
+<td>See torch.stft()</td>
+</tr>
+<tr>
+<td><code>Tensor.storage</code></td>
+<td>Returns the underlying TypedStorage.</td>
+</tr>
+<tr>
+<td><code>Tensor.untyped_storage</code></td>
+<td>Returns the underlying UntypedStorage.</td>
+</tr>
+<tr>
+<td><code>Tensor.storage_offset</code></td>
+<td>Returns self tensor's offset in the underlying storage in terms of number of storage elements (not bytes).</td>
+</tr>
+<tr>
+<td><code>Tensor.storage_type</code></td>
+<td>Returns the type of the underlying storage.</td>
+</tr>
+<tr>
+<td><code>Tensor.stride</code></td>
+<td>Returns the stride of self tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.sub</code></td>
+<td>See torch.sub().</td>
+</tr>
+<tr>
+<td><code>Tensor.sub_</code></td>
+<td>In-place version of sub()</td>
+</tr>
+<tr>
+<td><code>Tensor.subtract</code></td>
+<td>See torch.subtract().</td>
+</tr>
+<tr>
+<td><code>Tensor.subtract_</code></td>
+<td>In-place version of subtract().</td>
+</tr>
+<tr>
+<td><code>Tensor.sum</code></td>
+<td>See torch.sum()</td>
+</tr>
+<tr>
+<td><code>Tensor.sum_to_size</code></td>
+<td>Sum this tensor to size.</td>
+</tr>
+<tr>
+<td><code>Tensor.svd</code></td>
+<td>See torch.svd()</td>
+</tr>
+<tr>
+<td><code>Tensor.swapaxes</code></td>
+<td>See torch.swapaxes()</td>
+</tr>
+<tr>
+<td><code>Tensor.swapdims</code></td>
+<td>See torch.swapdims()</td>
+</tr>
+<tr>
+<td><code>Tensor.t</code></td>
+<td>See torch.t()</td>
+</tr>
+<tr>
+<td><code>Tensor.t_</code></td>
+<td>In-place version of t()</td>
+</tr>
+<tr>
+<td><code>Tensor.tensor_split</code></td>
+<td>See torch.tensor_split()</td>
+</tr>
+<tr>
+<td><code>Tensor.tile</code></td>
+<td>See torch.tile()</td>
+</tr>
+<tr>
+<td><code>Tensor.to</code></td>
+<td>Performs Tensor dtype and/or device conversion.</td>
+</tr>
+<tr>
+<td><code>Tensor.to_mkldnn</code></td>
+<td>Returns a copy of the tensor in torch.mkldnn layout.</td>
+</tr>
+<tr>
+<td><code>Tensor.take</code></td>
+<td>See torch.take()</td>
+</tr>
+<tr>
+<td><code>Tensor.take_along_dim</code></td>
+<td>See torch.take_along_dim()</td>
+</tr>
+<tr>
+<td><code>Tensor.tan</code></td>
+<td>See torch.tan()</td>
+</tr>
+<tr>
+<td><code>Tensor.tan_</code></td>
+<td>In-place version of tan()</td>
+</tr>
+<tr>
+<td><code>Tensor.tanh</code></td>
+<td>See torch.tanh()</td>
+</tr>
+<tr>
+<td><code>Tensor.tanh_</code></td>
+<td>In-place version of tanh()</td>
+</tr>
+<tr>
+<td><code>Tensor.atanh</code></td>
+<td>See torch.atanh()</td>
+</tr>
+<tr>
+<td><code>Tensor.atanh_</code></td>
+<td>In-place version of atanh()</td>
+</tr>
+<tr>
+<td><code>Tensor.arctanh</code></td>
+<td>See torch.arctanh()</td>
+</tr>
+<tr>
+<td><code>Tensor.arctanh_</code></td>
+<td>In-place version of arctanh()</td>
+</tr>
+<tr>
+<td><code>Tensor.tolist</code></td>
+<td>Returns the tensor as a (nested) list.</td>
+</tr>
+<tr>
+<td><code>Tensor.topk</code></td>
+<td>See torch.topk()</td>
+</tr>
+<tr>
+<td><code>Tensor.to_dense</code></td>
+<td>Creates a strided copy of self if self is not a strided tensor, otherwise returns self.</td>
+</tr>
+<tr>
+<td><code>Tensor.to_sparse</code></td>
+<td>Returns a sparse copy of the tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.to_sparse_csr</code></td>
+<td>Convert a tensor to compressed row storage format (CSR).</td>
+</tr>
+<tr>
+<td><code>Tensor.to_sparse_csc</code></td>
+<td>Convert a tensor to compressed column storage (CSC) format.</td>
+</tr>
+<tr>
+<td><code>Tensor.to_sparse_bsr</code></td>
+<td>Convert a tensor to a block sparse row (BSR) storage format of given blocksize.</td>
+</tr>
+<tr>
+<td><code>Tensor.to_sparse_bsc</code></td>
+<td>Convert a tensor to a block sparse column (BSC) storage format of given blocksize.</td>
+</tr>
+<tr>
+<td><code>Tensor.trace</code></td>
+<td>See torch.trace()</td>
+</tr>
+<tr>
+<td><code>Tensor.transpose</code></td>
+<td>See torch.transpose()</td>
+</tr>
+<tr>
+<td><code>Tensor.transpose_</code></td>
+<td>In-place version of transpose()</td>
+</tr>
+<tr>
+<td><code>Tensor.triangular_solve</code></td>
+<td>See torch.triangular_solve()</td>
+</tr>
+<tr>
+<td><code>Tensor.tril</code></td>
+<td>See torch.tril()</td>
+</tr>
+<tr>
+<td><code>Tensor.tril_</code></td>
+<td>In-place version of tril()</td>
+</tr>
+<tr>
+<td><code>Tensor.triu</code></td>
+<td>See torch.triu()</td>
+</tr>
+<tr>
+<td><code>Tensor.triu_</code></td>
+<td>In-place version of triu()</td>
+</tr>
+<tr>
+<td><code>Tensor.true_divide</code></td>
+<td>See torch.true_divide()</td>
+</tr>
+<tr>
+<td><code>Tensor.true_divide_</code></td>
+<td>In-place version of true_divide_()</td>
+</tr>
+<tr>
+<td><code>Tensor.trunc</code></td>
+<td>See torch.trunc()</td>
+</tr>
+<tr>
+<td><code>Tensor.trunc_</code></td>
+<td>In-place version of trunc()</td>
+</tr>
+<tr>
+<td><code>Tensor.type</code></td>
+<td>Returns the type if dtype is not provided, else casts this object to the specified type.</td>
+</tr>
+<tr>
+<td><code>Tensor.type_as</code></td>
+<td>Returns this tensor cast to the type of the given tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.unbind</code></td>
+<td>See torch.unbind()</td>
+</tr>
+<tr>
+<td><code>Tensor.unflatten</code></td>
+<td>See torch.unflatten().</td>
+</tr>
+<tr>
+<td><code>Tensor.unfold</code></td>
+<td>Returns a view of the original tensor which contains all slices of size size from self tensor in the dimension dimension.</td>
+</tr>
+<tr>
+<td><code>Tensor.uniform_</code></td>
+<td>Fills self tensor with numbers sampled from the continuous uniform distribution:</td>
+</tr>
+<tr>
+<td><code>Tensor.unique</code></td>
+<td>Returns the unique elements of the input tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.unique_consecutive</code></td>
+<td>Eliminates all but the first element from every consecutive group of equivalent elements.</td>
+</tr>
+<tr>
+<td><code>Tensor.unsqueeze</code></td>
+<td>See torch.unsqueeze()</td>
+</tr>
+<tr>
+<td><code>Tensor.unsqueeze_</code></td>
+<td>In-place version of unsqueeze()</td>
+</tr>
+<tr>
+<td><code>Tensor.values</code></td>
+<td>Return the values tensor of a sparse COO tensor.</td>
+</tr>
+<tr>
+<td><code>Tensor.var</code></td>
+<td>See torch.var()</td>
+</tr>
+<tr>
+<td><code>Tensor.vdot</code></td>
+<td>See torch.vdot()</td>
+</tr>
+<tr>
+<td><code>Tensor.view</code></td>
+<td>Returns a new tensor with the same data as the self tensor but of a different shape.</td>
+</tr>
+<tr>
+<td><code>Tensor.view_as</code></td>
+<td>View this tensor as the same size as other.</td>
+</tr>
+<tr>
+<td><code>Tensor.vsplit</code></td>
+<td>See torch.vsplit()</td>
+</tr>
+<tr>
+<td><code>Tensor.where</code></td>
+<td>self.where(condition, y) is equivalent to torch.where(condition, self, y).</td>
+</tr>
+<tr>
+<td><code>Tensor.xlogy</code></td>
+<td>See torch.xlogy()</td>
+</tr>
+<tr>
+<td><code>Tensor.xlogy_</code></td>
+<td>In-place version of xlogy()</td>
+</tr>
+<tr>
+<td><code>Tensor.xpu</code></td>
+<td>Returns a copy of this object in XPU memory.</td>
+</tr>
+<tr>
+<td><code>Tensor.zero_</code></td>
+<td>Fills self tensor with zeros.</td>
+</tr>
+</tbody>
+</table>
 
 
 
