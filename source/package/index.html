@@ -10202,14 +10202,6 @@
 <h1 id="torchpackage">torch.package<a class="headerlink" href="#torchpackage" title="Permanent link">&para;</a></h1>
 <p><code>torch.package</code> 增加了对创建包含工件和任意 PyTorch 代码的包的支持。这些包可以被保存、共享，用于在以后或不同机器上加载和执行模型，甚至可以使用 <code>torch::deploy</code> 部署到生产环境。</p>
 <p>本文档包含教程、操作指南、解释说明和 API 参考，将帮助您了解更多关于 <code>torch.package</code> 的信息以及如何使用它。</p>
-<div class="highlight"><pre><span></span><code>此模块依赖于不安全的 `pickle` 模块。仅解包您信任的数据。
-
-有可能构造恶意的 pickle 数据，**在反序列化期间执行任意代码**。
-切勿解包可能来自不可信来源或可能被篡改的数据。
-
-更多信息，请查阅 `pickle` 模块的[文档](https://docs.python.org/3/library/pickle.html)。
-{contents}
-</code></pre></div>
 <h2 id="_1">教程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h3 id="_2">打包您的第一个模型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>一个指导您打包和解包简单模型的教程可在 <a href="https://colab.research.google.com/drive/1lFZkLyViGfXxB-m3jqlyTQuYToo3XLo-">Colab</a> 上找到。完成此练习后，您将熟悉创建和使用 Torch 包的基本 API。</p>
@@ -10220,7 +10212,7 @@
 <ul>
 <li><code>unzip my_package.pt</code> 会将 <code>torch.package</code> 归档文件解压到磁盘，您可以在其中自由检查其内容。</li>
 </ul>
-<p><div class="highlight"><pre><span></span><code>$ unzip my_package.pt &amp;&amp; tree my_package
+<div class="highlight"><pre><span></span><code>$ unzip my_package.pt &amp;&amp; tree my_package
 my_package
 ├── .data
 │   ├── 94304870911616.storage
@@ -10236,14 +10228,18 @@ my_package
 ~ cd my_package &amp;&amp; cat torchvision/models/resnet.py
 ...
 </code></pre></div>
-* Python 的 <code>zipfile</code> 模块提供了读取和写入 ZIP 归档文件内容的标准方式。</p>
-<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">zipfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFile</span>
+<ul>
+<li>Python 的 <code>zipfile</code> 模块提供了读取和写入 ZIP 归档文件内容的标准方式。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">zipfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFile</span>
 <span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;my_package.pt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">myzip</span><span class="p">:</span>
     <span class="n">file_bytes</span> <span class="o">=</span> <span class="n">myzip</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;torchvision/models/resnet.py&quot;</span><span class="p">)</span>
     <span class="c1"># 以某种方式编辑 file_bytes</span>
     <span class="n">myzip</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="s2">&quot;torchvision/models/resnet.py&quot;</span><span class="p">,</span> <span class="n">new_file_bytes</span><span class="p">)</span>
 </code></pre></div>
-* vim 能够原生读取 ZIP 归档文件。您甚至可以编辑文件并使用 :<code>write</code> 将它们写回归档文件！</p>
+<ul>
+<li>vim 能够原生读取 ZIP 归档文件。您甚至可以编辑文件并使用 :<code>write</code> 将它们写回归档文件！</li>
+</ul>
 <div class="highlight"><pre><span></span><code># 将此添加到您的 .vimrc 以将 `*.<span class="nb">pt</span>` 文件视为 zip 文件
 <span class="k">au</span> <span class="nb">BufReadCmd</span> *.<span class="nb">pt</span> <span class="k">call</span> zip#Browse<span class="p">(</span>expand<span class="p">(</span><span class="s2">&quot;&lt;amatch&gt;&quot;</span><span class="p">))</span>
 
@@ -10252,7 +10248,7 @@ my_package
 <h4 id="file_structure-api">使用 <code>file_structure()</code> API<a class="headerlink" href="#file_structure-api" title="Permanent link">&para;</a></h4>
 <p><code>PackageImporter</code> 提供了一个 <code>file_structure()</code> 方法，该方法将返回一个可打印且可查询的 <code>Directory</code> 对象。<code>Directory</code> 对象是一个简单的目录结构，您可以用它来探索 <code>torch.package</code> 的当前内容。</p>
 <p><code>Directory</code> 对象本身可以直接打印，并将打印出文件树表示。要过滤返回的内容，请使用 glob 风格的 <code>include</code> 和 <code>exclude</code> 过滤参数。</p>
-<p><div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">PackageExporter</span><span class="p">(</span><span class="s1">&#39;my_package.pt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pe</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">PackageExporter</span><span class="p">(</span><span class="s1">&#39;my_package.pt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pe</span><span class="p">:</span>
     <span class="n">pe</span><span class="o">.</span><span class="n">save_pickle</span><span class="p">(</span><span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;model_1.pkl&#39;</span><span class="p">,</span> <span class="n">mod</span><span class="p">)</span>
 
 <span class="n">importer</span> <span class="o">=</span> <span class="n">PackageImporter</span><span class="p">(</span><span class="s1">&#39;my_package.pt&#39;</span><span class="p">)</span>
@@ -10260,8 +10256,8 @@ my_package
 <span class="nb">print</span><span class="p">(</span><span class="n">importer</span><span class="o">.</span><span class="n">file_structure</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;**/utils.py&quot;</span><span class="p">,</span> <span class="s2">&quot;**/*.pkl&quot;</span><span class="p">],</span> <span class="n">exclude</span><span class="o">=</span><span class="s2">&quot;**/*.storage&quot;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">importer</span><span class="o">.</span><span class="n">file_structure</span><span class="p">())</span> <span class="c1"># 将打印出所有文件</span>
 </code></pre></div>
-输出：</p>
-<p><div class="highlight"><pre><span></span><code># 使用 glob 模式过滤：
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code># 使用 glob 模式过滤：
 #    include=[&quot;**/utils.py&quot;, &quot;**/*.pkl&quot;], exclude=&quot;**/*.storage&quot;
 ─── my_package.pt
     ├── models
@@ -10284,7 +10280,7 @@ my_package
             ├── resnet.py
             └── utils.py
 </code></pre></div>
-您还可以使用 <code>has_file()</code> 方法查询 <code>Directory</code> 对象。</p>
+<p>您还可以使用 <code>has_file()</code> 方法查询 <code>Directory</code> 对象。</p>
 <div class="highlight"><pre><span></span><code><span class="n">importer_file_structure</span> <span class="o">=</span> <span class="n">importer</span><span class="o">.</span><span class="n">file_structure</span><span class="p">()</span>
 <span class="n">found</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">importer_file_structure</span><span class="o">.</span><span class="n">has_file</span><span class="p">(</span><span class="s2">&quot;package_a/subpackage.py&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -10328,10 +10324,10 @@ my_package
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__reduce_package__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exporter</span><span class="p">:</span> <span class="n">PackageExporter</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        当保存此对象的实例时，由 ``torch.package.PackageExporter`` 的 Pickler 的 ``persistent_id`` 调用。</span>
-<span class="sd">        此方法应完成将此对象保存到 ``torch.package`` 归档文件内的工作。</span>
+<span class="sd">        当保存此对象的实例时，由 `torch.package.PackageExporter` 的 Pickler 的 `persistent_id` 调用。</span>
+<span class="sd">        此方法应完成将此对象保存到 `torch.package` 归档文件内的工作。</span>
 
-<span class="sd">        返回一个包含解包函数及其参数的元组，以便从 ``torch.package.PackageImporter`` 的 Pickler 的 ``persistent_load`` 函数加载该对象。</span>
+<span class="sd">        返回一个包含解包函数及其参数的元组，以便从 `torch.package.PackageImporter` 的 Pickler 的 `persistent_load` 函数加载该对象。</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># 使用此模式确保与正常依赖项没有命名冲突，</span>
@@ -10352,17 +10348,16 @@ my_package
     <span class="n">importer</span><span class="p">:</span> <span class="n">PackageImporter</span><span class="p">,</span> <span class="n">generated_module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time_exported</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Foo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    当解封一个 Foo 对象时，由 ``torch.package.PackageImporter`` 的 Pickler 的 ``persistent_load`` 函数调用。</span>
-<span class="sd">    执行从 ``torch.package`` 归档文件加载并返回 Foo 实例的工作。</span>
+<span class="sd">    当解封一个 Foo 对象时，由 `torch.package.PackageImporter` 的 Pickler 的 `persistent_load` 函数调用。</span>
+<span class="sd">    执行从 `torch.package` 归档文件加载并返回 Foo 实例的工作。</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">time_imported</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock_gettime</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">foo</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="n">importer</span><span class="o">.</span><span class="n">load_text</span><span class="p">(</span><span class="n">generated_module_name</span><span class="p">,</span> <span class="s2">&quot;foo.txt&quot;</span><span class="p">))</span>
     <span class="n">foo</span><span class="o">.</span><span class="n">time_imported</span> <span class="o">=</span> <span class="n">time_imported</span>
     <span class="n">foo</span><span class="o">.</span><span class="n">time_exported</span> <span class="o">=</span> <span class="n">time_exported</span>
     <span class="k">return</span> <span class="n">foo</span>
-
-<span class="n">python</span>
-<span class="c1"># 保存类 Foo 实例的示例</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># 保存类 Foo 实例的示例</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.package</span><span class="w"> </span><span class="kn">import</span> <span class="n">PackageImporter</span><span class="p">,</span> <span class="n">PackageExporter</span>
@@ -10381,26 +10376,26 @@ my_package
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;foo_1 string: &#39;</span><span class="si">{</span><span class="n">imported_foo</span><span class="o">.</span><span class="n">my_string</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;foo_1 export time: </span><span class="si">{</span><span class="n">imported_foo</span><span class="o">.</span><span class="n">time_exported</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;foo_1 import time: </span><span class="si">{</span><span class="n">imported_foo</span><span class="o">.</span><span class="n">time_imported</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code># 运行上述脚本的输出
+─── foo_package
+    ├── foo-generated
+    │   ├── _0
+    │   │   └── foo.txt
+    │   └── _1
+    │       └── foo.txt
+    ├── foo_collection
+    │   ├── foo1.pkl
+    │   └── foo2.pkl
+    └── foo.py
 
-<span class="c1"># 运行上述脚本的输出</span>
-<span class="err">───</span> <span class="n">foo_package</span>
-    <span class="err">├──</span> <span class="n">foo</span><span class="o">-</span><span class="n">generated</span>
-    <span class="err">│</span>   <span class="err">├──</span> <span class="n">_0</span>
-    <span class="err">│</span>   <span class="err">│</span>   <span class="err">└──</span> <span class="n">foo</span><span class="o">.</span><span class="n">txt</span>
-    <span class="err">│</span>   <span class="err">└──</span> <span class="n">_1</span>
-    <span class="err">│</span>       <span class="err">└──</span> <span class="n">foo</span><span class="o">.</span><span class="n">txt</span>
-    <span class="err">├──</span> <span class="n">foo_collection</span>
-    <span class="err">│</span>   <span class="err">├──</span> <span class="n">foo1</span><span class="o">.</span><span class="n">pkl</span>
-    <span class="err">│</span>   <span class="err">└──</span> <span class="n">foo2</span><span class="o">.</span><span class="n">pkl</span>
-    <span class="err">└──</span> <span class="n">foo</span><span class="o">.</span><span class="n">py</span>
-
-<span class="n">foo_1</span> <span class="n">string</span><span class="p">:</span> <span class="s1">&#39;foo_1 initial string, with reduction modification!&#39;</span>
-<span class="n">foo_1</span> <span class="n">export</span> <span class="n">time</span><span class="p">:</span> <span class="mf">9857706.650140837</span>
-<span class="n">foo_1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">time</span><span class="p">:</span> <span class="mf">9857706.652698385</span>
+foo_1 string: &#39;foo_1 initial string, with reduction modification!&#39;
+foo_1 export time: 9857706.650140837
+foo_1 import time: 9857706.652698385
 </code></pre></div>
 <h3 id="_8">如何在源代码中测试是否在包内执行？<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p><code>PackageImporter</code> 会为其初始化的每个模块添加属性 <code>__torch_package__</code>。您的代码可以检查此属性是否存在，以确定是否在打包的上下文中执行。</p>
-<p><div class="highlight"><pre><span></span><code><span class="c1"># 在 foo/bar.py 中：</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># 在 foo/bar.py 中：</span>
 
 <span class="k">if</span> <span class="s2">&quot;__torch_package__&quot;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">():</span>  <span class="c1"># 如果代码是从包中加载的，则为真</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_in_package</span><span class="p">():</span>
@@ -10413,15 +10408,15 @@ my_package
 
     <span class="n">UserException</span> <span class="o">=</span> <span class="n">UnpackageableException</span>
 </code></pre></div>
-现在，代码的行为将根据它是通过您的 Python 环境正常导入还是从 <code>torch.package</code> 导入而有所不同。</p>
-<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">foo.bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_in_package</span>
+<p>现在，代码的行为将根据它是通过您的 Python 环境正常导入还是从 <code>torch.package</code> 导入而有所不同。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">foo.bar</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_in_package</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">is_in_package</span><span class="p">())</span>  <span class="c1"># False</span>
 
 <span class="n">loaded_module</span> <span class="o">=</span> <span class="n">PackageImporter</span><span class="p">(</span><span class="n">my_package</span><span class="p">)</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;foo.bar&quot;</span><span class="p">)</span>
 <span class="n">loaded_module</span><span class="o">.</span><span class="n">is_in_package</span><span class="p">()</span>  <span class="c1"># True</span>
 </code></pre></div>
-<strong>警告</strong>：通常，让代码根据是否打包而表现不同是一种不好的做法。这可能导致难以调试的问题，这些问题对您导入代码的方式很敏感。如果您的包打算被大量使用，请考虑重构您的代码，使其无论以何种方式加载都表现一致。</p>
+<p><strong>警告</strong>：通常，让代码根据是否打包而表现不同是一种不好的做法。这可能导致难以调试的问题，这些问题对您导入代码的方式很敏感。如果您的包打算被大量使用，请考虑重构您的代码，使其无论以何种方式加载都表现一致。</p>
 <h3 id="_9">如何将代码修补到包中？<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p><code>PackageExporter</code> 提供了 <code>save_source_string()</code> 方法，允许将任意 Python 源代码保存到您选择的模块。
 <div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">PackageExporter</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">exporter</span><span class="p">:</span>
@@ -10680,51 +10675,6 @@ Python 标准。然而，也可以从打包代码内部访问父 :class:<code>Pa
 <p>对于 <code>__file__</code>，像 <code>torchvision/models/resnet18.py</code> 这样的名称会变为 <code>&lt;torch_package_0&gt;.torchvision/modules/resnet18.py</code>。</p>
 <p>名称重整有助于避免不同包之间模块名称的无意冲突，并通过使堆栈跟踪和打印语句更清晰地显示它们是否引用打包代码来帮助调试。有关重整的面向开发者的详细信息，请查阅 <code>torch/package/</code> 中的 <code>mangling.md</code>。</p>
 <h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>API</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>torch.package.analyze.find_first_use_of_broken_modules.__init__</code></td>
-<td>Construct a GraphModule.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>类</strong></p>
-<table>
-<thead>
-<tr>
-<th>类</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>torch.package.PackagingError</code></td>
-<td>This exception is raised when there is an issue with exporting a package.</td>
-</tr>
-<tr>
-<td><code>torch.package.EmptyMatchError</code></td>
-<td>This is an exception that is thrown when a mock or extern is marked as allow_empty=False, and is not matched with any module during packaging.</td>
-</tr>
-<tr>
-<td><code>torch.package.PackageExporter</code></td>
-<td>Exporters allow you to write packages of code, pickled Python data, and arbitrary binary and text resources into a self-contained package.</td>
-</tr>
-<tr>
-<td><code>torch.package.PackageImporter</code></td>
-<td>Importers allow you to load code written to packages by PackageExporter.</td>
-</tr>
-<tr>
-<td><code>torch.package.Directory</code></td>
-<td>A file structure representation.</td>
-</tr>
-</tbody>
-</table>
 <!-- 此模块需要文档记录。暂时添加在此处以供跟踪 -->
 
 

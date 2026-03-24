@@ -10923,12 +10923,12 @@ dist.init_process_group(backend, init_method=&#39;file:///mnt/nfs/sharedfile&#39
 <p><code>destroy_process_group</code> 也可用于销毁单个进程组。一个用例可能是容错训练，其中进程组可能在运行时被销毁，然后重新初始化。在这种情况下，关键是在调用 destroy 之后、随后初始化之前，使用除 torch.distributed 原语之外的某种方式同步训练器进程。由于实现此同步的困难，目前此行为不受支持/未经测试，被视为已知问题。如果此用例对您造成阻碍，请提交 github issue 或 RFC。</p>
 <hr />
 <h2 id="_13">组<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
-<p>默认情况下，集合操作在默认组（也称为 world）上运行，并要求所有进程进入分布式函数调用。然而，某些工作负载可以从更细粒度的通信中受益。这就是分布式组发挥作用的地方。<code>torch.distributed.new_group</code> 函数可用于创建新组，包含所有进程的任意子集。它返回一个不透明的组句柄，可以作为 <code>group</code> 参数传递给所有集合操作（集合操作是在某些众所周知的编程模式中交换信息的分布式函数）。</p>
+<p>默认情况下，集合操作在默认组（也称为 world）上运行，并要求所有进程进入分布式函数调用。然而，某些工作负载可以从更细粒度的通信中受益。这就是分布式组发挥作用的地方。<code>~torch.distributed.new_group</code> 函数可用于创建新组，包含所有进程的任意子集。它返回一个不透明的组句柄，可以作为 <code>group</code> 参数传递给所有集合操作（集合操作是在某些众所周知的编程模式中交换信息的分布式函数）。</p>
 <h2 id="devicemesh">DeviceMesh<a class="headerlink" href="#devicemesh" title="Permanent link">&para;</a></h2>
 <p>DeviceMesh 是一个更高级别的抽象，用于管理进程组（或 NCCL 通信器）。
-它允许用户轻松创建节点间和节点内的进程组，而无需担心如何为不同的子进程组正确设置秩，并有助于轻松管理这些分布式进程组。<code>torch.distributed.device_mesh.init_device_mesh</code> 函数可用于创建新的 DeviceMesh，并通过一个描述设备拓扑的网格形状来实现。</p>
+它允许用户轻松创建节点间和节点内的进程组，而无需担心如何为不同的子进程组正确设置秩，并有助于轻松管理这些分布式进程组。<code>~torch.distributed.device_mesh.init_device_mesh</code> 函数可用于创建新的 DeviceMesh，并通过一个描述设备拓扑的网格形状来实现。</p>
 <h2 id="_14">点对点通信<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
-<p><code>torch.distributed.isend</code> 和 <code>torch.distributed.irecv</code>
+<p><code>~torch.distributed.isend</code> 和 <code>~torch.distributed.irecv</code>
 在使用时会返回分布式请求对象。通常，此对象的类型是未指定的，因为它们不应手动创建，但保证支持两种方法：</p>
 <ul>
 <li><code>is_completed()</code> - 如果操作已完成则返回 True</li>
@@ -10966,7 +10966,7 @@ if rank == 0:
 </code></pre></div>
 <h2 id="_16">集体函数<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
 <h2 id="_17">分布式键值存储<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
-<p>distributed 包附带一个分布式键值存储，可用于在进程组之间共享信息，也可用于在 <code>torch.distributed.init_process_group</code> 中初始化分布式包（通过显式创建存储作为指定 <code>init_method</code> 的替代方案）。键值存储有 3 种选择：<code>torch.distributed.TCPStore</code>、<code>torch.distributed.FileStore</code> 和 <code>torch.distributed.HashStore</code>。</p>
+<p>distributed 包附带一个分布式键值存储，可用于在进程组之间共享信息，也可用于在 <code>torch.distributed.init_process_group</code> 中初始化分布式包（通过显式创建存储作为指定 <code>init_method</code> 的替代方案）。键值存储有 3 种选择：<code>~torch.distributed.TCPStore</code>、<code>~torch.distributed.FileStore</code> 和 <code>~torch.distributed.HashStore</code>。</p>
 <h2 id="_18">分析集体通信<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
 <p>请注意，您可以使用 <code>torch.profiler</code>（推荐，仅在 1.8.1 之后可用）或 <code>torch.autograd.profiler</code> 来分析此处提到的集体通信和点对点通信 API。所有开箱即用的后端（<code>gloo</code>、<code>nccl</code>、<code>mpi</code>）都受支持，集体通信的使用情况将在分析输出/跟踪中按预期呈现。分析代码与任何常规 torch 操作相同：</p>
 <div class="highlight"><pre><span></span><code>import torch
@@ -11160,19 +11160,19 @@ import torch.multiprocessing as mp</p>
     tensor = torch.randn(10 if rank == 0 else 20).cuda()
     dist.all_reduce(tensor)
     torch.cuda.synchronize(device=rank)
-python
-if <strong>name</strong> == "<strong>main</strong>":
-    os.environ["MASTER_ADDR"] = "localhost"
-    os.environ["MASTER_PORT"] = "29501"
-    os.environ["TORCH_CPP_LOG_LEVEL"]="INFO"
-    os.environ["TORCH_DISTRIBUTED_DEBUG"] = "DETAIL"
+<div class="highlight"><pre><span></span><code>```python
+if __name__ == &quot;__main__&quot;:
+    os.environ[&quot;MASTER_ADDR&quot;] = &quot;localhost&quot;
+    os.environ[&quot;MASTER_PORT&quot;] = &quot;29501&quot;
+    os.environ[&quot;TORCH_CPP_LOG_LEVEL&quot;]=&quot;INFO&quot;
+    os.environ[&quot;TORCH_DISTRIBUTED_DEBUG&quot;] = &quot;DETAIL&quot;
     mp.spawn(worker, nprocs=2, args=())
-<div class="highlight"><pre><span></span><code>使用 `NCCL` 后端时，此类应用程序很可能会导致挂起，这在复杂场景中可能难以定位根本原因。如果用户启用 `TORCH_DISTRIBUTED_DEBUG=DETAIL` 并重新运行应用程序，以下错误信息会揭示根本原因：
-</code></pre></div>
-work = default_pg.allreduce([tensor], opts)
+</code></pre></div></p>
+<p>使用 <code>NCCL</code> 后端时，此类应用程序很可能会导致挂起，这在复杂场景中可能难以定位根本原因。如果用户启用 <code>TORCH_DISTRIBUTED_DEBUG=DETAIL</code> 并重新运行应用程序，以下错误信息会揭示根本原因：</p>
+<div class="highlight"><pre><span></span><code>work = default_pg.allreduce([tensor], opts)
 RuntimeError: Error when verifying shape tensors for collective ALLREDUCE on rank 0. This likely indicates that input shapes into the collective are mismatched across ranks. Got shapes:  10
 [ torch.LongTensor{1} ]
-```</p>
+</code></pre></div>
 <blockquote>
 <p>📝 <strong>注意</strong>
 为了在运行时对调试级别进行细粒度控制，也可以使用函数 <code>torch.distributed.set_debug_level</code>、<code>torch.distributed.set_debug_level_from_env</code> 和 <code>torch.distributed.get_debug_level</code>。</p>
@@ -11228,9 +11228,6 @@ RuntimeError: Error when verifying shape tensors for collective ALLREDUCE on ran
 <p>如果您正在运行单节点训练，可能希望以交互方式在脚本中设置断点。我们提供了一种方便地在单个排名（rank）上设置断点的方法：</p>
 <p>% 缺少特定条目的分布式模块。</p>
 <p>% 在此处添加它们以便跟踪，直到它们得到更永久的修复。</p>
-<ul>
-<li><a href="../distributed._dist2/">Distributed Dist2</a></li>
-</ul>
 
 
 

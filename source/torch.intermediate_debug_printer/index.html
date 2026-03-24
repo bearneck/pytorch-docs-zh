@@ -9991,13 +9991,13 @@ AOT_INDUCTOR_FILTERED_KERNELS_TO_PRINT=&quot;triton_poi_fused_0&quot; AOT_INDUCT
 <p>转储的 <code>.pt</code> 张量可以进一步加载和使用，如下所示：
 ```
 def _load_tensor(path):
-    return torch.load(path, weights_only=True)
+return torch.load(path, weights_only=True)
 tensor = _load_tensor("../tmp/aoti_torch/before_launch_aoti_torch_cuda_addmm_out_buf1_cuda:0.pt")</p>
+</li>
+</ol>
 <h1 id="_2">简单地打印张量以查看完整值<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
 <p>print(tensor)
 ```</p>
-</li>
-</ol>
 <h2 id="_3">示例输出<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>启动前的张量统计信息：</p>
 <p><img alt="示例图片 1" src="_static/img/aoti_debug_printer/before_launch.png" /></p>

@@ -10095,25 +10095,18 @@
 
 
 <h1 id="_1">复数<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>复数是可以表示为 <code>a + bj</code> 形式的数，其中 a 和 b 是实数，<em>j</em> 称为虚数单位，满足方程 <code>j^2 = -1</code>。复数在数学和工程领域经常出现，尤其是在信号处理等主题中。传统上，许多用户和库（例如 TorchAudio）通过使用形状为 <code>(..., 2)</code> 的浮点张量来表示数据来处理复数，其中最后一个维度包含实部和虚部值。</p>
+<p>复数是可以表示为 {math}<code>a + bj</code> 形式的数，其中 a 和 b 是实数，<em>j</em> 称为虚数单位，满足方程 {math}<code>j^2 = -1</code>。复数在数学和工程领域经常出现，尤其是在信号处理等主题中。传统上，许多用户和库（例如 TorchAudio）通过使用形状为 {math}<code>(..., 2)</code> 的浮点张量来表示数据来处理复数，其中最后一个维度包含实部和虚部值。</p>
 <p>复数数据类型的张量为处理复数提供了更自然的用户体验。对复数张量的操作（例如 <code>torch.mv</code>、<code>torch.matmul</code>）可能比模拟它们的浮点张量操作更快且内存效率更高。PyTorch 中涉及复数的操作经过优化，可以使用向量化汇编指令和专用内核（例如 LAPACK、cuBlas）。</p>
-<div class="highlight"><pre><span></span><code>[torch.fft 模块](https://pytorch.org/docs/stable/fft.html#torch-fft) 中的频谱操作支持原生复数张量。
-{warning}
-复数张量是测试版功能，可能会发生变化。
-</code></pre></div>
 <h2 id="_2">创建复数张量<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>我们支持两种复数数据类型：<code>torch.cfloat</code> 和 <code>torch.cdouble</code></p>
-<p><div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cfloat</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cfloat</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">x</span>
 <span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.4621</span><span class="o">-</span><span class="mf">0.0303</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2438</span><span class="o">-</span><span class="mf">0.5874</span><span class="n">j</span><span class="p">],</span>
      <span class="p">[</span> <span class="mf">0.7706</span><span class="o">+</span><span class="mf">0.1421</span><span class="n">j</span><span class="p">,</span>  <span class="mf">1.2110</span><span class="o">+</span><span class="mf">0.1918</span><span class="n">j</span><span class="p">]])</span>
-<span class="p">{</span><span class="n">note</span><span class="p">}</span>
-<span class="n">复数张量的默认数据类型由默认浮点数据类型决定</span><span class="err">。</span>
-<span class="n">如果默认浮点数据类型是</span> <span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="err">`，</span><span class="n">则复数被推断为</span> <span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">complex128</span><span class="err">`</span> <span class="n">数据类型</span><span class="err">，</span><span class="n">否则它们被假定为</span> <span class="err">`</span><span class="n">torch</span><span class="o">.</span><span class="n">complex64</span><span class="err">`</span> <span class="n">数据类型</span><span class="err">。</span>
 </code></pre></div>
-除了 <code>torch.linspace</code>、<code>torch.logspace</code> 和 <code>torch.arange</code> 之外的所有工厂函数都支持复数张量。</p>
+<p>除了 <code>torch.linspace</code>、<code>torch.logspace</code> 和 <code>torch.arange</code> 之外的所有工厂函数都支持复数张量。</p>
 <h2 id="_3">从旧表示法过渡<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>当前使用形状为 <code>(..., 2)</code> 的实数张量来弥补缺乏复数张量的用户，可以使用 <code>torch.view_as_complex</code> 和 <code>torch.view_as_real</code> 轻松切换到在代码中使用复数张量。请注意，这些函数不执行任何复制，而是返回输入张量的视图。</p>
+<p>当前使用形状为 {math}<code>(..., 2)</code> 的实数张量来弥补缺乏复数张量的用户，可以使用 <code>torch.view_as_complex</code> 和 <code>torch.view_as_real</code> 轻松切换到在代码中使用复数张量。请注意，这些函数不执行任何复制，而是返回输入张量的视图。</p>
 <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">x</span>
 <span class="n">tensor</span><span class="p">([[</span> <span class="mf">0.6125</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1681</span><span class="p">],</span>
@@ -10129,19 +10122,17 @@
 </code></pre></div>
 <h2 id="_4">访问实部和虚部<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>复数张量的实部和虚部值可以使用 <code>real</code> 和 <code>imag</code> 属性访问。</p>
-<div class="highlight"><pre><span></span><code>访问 `real` 和 `imag` 属性不会分配任何内存，并且对 `real` 和 `imag` 张量的原地更新将更新原始复数张量。此外，返回的 `real` 和 `imag` 张量不是连续的。
-python
-&gt;&gt;&gt; y.real
-tensor([ 0.6125, -0.3773, -0.0861])
-&gt;&gt;&gt; y.imag
-tensor([-0.1681,  1.3487, -0.7981])
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">real</span>
+<span class="n">tensor</span><span class="p">([</span> <span class="mf">0.6125</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3773</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0861</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">imag</span>
+<span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">0.1681</span><span class="p">,</span>  <span class="mf">1.3487</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7981</span><span class="p">])</span>
 
-&gt;&gt;&gt; y.real.mul_(2)
-tensor([ 1.2250, -0.7546, -0.1722])
-&gt;&gt;&gt; y
-tensor([ 1.2250-0.1681j, -0.7546+1.3487j, -0.1722-0.7981j])
-&gt;&gt;&gt; y.real.stride()
-(2,)
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">real</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">tensor</span><span class="p">([</span> <span class="mf">1.2250</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7546</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1722</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span>
+<span class="n">tensor</span><span class="p">([</span> <span class="mf">1.2250</span><span class="o">-</span><span class="mf">0.1681</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7546</span><span class="o">+</span><span class="mf">1.3487</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1722</span><span class="o">-</span><span class="mf">0.7981</span><span class="n">j</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">real</span><span class="o">.</span><span class="n">stride</span><span class="p">()</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,)</span>
 </code></pre></div>
 <h2 id="_5">角度和绝对值<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>复数张量的角度和绝对值可以使用 <code>torch.angle</code> 和 <code>torch.abs</code> 计算。</p>
@@ -10170,7 +10161,7 @@ tensor([ 1.2250-0.1681j, -0.7546+1.3487j, -0.1722-0.7981j])
 <span class="o">&gt;&gt;&gt;</span> <span class="n">real_optim</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">real_params</span><span class="p">)</span>
 </code></pre></div>
 <p><code>real_optim</code> 和 <code>complex_optim</code> 将在参数上计算相同的更新，尽管两个优化器之间可能存在轻微的数值差异，类似于 foreach 与 forloop 优化器以及可捕获与默认优化器之间的数值差异。更多详细信息，请参阅<a href="https://pytorch.org/docs/stable/notes/numerical_accuracy.html">数值精度</a>。</p>
-<p>具体来说，虽然您可以将我们的优化器对复数张量的处理视为分别优化其 <code>p.real</code> 和 <code>p.imag</code> 部分，但实现细节并非完全如此。请注意，等效的 <code>torch.view_as_real</code> 会将复数张量转换为形状为 <code>(..., 2)</code> 的实数张量，而将复数张量拆分为两个张量会得到两个大小为 <code>(...)</code> 的张量。这种区别对逐点优化器（如 AdamW）没有影响，但会在执行全局归约的优化器（如 LBFGS）中导致轻微差异。目前我们没有执行逐张量归约的优化器，因此尚未定义此行为。如果您有需要精确定义此行为的用例，请提交问题。</p>
+<p>具体来说，虽然您可以将我们的优化器对复数张量的处理视为分别优化其 <code>p.real</code> 和 <code>p.imag</code> 部分，但实现细节并非完全如此。请注意，等效的 <code>torch.view_as_real</code> 会将复数张量转换为形状为 {math}<code>(..., 2)</code> 的实数张量，而将复数张量拆分为两个张量会得到两个大小为 {math}<code>(...)</code> 的张量。这种区别对逐点优化器（如 AdamW）没有影响，但会在执行全局归约的优化器（如 LBFGS）中导致轻微差异。目前我们没有执行逐张量归约的优化器，因此尚未定义此行为。如果您有需要精确定义此行为的用例，请提交问题。</p>
 <p>我们尚未完全支持以下子系统：</p>
 <ul>
 <li>量化</li>
